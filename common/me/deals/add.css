@@ -1,0 +1,110 @@
+page {
+	background-color: #FFFFFF;
+}
+
+.add-container {
+	width: 96%;
+	margin: 0 auto;
+	padding: 20rpx;
+}
+
+.xll-single,
+.xll-input {
+	padding-top: 10rpx;
+	padding-bottom: 10rpx;
+}
+
+.xll-single-title,
+.xll-input-title {
+	font-size: 34rpx;
+	font-weight: 700;
+}
+
+.xll-textarea,
+.xll-file,
+.xll-checkout,
+.xll-agreement {
+	padding-top: 10rpx;
+	padding-bottom: 10rpx;
+}
+
+.xll-textarea-title,
+.xll-file-title,
+.xll-checkout-title,
+.xll-agreement-title {
+	font-size: 34rpx;
+	font-weight: 700;
+}
+
+.xll-textarea-con {
+	margin-top: 20rpx;
+}
+
+.xll-input-input {}
+.xll-agreement-content{
+	word-break: break-word;
+	white-space: pre-wrap;
+}
+/deep/ .u-checkbox{
+	flex: 0 1 auto !important;
+}
+.xll-agreement-text {
+	color: #004956;
+	text-decoration: underline;
+	font-size: 28rpx;
+}
+
+input {
+	border: 1rpx solid #EEEEEE;
+	height: 80rpx;
+	line-height: 80rpx;
+	border-radius: 20rpx;
+	font-size: 30rpx;
+	text-indent: 20rpx;
+}
+
+.file {
+	font-size: 32rpx;
+}
+
+.filename {
+	color: #808080;
+}
+
+.del {
+	width: 50rpx;
+	height: 50rpx;
+	border-radius: 50rpx;
+	background-color: rgba(0, 0, 0, 0.6);
+	color: #FFFFFF;
+	float: right;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn {
+	width: 240rpx;
+	height: 60rpx;
+	line-height: 60rpx;
+	color: #FFFFFF;
+	background-color: #00B3D2;
+	border-radius: 20rpx;
+	text-align: center;
+	font-size: 30rpx;
+	float: left;
+}
+
+
+.submit {
+	margin-top: 40rpx;
+}
+
+.submit button {
+	width: 80%;
+	height: 80rpx;
+	line-height: 80rpx;
+	color: #FFFFFF;
+	background-color: #0AA0A8;
+	border-radius: 20rpx;
+}

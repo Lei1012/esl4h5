@@ -1,0 +1,41 @@
+page{
+	background-color: #FFFFFF;
+}
+.photo-bg{
+	height: 100%;
+	position: relative;
+}
+.photo-title {
+	text-align: center;
+	font-size: 36rpx;
+	font-weight: 600;
+	background-color: #004956;
+	color: #FFFFFF;
+	height: 200rpx;
+	line-height: 200rpx;
+}
+
+.photo-box {
+	width: 96%;
+	margin: 0 auto;
+	margin-top: 10%;
+	border-radius: 20rpx;
+
+}
+
+.photo-submit {
+	position: absolute;
+	width: 80%;
+	bottom: 100rpx;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.photo-submit button {
+	background-color: #004956;
+	color: #FFFFFF;
+	height: 80rpx;
+	border-radius: 80rpx;
+	line-height: 80rpx;
+}

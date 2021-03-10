@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>文件预览</title>
+		<style type="text/css">
+			.btn {
+				display: block;
+				margin: 20px auto;
+				padding: 5px;
+				background-color: #007aff;
+				border: 0;
+				color: #ffffff;
+				height: 40px;
+				width: 200px;
+			}
+
+			.btn-red {
+				background-color: #dd524d;
+			}
+
+			.btn-yellow {
+				background-color: #f0ad4e;
+			}
+
+			.desc {
+				padding: 10px;
+				color: #999999;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- <div>
+			<iframe  width='100%' height='100%' frameborder='1' id="iframe"></iframe>
+		</div> -->
+		<a id="fileValue">ssssss</a>
+		<div class="btn-list">
+			<button class="btn btn-red" type="button" id="postMessage">postMessage</button>
+		</div>
+		<!-- uni 的 SDK -->
+		<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"></script>
+		<script type="text/javascript">
+			function getQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+				var r = window.location.search.substr(1).match(reg); //获取url中"?"符后的字符串并正则匹配
+				var context = "";
+
+				if (r != null)
+					context = r[2];
+				reg = null;
+				r = null;
+				return context == null || context == "" || context == "undefined" ? "" : context;
+			}
+			// console.log('www')
+			let source = getQueryString('source');
+			console.log(source);
+			document.getElementById('fileValue').href = source;
+			// document.getElementById('iframe').src = 'http://view.officeapps.live.com/op/view.aspx?src=' +source;
+		</script>
+	</body>
+</html>

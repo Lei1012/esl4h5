@@ -1,0 +1,160 @@
+page {
+	background-color: #F4F5F6;
+}
+
+.role-logo {
+	width: 100%;
+	margin-top: 10%;
+	text-align: center;
+}
+
+.role-logo image {
+	width: 200rpx;
+	height: 200rpx;
+	border-radius: 200rpx;
+}
+
+.role-intro {
+	width: 90%;
+	margin: 0 auto;
+	margin-top: 4%;
+	text-align: center;
+	font-size: 50rpx;
+
+}
+
+.role-form {
+	width: 96%;
+	margin: 0 auto;
+	background-color: #FFFFFF;
+	border-radius: 20rpx;
+	padding: 20rpx 20rpx 40rpx 20rpx;
+	margin: 0 auto;
+	margin-top: 10%;
+	box-sizing: border-box;
+
+}
+
+input {
+	height: 100%;
+	text-align: center;
+	border: none;
+	/* border-bottom: 1px solid #EEEEEE; */
+	font-size: 32rpx;
+}
+
+.uni-input-placeholder {
+	text-align: center;
+}
+
+.role-form-nickname {
+	width: 100%;
+	height: 80rpx;
+	margin-top: 20rpx;
+	border-radius: 20rpx;
+}
+
+.role-form-item{
+	width: 100%;
+	height: 80rpx;
+	margin-top: 20rpx;
+	text-align: center;
+	border-bottom: 1px solid #EEEEEE;
+}
+
+.role-form-type-1 {
+	margin-top: 20rpx;
+	height: 80rpx;
+	text-align: center;
+	color: #808080;
+}
+
+.role-form-type-1 text {
+	font-size: 32rpx;
+}
+
+.role-form-type-2 {
+	width: 100%;
+	margin-top: 20rpx;
+	border-radius: 20rpx;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	display: -webkit-flex;
+}
+
+.role-form-done {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 40rpx;
+	padding-bottom: 40rpx;
+}
+
+.role-form-done button {
+	background-color: #0AA0A8;
+	height: 100rpx;
+	line-height: 100rpx;
+	border-radius: 100rpx;
+	color: #FFFFFF;
+}
+.categories{
+	margin-top: 20rpx;
+	
+}
+.category-title{
+	font-size: 32rpx;
+	text-align: center;
+	color: #808080;
+}
+
+.categories-tags {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: first baseline;
+	align-items: center;
+	flex-wrap: wrap;
+	border: 1rpx solid #EEEEEE;
+	padding: 20rpx 10rpx;
+	margin-top: 10rpx;
+	border-radius: 20rpx;
+}
+
+.category-parent{
+	width: 100%;
+	font-size: 32rpx;
+	font-weight: 700;
+	text-align: center;
+}
+
+.categories-tags-item {
+	padding-top: 10rpx;
+	padding-bottom: 10rpx;
+	padding-left: 20rpx;
+	padding-right: 20rpx;
+	background-color: #EEEEEE;
+	margin-top: 10rpx;
+	margin-left: 10rpx;
+	border-radius: 20rpx;
+
+}
+
+.tag-active {
+	background-color: #00b3d2;
+	color: #FFFFFF;
+}
+
+.nationality-1{
+	font-size: 32rpx;
+	line-height: 80rpx;
+	height: 80rpx;
+	text-align: center;
+	color: #808080;
+}
+
+.nationality-2{
+	font-size: 32rpx;
+	line-height: 80rpx;
+	height: 80rpx;
+	text-align: center;
+}

@@ -1,0 +1,257 @@
+page {
+	background-color: #F4F5F6;
+	/* background-image: linear-gradient( 135deg, #79F1A4 10%, #0E5CAD 100%); */
+}
+
+.detail {
+	padding-bottom: 100rpx;
+}
+
+.detail-container {
+	padding: 20rpx;
+	width: 96%;
+	margin: 20rpx auto;
+	background-color: #FFFFFF;
+	border-radius: 20rpx;
+}
+
+.content-container {
+	padding-top: 20rpx;
+}
+
+.detail-item {
+	padding: 10rpx;
+}
+
+.detail-item-title {
+	font-size: 34rpx;
+	font-weight: 700;
+}
+
+.detail-item-result {
+	word-break: break-all;
+	padding-left: 10rpx;
+	font-size: 30rpx;
+
+}
+
+.part-image {
+	width: 100%;
+	padding: 20rpx;
+}
+
+.part-image image {
+	width: 100%;
+	/* height: 100%; */
+}
+
+.view-files {
+	color: #00B3D2;
+	text-decoration: underline;
+}
+
+.back-button {
+	margin-top: 40rpx;
+
+}
+
+.back-button button {
+	height: 80rpx;
+	line-height: 80rpx;
+	color: #FFFFFF;
+	background-color: #004956;
+	border-radius: 20rpx;
+}
+
+.photo-top-container {
+	text-align: center;
+	background-image: linear-gradient(135deg, #90F7EC 10%, #32CCBC 100%);
+
+	box-shadow: 0 0 30rpx 0 rgba(43, 86, 112, .1);
+	background-size: cover;
+	background-position: center;
+	height: 300rpx;
+}
+
+.photo-top {
+	width: 160rpx;
+	height: 160rpx;
+	border-radius: 160rpx;
+	margin: 0 auto;
+	position: relative;
+	bottom: -200rpx;
+	background-color: #FFFFFF;
+}
+
+.photo-top image {
+	width: 160rpx;
+	height: 160rpx;
+	border-radius: 160rpx;
+	border: 1rpx solid #EEEEEE;
+}
+
+.photo-business {
+	position: absolute;
+	right: -16rpx;
+	bottom: 0;
+}
+
+.photo-business image {
+	width: 60rpx;
+	height: 60rpx;
+	border-radius: 60rpx;
+}
+
+.contact {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 20rpx;
+	background-color: #FFFFFF;
+	width: 96%;
+	margin: 20rpx auto;
+	border-radius: 20rpx;
+	margin-bottom: 20rpx;
+}
+
+.contact-l {
+	width: 25%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.contact-l image {
+	width: 140rpx;
+	height: 140rpx;
+	border-radius: 140rpx;
+	border: 1rpx solid #EEEEEE;
+}
+
+.contact-r {
+	width: 75%;
+	/* padding-left: 20rpx; */
+}
+
+.contact-nationality {
+	font-size: 30rpx;
+}
+
+.contact-phone {
+	font-size: 30rpx;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: space-between;
+
+}
+
+.contact-copy-container-l {
+	width: 70%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+
+}
+
+.contact-copy-container-r {
+	width: 30%;
+	display: flex;
+	align-items: center;
+}
+
+.contact-copy-container-r image {
+	width: 40rpx;
+	height: 40rpx;
+	margin-left: 20rpx;
+}
+
+.contact-work-email {
+	font-size: 30rpx;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.contact-name {
+	font-size: 30rpx;
+}
+
+
+.turn-page-btn {
+
+	width: 96%;
+	height: 80rpx;
+	line-height: 80rpx;
+	margin: 10rpx auto;
+	background-image: linear-gradient(135deg, #79F1A4 10%, #0E5CAD 100%);
+	color: #FFFFFF;
+	text-align: center;
+	border-radius: 20rpx;
+
+}
+
+.discount-card-btn {
+	width: 96%;
+	height: 80rpx;
+	line-height: 80rpx;
+	margin: 10rpx auto;
+	background-image: linear-gradient(135deg, #79F1A4 10%, #0E5CAD 100%);
+	color: #FFFFFF;
+	text-align: center;
+	border-radius: 20rpx;
+}
+
+.xll-header {
+	width: 100%;
+	border: 1rpx solid #0AA0A8;
+	border-radius: 10rpx;
+	padding: 20rpx;
+	margin-top: 80rpx;
+}
+
+.xll-header-title {
+	font-size: 34rpx;
+	font-weight: 700;
+	text-align: center;
+}
+
+.xll-header-tags {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20rpx;
+}
+
+.xll-header-tag {
+	background-color: #0AA0A8;
+	color: #FFFFff;
+	margin-left: 20rpx;
+	padding: 10rpx 20rpx;
+	border-radius: 10rpx;
+
+}
+
+.third-container {
+	width: 96%;
+	margin: 20rpx auto;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.third-item {
+	width: 49%;
+	background-image: linear-gradient(135deg, #79F1A4 10%, #0E5CAD 100%);
+	color: #FFFFFF;
+	text-align: center;
+	padding: 10rpx;
+	border-radius: 20rpx;
+}

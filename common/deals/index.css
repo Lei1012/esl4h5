@@ -1,0 +1,250 @@
+.page {
+	background-color: #F4F5F6;
+}
+.index-bg{
+	padding-bottom: 160rpx;
+}
+
+.swiper {
+	height: 340rpx;
+}
+
+.swiper image {
+	width: 100%;
+	height: 100%;
+}
+
+.swiper-item {
+	height: 100%;
+}
+
+.index-box {
+	width: 90%;
+	margin: 0 auto;
+	margin-top: 40rpx;
+	
+}
+
+.index-box-box {
+	display: flex;
+	align-items: center;
+	justify-content:space-between;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.index-box-item {
+	width: 32%;
+	height: 230rpx;
+	background-color: #FFFFFF;
+	border-radius: 20rpx;
+	text-align: center;
+	padding-top: 40rpx;
+	padding-left: 20rpx;
+	padding-right: 20rpx;
+	box-shadow: 0 0 30rpx 0 rgba(43, 86, 112, .1);
+	margin-top: 20rpx;
+	
+}
+
+.index-box-item image {
+	width: 90rpx;
+	height: 90rpx;
+}
+
+.index-box-item text {
+	font-size: 28rpx;
+	font-weight: 700;
+}
+
+
+
+.why-esl-passport{
+	width: 90%;
+	margin: 0 auto;
+	margin-top: 40rpx;
+	
+}
+
+.why-esl-passport-title{
+	font-size: 34rpx;
+	font-weight: 800;
+}
+.why-esl-passport-img{
+	width: 100%;
+	height: 240rpx;
+	margin-top: 20rpx;
+	background-color: #000000;
+	text-align: center;
+}
+.why-esl-passport-img-swiper{
+	height: 240rpx;
+}
+.why-esl-passport-img-swiper image{
+	width: 100%;
+	height: 100%;
+}
+.our-reviews{
+	width: 90%;
+	margin: 0 auto;
+	margin-top: 40rpx;
+}
+
+.our-reviews-title{
+	font-size: 34rpx;
+	font-weight: 800;
+}
+
+.our-reviews-1{
+	margin-top: 10rpx;
+}
+.our-reviews-2{
+	margin-top: 10rpx;
+}
+.our-reviews-2 button{
+	background-color: #0AA0A8;
+	width: 70%;
+	height: 80rpx;
+	line-height: 80rpx;
+	color: #FFFFFF;
+	border-radius: 80rpx;
+}
+
+.location-filter{
+	padding-top: 40rpx;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	
+}
+.location-button{
+	width: 220rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	text-align: center;
+	color: #333333;
+	border-radius: 20rpx;
+	box-sizing: border-box;
+	background-color: #FFFFFF;
+	box-shadow: 0 0 30rpx 0 rgba(43, 86, 112, .1);
+	font-size: 32rpx;
+	font-weight: 700;
+}
+
+.location-shanghai-active{
+	/* background: linear-gradient(-90deg, #29bdd9 0%, #276ace 100%); */
+	background-color: #0AA0A8;
+	color: #FFFFFF;
+}
+.location-other-active{
+	/* background: linear-gradient(to right, #ff9569 0%, #e92758 100%); */
+	background-color: #1D87AE;
+	color: #FFFFFF;
+}
+.location-other{
+	margin-left: 20rpx;
+}
+
+.index-box{
+	margin-top: 10rpx;
+}
+
+.events-slider{
+	margin-top: 40rpx;
+}
+
+.latest-jobs {
+	width: 96%;
+	margin: 0 auto;
+	margin-top: 20rpx;
+}
+
+.latest-jobs-title {
+	font-size: 40rpx;
+	font-weight: 800;
+}
+
+.latest-jobs-swiper {
+	width: 100%;
+	height: 200rpx;
+	margin-top: 10rpx;
+}
+
+.latest-jobs-item {
+	width: 98%;
+	height: 100%;
+	margin: 0 auto;
+	border-radius: 20rpx;
+	background-color: #FFFFFF;
+	box-sizing: border-box;
+}
+	
+.latest-jobs-item-top{
+	width: 100%;
+	padding-top: 30rpx;
+	padding-left: 20rpx;
+	padding-right: 20rpx;
+	padding-bottom: 20rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	text-align: left;
+	justify-content: flex-start;
+}
+
+.latest-jobs-item-l {
+	width: 24%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.latest-jobs-item-l image {
+	width: 140rpx;
+	height: 140rpx;
+	/* border-radius: 10rpx; */
+	/* border-radius: 140rpx; */
+	border: 1rpx solid #EEEEEE;
+}
+
+.latest-jobs-item-r {
+	width: 76%;
+	padding-left: 20rpx;
+	padding-right: 10rpx;
+}
+
+.latest-jobs-item-r-1 {
+	font-size: 38rpx;
+	font-weight: 600;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	
+}
+
+.latest-jobs-item-r-2 {
+	font-size: 30rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	
+}
+.latest-jobs-item-bottom{
+	padding-top: 40rpx;
+	padding-left: 20rpx;
+	padding-right: 20rpx;
+	border-top: 1rpx solid #EEEEEE;
+}
+.latest-jobs-item-bottom button{
+	background-color: #0AA0A8;
+	width: 70%;
+	height: 80rpx;
+	line-height: 80rpx;
+	color: #FFFFFF;
+	border-radius: 80rpx;
+	font-size: 32rpx;
+}

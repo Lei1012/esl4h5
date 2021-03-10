@@ -1,0 +1,176 @@
+page {
+	background-color: #F4F5F6;
+}
+
+.me-edit-title {
+	text-align: center;
+	font-size: 38rpx;
+	font-weight: 700;
+	background-color: #004956;
+	color: #FFFFFF;
+	height: 200rpx;
+
+	line-height: 200rpx;
+
+}
+
+.me-edit-form {
+	width: 96%;
+	margin: 0 auto;
+	/* margin-top: 10%; */
+	margin-top: 20rpx;
+	padding: 20rpx;
+	background-color: #FFFFFF;
+	border-radius: 20rpx;
+}
+
+input {
+	height: 80rpx;
+	text-align: left;
+	border: 1rpx solid #EEEEEE;
+	font-size: 30rpx;
+	border-radius: 20rpx;
+	text-indent: 20rpx;
+}
+
+.uni-input-placeholder {
+	text-align: left;
+	font-size: 30rpx;
+	text-indent: 20rpx;
+}
+
+.me-edit-form-item {
+	width: 100%;
+	/* height: 80rpx; */
+	margin-top: 20rpx;
+	/* border-bottom: 1px solid #EEEEEE; */
+}
+
+.me-edit-form-item-label{
+	font-size: 34rpx;
+	font-weight: 700;
+}
+.me-edit-form-nickname {
+	width: 100%;
+	height: 80rpx;
+	margin-top: 20rpx;
+}
+
+.me-edit-form-gender {
+	width: 100%;
+	/* height: 80rpx; */
+	margin-top: 20rpx;
+	text-align: left;
+	/* border-bottom: 1px solid #EEEEEE; */
+}
+
+.me-edit-form-gender picker {
+	height: 100%;
+	text-align: center;
+	border: none;
+}
+
+.me-edit-form-gender-1 ,.me-edit-form-gender-2{
+	line-height: 80rpx;
+	font-size: 30rpx;
+	border: 1rpx solid #EEEEEE;
+	border-radius: 20rpx;
+	text-indent: 20rpx;
+}
+
+.me-edit-form-nation {
+	width: 100%;
+	margin-top: 20rpx;
+	font-size: 30rpx;
+}
+
+.me-edit-form-nation-1,.me-edit-form-nation-2 {
+	text-align: left;
+	font-size: 30rpx;
+	line-height: 80rpx;
+	border-radius: 20rpx;
+	border: 1rpx solid #EEEEEE;
+	text-indent: 20rpx;
+}
+
+.me-edit-form-birthday {
+	width: 100%;
+	/* height: 80rpx; */
+	margin-top: 10rpx;
+	/* border-bottom: 1px solid #EEEEEE; */
+	text-align: left;
+}
+
+.me-edit-form-birthday-1 ,.me-edit-form-birthday-2{
+	text-align: left;
+	font-size: 30rpx;
+	line-height: 80rpx;
+	border-radius: 20rpx;
+	border: 1rpx solid #EEEEEE;
+	text-indent: 20rpx;
+}
+
+
+.me-edit-form-current-city {
+	width: 100%;
+	/* height: 80rpx; */
+	margin-top: 20rpx;
+	/* border-bottom: 1px solid #EEEEEE; */
+	text-align: left;
+	font-size: 30rpx;
+	/* color: #333333; */
+}
+.me-edit-form-current-city-1{
+	text-align: left;
+	font-size: 30rpx;
+	line-height: 80rpx;
+	border-radius: 20rpx;
+	border: 1rpx solid #EEEEEE;
+	text-indent: 20rpx;
+}
+
+.me-edit-form-toggle-box {
+	width: 100%;
+
+	margin-top: 20rpx;
+	/* border-bottom: 1px solid #EEEEEE; */
+	/* text-align: center; */
+	/* display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start; */
+
+
+}
+
+.me-edit-form-job-seeking {
+	margin-top: 20rpx;
+	font-size: 34rpx;
+	font-weight: 700;
+	
+}
+
+.me-edit-form-public-profile {
+	margin-top: 20rpx;
+	font-size: 34rpx;
+	font-weight: 700;
+}
+.me-edit-form-job-title{
+	margin-top: 20rpx;
+}
+.me-edit-submit {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 10%;
+	padding-bottom: 100rpx;
+
+}
+
+.me-edit-submit button {
+	background-color: #004956;
+	box-sizing: border-box;
+	color: #FFFFFF;
+	height: 80rpx;
+	border-radius: 80rpx;
+	line-height: 80rpx;
+}

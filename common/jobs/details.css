@@ -1,0 +1,416 @@
+page {
+	/* background-color: #F4F5F6; */
+	background-image: linear-gradient(135deg, #65FDF0 10%, #1D6FA3 100%);
+}
+
+.top-container {
+	background-image: linear-gradient(135deg, #65FDF0 10%, #1D6FA3 100%);
+	position: relative;
+	height: 300rpx;
+	background-position: center;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.top-container-mask {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.6);
+	padding-left: 20rpx;
+	padding-top: 40rpx;
+}
+
+.top-t {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding-bottom: 10rpx;
+
+}
+
+.top-left {
+	width: 140rpx;
+	height: 140rpx;
+	border: 1rpx solid #EEEEEE;
+	border-radius: 140rpx;
+}
+
+.top-left image {
+	max-width: 100%;
+	max-height: 100%;
+	border-radius: 50%;
+}
+
+.top-right {
+	margin-left: 40rpx;
+}
+
+.top-right text:first-child {
+	font-size: 34rpx;
+	font-weight: 700;
+	line-height: 80rpx;
+	color: #FFFFFF;
+}
+
+.top-right text:nth-child(3) {
+	font-size: 30rpx;
+	color: #333333;
+	line-height: 60rpx;
+	color: #FFFFFF;
+}
+
+.top-b {
+	width: 100%;
+	padding-top: 20rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.top-b-l {
+	width: 60%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.top-b-contact {}
+
+.top-b-apply {
+	margin-left: 40rpx;
+}
+
+.top-b-contact button {
+	background-color: #00B3D2;
+	color: #FFFFFF;
+	height: 60rpx;
+	line-height: 60rpx;
+	border-radius: 60rpx;
+	font-size: 30rpx;
+}
+
+.top-b-apply button {
+	background-color: #B1C452;
+	color: #FFFFFF;
+	height: 60rpx;
+	line-height: 60rpx;
+	border-radius: 60rpx;
+	font-size: 30rpx;
+
+}
+
+.top-b-r {
+	width: 40%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.top-b-r-collect,
+.top-b-r-share {
+	width: 50rpx;
+	height: 50rpx;
+}
+
+.top-b-r-share {
+	margin-left: 20rpx;
+}
+
+.top-b-r-collect image,
+.top-b-r-share image {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.jobs-desc-container {
+	width: 96%;
+	margin: 0rpx auto;
+	background-color: #FFFFFF;
+	margin-top: 20rpx;
+	border-radius: 20rpx;
+	padding: 20rpx;
+	box-sizing: border-box;
+	box-shadow: 0 0 30rpx 0 rgba(43, 86, 112, .1);
+}
+
+.jobs-title {
+	font-size: 34rpx;
+	font-weight: 700;
+}
+
+.jobs-location {
+	font-size: 30rpx;
+	color: #808080;
+	word-break: break-all;
+}
+
+.jobs-desc {
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	color: #333333;
+	font-size: 30rpx;
+	padding-left: 20rpx;
+}
+
+.position-detial-container {
+	width: 96%;
+	margin: 0 auto;
+	background-color: #FFFFFF;
+	margin-top: 20rpx;
+	padding: 20rpx;
+	border-radius: 20rpx;
+	box-sizing: border-box;
+	box-shadow: 0 0 30rpx 0 rgba(43, 86, 112, .1);
+}
+
+.position-title {
+	font-size: 34rpx;
+	font-weight: 700;
+	border-bottom: 1rpx solid #EEEEEE;
+	padding-bottom: 10rpx;
+}
+
+.benefits {
+	margin-top: 20rpx;
+}
+
+.benefits-1 {
+	font-size: 30rpx;
+	font-weight: 700;
+	color: #333333;
+}
+
+.jobs-tags-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	margin-top: 10rpx;
+}
+
+.jobs-tags {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	flex-wrap: wrap;
+
+}
+
+.jobs-tags-item {
+	background-color: rgba(0, 179, 210, 0.1);
+	padding-left: 20rpx;
+	padding-right: 20rpx;
+	padding-top: 10rpx;
+	padding-bottom: 10rpx;
+	border-radius: 20rpx;
+	margin-top: 10rpx;
+	margin-left: 10rpx;
+	font-size: 30rpx;
+}
+
+.application-due-date,
+.start-date,
+.age-to-teach,
+.subject,
+.employment-type,
+.online-job,
+.salary,
+.payment-period,
+.currency,
+.number-vacancies,
+.equal-opportunity,
+.gender,
+.teaching-certificate,
+.cpr-certified,
+.first-aside-certified,
+.teaching-exp,
+.teaching-license,
+.education,
+.nationality,
+.languages,
+.age,
+.name {
+	margin-top: 20rpx;
+}
+
+.application-due-date-1,
+.start-date-1,
+.age-to-teach-1,
+.subject-1,
+.employment-type-1,
+.online-job-1,
+.salary-1,
+.payment-period-1,
+.currency-1,
+.number-vacancies-1,
+.equal-opportunity-1,
+.gender-1,
+.teaching-certificate-1,
+.cpr-certified-1,
+.first-aside-certified-1,
+.teaching-exp-1,
+.teaching-license-1,
+.education-1,
+.nationality-1,
+.languages-1,
+.age-1,
+.name-1 {
+	font-size: 30rpx;
+	font-weight: 700;
+	color: #333333;
+}
+
+.application-due-date-2,
+.online-job-2,
+.salary-2,
+.payment-period-2,
+.currency-2,
+.number-vacancies-2,
+.equal-opportunity-2,
+.gender-2,
+.cpr-certified-2,
+.first-aside-certified-2,
+.teaching-exp-2,
+.teaching-license-2,
+.education-2,
+.nationality-2,
+.age-2,
+.name-2 {
+	font-size: 30rpx;
+	text-indent: 20rpx;
+}
+
+.applicant-requirements {
+	width: 96%;
+	margin: 0 auto;
+	background-color: #FFFFFF;
+	padding: 20rpx;
+	margin-top: 20rpx;
+	border-radius: 20rpx;
+	box-sizing: border-box;
+	box-shadow: 0 0 30rpx 0 rgba(43, 86, 112, .1);
+}
+
+.applicant-requirements-title {
+	font-size: 34rpx;
+	font-weight: 700;
+	border-bottom: 1rpx solid #EEEEEE;
+	padding-bottom: 10rpx;
+}
+
+.contact-person-info {
+	width: 96%;
+	margin: 0 auto;
+	background-color: #FFFFFF;
+	margin-top: 20rpx;
+	padding: 20rpx;
+	border-radius: 20rpx;
+	box-sizing: border-box;
+	box-shadow: 0 0 30rpx 0 rgba(43, 86, 112, .1);
+}
+
+.contact-person-info-title {
+	font-size: 34rpx;
+	font-weight: 700;
+	padding-bottom: 10rpx;
+	border-bottom: 1rpx solid #EEEEEE;
+}
+
+.job-xll-tags {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+}
+
+.xll-tag {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	
+	background-color: rgba(0, 179, 210, 0.1);
+	padding: 10rpx 20rpx;
+	border-radius: 20rpx;
+	margin-top: 10rpx;
+	margin-left: 10rpx;
+	font-size: 30rpx;
+}
+
+.xll-tag image {
+	width: 40rpx;
+	height: 40rpx;
+
+}
+.xll-tag text{
+	color: #808080;
+	margin-left: 10rpx;
+}
+
+.job-apply-button {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 20rpx;
+	padding-bottom: 40rpx;
+}
+
+.job-apply-button button {
+	background-color: #B1C452;
+	color: #FFFFFF;
+	border-radius: 40rpx;
+	line-height: 80rpx;
+	font-size: 34rpx;
+}
+
+.homepage-back {
+	width: 80%;
+	margin: 0 auto;
+	padding-bottom: 40rpx;
+}
+
+.homepage-back button {
+	background-color: #0AA0A8;
+	color: #FFFFFF;
+	border-radius: 40rpx;
+	line-height: 80rpx;
+	font-size: 34rpx;
+}
+
+.contact {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 20rpx;
+}
+
+.contact-l {}
+
+.contact-l image {
+	width: 140rpx;
+	height: 140rpx;
+	border-radius: 140rpx;
+	border: 1rpx solid #EEEEEE;
+}
+
+.contact-r {
+	padding-left: 20rpx;
+}
+
+.contact-nationality {
+	font-size: 30rpx;
+}
+
+.contact-phone {
+	font-size: 30rpx;
+}
+
+.contact-work-email {
+	font-size: 30rpx;
+}

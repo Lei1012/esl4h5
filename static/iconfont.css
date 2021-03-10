@@ -1,0 +1,36 @@
+@font-face {font-family: "custom-icon";
+  src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXIAAsAAAAAC2QAAAV5AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDXgqJDIdYATYCJAMcCxAABCAFhREHZBvYCRGVpF+Q/Rxw2+FVayJlZqVOhqgTA41yrKvT0V/PieJ4+Joj389uNkcssciSWBG6c51KolyRpa+urge2QD+Pp732Z2wnOIPQdnJ2dnLQ4Pq8kxycgKulSy3CrjBfZcYnPgHs171v12Zvj9KExwkUyoNRxMD096r+l4HZIPNZAGDuSaFcKDjPu87HmJgB0oIOgV5FtRqjjXFWwEem9vMEuoxbKral5ZSAtkxIA0WnBxF1oO3TySmk0KEsMddm8QxqHdV9/gUAT83vj88QHNpU6kS8aG9zaiMkPMNeZSLyf+skIqGtz4LdTSQsRSbuxNpaSHZsqaTr8jezgwD6dKiUd9gz/FnUs4RnxKvM///xt4vx0Cf/wSOrJLUiiAKyHsIejRfeYaqUKcehUUEeBY0EeQI0asgJsCh8yhSsoazRr+nDKHEKIH6DUCw1ZZUsL2q5tzd6OHHMVke8TtlvxMzKxcjQaMgVmgHCISyVbmAYmmNz/O9hCCHzVMQ9l7DPxPSTOpYVc5yEYUQ0PZkkJRbHa2HZKXF8/C6Qa1cKWi0kOwUcV7swXGqKUzy8r89cyuPNmpf84uaBNeTa1vXUOom1ujqltXTVgNxMYaWAls7pA69M+8zFUtMTbJR0QK4w28uku/WbRfa38SILmcqGd5njUWPkaxauo9a3rq0lcb5IfmHhJWupavVKs/6VrastZKxVIRKJT2UM7NDtRIqkffskHc9qPe2xO0xU50pl5uLt3Ai9Vu46x0Oz7DVWV/8BfYUGfstcZQQC7UGB7ut8yfoKYd+qlg5abaYnW7mWXDNgXhKgKCnVbAUpH0gMu1Ts91oiNRMmaGKvbZubxtiVFEc9JM2aNSSOojbaB35M+I4xNrYMRhpbWwoztjaMBvazsYH/8QexP3+wg4ytc7jILRM8jl6ObtxAEC8nDkT0cSB81UWs/+HJdWgtenQS9cO+/K7M4GwjwSFD4xsi3NRpHXp4qk3t5EaNfQ/wFUYmNmiXClcl+2SRsAtRZzb086X80xsQxdJPr3euhCZniYgsswBxuLNpNoQ/Q8Tqsj0ZZpaFeG+KxCo8vIYnFcZolfQUJ/iMpTSr9KRjXKnE2S8II4lvsBH20kRIB774A9HR6BHxDvB1gK9wV3iolqEmpiZXLufhyoMJSQkHM2dn4JlVSxyXVGXiGbOX11sRLWYt7haEZSt/yxa+Fp6xY+08BLbOtvcPtS7txIefRNLrZxcjzubLQlK09OrVpcjeanJ8ao+dIRJeUPo5zadsasB6o6tHqm2TbarHEQ9N3OSM8pjuf138DJtUm4RHwYoxA71dE89+JByJj2fNE/QM64Gxny0/jx1gp/jRTLpzbLbEznyzg10xwv+96XQ6o5Hp00j1ESlJwMnXjvrDiHR+8u4PcZzv16elZceYrx2CH8nE27sTRvGa/2SG1IJvtVxu/tffn3l86AcQiuZz45DDbFd5ORmNG0qkQpcc4kvvGvJbn3FU3YnQbdSFlcYkTLotABm7GtTY9aBgd8EuS9xu7jbs01TkTiz2xWAY8wMrfd7AZMwfyNh/pMZFNyjYKdjlcETcs9v8eKybTFgw1lC+QFcZLZRq3jR4x0YF/q2v2HhZ0L7dCT8guQ6TkIRxTPKCGqm+C9xjkzILEGQUnCt+GUppwJLpseKwZbanKBJxGworo0YbWxFUYKgGSi9Ap2JoQr+bbczwHGYoQdrPuUINTypQeh8xkQeI9rKO7w1IhOJ84CLTebv28SLnUSPFmACqjMo5wLnXFiRlzAA2/qgeqrBQWyJinUR8kMgrC9tVqEd+AbqINTRRRYocdZRookMz01El0awmShm8+ELPNMlymRJcVLwyc5L1HlO61dOORgAAAA==') format('woff2');
+}
+
+.custom-icon {
+  font-family: "custom-icon" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.custom-icon-circleo:before {
+  content: "\ea49";
+}
+
+.custom-icon-xll-yuan:before {
+  content: "\e638";
+}
+
+.custom-icon-yuan:before {
+  content: "\e63a";
+}
+
+.custom-icon-contact:before {
+  content: "\e604";
+}
+
+.custom-icon-contact1:before {
+  content: "\e640";
+}
+
+.custom-icon-Jobs-icon:before {
+  content: "\e667";
+}
+

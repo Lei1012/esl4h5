@@ -1,0 +1,49 @@
+{
+	"uni-app": {
+		"scripts": {
+			"mp-dingtalk": {
+				"title": "钉钉小程序",
+				"env": {
+					"UNI_PLATFORM": "mp-alipay"
+				},
+				"define": {
+					"MP-DINGTALK": true
+				}
+			},
+			"h5-dev": {
+				"title": "H5测试环境",
+				"BROWSER": "Chrome",
+				"env": {
+					"UNI_PLATFORM": "h5"
+				},
+				"define": {
+					"H5-DEV": true
+				}
+			},
+			"mp-weixin-dev":{
+				"title":"MP测试环境",
+				"env":{
+					"UNI_PLATFORM":"mp-weixin"
+				},
+				"define":{
+					"MP-WEIXIN-DEV":true
+				}
+			}
+			
+		}
+	},
+	"dependencies": {
+		"animate.css": "^4.1.0",
+		"axios": "^0.20.0",
+		"fuse.js": "^6.4.1",
+		"swiper": "^6.2.0",
+		"uview-ui": "^1.8.3",
+		"vue-country-region-select": "^2.0.14",
+		"vue-i18n": "^8.21.0",
+		"vue-jsonp": "^0.1.8"
+	},
+	"devDependencies": {
+		"node-sass": "^5.0.0",
+		"sass-loader": "^10.1.0"
+	}
+}
