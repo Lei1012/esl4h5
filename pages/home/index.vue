@@ -5,7 +5,7 @@
 				<view class="page-section-spacing">
 					<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
 						:duration="duration">
-						<swiper-item v-for="(item,index) in adsListTop" :key="index" @click="turnBanner(item.relative_link)">
+						<swiper-item v-for="(item,index) in adsListTop" :key="index" @click="turnBanner(item.relative_link,item.link)">
 							<view class="swiper-item">
 								<image :src="item.url" mode="scaleToFit" lazy-load="true"></image>
 							</view>
@@ -336,7 +336,7 @@
 		<view class="flex-item events-slider" v-if="identity == 0 || identity==4">
 			<swiper class="swiper" :indicator-dots="false" :autoplay="true" :interval="5000" :duration="600">
 				<swiper-item style="height: 306rpx;" v-for="(item,index) in dealsAdsListMid" :key="index"
-					@click="turnBanner(item.relative_link)">
+					@click="turnBanner(item.relative_link,item.link)">
 					<view class="swiper-item">
 						<image :src="item.url" mode="widthFix" lazy-load="true"></image>
 					</view>
@@ -350,7 +350,7 @@
 			<view class="why-esl-passport-img">
 				<swiper class="why-esl-passport-img-swiper" :indicator-dots="false" :autoplay="true" :interval="4000"
 					:duration="500">
-					<swiper-item v-for="(item,index) in adsListMid" :key="index" @click="turnBanner(item.relative_link)">
+					<swiper-item v-for="(item,index) in adsListMid" :key="index" @click="turnBanner(item.relative_link,item.link)">
 						<view class="swiper-item">
 							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
 						</view>
@@ -365,7 +365,7 @@
 			<view class="why-esl-passport-img">
 				<swiper class="why-esl-passport-img-swiper" :indicator-dots="false" :autoplay="true" :interval="6000"
 					:duration="500">
-					<swiper-item v-for="(item,index) in adsListBottom" :key="index" @click="turnBanner(item.relative_link)">
+					<swiper-item v-for="(item,index) in adsListBottom" :key="index" @click="turnBanner(item.relative_link,item.link)">
 						<view class="swiper-item">
 							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
 						</view>
@@ -482,16 +482,6 @@
 
 		},
 		onShow() {
-			// #ifdef MP-WEIXIN
-			let identity = uni.getStorageSync('identity');
-			if(identity == 0 || identity == undefined){
-				uni.setTabBarItem({
-					index:1,
-					text:'Events'
-				})
-			}
-			// #endif
-			
 			this.getAdsList();
 			this.getDealsAdsList();
 		},
@@ -506,7 +496,6 @@
 		onLoad(option) {
 
 			var that = this;
-			
 			let wxcode = option.code;
 			let reLoginStatus = option.reLogin;
 			let uid = uni.getStorageSync('uid');
@@ -600,10 +589,26 @@
 					index: 0,
 					text: this.i18n.tabbarhome
 				})
+				// #ifdef H5
 				uni.setTabBarItem({
 					index: 1,
 					text: this.i18n.tabbarjobs
 				})
+				// #endif
+				// #ifdef MP-WEIXIN
+				if(that.identity == 0){
+					uni.setTabBarItem({
+						index:1,
+						text:'Events'
+					})
+				}else{
+					uni.setTabBarItem({
+						index: 1,
+						text: this.i18n.tabbarjobs
+					})
+				}
+				// #endif
+			
 				uni.setTabBarItem({
 					index: 2,
 					text: this.i18n.tabbardeals
@@ -1098,17 +1103,30 @@
 				});
 
 			},
-			turnBanner(relativeLink) {
+			turnBanner(relativeLink,link) {
 				// if (link != '') {
 				// 	window.location.href = link;
 				// }
-				if(relativeLink!=''){
-					uni.navigateTo({
-						url:relativeLink
-					})
+				let identity = uni.getStorageSync('identity');
+				if(identity == 0){
+					if(link !=''){
+						uni.navigateTo({
+							url:'/pages/webview/webview?url='+link
+						})
+					}else{
+						this.showContactStatus=true;
+					}
 				}else{
-					this.showContactStatus=true;
+					if(relativeLink != ''){
+						uni.navigateTo({
+							url:relativeLink
+						})
+					}else{
+						this.showContactStatus=true;
+					}
+					
 				}
+				
 
 			},
 

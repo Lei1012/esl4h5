@@ -418,7 +418,7 @@ const Chinese = {
 	jobsnameph: "请输入你的名字",
 	jobsphoto: "照片",
 	jobspriceforfreemembers: "免费基础版会员价格",
-	jobsattentiontxt1: "请注意:在2020年结束前我们为您提供免费发布工作的机会！如果您想要发布的招聘职位有更多的浏览量，成为付费会员将会更容易让全世界的教育工作者注意到哦!",
+	jobsattentiontxt1: "请注意:在2021年结束前我们为您提供免费发布工作的机会！如果您想要发布的招聘职位有更多的浏览量，成为付费会员将会更容易让全世界的教育工作者注意到哦!",
 	jobsattentiontxt2: "升级您的账户来在2021年获取更多的曝光量，无限制的招聘信息发布，以及长期的优惠吧 !",
 	jobspostjob: "发布这个工作机会",
 
@@ -1060,7 +1060,7 @@ const English = {
 	jobsnameph: "Please enter your name",
 	jobsphoto: "Photo",
 	jobspriceforfreemembers: "Basic (Free) Member: Prices",
-	jobsattentiontxt1: "Job's are free to post in 2020! For more views, fill this form fully out.",
+	jobsattentiontxt1: "Job's are free to post in 2021! For more views, fill this form fully out.",
 	jobsattentiontxt2: "Upgrade to get cheaper featuring & unlimited free job posting in 2021!",
 	jobspostjob: "Post This Job!",
 

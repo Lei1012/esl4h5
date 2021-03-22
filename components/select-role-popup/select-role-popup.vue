@@ -201,10 +201,19 @@
 					index: 0,
 					text: _this.i18n.tabbarhome
 				})
-				uni.setTabBarItem({
-					index: 1,
-					text: _this.i18n.tabbarjobs
-				})
+				let identity = uni.getStorageSync('identity');
+				if(identity == 0){
+					uni.setTabBarItem({
+						index: 1,
+						text: 'Events'
+					})
+				}else{
+					uni.setTabBarItem({
+						index: 1,
+						text: _this.i18n.tabbarjobs
+					})
+				}
+				
 				uni.setTabBarItem({
 					index: 2,
 					text: _this.i18n.tabbardeals

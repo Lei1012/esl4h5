@@ -542,7 +542,7 @@
 				"pagePath": "pages/menu/job",
 				"iconPath": "static/esl/jobs-icon-white.png",
 				"selectedIconPath": "static/esl/jobs-icon-black.png",
-				"text": "Jobs"
+				"text": "Events"
 			},
 			{
 				"pagePath": "pages/menu/deals",
