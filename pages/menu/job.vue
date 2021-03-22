@@ -1,13 +1,7 @@
 <template>
 	<view class="uni-flex uni-column list">
-		<!-- #ifdef MP-WEIXIN -->
-		<view class="flex-item filter-container-mp" v-if="identity != 0"></view>
-		<HMfilterDropdown v-if="identity != 0" :filterData="filterData" :defaultSelected="defaultSelected" @confirm="confirm"></HMfilterDropdown>
-		<!-- #endif -->
-		<!-- #ifdef H5 -->
 		<view class="flex-item filter-container-mp" ></view>
 		<HMfilterDropdown  :filterData="filterData" :defaultSelected="defaultSelected" @confirm="confirm"></HMfilterDropdown>
-		<!-- #endif -->
 		
 		<view class="empty" v-if="showEmptyStatus">
 			<view class="empty-text">Nothing here yet, coming back soon</view>
@@ -15,199 +9,7 @@
 				<image src="@/static/esl/empty.png" mode="aspectFit"></image>
 			</view>
 		</view>
-		<!-- #ifdef MP-WEIXIN -->
-		<view v-if="showEmptyStatus===false && identity == 0">
-			<view class=" events-list-item" v-for="(item,index) in eventsList" :key="index">
-				<view class="events-list-item-l">
-					<view class="events-interview-photo">
-						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
-						</image>
-					</view>
-				</view>
-				<view class="events-list-item-r" @click="turnEventDetail(item.id)">
-					<view class="events-list-item-t">
-						<view class=" events-list-item-1">
-							<view class="events-job-title">{{item.name}}</view>
-						</view>
-						<view class="events-list-item-2">
-							<view class="events-tags-item" v-if="item.event_place && item.event_place != 0">
-								<text>{{item.event_place}}</text>
-							</view>
-							<!-- <view class="tags-item" v-if="item.user_info.vendor_name_en">
-								<text>{{item.user_info.vendor_name_en}}</text>
-							</view> -->
-							<view class="events-tags-item">
-								<text v-if="item.is_all==1">Social</text>
-								<text v-if="item.is_all==2">Professional</text>
-							</view>
-						</view>
-					</view>
-					<view class="events-list-item-b">
-						<view class="events-location">{{item.location}}</view>
-						<view class="events-date">{{item.date}}</view>
-					</view>
-				</view>
-			</view>
-			<u-loadmore :status="status" :load-text="loadText" bgColor="#f4f5f6" />
-		</view>
-		<view class="flex-item  list-container" v-if="showEmptyStatus===false && identity !=0">
-			<view class="flex-item flex-item-V latest-jobs" v-if="recentJobList.length>0 ">
-				<view class="latest-jobs-title">
-					<!-- Latest Jobs -->
-					{{i18n.homefeatjobs}}
-				</view>
-				<swiper class="latest-jobs-swiper" :indicator-dots="false" :autoplay="true" interval="1500"
-					:circular="true">
-					<swiper-item v-for="(item,index) in recentJobList" :key="index">
-						<view class="latest-jobs-item ">
-							<view class="latest-jobs-item-top" @click="turnJobDetail(item.id)">
-								<view class="latest-jobs-item-l">
-									<image
-										:src="item.logo !='' ? item.logo : 'https://oss.esl-passport.cn/business.png' "
-										mode="aspectFit" lazy-load></image>
-								</view>
-								<view class="latest-jobs-item-r">
-									<view class="latest-jobs-item-r-1">
-										<view class="job-title">{{item.job_title}}</view>
-										<view class="jobs-view">
-											<image src="@/static/view_line.png" mode="aspectFit"></image>
-											<text>{{item.views}}</text>
-										</view>
-									</view>
-									<view class="latest-jobs-item-r-2">
-										<view class="salary">
-											<text v-if="item.currency=='CNY'">¥</text>
-											<text v-if="item.currency=='USD'">$</text>
-											<text
-												v-if="item.currency!='CNY' && item.currency !='USD'">{{item.currency}}</text>
-											<text>{{item.salary_min}}-{{item.salary_max}}</text>
-										</view>
-										<view class="job-type" v-if="item.employment_type==1">
-											{{i18n.jobslistemploymentfulltime}}
-										</view>
-										<view class="job-type" v-if="item.employment_type==2">
-											{{i18n.jobslistemploymentparttime}}
-										</view>
-										<view class="job-type" v-if="item.employment_type==3">
-											{{i18n.jobslistemploymentseasonal}}
-										</view>
 		
-									</view>
-		
-									<view class="latest-jobs-item-r-3">
-										<view class="interview-name">
-											{{item.business_name}}
-										</view>
-										<view class="job-location">
-											{{item.job_location}}
-										</view>
-									</view>
-								</view>
-							</view>
-		
-							<view class="latest-jobs-item-bottom">
-								<view class="latest-jobs-item-bottom-button" @click="applyJobs(item.id)">
-									{{i18n.homeapplyjob}}
-								</view>
-							</view>
-						</view>
-					</swiper-item>
-				</swiper>
-			</view>
-		
-			<view class=" list-item" v-for="(item,index) in jobsListOne" :key="item.id" @click="turnJobDetail(item.id)">
-				<view class="list-item-l">
-					<view class="list-item-l-circle">
-						<image :src="item.logo !='' ? item.logo : 'https://oss.esl-passport.cn/business.png' "
-							mode="aspectFit"></image>
-					</view>
-		
-				</view>
-				<view class="list-item-r">
-					<view class="list-item-r-t">
-						<view class="job-title">{{item.job_title}}</view>
-						<view class="jobs-view">
-							<image src="@/static/view_line.png" mode="aspectFit"></image>
-							<text>{{item.views}}</text>
-						</view>
-					</view>
-					<view class="list-item-2">
-						<view class="salary">
-							<text v-if="item.currency=='CNY'">¥</text>
-							<text v-if="item.currency=='USD'">$</text>
-							<text v-if="item.currency!='CNY' && item.currency !='USD'">{{item.currency}}</text>
-							<text>{{item.salary_min}}-{{item.salary_max}}</text>
-						</view>
-						<view class="job-type" v-if="item.employment_type==1">{{i18n.jobslistemploymentfulltime}}</view>
-						<view class="job-type" v-if="item.employment_type==2">{{i18n.jobslistemploymentparttime}}</view>
-						<view class="job-type" v-if="item.employment_type==3">{{i18n.jobslistemploymentseasonal}}</view>
-					</view>
-		
-					<view class="list-item-4">
-						<view class="interview-name">
-							{{item.business_name}}
-						</view>
-						<view class="job-location">
-							{{item.job_location}}
-						</view>
-					</view>
-				</view>
-			</view>
-		
-			<view class="flex-item xll-ads">
-				<swiper class="xll-ads-swiper" :indicator-dots="false" :autoplay="true" :interval="4000"
-					:duration="500">
-					<swiper-item v-for="(item,index) in jobsAdsListBottom" :key="index">
-						<view class="swiper-item">
-							<image :src="item.url" @click="turnBanner(item.relative_link)" mode="scaleToFit"
-								lazy-load="true">
-							</image>
-						</view>
-					</swiper-item>
-				</swiper>
-			</view>
-		
-			<view class=" list-item" v-for="(item,index) in jobsList" :key="index" @click="turnJobDetail(item.id)">
-				<view class="list-item-l">
-					<image :src="item.logo !='' ? item.logo : 'https://oss.esl-passport.cn/business.png' "
-						mode="aspectFit"></image>
-				</view>
-				<view class="list-item-r">
-					<view class="list-item-r-t">
-						<view class="job-title">{{item.job_title}}</view>
-						<view class="jobs-view">
-							<image src="@/static/view_line.png" mode="aspectFit"></image>
-							<text>{{item.views}}</text>
-						</view>
-					</view>
-					<view class="list-item-2">
-						<view class="salary">
-							<text v-if="item.currency=='CNY'">¥</text>
-							<text v-if="item.currency=='USD'">$</text>
-							<text v-if="item.currency!='CNY' && item.currency !='USD'">{{item.currency}}</text>
-							<text>{{item.salary_min}}-{{item.salary_max}}</text>
-						</view>
-						<view class="job-type" v-if="item.employment_type==1">{{i18n.jobslistemploymentfulltime}}</view>
-						<view class="job-type" v-if="item.employment_type==2">{{i18n.jobslistemploymentparttime}}</view>
-						<view class="job-type" v-if="item.employment_type==3">{{i18n.jobslistemploymentseasonal}}</view>
-		
-					</view>
-					<view class="list-item-4">
-						<view class="interview-name">
-							{{item.business_name}}
-						</view>
-						<view class="job-location">
-							{{item.job_location}}
-						</view>
-					</view>
-				</view>
-			</view>
-		
-			<u-loadmore :status="status" :load-text="loadText" bgColor="#f4f5f6" />
-		</view>
-		<!-- #endif -->
-		
-		<!-- #ifdef H5 -->
 		<view class="flex-item  list-container" v-if="showEmptyStatus===false" >
 			<view class="flex-item flex-item-V latest-jobs" v-if="recentJobList.length>0 ">
 				<view class="latest-jobs-title">
@@ -363,8 +165,6 @@
 		
 			<u-loadmore :status="status" :load-text="loadText" bgColor="#f4f5f6" />
 		</view>
-		<!-- #endif -->
-		
 		
 		<contactus @close="closeContact" :showContact="showContactStatus"></contactus>
 		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity"
@@ -380,7 +180,6 @@
 	import jobs from '@/api/jobs.js';
 	import ads from '@/api/ads.js';
 	import profile from '@/api/profile.js';
-	import events from '@/api/events.js';
 
 	export default {
 		data() {
@@ -487,11 +286,6 @@
 						]
 					}
 				],
-				identity: 0,
-				eventsList: [],
-				eventsPage: 1,
-				eventsLimit: 10,
-				eventsLastPage: 1
 
 			}
 		},
@@ -513,20 +307,6 @@
 		},
 		onLoad(option) {
 			
-			// #ifdef MP-WEIXIN
-			let identity = uni.getStorageSync('identity');
-			if (identity == 0) {
-				this.getEventsList(this.eventsPage, this.eventsLimit, 89);
-				uni.setNavigationBarTitle({
-					title: "Events List"
-				})
-				uni.setTabBarItem({
-					index: 1,
-					text: 'Events'
-				})
-			}
-			// #endif
-			
 			this.identity = uni.getStorageSync('identity');
 			let token = uni.getStorageSync('token');
 			if (token == '') {
@@ -542,82 +322,6 @@
 
 		},
 		methods: {
-			turnVendorProfile(userId) {
-				// #ifdef H5
-				var url = window.location.href;
-				var origin = window.location.origin;
-				let turn_url = origin + '/esl_h5/pages/me/vendor/share?id=' + userId + '&type=events';
-				window.location.href = turn_url;
-				// #endif
-
-				// #ifndef H5
-				uni.navigateTo({
-					url: '/pages/me/vendor/share?id=' + userId + '&type=events'
-				})
-				// #endif
-
-			},
-			getEventsList(page, limit, city_id) {
-				let data = {
-					token: uni.getStorageSync('token'),
-					page: page,
-					limit: limit,
-					city: city_id
-				}
-				events.eventList(data).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						this.eventsList = this.eventsList.concat(res.message.data);
-						if (this.eventsList.length > 0) {
-							this.showEmptyStatus = false
-						} else {
-							this.showEmptyStatus = true
-						}
-						this.eventsLastPage = res.message.last_page
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-				}).catch(error => {
-					console.log(error)
-				})
-			},
-			getEventsListRefresh(page, limit, city_id) {
-				let data = {
-					token: uni.getStorageSync('token'),
-					page: page,
-					limit: limit,
-					city: city_id
-				}
-				events.eventList(data).then(res => {
-					if (res.code == 200) {
-						this.eventsList = res.message.data;
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-				}).catch(error => {
-					console.log(error)
-				})
-			},
-			turnEventDetail(id) {
-				// #ifdef H5
-				var url = window.location.href;
-				var origin = window.location.origin;
-				let turn_url = origin + '/esl_h5/pages/me/events/detail?id=' + id;
-				window.location.href = turn_url;
-				// #endif
-
-				// #ifndef H5
-				uni.navigateTo({
-					url: '/pages/me/events/detail?id=' + id
-				})
-				// #endif
-			},
 			turnBanner(relativeLink) {
 				// if(link!=''){
 				// 	window.location.href=link;
@@ -1030,39 +734,6 @@
 
 		},
 		onReachBottom: function() {
-			// #ifdef MP-WEIXIN
-			let identity = uni.getStorageSync('identity');
-			if(identity != 0 ){
-				console.log('bottom')
-				if (this.page >= this.lastPage) return;
-				this.status = 'loading';
-				this.page++;
-				setTimeout(() => {
-					this.getJobList(this.page, this.limit, this.filterResult);
-					if (this.page >= this.lastPage) {
-						this.status = 'nomore';
-					} else {
-						this.status = 'loading';
-					}
-				}, 1200)
-			}
-			if(this.identity == 0){
-				console.log('events reach bottom')
-				if (this.eventsPage >= this.eventsLastPage) return;
-				this.status = 'loading';
-				this.eventsPage = ++this.eventsPage;
-				setTimeout(() => {
-					this.getEventsList(this.eventsPage, this.eventsLimit, 89);
-					if (this.eventsPage >= this.eventsLastPage) {
-						this.status = 'nomore';
-					} else {
-						this.status = 'loading';
-					}
-				}, 1200)
-			}
-			// #endif
-			
-			// #ifdef H5
 			console.log('bottom')
 			if (this.page >= this.lastPage) return;
 			this.status = 'loading';
@@ -1075,25 +746,8 @@
 					this.status = 'loading';
 				}
 			}, 1200)
-			// #endif
-			
-			
 		},
 		onPullDownRefresh: function() {
-			// #ifdef MP-WEIXIN
-			let identity = uni.getStorageSync('identity');
-			if(identity != 0 ){
-				this.page = 2;
-				this.getJobListOne(1, 3, this.filterResult)
-				this.getJobListRefresh(2, this.limit, this.filterResult);
-				setTimeout(function() {
-					uni.stopPullDownRefresh();
-				}, 1000);
-				this.getRecentJobsList();
-			}
-			// #endif
-			
-			// #ifdef H5
 			this.page = 2;
 			this.getJobListOne(1, 3, this.filterResult)
 			this.getJobListRefresh(2, this.limit, this.filterResult);
@@ -1101,7 +755,6 @@
 				uni.stopPullDownRefresh();
 			}, 1000);
 			this.getRecentJobsList();
-			// #endif
 			
 		},
 		
@@ -1110,6 +763,5 @@
 
 <style>
 	@import url("@/common/jobs/list.css");
-	@import url("@/common/jobs/events.css");
 	@import url("@/common/jobs/latest-jobs.css");
 </style>

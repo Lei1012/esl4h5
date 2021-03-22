@@ -8,7 +8,7 @@
 			<view class="flex-item basic-form">
 				<view class="basic-form-bio">
 					<view class="basic-form-label">{{i18n.profilevendorbio}} </view>
-					<fuck-textarea style="font-size: 34rpx;" :maxlength="200" v-model="bioValue" :placeholder="i18n.profilevendorbioph"></fuck-textarea>
+					<fuck-textarea style="font-size: 34rpx;" :maxlength="250" v-model="bioValue" :placeholder="i18n.profilevendorbioph"></fuck-textarea>
 				</view>
 				<view class="basic-form-wechat">
 					<view class="basic-form-label">{{i18n.profilewechatofficialaccountid}} </view>
