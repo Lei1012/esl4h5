@@ -1164,9 +1164,9 @@
 				// #endif
 				
 				// #ifdef MP-WEIXIN
-				uni.navigateTo({
-					url: '/pages/login/index'
-				})
+				// uni.navigateTo({
+				// 	url: '/pages/login/index'
+				// })
 				// #endif
 
 			}

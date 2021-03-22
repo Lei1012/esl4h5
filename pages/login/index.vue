@@ -6,7 +6,7 @@
 		</view>
 		<view class="welcome">
 			<!-- <text>Welcome to ESL Passport!</text> -->
-			
+
 		</view>
 		<view class="login-btn">
 			<button @click="login()" type="default">Enter</button>
@@ -21,8 +21,7 @@
 				<view class="auth-txt">
 					{{i18n.loginauthtxt}}
 				</view>
-				<button type="default" open-type="getUserInfo"
-					@getuserinfo="getMiniUserInfo">OK</button>
+				<button type="default" open-type="getUserInfo" @getuserinfo="getMiniUserInfo">OK</button>
 			</view>
 		</view>
 		<!-- #endif -->
@@ -82,7 +81,7 @@
 							city: userInfo.city,
 							gender: userInfo.gender,
 							// language: userInfo.language,
-							language:'en-US',
+							language: 'en-US',
 							province: userInfo.province,
 							country: userInfo.country,
 							platform: 'mini'
@@ -109,8 +108,8 @@
 										uni.setStorageSync('nickname', res.message.nickname)
 										uni.setStorageSync('uid', res.message.id)
 										uni.setStorageSync('identity', res.message.identity)
-										uni.$emit('changeIdentity',res.message.identity)
-									
+										uni.$emit('changeIdentity', res.message.identity)
+										uni.$emit('changeToken', message.token)
 										_this.is_educator = res.message.is_educator;
 										_this.is_business = res.message.is_business;
 										_this.is_vendor = res.message.is_vendor;
@@ -179,7 +178,8 @@
 							uni.setStorageSync('token', message.token)
 							uni.setStorageSync('uid', message.id)
 							uni.setStorageSync('identity', message.identity)
-							uni.$emit('changeIdentity',message.identity)
+							uni.$emit('changeIdentity', message.identity)
+							uni.$emit('changeToken', message.token)
 							_this.is_educator = message.is_educator;
 							_this.is_business = message.is_business;
 							_this.is_vendor = message.is_vendor;
@@ -190,7 +190,7 @@
 							if (message.language == 0) {
 								uni.setStorageSync('language', 'en-US')
 								_this.languageValue = 2;
-							} 
+							}
 							if (message.language == 1) {
 								uni.setStorageSync('language', 'zh-CN')
 								_this.languageValue = 1;
@@ -253,7 +253,7 @@
 											console.log(authSetting["scope.userInfo"])
 											if (authSetting["scope.userInfo"] ==
 												undefined || authSetting[
-												"scope.userInfo"] == false) {
+													"scope.userInfo"] == false) {
 												_this.authUserInfoStatus = true;
 											}
 										}
@@ -349,12 +349,13 @@
 	.auth-logo {
 		text-align: center;
 	}
-	
+
 	.auth-logo image {
 		width: 200rpx;
 		height: 200rpx;
 	}
-	.auth-txt{
+
+	.auth-txt {
 		text-align: center;
 		font-size: 28rpx;
 		font-weight: 700;

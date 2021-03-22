@@ -509,7 +509,11 @@
 
 		},
 		created() {
-			this.getSubCateList()
+			let token = uni.getStorageSync('token');
+			if(token != ''){
+				this.getSubCateList()
+			}
+			
 		},
 		onLoad(option) {
 			
@@ -528,18 +532,15 @@
 			// #endif
 			
 			this.identity = uni.getStorageSync('identity');
-			let token = uni.getStorageSync('token');
-			if (token == '') {
-				uni.reLaunch({
-					url: '/pages/login/index'
-				})
-			}
-
+			
 			this.getJobListOne(1, 3, this.filterResult)
 			this.getJobList(this.page, this.limit, this.filterResult);
-			this.getRecentJobsList();
 			this.getJobsAdsList();
-
+			
+			let token = uni.getStorageSync('token');
+			if(token != ''){
+				this.getRecentJobsList();
+			}
 		},
 		methods: {
 			turnVendorProfile(userId) {

@@ -1,6 +1,11 @@
 <template>
 	<view class="uni-flex uni-column me-bg">
-		<view class="flex-item me-header-info u-skeleton">
+		<view class="me-header-info" v-if="showMeLoginStatus ">
+			<view class="me-login">
+				<button type="default" @click="meLogin()">Login</button>
+			</view>
+		</view>
+		<view class="flex-item me-header-info u-skeleton" v-if="showMeLoginStatus==false">
 			<view class="me-header-info-l u-skeleton-circle">
 				<image @click="turnMyProfile" :src="avatarUrl" mode="aspectFill" lazy-load></image>
 			</view>
@@ -28,8 +33,9 @@
 					<text v-if="identity==3 && vendorLevel == 1">{{i18n.mebasiclevel}}</text>
 					<text v-if="identity==3 && vendorLevel == 2">{{i18n.meprolevel}}</text>
 					<text v-if="identity==3 && vendorLevel == 3">{{i18n.mepluslevel}}</text>
-					<view class="me-level-upgrade" v-if=" (identity==2 && businessLevel!=3) || (identity==3 && vendorLevel !=3)" 
-					@click="upgradeLevel">{{i18n.meupgrade}}</view>
+					<view class="me-level-upgrade"
+						v-if=" (identity==2 && businessLevel!=3) || (identity==3 && vendorLevel !=3)"
+						@click="upgradeLevel">{{i18n.meupgrade}}</view>
 				</view>
 			</view>
 		</view>
@@ -77,7 +83,8 @@
 
 				<contactus @close="closeContact" :showContact="showContactStatus"></contactus>
 
-				<view class="center-list-item border-bottom" v-if="identity==2 || identity ==1"  @click="turnMyJobs(identity)">
+				<view class="center-list-item border-bottom" v-if="identity==2 || identity ==1"
+					@click="turnMyJobs(identity)">
 					<image src="../../static/me/jobs.png" mode="aspectFill"></image>
 					<text class="list-text" v-if="identity==1">{{i18n.memyapplications}}</text>
 					<text class="list-text" v-if="identity==2">{{i18n.accountpgmyjobs}}</text>
@@ -185,8 +192,10 @@
 				businessLevel: 0,
 				vendorLevel: 0,
 				meAdsListBottom: [],
-				
-				showPostJobStatus:false,
+
+				showPostJobStatus: false,
+
+				showMeLoginStatus: false,
 			}
 		},
 		components: {
@@ -200,23 +209,29 @@
 			}
 		},
 		onShow() {
-			
+
 		},
 		onLoad() {
 			var that = this;
+			let identity = uni.getStorageSync('identity');
+			that.identity = identity;
+
 			let token = uni.getStorageSync('token');
-			if(token == ''){
-				uni.reLaunch({
-					url:'/pages/login/index'
-				})
+			if (token != '') {
+				this.showMeLoginStatus = false;
+				this.getBasicInfo();
+			} else {
+				this.showMeLoginStatus = true;
 			}
-			that.identity = uni.getStorageSync('identity');
-			this.getBasicInfo();
+
+			uni.$on('changeToken', function(data) {
+				that.getBasicInfo();
+			})
 			uni.$on('changeIdentity', function(data) {
 				that.identity = data;
 				that.getBasicInfo();
 			})
-			uni.$on('userInfoUpdated',function(data){
+			uni.$on('userInfoUpdated', function(data) {
 				console.log(data)
 				that.getBasicInfo();
 			})
@@ -226,15 +241,16 @@
 		onUnload() {
 			uni.$off('changeIdentity');
 			uni.$off('userInfoUpdated');
+			uni.$off('changeToken');
 		},
 		methods: {
-			adsTurn(relativeLink){
-				if(relativeLink!=''){
+			adsTurn(relativeLink) {
+				if (relativeLink != '') {
 					uni.navigateTo({
-						url:relativeLink
+						url: relativeLink
 					})
-				}else{
-					this.showContactStatus=true;
+				} else {
+					this.showContactStatus = true;
 				}
 			},
 			getAdsList() {
@@ -293,20 +309,20 @@
 					index: 0,
 					text: this.i18n.tabbarhome
 				})
-				
+
 				let identity = uni.getStorageSync('identity');
-				if(identity == 0){
+				if (identity == 0) {
 					uni.setTabBarItem({
 						index: 1,
 						text: 'Events'
 					})
-				}else{
+				} else {
 					uni.setTabBarItem({
 						index: 1,
 						text: _this.i18n.tabbarjobs
 					})
 				}
-				
+
 				uni.setTabBarItem({
 					index: 2,
 					text: this.i18n.tabbardeals
@@ -385,7 +401,7 @@
 				var that = this;
 				let uid = uni.getStorageSync('uid');
 				let token = uni.getStorageSync('token');
-				
+
 				let data = {
 					id: uid,
 					token: token,
@@ -561,11 +577,16 @@
 					url: '/pages/me/events/index'
 				})
 			},
-			upgradeLevel(){
+			upgradeLevel() {
 				uni.navigateTo({
-					url:'/pages/me/upgrade'
+					url: '/pages/me/upgrade'
 				})
-				
+
+			},
+			meLogin() {
+				uni.navigateTo({
+					url: '/pages/login/index'
+				})
 			}
 
 		},
@@ -584,4 +605,18 @@
 <style>
 	@import url("@/common/me/index.css");
 	@import url("@/common/home/role-popup.css");
+
+	.me-login {
+		width: 80%;
+		margin: 0 auto;
+		padding: 20rpx;
+		text-align: center;
+	}
+
+	.me-login button {
+		background-color: #0AA0A8;
+		color: #FFFFFF;
+		line-height: 80rpx;
+		font-size: 32rpx;
+	}
 </style>
