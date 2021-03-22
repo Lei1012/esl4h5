@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="service">
-			<view class="checkout-item" v-for="(item,index) in serviceList" :key="index" @click="checkedCheckoutItem(item.id,item.money,item.money+10000)">
+			<view class="checkout-item" v-for="(item,index) in serviceList" :key="index" @click="checkedCheckoutItem(item.id,item.sale_money_y,item.money_y)">
 				<view class="checkout-item-1">
 					<image v-if="freeCheckedCheckoutList.indexOf(item.id) == -1" src="./static/ok-1.png" mode="aspectFill"></image>
 					<image v-if="freeCheckedCheckoutList.indexOf(item.id) != -1" src="./static/ok-3.png" mode="aspectFill"></image>
@@ -13,9 +13,9 @@
 					<text>{{item.services_desc}}</text>
 				</view>
 				<view class="checkout-item-3">
-					<text :class="freeCheckedCheckoutList.indexOf(item.id) == -1 ? '' : 'checkout-item-3-active'">¥ {{ (item.money + 10000) / 100}}</text>
+					<text :class="freeCheckedCheckoutList.indexOf(item.id) == -1 ? '' : 'checkout-item-3-active'">¥ {{ item.money_y }}</text>
 					<br>
-					<text :class="freeCheckedCheckoutList.indexOf(item.id) == -1 ? '' : 'checkout-item-3-active'">¥ {{item.money / 100}}</text>
+					<text :class="freeCheckedCheckoutList.indexOf(item.id) == -1 ? '' : 'checkout-item-3-active'">¥ {{item.sale_money_y}}</text>
 				</view>
 			</view>
 		</view>
@@ -29,9 +29,9 @@
 				<text>Including Tax</text>
 			</view>
 			<view class="checkout-item-3">
-				<text :class="freeCheckoutNowTotalValue!=0 ? 'checkout-item-3-active' : ''">¥ {{freeCheckoutNowTotalValue/100}}.00</text>
+				<text :class="freeCheckoutNowTotalValue!=0 ? 'checkout-item-3-active' : ''">¥ {{freeCheckoutNowTotalValue}}.00</text>
 				<br>
-				<text :class="freeCheckoutOldTotalValue!=0 ? 'checkout-item-3-active' : ''">¥ {{freeCheckoutOldTotalValue/100}}.00</text>
+				<text :class="freeCheckoutOldTotalValue!=0 ? 'checkout-item-3-active' : ''">¥ {{freeCheckoutOldTotalValue}}.00</text>
 			</view>
 		</view>
 		<view class="button">
