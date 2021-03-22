@@ -38,6 +38,10 @@
 		<view class="flex-item photo-submit" v-if="type==3 || type == 7 || type == 11">
 			<button @click="uploadFile">Upload</button>
 		</view>
+		<view class="flex-item skip-photo" v-if="vqrcode==1 || vlogo==1">
+			<button type="default" v-if="vlogo==1" @click="skipLogo">Skip</button>
+			<button type="default" v-if="vqrcode==1" @click="skipQrcode">Skip</button>
+		</view>
 		
 		<view class="upload-loading" v-if="isUploading">
 			uploading...
@@ -79,6 +83,9 @@
 				cropperHeight: 200,
 				cropperWidth: 200,
 				isUploading:false,
+				vprofile:0,
+				vlogo:0,
+				vqrcode:0,
 			}
 		},
 		computed: {
@@ -107,7 +114,6 @@
 							let result = JSON.parse(res.data)
 							// console.log(result)
 							if (result.code == 200) {
-								// educator profile photo
 								if (that.type == 1 || that.type == 4 || that.type == 8 || that.type == 13 || that.type == 14 || that.type ==
 									15) {
 									let data = {
@@ -118,6 +124,13 @@
 									profile.addUserInfo(data).then(res => {
 										console.log(res)
 										if (res.code == 200) {
+											uni.$emit('userInfoUpdated',{msg:'页面更新'});
+											if(that.vprofile == 1){
+												return uni.reLaunch({
+													url:'/pages/me/profile/photo?type=9&vlogo=1'
+												})
+											}
+											
 											if (that.type == 13) {
 												return uni.reLaunch({
 													url: '../educator/prompt'
@@ -156,6 +169,7 @@
 									}
 									profile.addUserInfo(data).then(res => {
 										console.log(res)
+										uni.$emit('userInfoUpdated',{msg:'page updated'});
 										if (res.code == 200) {
 											setTimeout(function(){
 												that.isUploading = false;
@@ -177,7 +191,13 @@
 									}
 									profile.addUserInfo(data).then(res => {
 										console.log(res)
+										uni.$emit('userInfoUpdated',{msg:'page updated'});
 										if (res.code == 200) {
+											if(that.vlogo == 1){
+												return uni.reLaunch({
+													url:'/pages/me/profile/photo?type=12&vqrcode=1'
+												})
+											}
 											setTimeout(function(){
 												that.isUploading = false;
 												uni.navigateBack({
@@ -199,7 +219,13 @@
 
 									profile.addVendorBasic(data).then(res => {
 										console.log(res)
+										uni.$emit('userInfoUpdated',{msg:'page updated'});
 										if (res.code == 200) {
+											if(that.vqrcode == 1){
+												return uni.reLaunch({
+													url: '../vendor/prompt'
+												})
+											}
 											setTimeout(function(){
 												that.isUploading = false;
 												uni.navigateBack({
@@ -244,6 +270,19 @@
 		onLoad(option) {
 			var that = this;
 			that.type = option.type;
+			console.log(option.vprofile);
+			console.log(option.vlogo);
+			console.log(option.vqrcode);
+			if(option.vprofile){
+				that.vprofile = option.vprofile;
+			}
+			if(option.vlogo){
+				that.vlogo  = option.vlogo;
+			}
+			if(option.vqrcode){
+				that.vqrcode = option.vqrcode;
+			}
+			
 			let type = option.type;
 
 			if (type == 1 || type == 4 || type == 5 || type == 8 || type == 9 || type == 12 ||
@@ -285,6 +324,16 @@
 
 		},
 		methods: {
+			skipLogo(){
+				return uni.reLaunch({
+					url:'/pages/me/profile/photo?type=12&vqrcode=1'
+				})
+			},
+			skipQrcode(){
+				return uni.reLaunch({
+					url: '../vendor/prompt'
+				})
+			},
 			uploadSuccess(result) {
 				console.log(result)
 				if (result === 1) {
@@ -431,4 +480,15 @@
 		justify-content: center;
 		
 	}
+	
+	.skip-photo{
+		width: 80%;
+		margin: 20rpx auto;
+	}
+	.skip-photo button{
+		background-color: #0AA0A8;
+		color: #FFFFFF;
+		line-height: 80rpx;
+	}
+	
 </style>

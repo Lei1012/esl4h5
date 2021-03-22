@@ -1,11 +1,33 @@
 <template>
 	<view class="uni-flex uni-column prompt-bg">
 		<view class="flex-item prompt-title">
-			<text>{{i18n.lookinggreatpgtxt}}</text>
+			{{i18n.vendorlookinggreatpgtxt1}}<br>
+			{{i18n.vendorlookinggreatpgtxt2}}
 		</view>
-		<view class="flex-item home-picture" >
+		<view class="flex-item home-picture">
 			<canvas canvas-id="canvasArcbar1" id="canvasArcbar1" class="charts3">
-				<image v-if="vendorUserInfo.profile_photo !=''" :src="vendorUserInfo.profile_photo" mode="aspectFill"></image>
+				<image v-if="vendorUserInfo.profile_photo !=''" :src="vendorUserInfo.profile_photo" mode="aspectFill" ></image>
+				<image v-if="vendorUserInfo.profile_photo ==''" :src="avatarUrl" mode="aspectFill"></image>
+				<view v-if="vendorUserInfo.logo!=''" style="line-height: 80rpx; position: absolute;
+				width:80rpx; height: 80rpx;border-radius: 80rpx; 
+				right: 200rpx;top:160rpx;
+				border: 1rpx solid #EEEEEE;background-size: contain;background-position: center;"
+				 :style=" {backgroundImage:'url('+vendorUserInfo.logo+')'}" >
+				</view>
+				<view style="position: absolute;right: 50rpx;color: #FFFFFF;bottom: 80rpx;font-size: 38rpx;font-weight: 700;">
+					<text>{{percent}}</text>
+				</view>
+				<view style="position: absolute;right: 20rpx;color: #FFFFFF;bottom: 50rpx;font-size: 30rpx;font-weight: 700;">
+					<text>Complete</text>
+				</view>
+			</canvas>
+			<view class="flex-item home-user-name">
+				<text>{{vendorUserInfo.first_name}} {{vendorUserInfo.last_name}}</text>
+			</view>
+		</view>
+		<!-- <view class="flex-item home-picture" >
+			<canvas canvas-id="canvasArcbar1" id="canvasArcbar1" class="charts3">
+				<image v-if="vendorUserInfo.profile_photo !=''" :src="vendorUserInfo.profile_photo" mode="aspectFit"></image>
 				<image v-if="vendorUserInfo.profile_photo ==''" :src="avatarUrl" mode="aspectFit"></image>
 				<view style="position: absolute;right: 50rpx;color: #00B3D2;bottom: 80rpx;font-size: 38rpx;font-weight: 700;">
 					<text>{{percent}}</text>
@@ -17,7 +39,7 @@
 			<view class="flex-item home-user-name">
 				{{vendorUserInfo.first_name}} {{vendorUserInfo.last_name}}
 			</view>
-		</view>
+		</view> -->
 		
 		<view class="flex-item prompt-button">
 			<view class="prompt-button-1">
@@ -193,81 +215,5 @@
 </script>
 
 <style>
-	.prompt-bg{
-		width: 100%;
-		height: 100%;
-		background-color: #FFFFFF;
-	}
-	.prompt-title{
-		width: 100%;
-		text-align: center;
-		font-size: 38rpx;
-		margin-top: 10%;
-	}
-	
-	.home-picture {
-		margin-top: 10%;
-		text-align: center;
-		background-color: #FFFFFF;
-	}
-
-	.charts3 {
-		width: 600rpx;
-		height: 300rpx;
-		margin: 0 auto;
-	}
-
-	.charts3 image {
-		width: 200rpx;
-		height: 200rpx;
-		border-radius: 200rpx;
-		top: 50rpx;
-	}
-
-	.profile-detail {
-		background-color: #FFFFFF;
-
-	}
-
-	.profile-detail-relative {
-		position: relative;
-		border-bottom: 1rpx solid #EEEEEE;
-	}
-
-	.profile-detail-basic {}
-
-	.profile-edit-button {
-		position: absolute;
-		width: 120rpx;
-		height: 80rpx;
-		line-height: 80rpx;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		margin: auto;
-
-	}
-	
-	.prompt-button{
-		width: 80%;
-		margin: 0 auto;
-		margin-top: 10%;
-	}
-	.prompt-button-1 button{
-		background-color: #0AA0A8;
-		height: 100rpx;
-		line-height: 100rpx;
-		border-radius: 100rpx;
-		color: #FFFFFF;
-	}
-	.prompt-button-2{
-		margin-top: 20rpx;
-	}
-	.prompt-button-2 button{
-		background-color: #004956;
-		height: 100rpx;
-		line-height: 100rpx;
-		border-radius: 100rpx;
-		color: #FFFFFF;
-	}
+	@import url("@/common/me/prompt.css");
 </style>

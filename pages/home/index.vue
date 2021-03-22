@@ -1,18 +1,11 @@
 <template>
 	<view class="uni-flex uni-column index-bg">
-		<!-- <view class="snow-container">
-			<view class="snow foreground"></view>
-			<view class="snow foreground layered"></view>
-			<view class="snow middleground"></view>
-			<view class="snow middleground layered"></view>
-			<view class="snow background"></view>
-			<view class="snow background layered"></view>
-		</view> -->
 		<view class="flex-item flex-item-V ">
 			<view class="page-section swiper">
 				<view class="page-section-spacing">
-					<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-						<swiper-item v-for="(item,index) in adsListTop" :key="index" @click="turnBanner(item.link)">
+					<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
+						:duration="duration">
+						<swiper-item v-for="(item,index) in adsListTop" :key="index" @click="turnBanner(item.relative_link)">
 							<view class="swiper-item">
 								<image :src="item.url" mode="scaleToFit" lazy-load="true"></image>
 							</view>
@@ -22,7 +15,7 @@
 			</view>
 		</view>
 		<view class="flex-item flex-item-V index-box">
-			
+
 			<view class="index-box-box" v-if="identity==1">
 				<view class="index-box-item" @click="searchJobs">
 					<image src="/static/esl/search-jobs.png" class="image" mode="aspectFit" />
@@ -53,17 +46,19 @@
 
 				<!-- #ifdef MP-WEIXIN -->
 				<button class="index-box-item-button" type="default" open-type="contact" show-message-card="true">
-					<image src="/static/esl/contact-us.png" class="image" mode="aspectFit" /> <text class="text">{{i18n.homecontact}}
+					<image src="/static/esl/contact-us.png" class="image" mode="aspectFit" /> <text
+						class="text">{{i18n.homecontact}}
 					</text>
 				</button>
 				<button class="index-box-item-button" type="default" open-type="contact" show-message-card="true">
-					<image src="/static/esl/help.png" class="image" mode="aspectFit" /> <text class="text">{{i18n.homehelp}}</text>
+					<image src="/static/esl/help.png" class="image" mode="aspectFit" /> <text
+						class="text">{{i18n.homehelp}}</text>
 				</button>
 				<!-- #endif -->
 			</view>
-			
+
 			<view class="index-box-box" v-if="identity==2">
-				<view class="index-box-item" @click="postJob">
+				<view class="index-box-item" @click="showPostJobStatus=true">
 					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homepostjobs}}</text>
 				</view>
@@ -91,22 +86,24 @@
 				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN -->
 				<button class="index-box-item-button" type="default" open-type="contact" show-message-card="true">
-					<image src="/static/esl/contact-us.png" class="image" mode="aspectFit" /> <text class="text">{{i18n.homecontact}}
+					<image src="/static/esl/contact-us.png" class="image" mode="aspectFit" /> <text
+						class="text">{{i18n.homecontact}}
 					</text>
 				</button>
 				<button class="index-box-item-button" type="default" open-type="contact" show-message-card="true">
-					<image src="/static/esl/help.png" class="image" mode="aspectFit" /> <text class="text">{{i18n.homehelp}}</text>
+					<image src="/static/esl/help.png" class="image" mode="aspectFit" /> <text
+						class="text">{{i18n.homehelp}}</text>
 				</button>
 				<!-- #endif -->
 			</view>
-			
+
 			<view class="index-box-box" v-if="identity==3">
 				<view class="index-box-item" @click="turnMyDeals">
-					<image src="/static/esl/deals.png" class="image" mode="aspectFit" /> 
+					<image src="/static/esl/deals.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homecreatedeal}}</text>
 				</view>
 				<view class="index-box-item" @click="turnMyEvents">
-					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" /> 
+					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homepostevent}}</text>
 				</view>
 				<view class="index-box-item" @click="showDiscountStatus=true">
@@ -118,7 +115,7 @@
 					<text class="text">{{i18n.homediscountcard}}</text>
 				</view> -->
 				<view class="index-box-item" @click="turnMyProfile">
-					<image src="/static/esl/profile.png" class="image" mode="aspectFit" /> 
+					<image src="/static/esl/profile.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homeeditprofile}}</text>
 				</view>
 				<!-- #ifdef H5 -->
@@ -127,30 +124,38 @@
 					<text class="text">{{i18n.homecontact}} </text>
 				</view>
 				<view class="index-box-item" @click="showContactStatus=true">
-					<image src="/static/esl/help.png" class="image" mode="aspectFit" /> 
+					<image src="/static/esl/ads-icon.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homeadvertise}}</text>
 				</view>
 				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN -->
 				<button class="index-box-item-button" type="default" open-type="contact" show-message-card="true">
-					<image src="/static/esl/contact-us.png" class="image" mode="aspectFit" /> <text class="text">{{i18n.homecontact}}
+					<image src="/static/esl/contact-us.png" class="image" mode="aspectFit" /> <text
+						class="text">{{i18n.homecontact}}
 					</text>
 				</button>
 				<button class="index-box-item-button" type="default" open-type="contact" show-message-card="true">
-					<image src="/static/esl/help.png" class="image" mode="aspectFit" /> <text class="text">{{i18n.homeadvertise}}</text>
+					<image src="/static/esl/ads-icon.png" class="image" mode="aspectFit" /> <text
+						class="text">{{i18n.homeadvertise}}</text>
 				</button>
 				<!-- #endif -->
 
 			</view>
-			
+
 			<view class="index-box-box" v-if="identity==4 || identity == 0">
 				<!-- @click="openIdentity(1)" -->
 				<view class="index-box-item" @click="searchJobs">
-					<image src="/static/esl/search-jobs.png" class="image" mode="aspectFit" /> 
+					<image src="/static/esl/search-jobs.png" class="image" mode="aspectFit" />
+					<!-- #ifdef H5 -->
 					<text class="text">{{i18n.homesearchjobs}}</text>
+					<!-- #endif -->
+					<!-- #ifdef MP-WEIXIN -->
+					<text class="text">{{i18n.homesearchgigs}}</text>
+					<!-- #endif -->
+					
 				</view>
 				<view class="index-box-item" @click="turnDeals">
-					<image src="/static/esl/deals.png" class="image" mode="aspectFit" /> 
+					<image src="/static/esl/deals.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homedeals}}</text>
 				</view>
 				<view class="index-box-item" @click="showContactStatus=true">
@@ -159,10 +164,15 @@
 				</view>
 				<view class="index-box-item" @click="openIdentity(2)">
 					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" />
+					<!-- #ifdef H5 -->
 					<text class="text">{{i18n.homepostjobs}}</text>
+					<!-- #endif -->
+					<!-- #ifdef MP-WEIXIN -->
+					<text class="text">{{i18n.homepostgigs}}</text>
+					<!-- #endif -->
 				</view>
 				<view class="index-box-item" @click="openIdentity(3)">
-					<image src="/static/esl/deals.png" class="image" mode="aspectFit" /> 
+					<image src="/static/esl/deals.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homecreatedeal}}</text>
 				</view>
 				<view class="index-box-item" @click="showDiscountStatus=true">
@@ -171,8 +181,9 @@
 				</view>
 			</view>
 		</view>
-
-		<view class="flex-item flex-item-V latest-jobs" v-if="(identity==1 && jobList.length>0) || (identity==4 && jobList.length>0) || (identity==0 && jobList.length>0)">
+		<!-- #ifdef H5 -->
+		<view class="flex-item flex-item-V latest-jobs"
+			v-if="(identity==1 && jobList.length>0) || (identity==4 && jobList.length>0) || (identity==0 && jobList.length>0)">
 			<view class="latest-jobs-title">
 				{{i18n.homefeatjobs}}
 			</view>
@@ -181,8 +192,8 @@
 					<view class="latest-jobs-item ">
 						<view class="latest-jobs-item-top" @click="turnJobDetail(item.id)">
 							<view class="latest-jobs-item-l">
-								<image :src="item.logo !='' ? item.logo : 'https://oss.esl-passport.cn/business.png' " mode="aspectFit"
-								 lazy-load></image>
+								<image :src="item.logo !='' ? item.logo : 'https://oss.esl-passport.cn/business.png' "
+									mode="aspectFit" lazy-load></image>
 							</view>
 							<view class="latest-jobs-item-r">
 								<view class="latest-jobs-item-r-1">
@@ -196,15 +207,22 @@
 									<view class="salary">
 										<text v-if="item.currency=='CNY'">¥</text>
 										<text v-if="item.currency=='USD'">$</text>
-										<text v-if="item.currency!='CNY' && item.currency !='USD'">{{item.currency}}</text>
+										<text
+											v-if="item.currency!='CNY' && item.currency !='USD'">{{item.currency}}</text>
 										<text>{{item.salary_min}}-{{item.salary_max}}</text>
 									</view>
-									<view class="job-type" v-if="item.employment_type==1">{{i18n.jobslistemploymentfulltime}}</view>
-									<view class="job-type" v-if="item.employment_type==2">{{i18n.jobslistemploymentparttime}}</view>
-									<view class="job-type" v-if="item.employment_type==3">{{i18n.jobslistemploymentseasonal}}</view>
-
+									<view class="job-type" v-if="item.employment_type==1">
+										{{i18n.jobslistemploymentfulltime}}
+									</view>
+									<view class="job-type" v-if="item.employment_type==2">
+										{{i18n.jobslistemploymentparttime}}
+									</view>
+									<view class="job-type" v-if="item.employment_type==3">
+										{{i18n.jobslistemploymentseasonal}}
+									</view>
+		
 								</view>
-
+		
 								<view class="latest-jobs-item-r-3">
 									<view class="interview-name">
 										{{item.business_name}}
@@ -215,16 +233,85 @@
 								</view>
 							</view>
 						</view>
-
+		
 						<view class="latest-jobs-item-bottom">
-							<view class="latest-jobs-item-bottom-button" @click="applyJobs(item.id)">{{i18n.homeapplyjob}}</view>
+							<view class="latest-jobs-item-bottom-button" @click="applyJobs(item.id)">
+								{{i18n.homeapplyjob}}
+							</view>
 						</view>
 					</view>
 				</swiper-item>
 			</swiper>
 		</view>
+		<!-- #endif -->
+		
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="flex-item flex-item-V latest-jobs"
+			v-if="(identity==1 && jobList.length>0)">
+			<view class="latest-jobs-title">
+				{{i18n.homefeatjobs}}
+			</view>
+			<swiper class="latest-jobs-swiper" circular :indicator-dots="false" :autoplay="true" interval="2000">
+				<swiper-item v-for="(item,index) in jobList" :key="index">
+					<view class="latest-jobs-item ">
+						<view class="latest-jobs-item-top" @click="turnJobDetail(item.id)">
+							<view class="latest-jobs-item-l">
+								<image :src="item.logo !='' ? item.logo : 'https://oss.esl-passport.cn/business.png' "
+									mode="aspectFit" lazy-load></image>
+							</view>
+							<view class="latest-jobs-item-r">
+								<view class="latest-jobs-item-r-1">
+									<view class="job-title">{{item.job_title}}</view>
+									<view class="jobs-view">
+										<image src="@/static/view_line.png" mode="aspectFit"></image>
+										<text>{{item.views}}</text>
+									</view>
+								</view>
+								<view class="latest-jobs-item-r-2">
+									<view class="salary">
+										<text v-if="item.currency=='CNY'">¥</text>
+										<text v-if="item.currency=='USD'">$</text>
+										<text
+											v-if="item.currency!='CNY' && item.currency !='USD'">{{item.currency}}</text>
+										<text>{{item.salary_min}}-{{item.salary_max}}</text>
+									</view>
+									<view class="job-type" v-if="item.employment_type==1">
+										{{i18n.jobslistemploymentfulltime}}
+									</view>
+									<view class="job-type" v-if="item.employment_type==2">
+										{{i18n.jobslistemploymentparttime}}
+									</view>
+									<view class="job-type" v-if="item.employment_type==3">
+										{{i18n.jobslistemploymentseasonal}}
+									</view>
+		
+								</view>
+		
+								<view class="latest-jobs-item-r-3">
+									<view class="interview-name">
+										{{item.business_name}}
+									</view>
+									<view class="job-location">
+										{{item.job_location}}
+									</view>
+								</view>
+							</view>
+						</view>
+		
+						<view class="latest-jobs-item-bottom">
+							<view class="latest-jobs-item-bottom-button" @click="applyJobs(item.id)">
+								{{i18n.homeapplyjob}}
+							</view>
+						</view>
+					</view>
+				</swiper-item>
+			</swiper>
+		</view>
+		<!-- #endif -->
+		
 
-		<view class="flex-item flex-item-V latest-deals" v-if="(identity==3 && recentDealsList.length>0) || (identity==4 && recentDealsList.length>0) || (identity==0 && recentDealsList.length>0)">
+		<view class="flex-item flex-item-V latest-deals"
+			v-if="(identity==3 && recentDealsList.length>0) || (identity==4 && recentDealsList.length>0) || (identity==0 && recentDealsList.length>0)">
 			<view class="latest-deals-title">
 				{{i18n.dealsrecentdeals}}
 			</view>
@@ -233,11 +320,12 @@
 					<view class="latest-deals-item ">
 						<view class="latest-deals-item-top">
 							<view class="latest-deals-item-l">
-								<image v-if="item.user_info" :src="item.user_info.logo" mode="aspectFit" lazy-load></image>
+								<image v-if="item.user_info" :src="item.user_info.logo" mode="aspectFit" lazy-load>
+								</image>
 							</view>
 							<view class="latest-deals-item-r">
-								<view class="latest-deals-item-r-1">{{item.title}}</view>
-								<view class="latest-deals-item-r-2">{{item.location}}</view>
+								<view class="latest-deals-item-r-1">{{item.user_info.vendor_name_en}}</view>
+								<view class="latest-deals-item-r-2">{{item.title}}</view>
 							</view>
 						</view>
 					</view>
@@ -247,69 +335,68 @@
 
 		<view class="flex-item events-slider" v-if="identity == 0 || identity==4">
 			<swiper class="swiper" :indicator-dots="false" :autoplay="true" :interval="5000" :duration="600">
-				<swiper-item style="height: 306rpx;" v-for="(item,index) in dealsAdsListMid" :key="index" @click="turnBanner(item.link)">
+				<swiper-item style="height: 306rpx;" v-for="(item,index) in dealsAdsListMid" :key="index"
+					@click="turnBanner(item.relative_link)">
 					<view class="swiper-item">
-						<image :src="item.url" mode="scaleToFit" lazy-load="true"></image>
+						<image :src="item.url" mode="widthFix" lazy-load="true"></image>
 					</view>
 				</swiper-item>
 			</swiper>
 		</view>
-
 		<view class="flex-item  why-esl-passport">
 			<view class="why-esl-passport-title">
 				{{i18n.homebannergopro}}
 			</view>
 			<view class="why-esl-passport-img">
-				<swiper class="why-esl-passport-img-swiper" :indicator-dots="false" :autoplay="true" :interval="4000" :duration="500">
-					<swiper-item v-for="(item,index) in adsListMid" :key="index" @click="turnBanner(item.link)">
+				<swiper class="why-esl-passport-img-swiper" :indicator-dots="false" :autoplay="true" :interval="4000"
+					:duration="500">
+					<swiper-item v-for="(item,index) in adsListMid" :key="index" @click="turnBanner(item.relative_link)">
 						<view class="swiper-item">
-							<image @click="showContactStatus=true" :src="item.url" mode="scaleToFit" lazy-load="true"></image>
+							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
 						</view>
 					</swiper-item>
 				</swiper>
 			</view>
 		</view>
-
 		<view class="flex-item  why-esl-passport">
 			<view class="why-esl-passport-title">
 				{{i18n.homebannerfollowus}}
 			</view>
 			<view class="why-esl-passport-img">
-				<swiper class="why-esl-passport-img-swiper" :indicator-dots="false" :autoplay="true" :interval="6000" :duration="500">
-					<swiper-item v-for="(item,index) in adsListBottom" :key="index" @click="turnBanner(item.link)">
-						<view class="swiper-item swiper-item-bg" :style="{backgroundImage:'url('+item.url+')'}">
-							<view class="qrcode-image" @click="qrcodeType = 1;showQrcode=true"></view>
+				<swiper class="why-esl-passport-img-swiper" :indicator-dots="false" :autoplay="true" :interval="6000"
+					:duration="500">
+					<swiper-item v-for="(item,index) in adsListBottom" :key="index" @click="turnBanner(item.relative_link)">
+						<view class="swiper-item">
+							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
+						</view>
+						<!-- <view class="swiper-item swiper-item-bg" :style="{backgroundImage:'url('+item.url+')'}"> -->
+							<!-- <view class="qrcode-image" @click="qrcodeType = 1;showQrcode=true"></view>
 							<view class="qrcode-image" @click="qrcodeType = 2;showQrcode=true"></view>
 							<view class="qrcode-image" @click="qrcodeType = 3;showQrcode=true"></view>
 							<view class="qrcode-image" @click="qrcodeType = 4;showQrcode=true"></view>
-							<view class="qrcode-image" @click="qrcodeType = 5;showQrcode=true"></view>
-						</view>
+							<view class="qrcode-image" @click="qrcodeType = 5;showQrcode=true"></view> -->
+						<!-- </view> -->
 					</swiper-item>
 				</swiper>
 			</view>
 			<xll-qrcode-popup @close="closeQrcode" :showQrcode="showQrcode" :codeType="qrcodeType"></xll-qrcode-popup>
 		</view>
-		<!-- review us -->
-		<!-- <view class="flex-item our-reviews">
-			<view class="our-reviews-title">{{i18n.homereviewtitle}}</view>
-			<view class="our-reviews-1">
-				<u-rate :count="5"></u-rate>
-				<fuck-textarea class="our-reviews-textarea" :maxlength="200" :placeholder="i18n.homereviewtxt"></fuck-textarea>
-			</view>
-			<view class="our-reviews-2">
-				<button type="default">{{i18n.homereviewbutton}}</button>
-			</view>
-		</view> -->
-
 		<contactus @close="showContactStatus = false" :showContact="showContactStatus"></contactus>
 		<discountcard @close="showDiscountStatus=false" :showContact="showDiscountStatus"></discountcard>
-		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity" @close="rolePopupStatus=false"></selectRolePopup>
-		<xllwechatofficialaccount :show="showOfficialStatus" @close="showOfficialStatus=false"></xllwechatofficialaccount>
+		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity"
+			@close="rolePopupStatus=false"></selectRolePopup>
+		<xllwechatofficialaccount :show="showOfficialStatus" @close="showOfficialStatus=false">
+		</xllwechatofficialaccount>
 
 		<!-- #ifdef MP-WEIXIN -->
 		<aTip :isCustom="false" text='Add to my mini program' :closeColor="false"></aTip>
 		<!-- #endif -->
 
+		<!-- howpostjob -->
+		<how-post-job @close="showPostJobStatus=false" :showPostJobStatus="showPostJobStatus"></how-post-job>
+		<!-- #ifdef MP-WEIXIN -->
+		<official-account class="official-account"></official-account>
+		<!-- #endif -->
 	</view>
 
 </template>
@@ -379,6 +466,8 @@
 				selectRoleIdentity: 0,
 				showOfficialStatus: false,
 
+				showPostJobStatus: false,
+
 
 			}
 		},
@@ -393,6 +482,16 @@
 
 		},
 		onShow() {
+			// #ifdef MP-WEIXIN
+			let identity = uni.getStorageSync('identity');
+			if(identity == 0 || identity == undefined){
+				uni.setTabBarItem({
+					index:1,
+					text:'Events'
+				})
+			}
+			// #endif
+			
 			this.getAdsList();
 			this.getDealsAdsList();
 		},
@@ -402,15 +501,15 @@
 			}
 		},
 		onUnload() {
-			uni.$off('meIdentityEvent');
 			uni.$off('changeIdentity');
 		},
 		onLoad(option) {
 
 			var that = this;
-
+			
 			let wxcode = option.code;
 			let reLoginStatus = option.reLogin;
+			let uid = uni.getStorageSync('uid');
 			let token = uni.getStorageSync('token');
 			let language = uni.getStorageSync('language');
 
@@ -419,6 +518,15 @@
 			uni.$on('changeIdentity', function(data) {
 				console.log('监听到事件来自 changeIdentity ，携带参数 identity 为：' + data);
 				that.identity = data;
+				// #ifdef MP-WEIXIN
+				if(data == 0){
+					uni.setTabBarItem({
+						index:1,
+						text:'Events'
+					})
+				}
+				// #endif
+				
 			})
 
 			if (token == '') {
@@ -437,8 +545,8 @@
 				this.getRecentDealsList(1, 6);
 
 				let data = {
-					token: uni.getStorageSync('token'),
-					id: uni.getStorageSync('uid')
+					token: token,
+					id: uid
 				}
 				profile.getBasicInfo(data).then(res => {
 					console.log(res)
@@ -657,7 +765,7 @@
 			},
 			turnDeals() {
 				uni.switchTab({
-					url: '/pages/deals/index'
+					url: '/pages/menu/deals'
 				})
 			},
 			turnMyDeals() {
@@ -711,6 +819,12 @@
 
 			},
 			searchJobs() {
+				let identity = uni.getStorageSync('identity');
+				if(identity == 0){
+					this.rolePopupStatus = true;
+					this.selectRoleIdentity = 1;
+					return;
+				}
 				uni.switchTab({
 					url: '/pages/menu/job'
 				});
@@ -722,7 +836,8 @@
 				const response_type = that.response_type
 				const scope = that.scope
 				const state = that.state
-				const url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' + redirect_uri +
+				const url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' +
+					redirect_uri +
 					'&response_type=' + response_type + '&scope=' + scope + '&state=' + state + '#wechat_redirect'
 				// 截取地址中的code，如果没有code就去微信授权，如果已经获取到code了就直接把code传给后台获取openId
 				// console.log(url)
@@ -739,7 +854,8 @@
 				const response_type = that.response_type
 				const scope = that.scope
 				const state = that.state
-				const url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' + redirect_uri +
+				const url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' +
+					redirect_uri +
 					'&response_type=' + response_type + '&scope=' + scope + '&state=' + state + '#wechat_redirect'
 				// 截取地址中的code，如果没有code就去微信授权，如果已经获取到code了就直接把code传给后台获取openId
 				// console.log(url)
@@ -747,7 +863,9 @@
 
 			},
 			getUrlCode(name) {
-				return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ''])[1]
+				return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) ||
+					[, ''
+					])[1]
 					.replace(/\+/g, '%20')) || null
 			},
 			isWechat() {
@@ -946,13 +1064,13 @@
 				}
 
 				uni.showModal({
-				    title:this.i18n.applyjobmodaltips,
-				    content: this.i18n.applyjobmodalcontent,
-					confirmText:this.i18n.applyjobmodalconfirmtext,
-					cancelText:this.i18n.applyjobmodalcanceltext,
-				    success: function (res) {
-				        if (res.confirm) {
-				            console.log('用户点击确定');
+					title: this.i18n.applyjobmodaltips,
+					content: this.i18n.applyjobmodalcontent,
+					confirmText: this.i18n.applyjobmodalconfirmtext,
+					cancelText: this.i18n.applyjobmodalcanceltext,
+					success: function(res) {
+						if (res.confirm) {
+							console.log('用户点击确定');
 							let data = {
 								job_id: id,
 								token: uni.getStorageSync('token')
@@ -973,29 +1091,43 @@
 							}).catch(error => {
 								console.log(error);
 							})
-				        } else if (res.cancel) {
-				            console.log('用户点击取消');
-				        }
-				    }
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
 				});
-				
+
 			},
-			turnBanner(link) {
-				// #ifdef H5
-				if (link != '') {
-					window.location.href = link;
+			turnBanner(relativeLink) {
+				// if (link != '') {
+				// 	window.location.href = link;
+				// }
+				if(relativeLink!=''){
+					uni.navigateTo({
+						url:relativeLink
+					})
+				}else{
+					this.showContactStatus=true;
 				}
-				// #endif
 
 			},
 
 
 
 		},
-		onShareAppMessage: function() {
-
+		onShareAppMessage: function(res) {
+			console.log(res)
+			return {
+				title: 'ESL Passport',
+				path: '/pages/home/index'
+			}
 		},
-		onShareTimeline: function() {
+		onShareTimeline: function(res) {
+			console.log(res)
+			return {
+				title: 'ESL Passport',
+				path: '/pages/home/index'
+			}
 
 		},
 		onAddToFavorites: function() {
@@ -1012,7 +1144,7 @@
 					this.getCode();
 				}
 				// #endif
-
+				
 				// #ifdef MP-WEIXIN
 				uni.navigateTo({
 					url: '/pages/login/index'
@@ -1029,6 +1161,7 @@
 	@import url("@/common/home/index.css");
 	@import url("@/common/home/role-popup.css");
 	@import url("@/common/jobs/latest-jobs.css");
+	@import url("@/common/deals/recent-deals.css");
 
 	.swiper-item-bg {
 		background-position: center;
@@ -1050,5 +1183,11 @@
 		width: 120rpx;
 		height: 100rpx;
 		/* border: 1rpx solid #EEEEEE; */
+	}
+	
+	.official-account{
+		width: 96%;
+		margin: 0 auto;
+		margin-top: 40rpx;
 	}
 </style>

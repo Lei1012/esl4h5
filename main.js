@@ -36,9 +36,11 @@ Vue.prototype.$adpid = "1111111111"
 
 // #ifdef MP-WEIXIN
 Vue.prototype.$uploadFileUrl = "https://api.esl-passport.cn/api/user/uploadImg"
+Vue.prototype.$multiImportJobUrl = "https://api.esl-passport.cn/api/job/import"
 // #endif
 // #ifdef MP-WEIXIN-DEV
 Vue.prototype.$uploadFileUrl = "https://api.test.esl-passport.cn/api/user/uploadImg"
+Vue.prototype.$multiImportJobUrl = "https://api.test.esl-passport.cn/api/job/import"
 // #endif
 
 // #ifdef H5
@@ -52,6 +54,7 @@ Vue.prototype.$qqmapkey = "FHDBZ-3SUWK-3SVJW-AXD3Q-ZH4TJ-RMFBU"
 Vue.prototype.$qqmapReferer = 'test'
 Vue.prototype.$apiUrl = 'https://api.esl-passport.cn/api/'
 Vue.prototype.$uploadFileUrl = "https://api.esl-passport.cn/api/user/uploadImg"
+Vue.prototype.$multiImportJobUrl = "https://api.esl-passport.cn/api/job/import"
 // #endif
 
 
@@ -67,6 +70,7 @@ Vue.prototype.$qqmapkey = "FHDBZ-3SUWK-3SVJW-AXD3Q-ZH4TJ-RMFBU"
 Vue.prototype.$qqmapReferer = 'test'
 
 Vue.prototype.$uploadFileUrl = "https://api.test.esl-passport.cn/api/user/uploadImg"
+Vue.prototype.$multiImportJobUrl = "https://api.test.esl-passport.cn/api/job/import"
 // #endif
 
 if (process.env.NODE_ENV === 'development') {

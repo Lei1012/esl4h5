@@ -1,10 +1,12 @@
 <template>
 	<view class="uni-column uni-flex container">
 		<view class="logo">
-			<image src="@/static/esl-logo.png" mode="aspectFill"></image>
+			<image src="@/static/esl-logo.png" mode="aspectFill"></image><br>
+			<text>Mini Program </text>
 		</view>
 		<view class="welcome">
-			<text>Welcome to ESL Passport!</text>
+			<!-- <text>Welcome to ESL Passport!</text> -->
+			
 		</view>
 		<view class="login-btn">
 			<button @click="login()" type="default">Enter</button>
@@ -16,8 +18,11 @@
 				<view class="auth-logo">
 					<image src="@/static/esl-logo.png" mode="aspectFill"></image>
 				</view>
+				<view class="auth-txt">
+					{{i18n.loginauthtxt}}
+				</view>
 				<button type="default" open-type="getUserInfo"
-					@getuserinfo="getMiniUserInfo">{{i18n.authorizeforlogin}}</button>
+					@getuserinfo="getMiniUserInfo">OK</button>
 			</view>
 		</view>
 		<!-- #endif -->
@@ -76,7 +81,8 @@
 							avatarUrl: userInfo.avatarUrl,
 							city: userInfo.city,
 							gender: userInfo.gender,
-							language: userInfo.language,
+							// language: userInfo.language,
+							language:'en-US',
 							province: userInfo.province,
 							country: userInfo.country,
 							platform: 'mini'
@@ -103,6 +109,8 @@
 										uni.setStorageSync('nickname', res.message.nickname)
 										uni.setStorageSync('uid', res.message.id)
 										uni.setStorageSync('identity', res.message.identity)
+										uni.$emit('changeIdentity',res.message.identity)
+									
 										_this.is_educator = res.message.is_educator;
 										_this.is_business = res.message.is_business;
 										_this.is_vendor = res.message.is_vendor;
@@ -171,7 +179,7 @@
 							uni.setStorageSync('token', message.token)
 							uni.setStorageSync('uid', message.id)
 							uni.setStorageSync('identity', message.identity)
-
+							uni.$emit('changeIdentity',message.identity)
 							_this.is_educator = message.is_educator;
 							_this.is_business = message.is_business;
 							_this.is_vendor = message.is_vendor;
@@ -180,15 +188,16 @@
 							_this.mobile = message.phone;
 
 							if (message.language == 0) {
+								uni.setStorageSync('language', 'en-US')
 								_this.languageValue = 2;
-							} else {
-								_this.languageValue = message.language;
-							}
+							} 
 							if (message.language == 1) {
 								uni.setStorageSync('language', 'zh-CN')
+								_this.languageValue = 1;
 							}
 							if (message.language == 2) {
 								uni.setStorageSync('language', 'en-US')
+								_this.languageValue = 2;
 							}
 
 							var pages = getCurrentPages(); // 当前页面
@@ -270,11 +279,13 @@
 		text-align: center;
 		padding-top: 80rpx;
 		margin-top: 80rpx;
+		font-size: 34rpx;
+		font-weight: 700;
 	}
 
 	.logo image {
-		width: 200rpx;
-		height: 200rpx;
+		width: 400rpx;
+		height: 400rpx;
 	}
 
 	.welcome {
@@ -288,7 +299,7 @@
 	}
 
 	.login-btn {
-		margin-top: 140rpx;
+		margin-top: 40rpx;
 	}
 
 	.login-btn button {
@@ -338,9 +349,14 @@
 	.auth-logo {
 		text-align: center;
 	}
-
+	
 	.auth-logo image {
 		width: 200rpx;
 		height: 200rpx;
+	}
+	.auth-txt{
+		text-align: center;
+		font-size: 28rpx;
+		font-weight: 700;
 	}
 </style>

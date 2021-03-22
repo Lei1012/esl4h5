@@ -11,7 +11,7 @@
 				</view>
 				<view class="me-edit-form-item">
 					<view class="me-edit-form-item-label">{{i18n.profilelastname}}</view>
-					<input type="text" v-model="lastname" :placeholder="i18n.profilelastnameph" />
+					<input type="text" v-model="lastname" :placeholder="i18n.profilelastname" />
 				</view>
 				<view class="me-edit-form-item">
 					<view class="me-edit-form-item-label">{{i18n.profilenickname}}</view>
@@ -35,10 +35,15 @@
 						{{nationalityValue}}
 					</view>
 				</view>
-				<view class="me-edit-form-job-title">
+				<view class="me-edit-form-item">
 					<view class="me-edit-form-item-label">{{i18n.profilejobtitle}}</view>
 					<input type="text" :maxlength="100" v-model="jobTitle" :placeholder="i18n.profilejobtitleph"  />
 					<!-- <fuck-textarea :maxlength="100" v-model="jobTitle" :placeholder="i18n.profilejobtitleph"></fuck-textarea> -->
+				</view>
+				<view class="me-edit-form-item">
+					<view class="me-edit-form-item-label">{{i18n.vendorproposeddeal}}</view>
+					<fuck-textarea style="font-size: 34rpx;" :maxlength="200" v-model="proposedDealValue"
+						:placeholder="i18n.vendorproposeddealph"></fuck-textarea>
 				</view>
 				<!-- 首选联系方式 -->
 				<!-- <view>
@@ -117,6 +122,8 @@
 				selectFirstLanguageListIndex:[],
 				isFirstEdit: undefined,
 				wechatId:'',
+				proposedDealValue:'',
+				
 			}
 		},
 		components: {
@@ -192,12 +199,15 @@
 					first_contact:this.selectFirstContactList.join(','),
 					first_language:this.selectFirstLanguageList.join(''),
 					wx_id:this.wechatId,
+					proposed_deal:this.proposedDealValue,
 					token: uni.getStorageSync('token')
 				}
 
 				profile.addVendorBasic(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
+						
+						uni.$emit('userInfoUpdated',{msg:'page updated'})
 						if (this.isFirstEdit == 1) {
 							uni.reLaunch({
 								url: '/pages/me/profile/photo?type=15'
@@ -230,6 +240,8 @@
 					if (res.code == 200) {
 						
 						let basicUserInfo = res.message;
+						let vendorInfo = res.message.vendor_info;
+						
 						if (basicUserInfo.sex == 1) {
 							this.genderStatus = true;
 							this.genderValue = {
@@ -251,18 +263,35 @@
 								value: 'Undisclosed'
 							}
 						}
-						this.firstname = basicUserInfo.vendor_info.first_name;
-						this.lastname = basicUserInfo.vendor_info.last_name;
-						this.nickname = basicUserInfo.nickname;
-						this.nationalityValue = basicUserInfo.vendor_info.nationality;
-						this.nationalitySelectStatus = true;
-						this.jobTitle = basicUserInfo.vendor_info.job_title;
-						this.wechatId = basicUserInfo.vendor_info.wx_id;
-						if(basicUserInfo.vendor_info.first_contact != ''){
-							this.selectFirstContactList = basicUserInfo.vendor_info.first_contact.split(',')
+						if(vendorInfo.first_name != ''){
+							this.firstname = vendorInfo.first_name;
 						}
-						if(basicUserInfo.vendor_info.first_language != ''){
-							this.selectFirstLanguageList = basicUserInfo.vendor_info.first_language.split(',')
+						if(vendorInfo.last_name !=''){
+							this.lastname = vendorInfo.last_name;
+						}
+						if(basicUserInfo.nickname !=''){
+							this.nickname = basicUserInfo.nickname;
+						}
+						
+						this.nationalityValue = vendorInfo.nationality;
+						if(this.nationalityValue != '' ){
+							this.nationalitySelectStatus = true;
+						}
+						if(vendorInfo.job_title != ''){
+							this.jobTitle = vendorInfo.job_title;
+						}
+						if(vendorInfo.wx_id != ''){
+							this.wechatId = vendorInfo.wx_id;
+						}
+						
+						if(vendorInfo.first_contact != ''){
+							this.selectFirstContactList = vendorInfo.first_contact.split(',')
+						}
+						if(vendorInfo.first_language != ''){
+							this.selectFirstLanguageList = vendorInfo.first_language.split(',')
+						}
+						if(vendorInfo.proposed_deal != ''){
+							this.proposedDealValue = vendorInfo.proposed_deal
 						}
 
 					} else {

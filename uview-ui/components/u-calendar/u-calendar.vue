@@ -47,11 +47,11 @@
 			</view>
 			<view class="u-calendar__bottom">
 				<view class="u-calendar__bottom__choose">
-					<text>{{mode == 'date' ? activeDate : startDate}}</text>
-					<text v-if="endDate">至{{endDate}}</text>
+					<!-- <text>{{mode == 'date' ? activeDate : startDate}}</text>
+					<text v-if="endDate">至{{endDate}}</text> -->
 				</view>
 				<view class="u-calendar__bottom__btn">
-					<u-button :type="btnType" shape="circle" size="default" @click="btnFix(false)">确定</u-button>
+					<u-button :type="btnType" shape="circle" size="default" @click="btnFix(false)">确定 OK</u-button>
 				</view>
 			</view>
 		</view>
@@ -385,7 +385,7 @@
 				this.daysArr=this.generateArray(1,this.days)
 				this.weekday = this.getWeekday(this.year, this.month);
 				this.weekdayArr=this.generateArray(1,this.weekday)
-				this.showTitle = `${this.year}年${this.month}月`;
+				this.showTitle = `${this.year}年 Year ${this.month}月 Month`;
 				if (this.isChange && this.mode == 'date') {
 					this.btnFix(true);
 				}

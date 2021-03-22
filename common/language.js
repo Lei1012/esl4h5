@@ -9,12 +9,14 @@ const Chinese = {
 	tabbarme: "我",
 
 	homesearchjobs: "搜索工作",
+	homesearchgigs:"搜索",
 	homediscountcard: "折扣卡",
 	homedeals: "优惠",
 	homeeditprofile: "编辑资料",
 	homehelp: "签证 & 法律援助",
 	homecontact: "联系我们",
 	homepostjobs: "发布工作信息",
+	homepostgigs:"发布",
 	homeupgrade: "升级",
 	homefeatured: "付费推广",
 	homeadvertise: "广告营销",
@@ -180,7 +182,7 @@ const Chinese = {
 	// deals 20201109
 	dealsadddeal1: "加入第1个交易",
 	dealsadddeal2: "加入第2个交易 (专业版)",
-	dealsadddeal3: "加入第3个交易 (专业版)",
+	dealsadddeal3: "加入第3个交易 (优享版)",
 	dealsadddeal4: "加入第4个交易 (优享版)",
 	dealsadddeal5: "加入第5个交易 (优享版)",
 	dealsmoredeals: "升级账户添加更多的交易!",
@@ -209,7 +211,7 @@ const Chinese = {
 	// events 20201109
 	eventsaddevent1: "加入活动1",
 	eventsaddevent2: "加入活动2 (专业版)",
-	eventsaddevent3: "加入活动3 (专业版)",
+	eventsaddevent3: "加入活动3 (优享版)",
 	eventsaddevent4: "加入活动4 (优享版)",
 	eventsaddevent5: "加入活动5 (优享版)",
 	eventsmoreevent: "升级账户添加更多的活动吧!",
@@ -359,7 +361,7 @@ const Chinese = {
 	profilevendorwebsite: "网站",
 	profilevendorwebsiteph: "www.businessname.com",
 	profilevendorphone: "电话号码",
-	profilevendorphoneph: "",
+	profilevendorphoneph: "请输入您的手机号",
 	profilevendorlocation: "地点",
 	profiledogfriendly: "宠物狗友好",
 	profilevendorevents: "您有活动需要发布吗?",
@@ -525,7 +527,7 @@ const Chinese = {
 	dealsaddoneyear: "1 年",
 	dealsaddtwoyear: "2 年",
 
-	profilebusinessbasicisschool: "是学校",
+	profilebusinessbasicisschool: "您是学校吗？",
 	profilebusinessbasicturnontoggels: "点击以下选项如果你是...",
 
 	accountinfoneedhelp: "需要帮助吗?",
@@ -580,9 +582,9 @@ const Chinese = {
 
 	jobslistgender: "Gender",
 	jobslistgenderunlimited: "All",
-	jobslistgenderone: "Male Required",
-	jobslistgendertwo: "Female Required",
-	jobslistgenderthree: "No Gender Requirements",
+	jobslistgenderone: "Male",
+	jobslistgendertwo: "Female",
+	jobslistgenderthree: "None",
 	jobslistfilterreset: "Reset",
 	jobslistfilterconfirm: "Confirm",
 
@@ -608,14 +610,33 @@ const Chinese = {
 	myjobsopenclose: "Close/Open",
 	myjobsviews: "View",
 	myjobspromotion: "Promotion",
-	
-	//20210305
-	applyjobmodaltips:"提示",
-	applyjobmodalcontent:"您确定要申请这个职位吗？",
-	applyjobmodalconfirmtext:"确定",
-	applyjobmodalcanceltext:"取消",
 
-	authorizeforlogin:"授权获取用户信息",
+	//20210305
+	applyjobmodaltips: "提示",
+	applyjobmodalcontent: "您确定要申请这个职位吗？",
+	applyjobmodalconfirmtext: "确定",
+	applyjobmodalcanceltext: "取消",
+
+	authorizeforlogin: "授权获取用户信息",
+
+	profilebusinessschoolinfo: "School Information",
+	vendorapplication: "Vendor Application",
+	vendorapplicationaboutyou: "About You",
+	vendorapplicationname: "Name",
+	vendorapplicationphone: "Phone #",
+	vendorapplicationbusinfo: "Business Info",
+
+	vendorphonenumber: "Manager's phone number",
+	vendorcompanynameen: "English",
+	vendorcompanynamecn: "Chinese",
+	vendorcompanywebsite: "Company Website",
+	vendorproposeddeal: "Proposed Deal",
+	vendorproposeddealph: "10% off all set meals",
+	vendorlookinggreatpgtxt1: "Your profile is starting to look great!",
+	vendorlookinggreatpgtxt2: "Our Account Manager Will be in touch soon",
+	vendorlocation: "Location",
+
+	loginauthtxt: "One more step",
 
 }
 
@@ -630,12 +651,14 @@ const English = {
 	tabbarme: "Me",
 
 	homesearchjobs: "Search Jobs",
+	homesearchgigs:"Search Gigs",
 	homediscountcard: "Discount Card",
 	homedeals: "Deals",
 	homeeditprofile: "Edit Profile",
 	homehelp: "Visa & Legal Help",
 	homecontact: "Contact Us",
 	homepostjobs: "Post Jobs",
+	homepostgigs:"Post Gigs",
 	homeupgrade: "Go Pro",
 	homefeatured: "Get Featured",
 	homeadvertise: "Advertisment",
@@ -800,10 +823,10 @@ const English = {
 	dealsshanghai: "Shanghai",
 	// deals 20201109
 	dealsadddeal1: "Add Deal 1",
-	dealsadddeal2: "Deal 2 (Pro)",
-	dealsadddeal3: "Deal 3 (Pro)",
-	dealsadddeal4: "Deal 4 (Plus)",
-	dealsadddeal5: "Deal 5 (Plus)",
+	dealsadddeal2: "Add Deal 2 (Pro)",
+	dealsadddeal3: "Add Deal 3 (Plus)",
+	dealsadddeal4: "Add Deal 4 (Plus)",
+	dealsadddeal5: "Add Deal 5 (Plus)",
 	dealsmoredeals: "Upgrade to unlock more deals!",
 	dealsedit: "Edit",
 	dealsDetail: "Detail",
@@ -830,7 +853,7 @@ const English = {
 	// events 20201109
 	eventsaddevent1: "Add Event 1",
 	eventsaddevent2: "Event 2 (Pro)",
-	eventsaddevent3: "Event 3 (Pro)",
+	eventsaddevent3: "Event 3 (Plus)",
 	eventsaddevent4: "Event 4 (Plus)",
 	eventsaddevent5: "Event 5 (Plus)",
 	eventsmoreevent: "Upgrade to unlock more events!",
@@ -980,7 +1003,7 @@ const English = {
 	profilevendorwebsite: "Website",
 	profilevendorwebsiteph: "www.businessname.com",
 	profilevendorphone: "Phone #",
-	profilevendorphoneph: "",
+	profilevendorphoneph: "Please enter your phone number",
 	profilevendorlocation: "Location",
 	profiledogfriendly: "Dog Friendly",
 	profilevendorevents: "Do you have events?",
@@ -1000,8 +1023,8 @@ const English = {
 	jobsbenefits: "Benefits",
 	jobsgeneralpositioninfo: "General Position Info:",
 	jobsjobtitle: "Job Title",
-	jobsapplicationduedate: "Application Due Date",
-	jobschooseduedate: "Choose Due Date",
+	jobsapplicationduedate: "Application Deadline",
+	jobschooseduedate: "Choose Deadline",
 	jobsstartdate: "Start Date",
 	jobsagetoteach: "Student(s) Age",
 	jobssubject: "Subject(s)",
@@ -1149,7 +1172,7 @@ const English = {
 	dealsaddtwoyear: "2 year",
 
 	//20201202
-	profilebusinessbasicisschool: "Are A School",
+	profilebusinessbasicisschool: "Are you a School?",
 	profilebusinessbasicturnontoggels: "Turn on these toggels if you are..",
 
 	//new
@@ -1206,9 +1229,9 @@ const English = {
 
 	jobslistgender: "Gender",
 	jobslistgenderunlimited: "All",
-	jobslistgenderone: "Male Required",
-	jobslistgendertwo: "Female Required",
-	jobslistgenderthree: "No Gender Requirements",
+	jobslistgenderone: "Male",
+	jobslistgendertwo: "Female",
+	jobslistgenderthree: "None",
 	jobslistfilterreset: "Reset",
 	jobslistfilterconfirm: "Confirm",
 
@@ -1234,20 +1257,41 @@ const English = {
 	myjobsopenclose: "Close/Open",
 	myjobsviews: "View",
 	myjobspromotion: "Promotion",
-	
+
 	//20210305
-	applyjobmodaltips:"Tips",
-	applyjobmodalcontent:"Are you sure you want to apply for this position?",
-	applyjobmodalconfirmtext:'Sure',
-	applyjobmodalcanceltext:"Cancel",
-	
-	filterjobsalary1:"0-5000",
-	filterjobsalary2:"5000-10000",
-	filterjobsalary3:"10000-15000",
-	filterjobsalary4:"15000 and above",
-	
-	authorizeforlogin:"Authorize",
-	
+	applyjobmodaltips: "Tips",
+	applyjobmodalcontent: "Are you sure you want to apply for this position?",
+	applyjobmodalconfirmtext: 'Sure',
+	applyjobmodalcanceltext: "Cancel",
+
+	filterjobsalary1: "0-5000",
+	filterjobsalary2: "5000-10000",
+	filterjobsalary3: "10000-15000",
+	filterjobsalary4: "15000 and above",
+
+	authorizeforlogin: "Authorize",
+
+	profilebusinessschoolinfo: "School Information",
+	vendorapplication: "Vendor Application",
+	vendorapplicationaboutyou: "About You",
+	vendorapplicationname: "Name",
+	vendorapplicationphone: "Phone #",
+	vendorapplicationbusinfo: "Business Info",
+
+	vendorphonenumber: "Manager's phone number",
+	vendorcompanynameen: "English",
+	vendorcompanynamecn: "Chinese",
+	vendorcompanywebsite: "Company Website",
+	vendorproposeddeal: "Proposed Deal",
+	vendorproposeddealph: "10% off all set meals",
+	vendorlookinggreatpgtxt1: "Your profile is starting to look great!",
+	vendorlookinggreatpgtxt2: "Our Account Manager Will be in touch soon",
+	vendorlocation: "Location",
+
+	loginauthtxt: "One more step",
+
+
+
 }
 
 module.exports = {

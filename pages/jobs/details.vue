@@ -2,7 +2,7 @@
 	<view class="uni-flex uni-column">
 
 		<view class="flex-item top-container"
-			:style="{backgroundImage: businessUserInfo.header_photo != '' ? 'url('+businessUserInfo.header_photo+')' : 'url(https://oss.esl-passport.cn/App_Profile_Back_Image_Design.png)'}">
+			:style="{backgroundImage: businessUserInfo.header_photo != '' ? 'url('+businessUserInfo.header_photo+')' : 'url(https://oss.esl-passport.cn/esl_passport_25.png)'}">
 			<view class="top-container-mask">
 				<view class="top-t">
 					<view class="top-left" @click="turnJobDetail(jobValue.user_id)">
@@ -28,9 +28,12 @@
 						<view class="top-b-r-collect">
 							<!-- <image src="@/static/esl/collect.png" mode="scaleToFill"></image> -->
 						</view>
+						<!-- #ifdef H5 -->
 						<view class="top-b-r-share" @click="shareYourJob">
 							<image src="./static/share-w.png" mode="scaleToFill"></image>
 						</view>
+						<!-- #endif -->
+
 					</view>
 				</view>
 			</view>
@@ -245,23 +248,6 @@
 
 		<view class="flex-item contact-person-info" v-if="jobValue.interview_name != '' ">
 			<view class="contact-person-info-title">{{i18n.jobscontactpersoninfo}}</view>
-			<!-- <view class="name">
-				<view class="name-1">{{i18n.jobsname}}</view>
-				<view class="name-2">
-					{{jobValue.interview_name}}
-				</view>
-			</view>
-
-			<view class="nationality" v-if="jobValue.interview_nationlity != '' ">
-				<view class="nationality-1">{{i18n.jobsnationality}}</view>
-				<view class="jobs-tags-container" v-if="jobValue.interview_nationlity">
-					<view class="jobs-tags">
-						<view class="jobs-tags-item">
-							{{jobValue.interview_nationlity}}
-						</view>
-					</view>
-				</view>
-			</view> -->
 			<view class="contact">
 				<view class="contact-l">
 					<image
@@ -269,15 +255,13 @@
 						mode="aspectFill"></image>
 				</view>
 				<view class="contact-r">
-					<view class="contact-nationality"> <b>{{i18n.jobsposthione}} {{jobValue.interview_name}}!</b></view>
+					<view class="contact-name"> <b>{{i18n.jobsposthione}} {{jobValue.interview_name}}!</b></view>
 					<view class="contact-nationality">{{jobValue.interview_nationlity}}</view>
 					<view class="contact-phone" v-if="businessUserInfo.contact_phone !='' ">
 						<view class="contact-copy-container-l">
 							{{businessUserInfo.contact_phone}}
 						</view>
 						<view class="contact-copy-container-r">
-							<!-- <image @click="copyPhone(businessUserInfo.contact_phone)" src="../../static/copy.png"
-								mode="aspectFit"></image> -->
 							<image @click="phoneCall(businessUserInfo.contact_phone)" src="../../static/phonecall.png"
 								mode="aspectFit"></image>
 						</view>
@@ -575,9 +559,17 @@
 
 		},
 		onShareAppMessage: function() {
-
+			let jobValue = this.jobValue;
+			return {
+				title: jobValue.job_title
+			}
 		},
 		onShareTimeline: function() {
+			let jobValue = this.jobValue;
+			return {
+				title: jobValue.job_title,
+				imageUrl: this.businessLogo
+			}
 
 		},
 		onAddToFavorites: function() {
@@ -601,6 +593,7 @@
 <style>
 	@import url("@/common/jobs/details.css");
 	@import url("@/common/nav/nav.css");
+	@import url("@/common/public/contact-cv.css");
 
 	.wx-share {
 		position: fixed;
@@ -645,76 +638,4 @@
 		font-size: 34rpx;
 		color: #FFFFFF;
 	}
-
-	.contact {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		padding: 20rpx;
-	}
-
-	.contact-l {
-		width: 25%;
-		display: flex;
-		align-items: center;
-		justify-content: flex-start;
-	}
-
-	.contact-l image {
-		width: 140rpx;
-		height: 140rpx;
-		border-radius: 140rpx;
-		border: 1rpx solid #EEEEEE;
-	}
-
-	.contact-r {
-		width: 75%;
-		/* padding-left: 20rpx; */
-	}
-
-	.contact-nationality {
-		font-size: 30rpx;
-	}
-
-	.contact-phone {
-		font-size: 30rpx;
-		width: 100%;
-		display: flex;
-		flex-direction: row;
-		flex-wrap: nowrap;
-		align-items: center;
-		justify-content: space-between;
-
-	}
-
-	.contact-copy-container-l {
-		width: 70%;
-		text-overflow: ellipsis;
-		overflow: hidden;
-
-	}
-
-	.contact-copy-container-r {
-		width: 30%;
-		display: flex;
-		align-items: center;
-	}
-
-	.contact-copy-container-r image {
-		width: 40rpx;
-		height: 40rpx;
-		margin-left: 20rpx;
-	}
-
-	.contact-work-email {
-		font-size: 30rpx;
-		width: 100%;
-		display: flex;
-		flex-direction: row;
-		flex-wrap: nowrap;
-		align-items: center;
-		justify-content: space-between;
-	}
-	
 </style>

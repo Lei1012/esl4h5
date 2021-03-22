@@ -1,6 +1,6 @@
 <template>
 	<view class="uni-flex uni-column">
-		<view class="flex-item top-container" :style="{backgroundImage: businessUserInfo.header_photo != '' ? 'url('+businessUserInfo.header_photo+')' : 'url(https://oss.esl-passport.cn/App_Profile_Back_Image_Design.png)'}">
+		<view class="flex-item top-container" :style="{backgroundImage: businessUserInfo.header_photo != '' ? 'url('+businessUserInfo.header_photo+')' : 'url(https://oss.esl-passport.cn/esl_passport_25.png)'}">
 			<view class="top-container-mask">
 				<view class="top-t">
 					<view class="top-left">
@@ -241,24 +241,39 @@
 					{{jobValue.age_min}}-{{jobValue.age_max}}
 				</view>
 			</view>
-
 		</view>
 
 		<view class="flex-item contact-person-info" v-if="jobValue.interview_name != '' ">
 			<view class="contact-person-info-title">{{i18n.jobscontactpersoninfo}}</view>
 			<view class="contact">
 				<view class="contact-l">
-					<image :src="jobValue.interview_imgurl != '' ? jobValue.interview_imgurl : 'https://oss.esl-passport.cn/educator.png' " mode="aspectFill"></image>
+					<image
+						:src="jobValue.interview_imgurl != '' ? jobValue.interview_imgurl : 'https://oss.esl-passport.cn/educator.png' "
+						mode="aspectFill"></image>
 				</view>
 				<view class="contact-r">
-					<view class="contact-nationality"> <b>{{i18n.jobsposthione}} {{jobValue.interview_name}}!</b></view>
+					<view class="contact-name"> <b>{{i18n.jobsposthione}} {{jobValue.interview_name}}!</b></view>
 					<view class="contact-nationality">{{jobValue.interview_nationlity}}</view>
-					<view class="contact-phone">{{businessUserInfo.contact_phone}}</view>
-					<!-- <view class="contact-phone"><u-link :href="businessUserInfo.contact_phone">{{businessUserInfo.contact_phone}}</u-link></view> -->
-					<view class="contact-work-email">{{businessUserInfo.work_email}}</view>
+					<view class="contact-phone" v-if="businessUserInfo.contact_phone !='' ">
+						<view class="contact-copy-container-l">
+							{{businessUserInfo.contact_phone}}
+						</view>
+						<view class="contact-copy-container-r">
+							<image @click="phoneCall(businessUserInfo.contact_phone)" src="../../static/phonecall.png"
+								mode="aspectFit"></image>
+						</view>
+					</view>
+					<view class="contact-work-email" v-if="businessUserInfo.work_email !='' ">
+						<view class="contact-copy-container-l">
+							{{businessUserInfo.work_email}}
+						</view>
+						<view class="contact-copy-container-r">
+							<image @click="copyEmail(businessUserInfo.work_email)" src="../../static/copy.png"
+								mode="aspectFit"></image>
+						</view>
+					</view>
 				</view>
 			</view>
-
 		</view>
 
 		<view class="job-apply-button">
@@ -440,6 +455,7 @@
 
 <style>
 	@import url("@/common/jobs/details.css");
+	@import url("@/common/public/contact-cv.css");
 
 	.wx-share {
 		position: fixed;

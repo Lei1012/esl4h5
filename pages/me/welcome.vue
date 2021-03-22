@@ -8,16 +8,17 @@
 			<text v-if="identity==2">{{i18n.welcomebusinesspagetxtone}} {{firstname}}! {{i18n.welcomebusinesspagetxttwo}}</text>
 			<text v-if="identity==3">{{i18n.welcomevendorpagetxtone}} {{firstname}}! {{i18n.welcomevendorpagetxttwo}}</text>
 		</view>
-		<view class="flex-item welcome-button">
-			<button type="default" @click="createMyProfile">
-				{{i18n.welcomepgbutton1}}
-			</button>
-		</view>
 		<view class="flex-item later-button">
 			<button type="default" @click="laterCreateMyProfile">
 				{{i18n.welcomepgbutton2}}
 			</button>
 		</view>
+		<view class="flex-item welcome-button">
+			<button type="default" @click="createMyProfile">
+				{{i18n.welcomepgbutton1}}
+			</button>
+		</view>
+		
 	</view>
 </template>
 
@@ -43,17 +44,17 @@
 				let identity = uni.getStorageSync('identity')
 
 				if (identity == 1) {
-					uni.reLaunch({
+					uni.navigateTo({
 						url:'educator/edit/basic?firstEdit=1'
 					})
 				}
 				if (identity == 2) {
-					uni.reLaunch({
+					uni.navigateTo({
 						url: 'business/edit/basic?firstEdit=1'
 					})
 				}
 				if (identity == 3) {
-					uni.reLaunch({
+					uni.navigateTo({
 						url: 'vendor/edit/basic?firstEdit=1'
 					})
 				}
@@ -125,6 +126,7 @@
 		border-radius: 100rpx;
 		line-height: 100rpx;
 		color: #FFFFFF;
+		font-size: 34rpx;
 	}
 
 	.later-button {
@@ -139,5 +141,6 @@
 		border-radius: 100rpx;
 		line-height: 100rpx;
 		color: #808080;
+		font-size: 34rpx;
 	}
 </style>

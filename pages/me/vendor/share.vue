@@ -84,7 +84,7 @@
 					<!-- <view class="profile-detail-item-title">{{i18n.profileintrovideo}}</view> -->
 					<view class="profile-detail-item-box">
 						<view class="profile-intro-video">
-							<video id="myVideo" :muted="true" preload="metadata" @loadedmetadata="loadedMetaData" 
+							<video id="myVideo" :muted="false" preload="metadata" @loadedmetadata="loadedMetaData" 
 							:poster="vendorUserInfo.profile_photo"
 							 x5-video-player-type="h5-page" :src="vendorUserInfo.video_url" controls></video>
 						</view>
@@ -92,7 +92,10 @@
 				</view>
 			</view>
 		</view>
+		<!-- #ifdef H5 -->
 		<xllfindmore></xllfindmore>
+		<!-- #endif -->
+		
 	</view>
 </template>
 
@@ -114,7 +117,7 @@
 				uerInfo: {},
 
 				current: 0,
-				backgroundPictureSrc: 'https://oss.esl-passport.cn/App_Profile_Back_Image_Design.png',
+				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_25.png',
 				introVideoSrc: '',
 				hobbiesList: [],
 				languagesList: [],

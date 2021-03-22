@@ -114,7 +114,7 @@
 		<view class="popup" v-if="popupStatus"></view>
 		<view class="popup-container" v-if="popupStatus">
 			<view class="popup-container-text"> <text>Awesome!</text> <br>
-				Your deal/discount & event submission is subject to approval and cannot be edited once submitted. Please contact
+				Your deals & events are subject to approval and cannot be edited once submitted. Please contact
 				ESL Passport for support. </view>
 			<button type="default" @click="submitPopup">Confirm</button>
 		</view>

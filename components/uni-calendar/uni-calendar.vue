@@ -52,7 +52,7 @@
 				</view>
 				<view class="uni-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex">
 					<view class="uni-calendar__weeks-item" v-for="(weeks,weeksIndex) in item" :key="weeksIndex">
-						<calendar-item class="uni-calendar-item--hook" :weeks="weeks" :calendar="calendar" :selected="selected" :lunar="lunar" @change="choiceDate"></calendar-item>
+						<calendar-item :weeks="weeks" :calendar="calendar" :selected="selected" :lunar="lunar" @change="choiceDate"></calendar-item>
 					</view>
 				</view>
 			</view>
@@ -138,13 +138,13 @@
 		},
 		watch: {
 			date(newVal) {
-				// this.cale.setDate(newVal)
-				this.init(newVal)
+				this.cale.setDate(newVal)
+				this.init(this.cale.selectDate.fullDate)
 			},
-			startDate(val) {
+			startDate(val){
 				this.cale.resetSatrtDate(val)
 			},
-			endDate(val) {
+			endDate(val){
 				this.cale.resetEndDate(val)
 			},
 			selected(newVal) {
@@ -162,8 +162,8 @@
 				range: this.range,
 			})
 			// 选中某一天
-			// this.cale.setDate(this.date)
-			this.init(this.date)
+			this.cale.setDate(this.date)
+			this.init(this.cale.selectDate.fullDate)
 			// this.setDay
 		},
 		methods: {
@@ -172,6 +172,7 @@
 			bindDateChange(e) {
 				const value = e.detail.value + '-1'
 				console.log(this.cale.getDate(value));
+				this.cale.setDate(value)
 				this.init(value)
 			},
 			/**
@@ -179,7 +180,6 @@
 			 * @param {Object} date
 			 */
 			init(date) {
-				this.cale.setDate(date)
 				this.weeks = this.cale.weeks
 				this.nowDate = this.calendar = this.cale.getInfo(date)
 			},
@@ -190,8 +190,8 @@
 				// 弹窗模式并且清理数据
 				if (this.clearDate && !this.insert) {
 					this.cale.cleanMultipleStatus()
-					// this.cale.setDate(this.date)
-					this.init(this.date)
+					this.cale.setDate(this.date)
+					this.init(this.cale.selectDate.fullDate)
 				}
 				this.show = true
 				this.$nextTick(() => {
@@ -280,7 +280,7 @@
 			backtoday() {
 				console.log(this.cale.getDate(new Date()).fullDate);
 				let date = this.cale.getDate(new Date()).fullDate
-				// this.cale.setDate(date)
+				this.cale.setDate(date)
 				this.init(date)
 				this.change()
 			},
@@ -314,7 +314,7 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 	.uni-calendar {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -328,7 +328,7 @@
 		top: 0;
 		left: 0;
 		right: 0;
-		background-color: rgba(0, 0, 0, 0.4);
+		background-color: $uni-bg-color-mask;
 		transition-property: opacity;
 		transition-duration: 0.3s;
 		opacity: 0;
@@ -371,7 +371,7 @@
 		justify-content: center;
 		align-items: center;
 		height: 50px;
-		border-bottom-color: #e5e5e5;
+		border-bottom-color: $uni-border-color;
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
 	}
@@ -382,15 +382,14 @@
 		/* #endif */
 		flex-direction: row;
 		justify-content: space-between;
-		border-top-color: #e5e5e5;
+		border-top-color: $uni-border-color;
 		border-top-style: solid;
 		border-top-width: 1px;
 	}
 
 	.uni-calendar--fixed-width {
 		width: 50px;
-		/* padding: 0 15px;
- */
+		// padding: 0 15px;
 	}
 
 	.uni-calendar__backtoday {
@@ -404,15 +403,15 @@
 		font-size: 12px;
 		border-top-left-radius: 25px;
 		border-bottom-left-radius: 25px;
-		color: #333;
-		background-color: #f1f1f1;
+		color: $uni-text-color;
+		background-color: $uni-bg-color-hover;
 	}
 
 	.uni-calendar__header-text {
 		text-align: center;
 		width: 100px;
-		font-size: 14px;
-		color: #333;
+		font-size: $uni-font-size-base;
+		color: $uni-text-color;
 	}
 
 	.uni-calendar__header-btn-box {
@@ -429,10 +428,10 @@
 	.uni-calendar__header-btn {
 		width: 10px;
 		height: 10px;
-		border-left-color: #808080;
+		border-left-color: $uni-text-color-placeholder;
 		border-left-style: solid;
 		border-left-width: 2px;
-		border-top-color: #555555;
+		border-top-color: $uni-color-subtitle;
 		border-top-style: solid;
 		border-top-width: 2px;
 	}
@@ -496,7 +495,7 @@
 	.uni-calendar__box-bg-text {
 		font-size: 200px;
 		font-weight: bold;
-		color: #999;
+		color: $uni-text-color-grey;
 		opacity: 0.1;
 		text-align: center;
 		/* #ifndef APP-NVUE */

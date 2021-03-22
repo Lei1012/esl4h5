@@ -1,0 +1,162 @@
+page {
+		background-color: #F4F5F6;
+	}
+
+	.detail-container {
+		padding: 20rpx;
+		width: 96%;
+		margin: 20rpx auto;
+		background-color: #FFFFFF;
+		border-radius: 20rpx;
+	}
+
+	.content-container {
+		padding-top: 20rpx;
+	}
+
+	.detail-item {
+		padding: 10rpx;
+	}
+
+	.detail-item-title {
+		font-size: 34rpx;
+		font-weight: 700;
+	}
+
+	.detail-item-result {
+		word-wrap: break-word;
+		/* padding-left: 10rpx; */
+		font-size: 30rpx;
+	}
+
+	.detail-item-result-img {
+		text-align: center;
+		/* #ifdef MP-WEIXIN */
+		width: 100%;
+		/* height: 700rpx; */
+		/* #endif */
+	}
+	.detail-item-result-img img {
+		width:100%;
+	}
+	
+	.detail-item-result-img image {
+		width: 100%;
+		/* border: 1rpx solid #EEEEEE; */
+	}
+
+
+	.view-files {
+		color: #00B3D2;
+		text-decoration: underline;
+	}
+
+	.back-button {
+		margin-top: 40rpx;
+
+	}
+
+	.back-button button {
+		height: 80rpx;
+		line-height: 80rpx;
+		color: #FFFFFF;
+		background-color: #004956;
+		border-radius: 20rpx;
+	}
+
+
+
+	.photo-top-container {
+		text-align: center;
+		background:
+			linear-gradient(217deg, rgba(0, 73, 86, .8), rgba(255, 0, 0, 0) 70.71%),
+			linear-gradient(127deg, rgba(0, 179, 210, .8), rgba(0, 255, 0, 0) 70.71%),
+			linear-gradient(336deg, rgba(177, 196, 82, .8), rgba(0, 0, 255, 0) 70.71%);
+		box-shadow: 0 0 30rpx 0 rgba(43, 86, 112, .1);
+		background-size: cover;
+		background-position: center;
+		height: 300rpx;
+	}
+
+	.photo-top {
+		width: 160rpx;
+		height: 160rpx;
+		border-radius: 160rpx;
+		margin: 0 auto;
+		position: relative;
+		bottom: -200rpx;
+		background-color: #FFFFFF;
+	}
+
+	.photo-top image {
+		width: 160rpx;
+		height: 160rpx;
+		border-radius: 160rpx;
+		border: 1rpx solid #EEEEEE;
+	}
+
+
+	.photo-business {
+		position: absolute;
+		right: -16rpx;
+		bottom: 0;
+	}
+
+	.photo-business image {
+		width: 60rpx;
+		height: 60rpx;
+		border-radius: 60rpx;
+	}
+
+	.xll-header {
+		width: 100%;
+		border: 1rpx solid #0AA0A8;
+		border-radius: 10rpx;
+		padding: 20rpx;
+		margin-top: 80rpx;
+	}
+
+	.xll-header-title {
+		font-size: 30rpx;
+		font-weight: 700;
+		text-align: center;
+	}
+
+	.xll-header-tags {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		margin-top: 20rpx;
+	}
+	.xll-header-name{
+		font-size: 34rpx;
+		font-weight: 700;
+		text-align: center;
+	}
+	.xll-header-tag {
+		background-color: #EFE7EB;
+		color: #333333;
+		font-size: 24rpx;
+		margin-left: 20rpx;
+		padding:2rpx 10rpx;
+		line-height: 50rpx;
+		border-radius: 6rpx;
+	}
+
+	.xll-header-date {
+		text-align: center;
+		font-size: 30rpx;
+		font-weight: 700;
+		color: #808080;
+		margin-top: 20rpx;
+	}
+
+	.xll-header-location {
+		text-align: center;
+		font-size: 30rpx;
+		font-weight: 700;
+		color: #808080;
+		margin-top: 20rpx;
+		word-wrap: break-word;
+	}

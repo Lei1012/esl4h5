@@ -1,0 +1,90 @@
+.events-list-item{
+	background-color: #FFFFFF;
+	padding: 20rpx;
+	width: 96%;
+	/* height: 200rpx; */
+	margin: 20rpx auto;
+	border-radius: 20rpx;
+	box-sizing: border-box;
+	box-shadow: 0 0 30rpx 0 rgba(43, 86, 112, .1);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	position: relative;
+	overflow: hidden;
+}
+
+.events-list-item-l{
+	width: 20%;
+	height: 100%;
+	/* float: left; */
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: center;
+}
+.events-interview-photo{
+	height: 120rpx;
+	width: 120rpx;
+}
+.events-interview-photo image {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	border: 1rpx solid #EEEEEE;
+}
+
+.events-list-item-r{
+	width: 80%;
+}
+.events-list-item-t{
+	
+}
+.events-list-item-1{
+	
+}
+.events-job-title{
+	width: 50%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 32rpx;
+	font-weight: 600;
+	line-height: 80rpx;
+	margin-left: 20rpx;
+}
+.events-list-item-2{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.events-tags-item{
+	background-color: #EFE7EB;
+	color: #000000;
+	border-radius: 10rpx;
+	padding-left: 10rpx;
+	padding-right: 10rpx;
+	margin-left: 10rpx;
+	margin-top: 10rpx;
+}
+
+	
+.events-list-item-b{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 14rpx;
+}
+.events-location{
+	width: 50%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.events-date{
+	color: #808080;
+	font-size: 28rpx;
+}

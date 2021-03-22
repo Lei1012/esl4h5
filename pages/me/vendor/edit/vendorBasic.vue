@@ -190,6 +190,7 @@
 				
 				profile.addVendorBasic(data).then(res => {
 					console.log(res)
+					uni.$emit('userInfoUpdated',{msg:'page updated'})
 					if (res.code == 200) {
 						uni.navigateTo({
 							url: '../home?current=0'

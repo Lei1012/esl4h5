@@ -34,6 +34,7 @@ const request = (config) => {
 				let response = responses[1].data; // 如果返回的结果是data.data的，嫌麻烦可以用这个，return res,这样只返回一个data
 				// console.log(response)
 				let statusCode = responses[1].statusCode;
+				// console.log(statusCode)
 				//token 失效 返回登录页面
 				if (statusCode === 401) {
 					uni.removeStorageSync('token')

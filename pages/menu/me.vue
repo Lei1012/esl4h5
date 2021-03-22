@@ -28,7 +28,8 @@
 					<text v-if="identity==3 && vendorLevel == 1">{{i18n.mebasiclevel}}</text>
 					<text v-if="identity==3 && vendorLevel == 2">{{i18n.meprolevel}}</text>
 					<text v-if="identity==3 && vendorLevel == 3">{{i18n.mepluslevel}}</text>
-					<view class="me-level-upgrade" @click="showContactStatus=true">{{i18n.meupgrade}}</view>
+					<view class="me-level-upgrade" v-if=" (identity==2 && businessLevel!=3) || (identity==3 && vendorLevel !=3)" 
+					@click="upgradeLevel">{{i18n.meupgrade}}</view>
 				</view>
 			</view>
 		</view>
@@ -38,7 +39,8 @@
 		</view>
 		<view class="flex-item me-center-list ">
 			<view class="center-list border-top-left-right-radius">
-				<view class="center-list-item border-bottom " v-if="identity!=4 && identity!=0" @click="turnAccountInfo">
+				<view class="center-list-item border-bottom " v-if="identity!=4 && identity!=0"
+					@click="turnAccountInfo">
 					<image src="../../static/me/my-account.png" mode="aspectFill"></image>
 					<text class="list-text">{{i18n.accountpgaccountinfo}}</text>
 				</view>
@@ -66,18 +68,23 @@
 				</view>
 				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN -->
-				<button class="center-list-item-button border-bottom" type="default" open-type="contact" show-message-card="true">
+				<button class="center-list-item-button border-bottom" type="default" open-type="contact"
+					show-message-card="true">
 					<image src="../../static/me/contact-icon.png" mode="aspectFill"></image>
 					<text class="list-text">{{i18n.accountpgcontact}}</text>
 				</button>
 				<!-- #endif -->
-				
+
 				<contactus @close="closeContact" :showContact="showContactStatus"></contactus>
 
-				<view class="center-list-item border-bottom" v-if="identity==2 || identity ==1" @click="turnMyJobs(identity)">
+				<view class="center-list-item border-bottom" v-if="identity==2 || identity ==1"  @click="turnMyJobs(identity)">
 					<image src="../../static/me/jobs.png" mode="aspectFill"></image>
 					<text class="list-text" v-if="identity==1">{{i18n.memyapplications}}</text>
 					<text class="list-text" v-if="identity==2">{{i18n.accountpgmyjobs}}</text>
+				</view>
+				<view class="center-list-item border-bottom" v-if="identity==2" @click="showPostJobStatus=true">
+					<image src="../../static/esl/post-a-job.png" mode="aspectFill"></image>
+					<text class="list-text">{{i18n.homepostjobs}}</text>
 				</view>
 
 				<view class="center-list-item border-bottom" v-if="identity==3" @click="turnMyDeals">
@@ -95,7 +102,8 @@
 			<swiper class="xll-ads-swiper" :indicator-dots="false" :autoplay="true" :interval="4000" :duration="500">
 				<swiper-item v-for="(item,index) in meAdsListBottom" :key="index">
 					<view class="swiper-item">
-						<image @click="showContactStatus=true" :src="item.url" mode="scaleToFit" lazy-load="true"></image>
+						<image @click="adsTurn(item.relative_link)" :src="item.url" mode="scaleToFit" lazy-load="true">
+						</image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -106,13 +114,15 @@
 		<view class="language-popup" v-if="languagePopup">
 			<view class="language-text">{{i18n.accountchangelanguage}}</view>
 			<view class="language-options">
-				<view class="language-option" :class="languageOptionValue==1 ? 'language-option-active' : ''" @click="changeLanguageValue(1)">
+				<view class="language-option" :class="languageOptionValue==1 ? 'language-option-active' : ''"
+					@click="changeLanguageValue(1)">
 					<view class="language-option-logo">
 						<image src="/static/china-flag.png"></image> <br>
 						<text>Chinese/简体中文</text>
 					</view>
 				</view>
-				<view class="language-option" :class="languageOptionValue==2 ? 'language-option-active' : ''" @click="changeLanguageValue(2)">
+				<view class="language-option" :class="languageOptionValue==2 ? 'language-option-active' : ''"
+					@click="changeLanguageValue(2)">
 					<view class="language-option-logo">
 						<image src="/static/america-flag.png"></image> <br>
 						<text>English</text>
@@ -126,31 +136,11 @@
 		<!-- 语言选择end -->
 
 		<!-- 角色选择弹框 -->
-		<view class="role-popup-bg" v-if="rolePopupStatus" @click="rolePopupStatus=false"></view>
-		<view class="role-popup" v-if="rolePopupStatus">
-			<view class="language-change">
-				<view class="language-en">English</view>
-				<view class="language-switch">
-					<switch color="#004956" :checked="language=='zh-CN'" @change="changeLang" />
-				</view>
-				<view class="language-cn">
-					中文/CN
-				</view>
-			</view>
-			<view class="role-intro">
-				<text>
-					{{i18n.roleIntrotop}} <br>
-					{{i18n.roleIntrobottom}}
-				</text>
-			</view>
-			<view class="role-roles">
-				<view class="role-item" @click="selectRole(1)">{{i18n.educatorbutton}}</view>
-				<view class="role-item" @click="selectRole(2)">{{i18n.businessbutton}}</view>
-				<view class="role-item" @click="selectRole(3)">{{i18n.vendorbutton}}</view>
-				<!-- <view class="role-item" @click="selectRole(4)">{{i18n.otherbutton}}</view> -->
-			</view>
-		</view>
+		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity"
+			@close="rolePopupStatus=false"></selectRolePopup>
 		<!-- 角色选择弹框 end -->
+		<how-post-job @close="showPostJobStatus=false" :showPostJobStatus="showPostJobStatus"></how-post-job>
+		<contactus @close="showContactStatus = false" :showContact="showContactStatus"></contactus>
 	</view>
 </template>
 
@@ -159,6 +149,7 @@
 	import login from '@/api/login.js';
 	import contactus from "@/components/xll-contact-us/xll-contact-us.vue";
 	import discountcard from "@/components/xll-discount-card/xll-discount-card.vue";
+	import selectRolePopup from "@/components/select-role-popup/select-role-popup.vue"
 	import ads from '@/api/ads.js';
 
 	export default {
@@ -178,6 +169,7 @@
 				otherInfo: '',
 
 				rolePopupStatus: false, // 角色选择弹框
+				selectRoleIdentity: 0,
 				selectRoleValue: 0, //选择的角色值
 				language: 'en-US',
 				languageValue: 2,
@@ -192,12 +184,15 @@
 				educatorLevel: 0,
 				businessLevel: 0,
 				vendorLevel: 0,
-				meAdsListBottom: []
+				meAdsListBottom: [],
+				
+				showPostJobStatus:false,
 			}
 		},
 		components: {
 			contactus,
-			discountcard
+			discountcard,
+			selectRolePopup,
 		},
 		computed: {
 			i18n() {
@@ -205,22 +200,43 @@
 			}
 		},
 		onShow() {
-			this.getBasicInfo()
+			
 		},
 		onLoad() {
 			var that = this;
+			let token = uni.getStorageSync('token');
+			if(token == ''){
+				uni.reLaunch({
+					url:'/pages/login/index'
+				})
+			}
 			that.identity = uni.getStorageSync('identity');
-
+			this.getBasicInfo();
 			uni.$on('changeIdentity', function(data) {
 				that.identity = data;
+				that.getBasicInfo();
+			})
+			uni.$on('userInfoUpdated',function(data){
+				console.log(data)
+				that.getBasicInfo();
 			})
 			this.getAdsList();
-			
+
 		},
 		onUnload() {
 			uni.$off('changeIdentity');
+			uni.$off('userInfoUpdated');
 		},
 		methods: {
+			adsTurn(relativeLink){
+				if(relativeLink!=''){
+					uni.navigateTo({
+						url:relativeLink
+					})
+				}else{
+					this.showContactStatus=true;
+				}
+			},
 			getAdsList() {
 				let data = {
 					page: 1,
@@ -355,85 +371,14 @@
 					})
 				})
 			},
-			selectRole: function(e) {
-				var that = this;
-				that.rolePopupStatus = false;
-
-				if (that.mobile == '') {
-					uni.navigateTo({
-						url: '/pages/role/wxBindMobile?roleValue=' + e + '&language=' + that.languageValue
-					})
-				} else {
-					if (e == 1) {
-						if (that.is_educator >= 10) {
-							this.changeIdentityApi(1)
-						} else {
-							uni.navigateTo({
-								url: '/pages/role/educator?roleValue=' + e + '&language=' + that.languageValue
-							})
-						}
-
-					}
-					if (e == 2) {
-						if (that.is_business >= 10) {
-							this.changeIdentityApi(2)
-						} else {
-							uni.navigateTo({
-								url: '/pages/role/business?roleValue=' + e + '&language=' + that.languageValue
-							})
-						}
-
-					}
-					if (e == 3) {
-						if (that.is_vendor >= 10) {
-							this.changeIdentityApi(3)
-						} else {
-							uni.navigateTo({
-								url: '/pages/role/vendor?roleValue=' + e + '&language=' + that.languageValue
-							})
-						}
-
-					}
-					if (e == 4) {
-						this.changeIdentityApi(4)
-					}
-
-				}
-
-			},
-			changeIdentityApi: function(identity) {
-				let data = {
-					identity: identity,
-					unionid: uni.getStorageSync('unionid'),
-					token: uni.getStorageSync('token')
-				}
-				login.changeLanguageAndIdentity(data).then(res => {
-					if (res.code == 200) {
-						
-						uni.$emit('changeIdentity', identity);
-						this.identity = identity;
-						uni.setStorageSync('identity', identity);
-
-						this.getBasicInfo();
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-
-				}).catch(err => {
-					uni.showToast({
-						title: err.msg,
-						icon: 'none'
-					})
-				})
-			},
 			getBasicInfo() {
 				var that = this;
+				let uid = uni.getStorageSync('uid');
+				let token = uni.getStorageSync('token');
+				
 				let data = {
-					id: uni.getStorageSync('uid'),
-					token: uni.getStorageSync('token'),
+					id: uid,
+					token: token,
 					identity: that.identity
 				}
 				profile.getBasicInfo(data).then(res => {
@@ -465,8 +410,10 @@
 								if (profilePhoto == '') {
 									that.avatarUrl = headimgurl;
 								}
-								that.nickname = res.message.educator_info.first_name + ' ' + res.message.educator_info.last_name;
-								that.location = res.message.educator_info.district + ', ' + res.message.educator_info.city;
+								that.nickname = res.message.educator_info.first_name + ' ' + res.message
+									.educator_info.last_name;
+								that.location = res.message.educator_info.district + ', ' + res.message
+									.educator_info.city;
 								that.jobTitle = res.message.educator_info.nationality;
 								this.educatorLevel = res.message.educator_info.level
 							}
@@ -474,8 +421,10 @@
 						if (that.identity == 2) {
 							if (businessInfo != undefined) {
 								that.avatarUrl = res.message.business_info.profile_photo;
-								that.nickname = res.message.business_info.first_name + ' ' + res.message.business_info.last_name;
-								that.location = res.message.business_info.district + ', ' + res.message.business_info.city;
+								that.nickname = res.message.business_info.first_name + ' ' + res.message
+									.business_info.last_name;
+								that.location = res.message.business_info.district + ', ' + res.message
+									.business_info.city;
 								that.jobTitle = res.message.business_info.business_name;
 								if (that.avatarUrl == '') {
 									that.avatarUrl = headimgurl;
@@ -486,8 +435,10 @@
 						if (that.identity == 3) {
 							if (vendorInfo != undefined) {
 								that.avatarUrl = res.message.vendor_info.profile_photo;
-								that.nickname = res.message.vendor_info.first_name + ' ' + res.message.vendor_info.last_name;
-								that.location = res.message.vendor_info.district + ', ' + res.message.vendor_info.city;
+								that.nickname = res.message.vendor_info.first_name + ' ' + res.message.vendor_info
+									.last_name;
+								that.location = res.message.vendor_info.district + ', ' + res.message.vendor_info
+									.city;
 								that.jobTitle = res.message.vendor_info.vendor_name;
 								if (that.avatarUrl == '') {
 									that.avatarUrl = headimgurl;
@@ -518,10 +469,10 @@
 						// #endif
 						// #ifndef H5
 						uni.navigateTo({
-							url:'/pages/me/educator/home'
+							url: '/pages/me/educator/home'
 						})
 						// #endif
-						
+
 					} else {
 						uni.navigateTo({
 							url: '/pages/role/educator'
@@ -530,7 +481,7 @@
 
 				}
 				if (this.identity == 2) {
-					if(this.is_business>=10){
+					if (this.is_business >= 10) {
 						// #ifdef H5
 						var url = window.location.href;
 						var origin = window.location.origin;
@@ -539,19 +490,19 @@
 						// #endif
 						// #ifndef H5
 						uni.navigateTo({
-							url:'/pages/me/business/home'
+							url: '/pages/me/business/home'
 						})
 						// #endif
-						
-					}else{
+
+					} else {
 						uni.navigateTo({
 							url: '/pages/role/business'
 						})
 					}
-					
+
 				}
 				if (this.identity == 3) {
-					if(this.is_vendor>=10){
+					if (this.is_vendor >= 10) {
 						// #ifdef H5
 						var url = window.location.href;
 						var origin = window.location.origin;
@@ -560,16 +511,16 @@
 						// #endif
 						// #ifndef H5
 						uni.navigateTo({
-							url:'/pages/me/vendor/home'
+							url: '/pages/me/vendor/home'
 						})
 						// #endif
-					
-					}else{
+
+					} else {
 						uni.navigateTo({
 							url: '/pages/role/vendor'
 						})
 					}
-					
+
 				}
 
 			},
@@ -600,17 +551,22 @@
 					url: '/pages/me/events/index'
 				})
 			},
+			upgradeLevel(){
+				uni.navigateTo({
+					url:'/pages/me/upgrade'
+				})
+				
+			}
 
+		},
+		onShareAppMessage: function() {
 
 		},
-		onShareAppMessage:function(){
-			
+		onShareTimeline: function() {
+
 		},
-		onShareTimeline:function(){
-			
-		},
-		onAddToFavorites:function(){
-			
+		onAddToFavorites: function() {
+
 		},
 	}
 </script>

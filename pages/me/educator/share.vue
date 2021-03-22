@@ -271,7 +271,7 @@
 					<view class="profile-detail-item-title">{{i18n.profileintrovideo}}</view>
 					<view class="profile-detail-item-box" v-if="educatorInfo.video_url">
 						<view class="profile-intro-video">
-							<video id="myVideo" :muted="true" preload="metadata" @loadedmetadata="loadedMetaData" x5-video-player-type="h5-page"
+							<video id="myVideo" :muted="false" preload="metadata" @loadedmetadata="loadedMetaData" x5-video-player-type="h5-page"
 							 :poster="educatorInfo.profile_photo" :src="educatorInfo.video_url" controls></video>
 						</view>
 					</view>
@@ -297,8 +297,10 @@
 				</view>
 			</view>
 		</view>
+		<!-- #ifdef H5 -->
 		<xllfindmore></xllfindmore>
-
+		<!-- #endif -->
+		
 	</view>
 </template>
 
@@ -318,7 +320,7 @@
 				avatarUrl: "",
 				uerInfo: {},
 
-				backgroundPictureSrc: 'https://oss.esl-passport.cn/App_Profile_Back_Image_Design.png',
+				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_25.png',
 				introVideoSrc: '',
 				hobbiesList: [],
 				countriesList: [],

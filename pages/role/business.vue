@@ -4,10 +4,11 @@
 			<image src="../../static/esl-logo.png" lazy-load="true"></image>
 		</view>
 		<view class="flex-item role-intro animate__animated  animate__lightSpeedInRight">
-			{{i18n.basicinfowindowheader}}
+			<view class="role-intro-1">{{i18n.basicinfowindowheader}}</view>
 		</view>
 		<view class="flex-item role-form">
 			<view class="role-form-item">
+				<view class="role-form-item-label">{{i18n.Basicinfofirstname}}:</view>
 				<input type="text" name="firstname" v-model="firstname" :placeholder="i18n.Basicinfofirstname">
 			</view>
 		<!-- 	<view class="role-form-item">
@@ -17,18 +18,21 @@
 				<input type="text" v-model="nickname" :placeholder="i18n.basicinfonickname">
 			</view> -->
 			<view class="role-form-item">
+				<view class="role-form-item-label">{{i18n.basicinfojobtitle}}:</view>
+				<input type="text" v-model="jobTitle" :placeholder="i18n.basicinfojobtitle">
+			</view>
+			<view class="role-form-item">
+				<view class="role-form-item-label">{{i18n.basicinfoworkemail}}:</view>
+				<input type="text" v-model="workEmail" :placeholder="i18n.basicinfoworkemail">
+			</view>
+			<view class="role-form-item">
+				<view class="role-form-item-label">{{i18n.nationality}}:</view>
 				<view class="nationality-1" v-if="nationalitySelectStatus===false" @click="turnNationalityPage">
 					{{i18n.nationality}}
 				</view>
 				<view class="nationality-2" v-if="nationalitySelectStatus" @click="turnNationalityPage">
 					{{nationality}}
 				</view>
-			</view>
-			<view class="role-form-item">
-				<input type="text" v-model="jobTitle" :placeholder="i18n.basicinfojobtitle">
-			</view>
-			<view class="role-form-item">
-				<input type="text" v-model="workEmail" :placeholder="i18n.basicinfoworkemail">
 			</view>
 		</view>
 		<view class="role-form-done">

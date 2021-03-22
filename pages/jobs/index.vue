@@ -200,7 +200,7 @@
 				}
 				if (e.index == 2) {
 					uni.switchTab({
-						url: '/pages/deals/index'
+						url: '/pages/menu/deals'
 					})
 				}
 				if (e.index == 3) {

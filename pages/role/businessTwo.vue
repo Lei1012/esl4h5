@@ -4,27 +4,31 @@
 			<image src="../../static/esl-logo.png" lazy-load="true"></image>
 		</view>
 		<view class="flex-item role-intro animate__animated  animate__lightSpeedInRight">
-			{{i18n.businessinfowindowheader}}
+			<view class="role-intro-1">{{i18n.businessinfowindowheader}}</view>
 		</view>
 		<view class="flex-item role-form">
 			<view class="role-form-item">
+				<view class="role-form-item-label">{{i18n.businessname}}:</view>
 				<input type="text" v-model="businessName" :placeholder="i18n.businessname">
 			</view>
 			<view class="role-form-role-location">
-				<text style="color: #808080;" v-if="locationStatus===false"  @click="chooseLocation()">{{i18n.basicbusinesstwochooselocation}}</text>
-				<text v-if="locationStatus" @click="chooseLocation()" >{{pickerText}}</text>
+				<view class="role-location-label">{{i18n.vendorlocation}}:</view>
+				<view class="role-location-txt" v-if="locationStatus===false"  @click="chooseLocation()">{{i18n.basicbusinesstwochooselocation}}</view>
+				<view class="role-location-txt-2" v-if="locationStatus" @click="chooseLocation()">{{pickerText}}</view>
 			</view>
 			<view class="categories">
 				<view class="category-title">
 					{{i18n.businesscategory}}
 				</view>
-				<view class="categories-tags" v-for="(item,k) in range" :key="k">
-					<view v-if="item['children'].length>0" class="category-parent">{{item.identity_name}}</view>
-					<view v-if="item['children'].length===0" class="categories-tags-item"  :class="selectBusinessTypeList.indexOf(item) == -1 ? '' : 'tag-active' "
-					 @click="selectBusinessType(item)">{{item.identity_name}}</view>
-					<view class="categories-tags-item" v-for="(child,key) in item['children']" :key="key" :class="selectBusinessTypeList.indexOf(child) == -1 ? '' : 'tag-active' "
-					 @click="selectBusinessType(child)">
-						{{child.identity_name}}
+				<view class="categories-content">
+					<view class="categories-tags" v-for="(item,k) in range" :key="k">
+						<view v-if="item['children'].length>0" class="category-parent">{{item.identity_name}}</view>
+						<view v-if="item['children'].length===0" class="categories-tags-item"  :class="selectBusinessTypeList.indexOf(item) == -1 ? '' : 'tag-active' "
+						 @click="selectBusinessType(item)">{{item.identity_name}}</view>
+						<view class="categories-tags-item" v-for="(child,key) in item['children']" :key="key" :class="selectBusinessTypeList.indexOf(child) == -1 ? '' : 'tag-active' "
+						 @click="selectBusinessType(child)">
+							{{child.identity_name}}
+						</view>
 					</view>
 				</view>
 			</view>
@@ -257,52 +261,4 @@
 
 <style>
 	@import url("@/common/role/index.css");
-	.role-form-role-location {
-		width: 100%;
-		height: 80rpx;
-		margin-top: 20rpx;
-		text-align: center;
-		border-bottom: 1px solid #EEEEEE;
-		
-	}
-	
-	.role-form-role-location image {
-		width: 80rpx;
-		height: 80rpx;
-	
-	}
-	
-	.role-form-role-location button {
-		background-color: #FFFFFF;
-		border: none;
-		color: #808080;
-	
-	}
-	
-	
-	.role-form-role-location text {
-		font-size: 32rpx;
-		line-height: 80rpx;
-		
-	}
-	
-	
-	.role-form-role-map {
-		margin-top: 20rpx;
-		height: 600rpx;
-	}
-	
-	.role-form-role-map-fail {
-		width: 100%;
-		height: 80rpx;
-		margin-top: 20rpx;
-	
-		text-align: center;
-		border-bottom: 1rpx solid #EEEEEE;
-	}
-	
-	.role-form-role-map-fail image {
-		width: 80rpx;
-		height: 80rpx;
-	}
 </style>

@@ -21,7 +21,6 @@
 				<text>{{vendorUserInfo.first_name}} {{vendorUserInfo.last_name}}</text>
 			</view>
 		</view>
-
 		<view class="flex-item home-info">
 			<uni-segmented-control class="segmented-control-bg" :current="current" :values="items" @clickItem="onClickItem"
 			 style-type="text" active-color="#333333"></uni-segmented-control>
@@ -115,7 +114,6 @@
 						</view>
 
 						<view class="profile-edit-button" @click="turnEditProfilePhoto(8,vendorUserInfo.profile_photo)">
-							<!-- {{i18n.profileedit}} -->
 							<image src="../static/esl/upload.png" mode="aspectFit"></image>
 						</view>
 					</view>
@@ -127,7 +125,6 @@
 							</view>
 						</view>
 						<view class="profile-edit-button" @click="turnEditProfilePhoto(9,vendorUserInfo.logo)">
-							<!-- {{i18n.profileedit}} -->
 							<image src="../static/esl/upload.png" mode="aspectFit"></image>
 						</view>
 					</view>
@@ -139,7 +136,6 @@
 							</view>
 						</view>
 						<view class="profile-edit-button" @click="turnEditProfilePhoto(10,vendorUserInfo.header_photo)">
-							<!-- {{i18n.profileedit}} -->
 							<image src="../static/esl/upload.png" mode="aspectFit"></image>
 						</view>
 					</view>
@@ -153,7 +149,6 @@
 							</view>
 						</view>
 						<view class="profile-edit-button" @click="turnEditProfilePhoto(12,vendorUserInfo.wechat_public_qrcode)">
-							<!-- {{i18n.profileedit}} -->
 							<image src="../static/esl/upload.png" mode="aspectFit"></image>
 						</view>
 					</view>
@@ -165,7 +160,6 @@
 							</view>
 						</view>
 						<view class="profile-edit-button" @click="turnEditProfilePhotoMulti(11,userImagesList)">
-							<!-- {{i18n.profileedit}} -->
 							<image src="../static/esl/upload.png" mode="aspectFit"></image>
 						</view>
 					</view>
@@ -173,13 +167,12 @@
 						<view class="profile-detail-item-title">{{i18n.profileintrovideo}}</view>
 						<view class="profile-detail-item-box" v-if="vendorUserInfo.video_url">
 							<view class="profile-intro-video">
-								<video id="myVideo" :muted="true" preload="metadata" @loadedmetadata="loadedMetaData" 
+								<video id="myVideo" :muted="false" preload="metadata" @loadedmetadata="loadedMetaData" 
 								 x5-video-player-type="h5-page"  :src="vendorUserInfo.video_url" @error="videoErrorCallback"
 								 controls></video>
 							</view>
 						</view>
 						<view class="profile-edit-button" @click="turnEditProfileVideo(3,vendorUserInfo.video_url)">
-							<!-- {{i18n.profileedit}} -->
 							<image src="../static/esl/upload.png" mode="aspectFit"></image>
 						</view>
 					</view>
@@ -227,6 +220,10 @@
 							<text>{{i18n.profilejobtitle}}:</text>
 							<text>{{vendorUserInfo.job_title}}</text>
 						</view>
+						<view class="basic-info-item" v-if="vendorUserInfo.proposed_deal!=''" style="width: 100%;">
+							<text>{{i18n.vendorproposeddeal}}:</text>
+							<text>{{vendorUserInfo.proposed_deal}}</text>
+						</view>
 					</view>
 				
 					<view class="languages">
@@ -247,7 +244,6 @@
 				</view>
 			</view>
 		</view>
-		<!-- <u-back-top :scroll-top="scrollTop"></u-back-top> -->
 	</view>
 </template>
 
@@ -261,7 +257,6 @@
 	export default {
 		data() {
 			return {
-				scrollTop: 0,
 				basicUserInfo: {},
 				vendorUserInfo: {},
 				anchorPoint: '',
@@ -281,7 +276,7 @@
 				percent: '',
 				items: ['Business', 'Media', 'You'],
 				current: 0,
-				backgroundPictureSrc: 'https://i.loli.net/2021/02/01/wOgZUBjeEqmXf1H.png',
+				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_26.png',
 				introVideoSrc: '',
 				hobbiesList: [],
 				languagesList: [],
@@ -289,18 +284,15 @@
 
 			}
 		},
-		onPageScroll(e) {
-			this.scrollTop = e.scrollTop;
+		computed: {
+			i18n() {
+				return this.$t('index')
+			}
 		},
 		onShow() {
 			this.identity = uni.getStorageSync('identity');
 			this.getBasicInfo()
 			this.updateVendorProfile()
-		},
-		computed: {
-			i18n() {
-				return this.$t('index')
-			}
 		},
 		onLoad(option) {
 			_self = this;
@@ -352,11 +344,6 @@
 				})
 			},
 			turnVendorBasic() {
-				// var url = window.location.href;
-				// var origin = window.location.origin;
-				// console.log(origin)
-				// let turn_url = origin + '/esl_h5/pages/me/vendor/edit/vendorBasic';
-				// window.location.href = turn_url;
 				uni.navigateTo({
 					url:'edit/vendorBasic'
 				})
@@ -468,10 +455,6 @@
 			},
 			videoErrorCallback: function(e) {
 				console.log(e)
-				// uni.showModal({
-				// 	content: e.target.errMsg,
-				// 	showCancel: false
-				// })
 			},
 			getBasicInfo() {
 				var that = this;
@@ -543,10 +526,23 @@
 
 		},
 		onShareAppMessage:function(){
+			let uid = uni.getStorageSync('uid');
+			let vendorInfo = this.vendorUserInfo;
 			
+			return {
+				title:vendorInfo.first_name + ' ' + vendorInfo.last_name,
+				path:'/pages/me/vendor/share?id='+uid
+			}
 		},
 		onShareTimeline:function(){
+			let uid = uni.getStorageSync('uid');
+			let vendorInfo = this.vendorUserInfo;
 			
+			return {
+				title:vendorInfo.first_name + ' ' + vendorInfo.last_name,
+				path:'/pages/me/vendor/share?id='+uid,
+				imageUrl:vendorInfo.profile_photo
+			}
 		},
 		onAddToFavorites:function(){
 			

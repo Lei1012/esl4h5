@@ -131,16 +131,7 @@ input {
 
 .me-edit-form-toggle-box {
 	width: 100%;
-
 	margin-top: 20rpx;
-	/* border-bottom: 1px solid #EEEEEE; */
-	/* text-align: center; */
-	/* display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: flex-start; */
-
-
 }
 
 .me-edit-form-job-seeking {
@@ -173,4 +164,13 @@ input {
 	height: 80rpx;
 	border-radius: 80rpx;
 	line-height: 80rpx;
+}
+
+.form-item{
+	margin-top: 20rpx;
+}
+
+.form-item-label{
+	font-size: 34rpx;
+	font-weight: 700;
 }

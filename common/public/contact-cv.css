@@ -1,0 +1,84 @@
+.contact {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 20rpx;
+	background-color: #FFFFFF;
+	width: 96%;
+	margin: 20rpx auto;
+	border-radius: 20rpx;
+	margin-bottom: 20rpx;
+}
+
+.contact-l {
+	width: 25%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.contact-l image {
+	width: 140rpx;
+	height: 140rpx;
+	border-radius: 140rpx;
+	border: 1rpx solid #EEEEEE;
+}
+
+.contact-r {
+	width: 75%;
+	/* padding-left: 20rpx; */
+}
+
+.contact-nationality {
+	font-size: 30rpx;
+	line-height: 50rpx;
+}
+
+.contact-phone {
+	font-size: 30rpx;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: flex-start;
+
+}
+
+.contact-copy-container-l {
+	width: 50%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	height: 50rpx;
+	line-height: 50rpx;
+}
+
+.contact-copy-container-r {
+	width: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.contact-copy-container-r image {
+	width: 30rpx;
+	height: 30rpx;
+	margin-left: 20rpx;
+}
+
+.contact-work-email {
+	font-size: 30rpx;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.contact-name {
+	font-size: 30rpx;
+	font-weight: 700;
+	line-height: 80rpx;
+}

@@ -87,8 +87,8 @@ document.addEventListener('UniAppJSBridgeReady', () => {
 	fileDom.addEventListener('change', (event) => {
 		let file = fileDom.files[0];
 		// 默认限制文件小于10M,可自行修改
-		if(file.size > (1024*1024 * 10)) {
-			plus.nativeUI.toast('单个文件请勿超过10M,请重新上传');
+		if(file.size > (1024*1024 * 20)) {
+			plus.nativeUI.toast('单个文件请勿超过20M,请重新上传');
 			return;
 		}
 		createUpload(file, url, key,header,formData);

@@ -17,34 +17,53 @@ page {
 .role-intro {
 	width: 90%;
 	margin: 0 auto;
-	margin-top: 4%;
-	text-align: center;
-	font-size: 50rpx;
+	margin-top: 20rpx;
+}
 
+.role-intro-1 {
+	text-align: center;
+	font-size: 42rpx;
+	font-weight: 700;
+}
+
+.role-intro-2 {
+	font-size: 40rpx;
+	text-align: center;
 }
 
 .role-form {
 	width: 96%;
-	margin: 0 auto;
 	background-color: #FFFFFF;
 	border-radius: 20rpx;
 	padding: 20rpx 20rpx 40rpx 20rpx;
 	margin: 0 auto;
-	margin-top: 10%;
+	margin-top: 40rpx;
 	box-sizing: border-box;
 
 }
 
-input {
-	height: 100%;
-	text-align: center;
-	border: none;
-	/* border-bottom: 1px solid #EEEEEE; */
+.role-form-item-label {
 	font-size: 32rpx;
+	font-weight: 700;
+	color: #000000;
+	text-align: left;
+	line-height: 80rpx;
+}
+
+input {
+	line-height: 80rpx;
+	height: 80rpx;
+	text-align: left;
+	/* border: none; */
+	border: 1rpx solid #EEEEEE;
+	border-radius: 10rpx;
+	font-size: 32rpx;
+	text-indent: 20rpx;
 }
 
 .uni-input-placeholder {
-	text-align: center;
+	text-align: left;
+	text-indent: 20rpx;
 }
 
 .role-form-nickname {
@@ -54,12 +73,47 @@ input {
 	border-radius: 20rpx;
 }
 
-.role-form-item{
+.role-form-item {
 	width: 100%;
-	height: 80rpx;
-	margin-top: 20rpx;
-	text-align: center;
+	/* height: 80rpx; */
+	margin-top: 10rpx;
+	text-align: left;
+	/* border-bottom: 1px solid #EEEEEE; */
+}
+
+.role-form-role-location {
+	width: 100%;
+	/* height: 80rpx; */
+	margin-top: 10rpx;
+	text-align: left;
 	border-bottom: 1px solid #EEEEEE;
+}
+
+.role-location-label {
+	font-size: 32rpx;
+	font-weight: 700;
+	color: #000000;
+	text-align: left;
+	line-height: 80rpx;
+}
+
+.role-location-txt {
+	line-height: 80rpx;
+	font-size: 32rpx;
+	color: #808080;
+	text-indent: 20rpx;
+}
+
+.role-location-txt-2 {
+	line-height: 80rpx;
+	font-size: 32rpx;
+	text-indent: 20rpx;
+	color: #000000;
+}
+
+.role-form-role-location text {
+	font-size: 32rpx;
+	/* line-height: 80rpx; */
 }
 
 .role-form-type-1 {
@@ -92,19 +146,30 @@ input {
 
 .role-form-done button {
 	background-color: #0AA0A8;
-	height: 100rpx;
-	line-height: 100rpx;
-	border-radius: 100rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	border-radius: 80rpx;
 	color: #FFFFFF;
+	font-size: 34rpx;
 }
-.categories{
-	margin-top: 20rpx;
-	
+
+.categories {
+	margin-top: 10rpx;
+	/* border: 1rpx solid #EEEEEE; */
 }
-.category-title{
+
+.category-title {
 	font-size: 32rpx;
-	text-align: center;
-	color: #808080;
+	text-align: left;
+	color: #000000;
+	line-height: 80rpx;
+	font-weight: 700;
+}
+
+.categories-content {
+	border: 1rpx solid #EEEEEE;
+	border-radius: 20rpx;
+	padding: 10rpx;
 }
 
 .categories-tags {
@@ -114,17 +179,19 @@ input {
 	justify-content: first baseline;
 	align-items: center;
 	flex-wrap: wrap;
-	border: 1rpx solid #EEEEEE;
-	padding: 20rpx 10rpx;
-	margin-top: 10rpx;
-	border-radius: 20rpx;
+	border-bottom: 1rpx dashed #EEEEEE;
+	padding-bottom: 10rpx;
+}
+.categories-tags:last-child{
+	border-bottom: none;
 }
 
-.category-parent{
+.category-parent {
 	width: 100%;
-	font-size: 32rpx;
+	font-size: 30rpx;
+	color: #808080;
 	font-weight: 700;
-	text-align: center;
+	text-align: left;
 }
 
 .categories-tags-item {
@@ -144,17 +211,32 @@ input {
 	color: #FFFFFF;
 }
 
-.nationality-1{
+.nationality-1 {
 	font-size: 32rpx;
 	line-height: 80rpx;
 	height: 80rpx;
-	text-align: center;
+	text-align: left;
 	color: #808080;
+	text-indent: 20rpx;
 }
 
-.nationality-2{
+.nationality-2 {
 	font-size: 32rpx;
 	line-height: 80rpx;
 	height: 80rpx;
-	text-align: center;
+	text-align: left;
+	text-indent: 20rpx;
+}
+
+.role-form-textarea {
+	/* margin-top: 10rpx; */
+}
+
+.role-form-textarea-label {
+	text-align: left;
+	font-weight: 700;
+	font-size: 32rpx;
+	color: #000000;
+	line-height: 80rpx;
+	margin-top: 10rpx;
 }

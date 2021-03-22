@@ -50,17 +50,14 @@
 			<view class="add-deals-item add-deals-first" v-if="eventsList.length<1" :class="eventsNum>=1 ? 'add-deals-first' : '' "  @click="addDeal(1)" >
 				{{i18n.eventsaddevent1}}
 			</view>
-			<view class="add-deals-item" v-if="eventsList.length<2" :class="eventsNum>=3 ? 'add-deals-first' : '' "  @click="addDeal(3)">
+			<view class="add-deals-item" v-if="eventsList.length<2" :class="eventsNum>=2 ? 'add-deals-first' : '' "  @click="addDeal(2)">
 				{{i18n.eventsaddevent2}}
 			</view>
-			<view class="add-deals-item" v-if="eventsList.length<3" :class="eventsNum>=3 ? 'add-deals-first' : '' "  @click="addDeal(3)">
+			<view class="add-deals-item" v-if="eventsList.length<3" :class="eventsNum>=4 ? 'add-deals-first' : '' "  @click="addDeal(3)">
 				{{i18n.eventsaddevent3}}
 			</view>
-			<view class="add-deals-item" v-if="eventsList.length<4" :class="eventsNum>=5 ? 'add-deals-first' : '' "  @click="addDeal(5)">
+			<view class="add-deals-item" v-if="eventsList.length<4" :class="eventsNum>=4 ? 'add-deals-first' : '' "  @click="addDeal(4)">
 				{{i18n.eventsaddevent4}}
-			</view>
-			<view class="add-deals-item" v-if="eventsList.length<5" :class="eventsNum>=5 ? 'add-deals-first' : '' "  @click="addDeal(5)">
-				{{i18n.eventsaddevent5}}
 			</view>
 			
 		</view>

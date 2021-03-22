@@ -4,315 +4,396 @@
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"subPackages": [{
-		"root": "pages/me",
-		"pages": [{
-				"path": "member",
-				"style": {
-					"navigationBarTitleText": "Member Selected"
-				}
-			}, {
-				"path": "welcome",
-				"style": {
-					"navigationBarTitleText": "Welcome to ESL Passport!"
-				}
-			}, {
-				"path": "educator/home",
-				"style": {
-					"navigationBarTitleText": "Educator Profile"
-				}
-			}, {
-				"path": "educator/prompt",
-				"style": {
-					"navigationBarTitleText": "Prompt"
-				}
-			}, {
-				"path": "educator/edit/basic",
-				"style": {
-					"navigationBarTitleText": "Basic"
-				}
-			}, {
-				"path": "educator/edit/bio",
-				"style": {
-					"navigationBarTitleText": "Bio"
-				}
-			}, {
-				"path": "educator/edit/workExperience",
-				"style": {
-					"navigationBarTitleText": "Work Experience"
-				}
-			}, {
-				"path": "educator/edit/education",
-				"style": {
-					"navigationBarTitleText": "Education"
-				}
-			},
-			{
-				"path": "business/home",
-				"style": {
-					"navigationBarTitleText": "Business Profile"
-				}
-			}, {
-				"path": "business/prompt",
-				"style": {
-					"navigationBarTitleText": "Prompt"
-				}
-			}, {
-				"path": "business/edit/basic",
-				"style": {
-					"navigationBarTitleText": "Basic"
-				}
-			}, {
-				"path": "vendor/home",
-				"style": {
-					"navigationBarTitleText": "Vendor Profile"
-				}
-			},
-			{
-				"path": "vendor/prompt",
-				"style": {
-					"navigationBarTitleText": "Prompt"
-				}
-			}, {
-				"path": "business/edit/businessBasic",
-				"style": {
-					"navigationBarTitleText": "Business Basic"
-				}
-			}, {
-				"path": "profile/countriesList",
-				"style": {
-					"navigationBarTitleText": "Countries List"
-				}
-			}, {
-				"path": "profile/indexList",
-				"style": {
-					"navigationBarTitleText": "Index List"
-				}
-			}, {
-				"path": "profile/searchTags",
-				"style": {
-					"navigationBarTitleText": "Search Tags"
-				}
-			}, {
-				"path": "profile/photo",
-				"style": {
-					"navigationBarTitleText": "Photo"
-				}
-			}, {
-				"path": "profile/video",
-				"style": {
-					"navigationBarTitleText": "Video"
-				}
-			}, {
-				"path": "vendor/edit/basic",
-				"style": {
-					"navigationBarTitleText": "Basic"
-				}
-			}, {
-				"path": "vendor/edit/vendorBasic",
-				"style": {
-					"navigationBarTitleText": "Vendor Basic"
-				}
-			}, {
-				"path": "profile/rateSkillsList",
-				"style": {
-					"navigationBarTitleText": "Languages",
-					"enablePullDownRefresh": false,
-					"h5": {
-						"titleNView": {
-							"type": "default"
+			"root": "pages/me",
+			"pages": [{
+					"path": "member",
+					"style": {
+						"navigationBarTitleText": "Member Selected"
+					}
+				}, {
+					"path": "welcome",
+					"style": {
+						"navigationBarTitleText": "Welcome to ESL Passport!"
+					}
+				}, {
+					"path": "educator/home",
+					"style": {
+						"navigationBarTitleText": "Educator Profile"
+					}
+				}, {
+					"path": "educator/prompt",
+					"style": {
+						"navigationBarTitleText": "Prompt"
+					}
+				}, {
+					"path": "educator/edit/basic",
+					"style": {
+						"navigationBarTitleText": "Basic"
+					}
+				}, {
+					"path": "educator/edit/bio",
+					"style": {
+						"navigationBarTitleText": "Bio"
+					}
+				}, {
+					"path": "educator/edit/workExperience",
+					"style": {
+						"navigationBarTitleText": "Work Experience"
+					}
+				}, {
+					"path": "educator/edit/education",
+					"style": {
+						"navigationBarTitleText": "Education"
+					}
+				},
+				{
+					"path": "business/home",
+					"style": {
+						"navigationBarTitleText": "Business Profile"
+					}
+				}, {
+					"path": "business/prompt",
+					"style": {
+						"navigationBarTitleText": "Prompt"
+					}
+				}, {
+					"path": "business/edit/basic",
+					"style": {
+						"navigationBarTitleText": "Basic"
+					}
+				}, {
+					"path": "vendor/home",
+					"style": {
+						"navigationBarTitleText": "Vendor Profile"
+					}
+				},
+				{
+					"path": "vendor/prompt",
+					"style": {
+						"navigationBarTitleText": "Prompt"
+					}
+				}, {
+					"path": "business/edit/businessBasic",
+					"style": {
+						"navigationBarTitleText": "Business Basic"
+					}
+				}, {
+					"path": "profile/countriesList",
+					"style": {
+						"navigationBarTitleText": "Countries List"
+					}
+				}, {
+					"path": "profile/indexList",
+					"style": {
+						"navigationBarTitleText": "Index List"
+					}
+				}, {
+					"path": "profile/searchTags",
+					"style": {
+						"navigationBarTitleText": "Search Tags"
+					}
+				}, {
+					"path": "profile/photo",
+					"style": {
+						"navigationBarTitleText": "Photo"
+					}
+				}, {
+					"path": "profile/video",
+					"style": {
+						"navigationBarTitleText": "Video"
+					}
+				}, {
+					"path": "vendor/edit/basic",
+					"style": {
+						"navigationBarTitleText": "Basic"
+					}
+				}, {
+					"path": "vendor/edit/vendorBasic",
+					"style": {
+						"navigationBarTitleText": "Vendor Basic"
+					}
+				}, {
+					"path": "profile/rateSkillsList",
+					"style": {
+						"navigationBarTitleText": "Languages",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
 						}
 					}
-				}
-			}, {
-				"path": "accountInfo/index",
-				"style": {
-					"navigationBarTitleText": "Account Info",
-					"enablePullDownRefresh": false
-				}
+				}, {
+					"path": "accountInfo/index",
+					"style": {
+						"navigationBarTitleText": "Account Info",
+						"enablePullDownRefresh": false
+					}
 
-			}, {
-				"path": "deals/index",
-				"style": {
-					"navigationBarTitleText": "Deals List",
-					"enablePullDownRefresh": false
-				}
+				}, {
+					"path": "deals/index",
+					"style": {
+						"navigationBarTitleText": "Deals List",
+						"enablePullDownRefresh": false
+					}
 
-			}, {
-				"path": "events/index",
-				"style": {
-					"navigationBarTitleText": "Events List",
-					"enablePullDownRefresh": false
-				}
+				}, {
+					"path": "events/index",
+					"style": {
+						"navigationBarTitleText": "Events List",
+						"enablePullDownRefresh": false
+					}
 
-			}, {
-				"path": "deals/add",
-				"style": {
-					"navigationBarTitleText": "Add",
-					"enablePullDownRefresh": false,
-					"h5": {
-						"titleNView": {
-							"type": "default"
+				}, {
+					"path": "deals/add",
+					"style": {
+						"navigationBarTitleText": "Add",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
 						}
 					}
-				}
 
-			}, {
-				"path": "deals/detail",
-				"style": {
-					"navigationBarTitleText": "Detail",
-					"enablePullDownRefresh": false
-				}
-
-			}, {
-				"path": "events/add",
-				"style": {
-					"navigationBarTitleText": "Add",
-					"enablePullDownRefresh": false,
-					"h5": {
-						"titleNView": {
-							"type": "default"
+				}, {
+					"path": "deals/detail",
+					"style": {
+						"navigationBarTitleText": "Detail",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
 						}
 					}
-				}
 
-			}, {
-				"path": "events/detail",
-				"style": {
-					"navigationBarTitleText": "Detail",
-					"enablePullDownRefresh": false
-				}
-
-			}, {
-				"path": "vendor/edit/legalInfo",
-				"style": {
-					"navigationBarTitleText": "Legal Info",
-					"enablePullDownRefresh": false
-				}
-
-			}, {
-				"path": "educator/share",
-				"style": {
-					"navigationBarTitleText": "Share",
-					"enablePullDownRefresh": false
-				}
-
-			}, {
-				"path": "business/share",
-				"style": {
-					"navigationBarTitleText": "Share",
-					"enablePullDownRefresh": false
-				}
-
-			}, {
-				"path": "vendor/share",
-				"style": {
-					"navigationBarTitleText": "Share",
-					"enablePullDownRefresh": false
-				}
-
-			}, {
-				"path": "deals/share",
-				"style": {
-					"navigationBarTitleText": "Share",
-					"enablePullDownRefresh": false
-				}
-
-			}, {
-				"path": "events/share",
-				"style": {
-					"navigationBarTitleText": "Share",
-					"enablePullDownRefresh": false
-				}
-			},
-			{
-				"path": "profile/cropperPhoto",
-				"style": {
-					"navigationBarTitleText": "",
-					"enablePullDownRefresh": false
-				}
-
-			}, {
-				"path": "business/edit/school",
-				"style": {
-					"navigationBarTitleText": "",
-					"enablePullDownRefresh": false
-				}
-
-			}
-		]
-	}, {
-		"root": "pages/jobs",
-		"pages": [{
-				"path": "jobs",
-				"style": {
-					"navigationBarTitleText": "Post Jobs",
-					"enablePullDownRefresh": false,
-					"h5": {
-						"titleNView": {
-							"type": "default"
+				}, {
+					"path": "events/add",
+					"style": {
+						"navigationBarTitleText": "Add",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
 						}
 					}
-				}
-			}, {
-				"path": "index",
-				"style": {
-					"navigationBarTitleText": "My Jobs",
-					"enablePullDownRefresh": false,
-					"h5": {
-						"titleNView": {
-							"type": "default"
+
+				}, {
+					"path": "events/detail",
+					"style": {
+						"navigationBarTitleText": "Detail",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
 						}
 					}
-				}
-			},
-			{
-				"path": "details",
-				"style": {
-					"navigationBarTitleText": "Job Detail",
-					"enablePullDownRefresh": false
-				}
-			}, {
-				"path": "base/countriesList",
-				"style": {
-					"navigationBarTitleText": "Countries List",
-					"enablePullDownRefresh": false
-				}
-			}, {
-				"path": "share",
-				"style": {
-					"navigationBarTitleText": "Share",
-					"enablePullDownRefresh": false
-				}
 
-			}, {
-				"path": "resume",
-				"style": {
-					"navigationBarTitleText": "Resume",
-					"enablePullDownRefresh": false
-				}
+				}, {
+					"path": "vendor/edit/legalInfo",
+					"style": {
+						"navigationBarTitleText": "Legal Info",
+						"enablePullDownRefresh": false
+					}
 
-			}, {
-				"path": "apply/index",
-				"style": {
-					"navigationBarTitleText": "Apply List",
-					"enablePullDownRefresh": true
-				}
+				}, {
+					"path": "educator/share",
+					"style": {
+						"navigationBarTitleText": "Share",
+						"enablePullDownRefresh": false
+					}
 
-			}, {
-				"path": "promotion",
-				"style": {
-					"navigationBarTitleText": "Promotion",
-					"enablePullDownRefresh": false,
-					"h5": {
-						"titleNView": {
-							"type": "default"
+				}, {
+					"path": "business/share",
+					"style": {
+						"navigationBarTitleText": "Share",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "vendor/share",
+					"style": {
+						"navigationBarTitleText": "Share",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "deals/share",
+					"style": {
+						"navigationBarTitleText": "Share",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "events/share",
+					"style": {
+						"navigationBarTitleText": "Share",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
 						}
 					}
-				}
+				},
+				{
+					"path": "profile/cropperPhoto",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
 
-			}
-		]
-	}],
+				}, {
+					"path": "business/edit/school",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "upgrade",
+					"style": {
+						"navigationBarTitleText": "Upgrade",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
+						}
+					}
+					
+
+				}
+			]
+		}, {
+			"root": "pages/jobs",
+			"pages": [{
+					"path": "jobs",
+					"style": {
+						"navigationBarTitleText": "Post Jobs",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
+						}
+					}
+				}, {
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "My Jobs",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
+						}
+					}
+				},
+				{
+					"path": "details",
+					"style": {
+						"navigationBarTitleText": "Job Detail",
+						"enablePullDownRefresh": false
+					}
+				}, {
+					"path": "base/countriesList",
+					"style": {
+						"navigationBarTitleText": "Countries List",
+						"enablePullDownRefresh": false
+					}
+				}, {
+					"path": "share",
+					"style": {
+						"navigationBarTitleText": "Share",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "resume",
+					"style": {
+						"navigationBarTitleText": "Resume",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "apply/index",
+					"style": {
+						"navigationBarTitleText": "Apply List",
+						"enablePullDownRefresh": true
+					}
+
+				}, {
+					"path": "promotion",
+					"style": {
+						"navigationBarTitleText": "Promotion",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
+						}
+					}
+
+				},
+				{
+					"path": "multi/index",
+					"style": {
+						"navigationBarTitleText": "Multiple Post",
+						"enablePullDownRefresh": false,
+						"h5": {
+							"titleNView": {
+								"type": "default"
+							}
+						}
+					}
+
+				}
+			]
+		},
+		{
+			"root": "pages/deals",
+			"pages": [{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "Deals",
+						"h5": {
+							"titleNView": false
+						}
+					}
+				}, {
+					"path": "deals/list",
+					"style": {
+						"navigationBarTitleText": "List",
+						"enablePullDownRefresh": true
+					}
+
+				},
+				{
+					"path": "events/list",
+					"style": {
+						"navigationBarTitleText": "List",
+						"enablePullDownRefresh": true
+					}
+
+				}
+			]
+		}
+
+	],
+	"preloadRule": {
+		"pages/home/index": {
+			"network": "all",
+			"packages": ["__APP__"]
+		},
+		"pages/jobs/jobs": {
+			"network": "all",
+			"packages": ["pages/jobs"]
+		}
+	},
 	"pages": [
 		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
@@ -330,14 +411,6 @@
 			"style": {
 				"navigationBarTitleText": "Job List",
 				"enablePullDownRefresh": true,
-				"h5": {
-					"titleNView": false
-				}
-			}
-		}, {
-			"path": "pages/deals/index",
-			"style": {
-				"navigationBarTitleText": "Deals",
 				"h5": {
 					"titleNView": false
 				}
@@ -395,20 +468,6 @@
 				"enablePullDownRefresh": false
 			}
 		}, {
-			"path": "pages/deals/deals/list",
-			"style": {
-				"navigationBarTitleText": "List",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/deals/events/list",
-			"style": {
-				"navigationBarTitleText": "List",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
 			"path": "pages/location/location",
 			"style": {
 				"navigationBarTitleText": "",
@@ -422,25 +481,35 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/public/payment/payment",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/webview/webview",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/menu/deals",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/public/payment/payment",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"pageOrientation": "portrait",
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "ESL Passport",
 		"navigationBarBackgroundColor": "#0AA0A8",
 		"backgroundColor": "#F4F5F6",
-		"transparentTitle": "auto",
-		"titlePenetrate": "YES",
 		"mp-360": {
 			"navigationStyle": "custom"
 		},
@@ -476,7 +545,7 @@
 				"text": "Jobs"
 			},
 			{
-				"pagePath": "pages/deals/index",
+				"pagePath": "pages/menu/deals",
 				"iconPath": "static/tags.png",
 				"selectedIconPath": "static/tags-fill.png",
 				"text": "Deals"

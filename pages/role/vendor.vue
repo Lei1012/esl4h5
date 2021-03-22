@@ -4,26 +4,15 @@
 			<image src="../../static/esl-logo.png" lazy-load="true"></image>
 		</view>
 		<view class="flex-item role-intro animate__animated  animate__lightSpeedInRight">
-			{{i18n.basicinfowindowheader}}
+			<view class="role-intro-1">{{i18n.vendorapplication}}  </view>
+			<view class="role-intro-2">{{i18n.vendorapplicationaboutyou}}</view>
 		</view>
 		<view class="flex-item role-form">
-
 			<view class="role-form-item">
-				<input type="text" name="firstname" v-model="firstname" :placeholder="i18n.Basicinfofirstname">
-			</view>
-			<!-- <view class="role-form-item">
-				<input type="text" v-model="nickname" :placeholder="i18n.basicinfonickname">
-			</view> -->
-			<view class="role-form-item">
-				<input type="text" name="wechatId" v-model="wechatId" :placeholder="i18n.vendorwechatid">
+				<input type="text" name="firstname" v-model="firstname" :placeholder="i18n.vendorapplicationname">
 			</view>
 			<view class="role-form-item">
-				<view class="nationality-1" v-if="nationalitySelectStatus===false" @click="turnNationalityPage">
-					{{i18n.nationality}}
-				</view>
-				<view class="nationality-2" v-if="nationalitySelectStatus" @click="turnNationalityPage">
-					{{nationality}}
-				</view>
+				<input type="number" maxlength="11" v-model="phoneValue" :placeholder="i18n.vendorapplicationphone">
 			</view>
 			<view class="role-form-item">
 				<input type="text" v-model="jobTitle" :placeholder="i18n.basicinfojobtitle">
@@ -48,13 +37,9 @@
 		data() {
 			return {
 				firstname: "",
-				lastname: "",
-				nickname: '',
 				jobTitle: '',
 				workEmail: '',
-				nationality: "",
-				nationalitySelectStatus: false,
-				wechatId:''
+				phoneValue:''
 			}
 		},
 		computed: {
@@ -63,11 +48,7 @@
 			}
 		},
 		onLoad() {
-			var that = this;
-			uni.$on('nationalityObj', function(data) {
-				that.nationality = data.name;
-				that.nationalitySelectStatus = true;
-			})
+			
 		},
 		methods: {
 			turnNationalityPage() {
@@ -78,13 +59,9 @@
 			submitVendor() {
 				var that = this;
 				let firstname = that.firstname;
-				let lastname = that.lastname;
-				let nickname = that.nickname;
 				let jobTitle = that.jobTitle;
 				let workEmail = that.workEmail;
-				let nationality = that.nationality;
-				let wechatId = this.wechatId;
-				
+				let phoneValue = that.phoneValue;
 
 				if (firstname.length < 1) {
 					return uni.showToast({
@@ -92,16 +69,10 @@
 						icon: 'none'
 					})
 				}
-				if(wechatId == ''){
+				if(phoneValue == ''){
 					return uni.showToast({
-						title:this.i18n.vendorwechatidph,
+						title:this.i18n.vendorapplicationphone,
 						icon:'none'
-					})
-				}
-				if(nationality == ''){
-					return uni.showToast({
-						title: that.i18n.nationalityerror,
-						icon: "none"
 					})
 				}
 			
@@ -127,8 +98,8 @@
 					success() {
 						setTimeout(function() {
 							uni.navigateTo({
-								url: 'vendorTwo?fname=' + firstname + '&nationality=' + nationality + '&wxid=' + wechatId + '&jobTitle=' +
-									jobTitle + '&workEmail=' + workEmail
+								url: 'vendorTwo?fname=' + firstname + '&jobTitle=' +
+									jobTitle + '&workEmail=' + workEmail +'&phone='+phoneValue
 							})
 						}, 1000)
 					}

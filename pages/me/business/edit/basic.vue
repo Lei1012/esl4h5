@@ -248,6 +248,7 @@
 				profile.addBusinessBasic(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
+						uni.$emit('userInfoUpdated',{msg:'page updated'});
 						if(this.isFirstEdit==1){
 							uni.navigateTo({
 								url: '/pages/me/profile/photo?type=14'

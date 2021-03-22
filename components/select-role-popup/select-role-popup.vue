@@ -13,26 +13,27 @@
 				</view>
 			</view>
 			<view class="role-intro">
-				<text>
-					{{i18n.roleIntrotop}} <br>
-					{{i18n.roleIntrobottom}}
-				</text>
+				{{i18n.roleIntrotop}} <br>
+				{{i18n.roleIntrobottom}}
 			</view>
 			<view class="role-roles">
-				<view class="role-item" :class="selectRoleIdentity==1 ? 'role-item-actived' : '' " @click="selectRole(1)">
+				<view class="role-item" :class="selectRoleIdentity==1 ? 'role-item-actived' : '' "
+					@click="selectRole(1)">
 					{{i18n.educatorbutton}}
-					<image class="animate__animated animate__flash" v-if="selectRoleIdentity==1" src="@/static/esl/click-w-icon.png"
-					 mode="aspectFill"></image>
+					<image class="animate__animated animate__flash" v-if="selectRoleIdentity==1"
+						src="@/static/esl/click-w-icon.png" mode="aspectFill"></image>
 				</view>
-				<view class="role-item" :class="selectRoleIdentity==2 ? 'role-item-actived' : '' " @click="selectRole(2)">
+				<view class="role-item" :class="selectRoleIdentity==2 ? 'role-item-actived' : '' "
+					@click="selectRole(2)">
 					{{i18n.businessbutton}}
-					<image class="animate__animated animate__flash" v-if="selectRoleIdentity==2" src="@/static/esl/click-w-icon.png"
-					 mode="aspectFill"></image>
+					<image class="animate__animated animate__flash" v-if="selectRoleIdentity==2"
+						src="@/static/esl/click-w-icon.png" mode="aspectFill"></image>
 				</view>
-				<view class="role-item" :class="selectRoleIdentity==3 ? 'role-item-actived' : '' " @click="selectRole(3)">
+				<view class="role-item" :class="selectRoleIdentity==3 ? 'role-item-actived' : '' "
+					@click="selectRole(3)">
 					{{i18n.vendorbutton}}
-					<image class="animate__animated animate__flash" v-if="selectRoleIdentity==3" src="@/static/esl/click-w-icon.png"
-					 mode="aspectFill"></image>
+					<image class="animate__animated animate__flash" v-if="selectRoleIdentity==3"
+						src="@/static/esl/click-w-icon.png" mode="aspectFill"></image>
 				</view>
 				<!-- <view class="role-item" :class="selectRoleIdentity==4 ? 'role-item-actived' : '' " @click="selectRole(4)">
 					{{i18n.otherbutton}}
@@ -40,9 +41,6 @@
 					 mode="aspectFill"></image>
 				</view> -->
 			</view>
-			<!-- <view class="tips">
-				<text>Make sure you follow the official WeChat account to use this App</text>
-			</view> -->
 		</view>
 		<!-- 角色选择弹框 end -->
 	</view>
@@ -81,16 +79,16 @@
 				type: Number,
 				default: 0
 			}
-		
-			
+
+
 		},
 		mounted() {
 			var that = this;
-			
+
 		},
 		methods: {
 			closePopup() {
-				var that =this
+				var that = this
 				that.$emit('close')
 				that.language = uni.getStorageSync('language');
 			},
@@ -98,18 +96,18 @@
 				var that = this;
 				// this.rolePopupStatus = false;
 				that.$emit('close')
-			
+
 				let mobile = uni.getStorageSync('phone')
 				let token = uni.getStorageSync('token');
-				
+
 				// console.log(mobile)
 				if (mobile == '') {
 					uni.navigateTo({
 						url: '/pages/role/wxBindMobile?roleValue=' + e + '&language=' + that.languageValue
 					})
-			
+
 				} else {
-					
+
 					if (token != '') {
 						let data = {
 							token: uni.getStorageSync('token'),
@@ -129,56 +127,59 @@
 								that.is_other = res.message.is_other;
 								that.identity = res.message.identity;
 								that.mobile = res.message.phone;
-								
+
 								if (e == 1) {
 									if (that.is_educator >= 10) {
 										this.changeIdentityApi(1)
 									} else {
 										uni.navigateTo({
-											url: '/pages/role/educator?roleValue=' + e + '&language=' + that.languageValue
+											url: '/pages/role/educator?roleValue=' + e + '&language=' +
+												that.languageValue
 										})
 									}
-											
+
 								}
 								if (e == 2) {
 									if (that.is_business >= 10) {
 										this.changeIdentityApi(2)
 									} else {
 										uni.navigateTo({
-											url: '/pages/role/business?roleValue=' + e + '&language=' + that.languageValue
+											url: '/pages/role/business?roleValue=' + e + '&language=' +
+												that.languageValue
 										})
 									}
-											
+
 								}
 								if (e == 3) {
 									if (that.is_vendor >= 10) {
 										this.changeIdentityApi(3)
 									} else {
 										uni.navigateTo({
-											url: '/pages/role/vendor?roleValue=' + e + '&language=' + that.languageValue
+											url: '/pages/role/vendor?roleValue=' + e + '&language=' +
+												that.languageValue
 										})
 									}
-											
+
 								}
 								if (e == 4) {
 									this.changeIdentityApi(4)
 								}
-								
-					
+
+
 							} else {
 								uni.showToast({
 									title: res.msg,
 									icon: 'none'
 								})
 							}
-					
+
 						}).catch(error => {
 							console.log(error)
 						})
 					}
-					
+
 				}
-			
+
 			},
 			changeLang: function(e) {
 				var _this = this;

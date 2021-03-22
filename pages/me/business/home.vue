@@ -77,14 +77,22 @@
 						</view>
 					</view>
 					<!-- 是不是学校 school -->
-					<view class="basic-info">
+					<view class="a-school" v-if="businessUserInfo.is_school==0">
+						<view class="a-school-l">
+							{{i18n.profilebusinessbasicisschool}}
+						</view>
+						<view class="a-school-r">
+							<button type="default" @click="turnEditBusinessSchool">Yes</button>
+						</view>
+					</view>
+					<view class="basic-info" v-if="businessUserInfo.is_school==1">
 						<view class="basic-info-t">
 							<view class="basic-info-t-title">{{i18n.profilebusinessbasicisschool}}</view>
 							<view class="edit-icon" @click="turnEditBusinessSchool">
 								<image src="../static/esl/edit.png" mode="aspectFill"></image>
 							</view>
 						</view>
-						<view class="basic-info-b">
+						<view class="basic-info-b" style="padding-bottom: 0;">
 							<view class="basic-info-item" v-if="businessUserInfo.curriculum!=''">
 								<text>{{i18n.profilecurriculum}}:</text>
 								<text>{{businessUserInfo.curriculum}}</text>
@@ -343,9 +351,7 @@
 						<view class="profile-detail-item-title">{{i18n.profileintrovideo}}</view>
 						<view class="profile-detail-item-box" v-if="businessUserInfo.video_url">
 							<view class="profile-intro-video">
-								<video id="myVideo" :muted="true" preload="metadata" @loadedmetadata="loadedMetaData" 
-								 x5-video-player-type="h5-page" :src="businessUserInfo.video_url" @error="videoErrorCallback"
-								 controls></video>
+								<video id="myVideo"  :src="businessUserInfo.video_url" @error="videoErrorCallback" controls></video>
 							</view>
 						</view>
 						<view class="profile-edit-button" @click="turnEditProfileVideo(2,businessUserInfo.video_url)">
@@ -464,7 +470,7 @@
 				}],
 				items: ['Business', 'Media', 'You'],
 				current: 0,
-				backgroundPictureSrc: 'https://i.loli.net/2021/02/01/wOgZUBjeEqmXf1H.png',
+				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_26.png',
 				introVideoSrc: '',
 				hobbiesList: [],
 				subjectList: [],
@@ -506,14 +512,16 @@
 				ownJobTypeList: [],
 				selectJobTypeList: [],
 				selectJobTypeArr: [],
-				metaDuration: 0
+				metaDuration: 0,
+				
+				isSchoolStatus:false,
 			}
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop;
 		},
 		onShow() {
-			this.identity = uni.getStorageSync('identity');
+			// this.identity = uni.getStorageSync('identity');
 			this.getBasicInfo();
 			this.updateBusProfile();
 		},
@@ -1220,10 +1228,23 @@
 
 		},
 		onShareAppMessage:function(){
+			let uid = uni.getStorageSync('uid');
+			let businessInfo = this.businessUserInfo;
 			
+			return {
+				title:businessInfo.first_name + ' ' + businessInfo.last_name,
+				path:'/pages/me/business/share?id='+uid
+			}
 		},
 		onShareTimeline:function(){
+			let uid = uni.getStorageSync('uid');
+			let businessInfo = this.businessUserInfo;
 			
+			return {
+				title:businessInfo.first_name + ' ' + businessInfo.last_name,
+				path:'/pages/me/business/share?id='+uid,
+				imageUrl:businessInfo.profile_photo
+			}
 		},
 		onAddToFavorites:function(){
 			
@@ -1313,4 +1334,30 @@
 		background-color: #00CE47;
 		color: #FFFFFF;
 	}
+	
+	
+	.a-school{
+		background-color: #FFFFFF;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 20rpx;
+		padding: 10rpx 20rpx;
+		border-radius: 20rpx;
+	}
+	
+	.a-school-l{
+		font-size: 34rpx;
+		font-weight: 700;
+		
+	}
+	.a-school-r button{
+		height: 80rpx;
+		background-color: #0AA0A8;
+		color: #FFFFFF;
+		line-height: 80rpx;
+		font-size: 34rpx;
+	}
+	
 </style>

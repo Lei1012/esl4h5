@@ -1,9 +1,9 @@
 <template>
 	<view class="uni-flex uni-column ">
 		<view class="flex-item detail-container">
-			<view class="flex-item photo-top-container" v-if="detailValue" :style="{backgroundImage: detailValue.userInfo.header_photo != '' ? 'url('+detailValue.userInfo.header_photo+')' : 'url('+backgroundPictureSrc+')'} ">
-				<view class="photo-top">
-					<image :src="detailValue.userInfo.logo" mode="aspectFit" @click="turnVendorProfile(detailValue.user_id)"></image>
+			<view class="flex-item photo-top-container" v-if="detailUserInfo" :style="{backgroundImage: detailUserInfo.header_photo != '' ? 'url('+detailUserInfo.header_photo+')' : 'url('+backgroundPictureSrc+')'} ">
+				<view class="photo-top" >
+					<image  :src="detailUserInfo.logo" mode="aspectFit" @click="turnVendorProfile(detailValue.user_id)"></image>
 				</view>
 			</view>
 			<view class="xll-header">
@@ -40,21 +40,40 @@
 				</view>
 			</view>
 		</view>
-
-		<view class="contact" v-if="detailValue.userInfo">
+		<view class="flex-item wechat-qrcode" v-if="detailUserInfo.wechat_public_qrcode !='' ">
+			<image :src="detailUserInfo.wechat_public_qrcode" mode="aspectFill" show-menu-by-longpress="true"
+				@click="previewImage(detailUserInfo.wechat_public_qrcode)"></image>
+		</view>
+		<view class="contact">
 			<view class="contact-l">
-				<image :src="detailValue.userInfo.wechat_public_qrcode" mode="aspectFill" @click="previewImage(detailValue.userInfo.wechat_public_qrcode)"></image>
+				<image  :src="detailUserInfo.profile_photo" mode="aspectFill"
+					@click="previewImage(detailUserInfo.profile_photo)"></image>
 			</view>
 			<view class="contact-r">
-				<view class="contact-nationality"> <b>{{i18n.jobsposthione}} {{detailValue.userInfo.vendor_name_en}}!</b></view>
-				<!-- <view class="contact-phone">{{detailValue.userInfo.wx_id}}</view> -->
-				<view class="contact-work-email">{{detailValue.userInfo.phone}}</view>
-				<view class="contact-nationality">{{detailValue.userInfo.work_email}}</view>
+				<view class="contact-name" > <b>{{i18n.jobsposthione}} {{detailUserInfo.vendor_name_en}}!</b>
+				</view>
+				<view class="contact-phone" v-if="detailUserInfo.phone !='' ">
+					<view class="contact-copy-container-l">
+						{{detailUserInfo.phone}}
+					</view>
+					<view class="contact-copy-container-r" @click="phoneCall(detailUserInfo.phone)">
+						<image src="@/static/phonecall.png" mode="aspectFit"></image>
+					</view>
+				</view>
+				<view class="contact-work-email" v-if="detailUserInfo.work_email !=''">
+					<view class="contact-copy-container-l">
+						{{detailUserInfo.work_email}}
+					</view>
+					<view class="contact-copy-container-r" @click="copyEmail(detailUserInfo.work_email)">
+						<image src="@/static/copy.png" mode="aspectFit"></image>
+					</view>
+				</view>
 			</view>
 		</view>
+		
 		<view class="third-container">
 			<view class="third-item"  @click="turnVendorProfile(detailValue.user_id)">Visit Our Page!</view>
-			<view class="third-item"  @click="showDiscountStatus=true">Member Card</view>
+			<view class="third-item third-item-bg2"  @click="showDiscountStatus=true">Member Card</view>
 		</view>
 		<discountcard @close="showDiscountStatus=false" :showContact="showDiscountStatus"></discountcard>
 		<xllfindmore></xllfindmore>
@@ -65,6 +84,8 @@
 	import deals from '@/api/deals.js';
 	import xllfindmore from '@/components/xll-find-more/xll-find-more.vue'
 	import discountcard from "@/components/xll-discount-card/xll-discount-card.vue";
+	import uniCopy from '@/js_sdk/xb-copy/uni-copy.js';
+	
 	export default {
 		components: {
 			xllfindmore,
@@ -75,6 +96,7 @@
 				showDiscountStatus:false,
 				id: 0,
 				detailValue: '',
+				detailUserInfo:'',
 				fileSrc: '',
 				filename: '',
 				source: 1,
@@ -82,7 +104,7 @@
 				isDogFriendly:0,
 				address:'',
 				isImage:false, // 文件类型是不是图片类型
-				backgroundPictureSrc: 'https://oss.esl-passport.cn/App_Profile_Back_Image_Design.png',
+				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_25.png',
 
 			}
 		},
@@ -99,6 +121,30 @@
 
 		},
 		methods: {
+			phoneCall(phone) {
+				uni.makePhoneCall({
+					phoneNumber: phone
+			
+				})
+			},
+			copyEmail(email) {
+				uniCopy({
+					content: email,
+					success: (res) => {
+						uni.showToast({
+							title: res,
+							icon: 'none'
+						})
+					},
+					error: (e) => {
+						uni.showToast({
+							title: e,
+							icon: 'none',
+							duration: 3000,
+						})
+					}
+				})
+			},
 			getDetail(id) {
 				let data = {
 					id: id
@@ -107,8 +153,11 @@
 					console.log(res);
 					if (res.code == 200) {
 						this.detailValue = res.message;
-						this.isDogFriendly = res.message.userInfo.is_dog_friendly;
-						this.address = res.message.userInfo.address;
+						let detailUserInfo = res.message.userInfo;
+						this.detailUserInfo = detailUserInfo;
+						
+						this.isDogFriendly = detailUserInfo.is_dog_friendly;
+						this.address =detailUserInfo.address;
 						this.partlocations = 'https://view.officeapps.live.com/op/view.aspx?src=' + encodeURIComponent(res.message.file);
 						let partlocationsFileName = res.message.file_name;
 						if(partlocationsFileName != ''){
@@ -117,8 +166,8 @@
 								this.isImage = true;
 							}
 						}
-						var img_url = res.message.userInfo.logo;
-						if (res.message.userInfo.logo == '') {
+						var img_url = detailUserInfo.logo;
+						if (detailUserInfo.logo == '') {
 							img_url = 'https://i.loli.net/2020/10/29/zgFvraCTjbd7fEs.png';
 						}
 						// #ifdef H5
@@ -199,4 +248,5 @@
 
 <style>
 	@import url("@/common/me/deals/detail.css");
+	@import url("@/common/public/contact-cv.css");
 </style>

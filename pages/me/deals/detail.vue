@@ -1,26 +1,24 @@
 <template>
 	<view class="uni-flex uni-column detail">
 		<view class="flex-item detail-container">
-			<view class="flex-item photo-top-container" v-if="detailValue"
-				:style="{ backgroundImage:  detailValue.userInfo.header_photo === '' ? 'url('+  backgroundPictureSrc +')' : 'url('+  detailValue.userInfo.header_photo +')'}">
+			<view class="flex-item photo-top-container" v-if="detailUserInfo"
+				:style="{ backgroundImage:  detailUserInfo.header_photo === '' ? 'url('+  backgroundPictureSrc +')' : 'url('+  detailUserInfo.header_photo +')'}">
 				<view class="photo-top">
-					<image :src="detailValue.userInfo.logo" mode="aspectFit"
-						@click="turnVendorProfile(detailValue.user_id)"></image>
-					<!-- <view class="photo-business">
-						<image :src="detailValue.userInfo.profile_photo" mode="aspectFill"></image>
-					</view> -->
+					<image v-if="detailUserInfo.logo!=''" :src="detailUserInfo.logo" mode="aspectFit"
+						@click="turnVendorProfile(detailValue.user_id)">
+					</image>
 				</view>
 			</view>
 			<view class="xll-header">
+				<view class="xll-header-name">{{detailUserInfo.vendor_name_en}}</view>
 				<view class="xll-header-title">{{detailValue.title}}</view>
 				<view class="xll-header-tags">
 					<view class="xll-header-tag" v-if="detailValue.type == 1">{{i18n.dealsdeal}}</view>
 					<view class="xll-header-tag" v-if="detailValue.type == 2">{{i18n.dealsdiscount}}</view>
-					<view class="xll-header-tag" v-if="detailValue.is_all == 1">{{i18n.dealsalllocations}}</view>
-					<view class="xll-header-tag" v-if="detailValue.is_all == 0">{{i18n.dealslimited}}</view>
+					<!-- <view class="xll-header-tag" v-if="detailValue.is_all == 1">{{i18n.dealsalllocations}}</view> -->
+					<!-- <view class="xll-header-tag" v-if="detailValue.is_all == 0">{{i18n.dealslimited}}</view> -->
 					<view class="xll-header-tag" v-if="isDogFriendly == 1">{{i18n.dealsdogfriendly}}</view>
 				</view>
-
 			</view>
 			<view class="content-container">
 				<view class="flex-item detail-item">
@@ -40,41 +38,41 @@
 					<view class="detail-item-title" @click="filePreview(detailValue.file)">{{i18n.dealspartlocations}}
 					</view>
 					<view class="part-image" v-if="isImage" @click="previewImage(detailValue.file)">
-						<image :src="detailValue.file" mode="aspectFit"></image>
+						<image :src="detailValue.file" mode="widthFix"></image>
 					</view>
 					<view class="detail-item-result" v-if="isImage==false" @click="filePreview(detailValue.file)">
 						<text class="view-files">{{detailValue.file_name}}</text>
 					</view>
 				</view>
-
-
 			</view>
 		</view>
 
-		<view class="contact" v-if="detailValue.userInfo">
+		<view class="flex-item wechat-qrcode" v-if="detailUserInfo.wechat_public_qrcode != '' ">
+			<image :src="detailUserInfo.wechat_public_qrcode" mode="aspectFill" show-menu-by-longpress="true"
+				@click="previewImage(detailUserInfo.wechat_public_qrcode)"></image>
+		</view>
+
+		<view class="contact">
 			<view class="contact-l">
-				<image :src="detailValue.userInfo.wechat_public_qrcode" mode="aspectFill"
-					@click="previewImage(detailValue.userInfo.wechat_public_qrcode)"></image>
+				<image v-if="detailUserInfo.profile_photo!=''" :src="detailUserInfo.profile_photo" mode="aspectFill"
+					@click="previewImage(detailUserInfo.profile_photo)"></image>
 			</view>
 			<view class="contact-r">
-				<view class="contact-name"> <b>{{i18n.jobsposthione}} {{detailValue.userInfo.vendor_name_en}}!</b>
-				</view>
-				<view class="contact-phone" v-if="detailValue.userInfo.phone !='' ">
+				<view class="contact-name"> {{i18n.jobsposthione}} {{detailUserInfo.vendor_name_en}}!</view>
+				<view class="contact-phone" v-if="detailUserInfo.phone !='' ">
 					<view class="contact-copy-container-l">
-						{{detailValue.userInfo.phone}}
+						{{detailUserInfo.phone}}
 					</view>
-					<view class="contact-copy-container-r">
-						<image @click="phoneCall(detailValue.userInfo.phone)" src="@/static/phonecall.png"
-							mode="aspectFit"></image>
+					<view class="contact-copy-container-r" @click="phoneCall(detailUserInfo.phone)">
+						<image src="@/static/phonecall.png" mode="aspectFit"></image>
 					</view>
 				</view>
-				<view class="contact-work-email" v-if="detailValue.userInfo.work_email !=''">
+				<view class="contact-work-email" v-if="detailUserInfo.work_email !=''">
 					<view class="contact-copy-container-l">
-						{{detailValue.userInfo.work_email}}
+						{{detailUserInfo.work_email}}
 					</view>
-					<view class="contact-copy-container-r">
-						<image @click="copyEmail(detailValue.userInfo.work_email)" src="@/static/copy.png"
-							mode="aspectFit"></image>
+					<view class="contact-copy-container-r" @click="copyEmail(detailUserInfo.work_email)">
+						<image src="@/static/copy.png" mode="aspectFit"></image>
 					</view>
 				</view>
 			</view>
@@ -82,11 +80,8 @@
 
 		<view class="third-container">
 			<view class="third-item" @click="turnVendorProfile(detailValue.user_id)">Visit Our Page!</view>
-			<view class="third-item" @click="showDiscountStatus=true">Member Card</view>
+			<view class="third-item third-item-bg2" @click="showDiscountStatus=true">Member Card</view>
 		</view>
-		<!-- <view class="turn-page-btn"  @click="turnVendorProfile(detailValue.user_id)">Visit Our Page!</view> -->
-		<!-- <view class="discount-card-btn"  @click="showDiscountStatus=true">Member Card</view> -->
-
 		<discountcard @close="showDiscountStatus=false" :showContact="showDiscountStatus"></discountcard>
 	</view>
 
@@ -105,6 +100,7 @@
 				showDiscountStatus: false,
 				id: 0,
 				detailValue: '',
+				detailUserInfo: '',
 				fileSrc: '',
 				filename: '',
 				source: 1,
@@ -112,7 +108,7 @@
 				isDogFriendly: 0,
 				address: '',
 				isImage: false, // 文件类型是不是图片类型
-				backgroundPictureSrc: 'https://oss.esl-passport.cn/App_Profile_Back_Image_Design.png',
+				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_25.png',
 			}
 		},
 		filters: {
@@ -135,7 +131,7 @@
 			phoneCall(phone) {
 				uni.makePhoneCall({
 					phoneNumber: phone
-			
+
 				})
 			},
 			copyEmail(email) {
@@ -165,11 +161,20 @@
 					console.log(res);
 					if (res.code == 200) {
 						this.detailValue = res.message;
+						let detailUserInfo = res.message.userInfo;
+						this.detailUserInfo = detailUserInfo;
+
+						let navigationBarTitle = '';
+						if (detailUserInfo.vendor_name_en != '') {
+							navigationBarTitle = detailUserInfo.vendor_name_en;
+						} else {
+							navigationBarTitle = detailUserInfo.legal_company_name;
+						}
 						uni.setNavigationBarTitle({
-							title: res.message.title
+							title: navigationBarTitle
 						})
-						this.isDogFriendly = res.message.userInfo.is_dog_friendly;
-						this.address = res.message.userInfo.address;
+						this.isDogFriendly = detailUserInfo.is_dog_friendly;
+						this.address = detailUserInfo.address;
 						this.partlocations = 'https://view.officeapps.live.com/op/view.aspx?src=' +
 							encodeURIComponent(res.message.file);
 						let partlocationsFileName = res.message.file_name;
@@ -179,9 +184,11 @@
 								this.isImage = true;
 							}
 						}
-						var img_url = res.message.userInfo.logo;
-						if (res.message.userInfo.logo == '') {
+						let img_url = '';
+						if (detailUserInfo.logo == '') {
 							img_url = 'https://i.loli.net/2020/10/29/zgFvraCTjbd7fEs.png';
+						} else {
+							img_url = detailUserInfo.logo;
 						}
 						// #ifdef H5
 						var url = window.location.href;
@@ -201,8 +208,6 @@
 							// console.log(res)
 						})
 						// #endif
-
-
 
 					} else {
 						uni.showToast({
@@ -247,11 +252,22 @@
 
 			}
 		},
-		onShareAppMessage: function() {
-
+		onShareAppMessage: function(res) {
+			let detailUserInfo = this.detailUserInfo;
+			let detailValue = this.detailValue;
+			let title = detailUserInfo.vendor_name_en + ' ' + detailValue.title
+			return {
+				title: 'ESL Passport Deals'
+			}
 		},
 		onShareTimeline: function() {
-
+			let detailUserInfo = this.detailUserInfo;
+			let detailValue = this.detailValue;
+			let title = detailUserInfo.vendor_name_en + ' ' + detailValue.title
+			return {
+				title: 'ESL Passport Deals' + ' ' + title,
+				imageUrl: detailUserInfo.logo
+			}
 		},
 		onAddToFavorites: function() {
 
@@ -261,4 +277,5 @@
 
 <style>
 	@import url("@/common/me/deals/detail.css");
+	@import url("@/common/public/contact-cv.css");
 </style>

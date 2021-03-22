@@ -62,17 +62,11 @@
 			 @click="addDeal(1)">
 				{{i18n.dealsadddeal1}}
 			</view>
-			<view class="add-deals-item" v-if="dealsList.length<2" :class="dealsNum>=3 ? 'add-deals-first' : '' " @click="addDeal(3)">
+			<view class="add-deals-item" v-if="dealsList.length<2" :class="dealsNum>=2 ? 'add-deals-first' : '' " @click="addDeal(2)">
 				{{i18n.dealsadddeal2}}
 			</view>
 			<view class="add-deals-item" v-if="dealsList.length<3" :class="dealsNum>=3 ? 'add-deals-first' : '' " @click="addDeal(3)">
 				{{i18n.dealsadddeal3}}
-			</view>
-			<view class="add-deals-item" v-if="dealsList.length<4" :class="dealsNum>=5 ? 'add-deals-first' : '' " @click="addDeal(5)">
-				{{i18n.dealsadddeal4}}
-			</view>
-			<view class="add-deals-item" v-if="dealsList.length<5" :class="dealsNum>=5 ? 'add-deals-first' : '' " @click="addDeal(5)">
-				{{i18n.dealsadddeal5}}
 			</view>
 		</view>
 		<view class="flex-item deals-button">

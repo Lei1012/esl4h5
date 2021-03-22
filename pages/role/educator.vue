@@ -4,11 +4,12 @@
 			<image class="" src="../../static/esl-logo.png" lazy-load="true"></image>
 		</view>
 		<view class="flex-item role-intro animate__animated  animate__lightSpeedInRight">
-			{{i18n.basicinfowindowheader}}
+			<view class="role-intro-1">{{i18n.basicinfowindowheader}}  </view>
 		</view>
 
 		<view class="flex-item role-form">
 			<view class="role-form-item">
+				<view class="role-form-item-label">{{i18n.Basicinfofirstname}}:</view>
 				<input type="text" name="firstname" v-model="firstname" :placeholder="i18n.Basicinfofirstname">
 			</view>
 			<!-- <view class="role-form-item">
@@ -18,12 +19,14 @@
 				<input type="text"  name="applyContact"  v-model="applicationContact" :placeholder="i18n.basiceduapplicationcontact"/>
 			</view> -->
 			<view class="role-form-item">
+				<view class="role-form-item-label">{{i18n.eduwechatid}}:</view>
 				<input type="text" name='wxid' v-model="wxId" :placeholder="i18n.eduwechatid" />
 			</view>
 			<!-- 	<view class="role-form-item">
 				<input type="text" name='email' v-model="email" :placeholder="i18n.basiceduemail" />
 			</view> -->
 			<view class="role-form-item">
+				<view class="role-form-item-label">{{i18n.nationality}}:</view>
 				<view class="nationality-1" v-if="nationalitySelectStatus===false" @click="turnNationalityPage">
 					{{i18n.nationality}}
 				</view>
@@ -33,7 +36,7 @@
 			</view>
 			<view class="categories">
 				<view class="category-title">
-					{{i18n.basicinfoeducategory}}
+					{{i18n.basicinfoeducategory}}:
 				</view>
 				<view class="categories-tags">
 					<view class="categories-tags-item" :class="selectEducatorTypeList.indexOf(item.id) == -1 ? '' : 'tag-active' "

@@ -394,7 +394,7 @@
 						<view class="profile-detail-item-title">{{i18n.profileintrovideo}}</view>
 						<view class="profile-detail-item-box" v-if="educatorInfo.video_url">
 							<view class="profile-intro-video">
-								<video id="myVideo" :muted="true" preload="metadata" @loadedmetadata="loadedMetaData" 
+								<video id="myVideo" :muted="false" preload="metadata" @loadedmetadata="loadedMetaData" 
 								 x5-video-player-type="h5-page" :src="educatorInfo.video_url" @error="videoErrorCallback"
 								 controls></video>
 							</view>
@@ -685,7 +685,7 @@
 				percent: '',
 				items: ['Details', 'Media', 'Preferences'],
 				current: 0,
-				backgroundPictureSrc: 'https://i.loli.net/2021/02/01/wOgZUBjeEqmXf1H.png',
+				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_26.png',
 				introVideoSrc: '',
 				hobbiesList: [],
 				countriesList: [],
@@ -2143,10 +2143,23 @@
 
 		},
 		onShareAppMessage:function(){
+			let uid = uni.getStorageSync('uid');
+			let educatorInfo = this.educatorInfo;
 			
+			return {
+				title:educatorInfo.first_name + ' ' + educatorInfo.last_name,
+				path:'/pages/me/educator/share?id='+uid
+			}
 		},
 		onShareTimeline:function(){
+			let uid = uni.getStorageSync('uid');
+			let educatorInfo = this.educatorInfo;
 			
+			return {
+				title:educatorInfo.first_name + ' ' + educatorInfo.last_name,
+				path:'/pages/me/educator/share?id='+uid,
+				imageUrl:educatorInfo.profile_photo
+			}
 		},
 		onAddToFavorites:function(){
 			

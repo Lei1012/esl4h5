@@ -46,27 +46,27 @@
 			</view>
 		</view>
 		<!-- recent deals -->
-		<view class="flex-item flex-item-V latest-jobs" v-if="recentDealsList.length>0">
-			<view class="latest-jobs-title">
-				<!-- Latest Jobs -->
+		<view class="flex-item flex-item-V latest-deals" v-if="recentDealsList.length>0">
+			<view class="latest-deals-title">
 				{{i18n.dealsrecentdeals}}
 			</view>
-			<swiper class="latest-jobs-swiper" :indicator-dots="false" :autoplay="true" :interval="2000">
+			<swiper class="latest-deals-swiper" :indicator-dots="false" :autoplay="true" :interval="2000">
 				<swiper-item v-for="(item,index) in recentDealsList" :key="index" @click="turnDealsDetail(item.id)">
-					<view class="latest-jobs-item ">
-						<view class="latest-jobs-item-top" >
-							<view class="latest-jobs-item-l" >
+					<view class="latest-deals-item ">
+						<view class="latest-deals-item-top">
+							<view class="latest-deals-item-l">
 								<image v-if="item.user_info" :src="item.user_info.logo" mode="aspectFit" lazy-load></image>
 							</view>
-							<view class="latest-jobs-item-r">
-								<view class="latest-jobs-item-r-1">{{item.title}}</view>
-								<view class="latest-jobs-item-r-2">{{item.location}}</view>
+							<view class="latest-deals-item-r">
+								<view class="latest-deals-item-r-1">{{item.user_info.vendor_name_en}}</view>
+								<view class="latest-deals-item-r-2">{{item.title}}</view>
 							</view>
 						</view>
 					</view>
 				</swiper-item>
 			</swiper>
 		</view>
+		
 		<view class="flex-item events-slider">
 			<swiper class="swiper" :indicator-dots="false"  :autoplay="true" :interval="5000" :duration="600">
 				<swiper-item v-for="(item,index) in adsListMid" :key="index" @click="turnBanner(item.link)">
@@ -214,6 +214,11 @@
 					window.location.href=link;
 				}
 				// #endif
+				// #ifdef MP-WEIXIN
+				uni.navigateTo({
+					url:'/pages/webview/webview?url='+encodeURIComponent(link)
+				})
+				// #endif
 				
 			},
 			getRecentDealsList(page, limit) {
@@ -256,5 +261,6 @@
 <style>
 	/* banner 750 * 340  */
 	@import url("@/common/deals/index.css");
+	@import url("@/common/deals/recent-deals.css");
 	
 </style>
