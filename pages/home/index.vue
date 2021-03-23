@@ -503,6 +503,12 @@
 			let language = uni.getStorageSync('language');
 
 			that.identity = uni.getStorageSync('identity');
+			if(that.identity != 0){
+				uni.setTabBarItem({
+					index: 1,
+					text: this.i18n.tabbarjobs
+				})
+			}
 
 			uni.$on('changeIdentity', function(data) {
 				console.log('监听到事件来自 changeIdentity ，携带参数 identity 为：' + data);
