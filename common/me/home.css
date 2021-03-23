@@ -819,3 +819,16 @@ page {
 	font-size: 30rpx;
 	padding-bottom: 10rpx;
 }
+
+.gohome{
+	width: 80%;
+	margin: 20rpx auto;
+	
+}
+.gohome button{
+	background-color: #0AA0A8;
+	color: #FFFFFF;
+	line-height: 80rpx;
+	font-size: 30rpx;
+	
+}

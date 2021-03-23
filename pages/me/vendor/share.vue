@@ -57,11 +57,10 @@
 						<!-- <view class="contact-phone">{{detailValue.userInfo.wx_id}}</view> -->
 						<view class="contact-work-email">{{vendorUserInfo.phone}}</view>
 						<view class="contact-nationality">{{vendorUserInfo.work_email}}</view>
+						<view class="contact-nationality">{{vendorUserInfo.website}}</view>
 					</view>
 				</view>
 			</view>
-
-
 			<view class="profile-media">
 				<view class="profile-detail-relative " v-if="vendorUserInfo.wechat_public_qrcode">
 					<view class="profile-detail-item-title">Media</view>

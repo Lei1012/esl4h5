@@ -75,6 +75,14 @@
 						<image src="@/static/copy.png" mode="aspectFit"></image>
 					</view>
 				</view>
+				<view class="contact-work-email" v-if="detailUserInfo.website !='' " >
+					<view class="contact-copy-container-l">
+						{{detailUserInfo.website}}
+					</view>
+					<view class="contact-copy-container-r" @click="copyWebsite(detailUserInfo.website)">
+						<image src="@/static/copy.png" mode="aspectFit"></image>
+					</view>
+				</view>
 			</view>
 		</view>
 
@@ -137,6 +145,24 @@
 			copyEmail(email) {
 				uniCopy({
 					content: email,
+					success: (res) => {
+						uni.showToast({
+							title: res,
+							icon: 'none'
+						})
+					},
+					error: (e) => {
+						uni.showToast({
+							title: e,
+							icon: 'none',
+							duration: 3000,
+						})
+					}
+				})
+			},
+			copyWebsite(website) {
+				uniCopy({
+					content: website,
 					success: (res) => {
 						uni.showToast({
 							title: res,

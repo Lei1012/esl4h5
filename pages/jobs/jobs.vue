@@ -10,21 +10,25 @@
 					<!-- <u-field v-model="jobLocationValue"  required	:placeholder="i18n.jobsjoblocationph" /> -->
 					<!-- <input type="text" v-model="jobLocationValue" :placeholder="i18n.jobsjoblocationph" @blur="inputBlur(1,$event)" /> -->
 				</view>
-				<view class="job-location-3"  v-if="locationStatus===false" @click="chooseLocation">{{i18n.basicbusinesstwochooselocation}}</view>
+				<view class="job-location-3" v-if="locationStatus===false" @click="chooseLocation">
+					{{i18n.basicbusinesstwochooselocation}}
+				</view>
 				<!-- <view class="error-tips" v-if="jobLocationErrorMsg!=''">{{jobLocationErrorMsg}}</view> -->
 			</view>
 
 			<view class="number-vacancies">
 				<text>{{i18n.jobsnumberofvacancies}}</text>
-				<uni-number-box class="number-vacancies-1" :min="1" :max="99999999" @change="vacanciesChange"></uni-number-box>
+				<uni-number-box class="number-vacancies-1" :min="1" :max="99999999" @change="vacanciesChange">
+				</uni-number-box>
 			</view>
 
 			<view class="employment-type">
 				<view class="employment-type-1">{{i18n.jobsemploymenttype}} <text class="error-star">*</text> </view>
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
-						<view class="jobs-tags-item" v-for="(employment,index) in employmentTypeList" :key="index" :class=" selectEmploymentTypeList.findIndex((element)=>element===employment) == -1 ? '' : 'tags-active' "
-						 @click="selectEmploymentType(employment)">
+						<view class="jobs-tags-item" v-for="(employment,index) in employmentTypeList" :key="index"
+							:class=" selectEmploymentTypeList.findIndex((element)=>element===employment) == -1 ? '' : 'tags-active' "
+							@click="selectEmploymentType(employment)">
 							<!-- {{employment.object_en}} -->
 							<text v-if="languageValue=='en-US'">{{employment.object_en}}</text>
 							<text v-if="languageValue=='zh-CN'">{{employment.object_cn}}</text>
@@ -35,7 +39,8 @@
 
 			<view class="online-job">
 				{{i18n.jobsonlinejob}}
-				<switch :checked="isOnlineJob===1" class="online-job-switch" color="#0AA0A8" @change="onlineJobChange" />
+				<switch :checked="isOnlineJob===1" class="online-job-switch" color="#0AA0A8"
+					@change="onlineJobChange" />
 			</view>
 
 		</view>
@@ -48,24 +53,29 @@
 				<view class="job-title-1">{{i18n.jobsjobtitle}} <text class="error-star">*</text></view>
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
-						<view class="jobs-tags-item" :class=" selectJobTitleList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
-						 v-for="(item,index) in jobTitleList" :key="item.id" @click="selectJobTitle(item)">
+						<view class="jobs-tags-item"
+							:class=" selectJobTitleList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
+							v-for="(item,index) in jobTitleList" :key="item.id" @click="selectJobTitle(item)">
 							<!-- {{item.object_en}} -->
 							<text v-if="languageValue=='en-US'">{{item.object_en}}</text>
 							<text v-if="languageValue=='zh-CN'">{{item.object_cn}}</text>
 						</view>
-						<view class="jobs-tags-item" :class=" selectJobTitleList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
-						 v-for="(item,index) in ownJobTitleList" :key="index" @click="selectJobTitle(item)">
+						<view class="jobs-tags-item"
+							:class=" selectJobTitleList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
+							v-for="(item,index) in ownJobTitleList" :key="index" @click="selectJobTitle(item)">
 							{{item.object_en}}
 						</view>
 					</view>
-					<view class="jobs-tags-item" v-if="addJobTitleStatus==false" @click="addJobTitleStatus=true">add+</view>
+					<view class="jobs-tags-item" v-if="addJobTitleStatus==false" @click="addJobTitleStatus=true">add+
+					</view>
 					<view class=" jobs-tags-add" v-if="addJobTitleStatus">
 						<view class="jobs-tags-item-add">
 							<input type="text" v-model="ownJobTitleValue" placeholder="Add job title">
 							<view class="jobs-tags-item-add-button">
-								<button type="default" v-if="ownJobTitleValue.length>0" @click="addOwnJobTitle">Confirm</button>
-								<button type="default" v-if="ownJobTitleValue.length==0" @click="addJobTitleStatus=false">Cancel</button>
+								<button type="default" v-if="ownJobTitleValue.length>0"
+									@click="addOwnJobTitle">Confirm</button>
+								<button type="default" v-if="ownJobTitleValue.length==0"
+									@click="addJobTitleStatus=false">Cancel</button>
 							</view>
 						</view>
 					</view>
@@ -74,39 +84,46 @@
 			<!--  -->
 			<view class="application-due-date">
 				<view class="application-due-date-1">{{i18n.jobsapplicationduedate}} </view>
-				<view class="application-due-date-2" v-if="applicationDueDateStatus==false" @click="showApplicationDueDate">
+				<view class="application-due-date-2" v-if="applicationDueDateStatus==false"
+					@click="showApplicationDueDate">
 					{{i18n.jobschooseduedate}}
 				</view>
 				<view class="application-due-date-3" v-if="applicationDueDateStatus" @click="showApplicationDueDate">
 					{{applicationDueDateStr}}
 				</view>
 				<!-- <view v-if="applicationDueDateStr==''" class="error-tips">{{appDueDateErrorMsg}}</view> -->
-				<u-calendar max-date="4200-01-01" :safe-area-inset-bottom="true" toolTip="choose due date" v-model="applicationDueDateshow"
-				 :mode="dueDateMode" @change="applicationDueDateChange"></u-calendar>
+				<u-calendar max-date="4200-01-01" :safe-area-inset-bottom="true" toolTip="choose due date"
+					v-model="applicationDueDateshow" :mode="dueDateMode" @change="applicationDueDateChange">
+				</u-calendar>
 			</view>
 
 			<view class="start-date ">
 				<view class="start-date-1">{{i18n.jobsstartdate}} </view>
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
-						<view class="jobs-tags-item" :class=" selectStartDateList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
-						 v-for="(item,index) in startDateList" :key="item.id" @click="selectStartDate(item)">
+						<view class="jobs-tags-item"
+							:class=" selectStartDateList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
+							v-for="(item,index) in startDateList" :key="item.id" @click="selectStartDate(item)">
 							<!-- {{item.object_en}} -->
 							<text v-if="languageValue=='en-US'">{{item.object_en}}</text>
 							<text v-if="languageValue=='zh-CN'">{{item.object_cn}}</text>
 						</view>
-						<view class="jobs-tags-item" :class=" selectStartDateList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
-						 v-for="(item,index) in ownStartDateList" :key="index" @click="selectStartDate(item)">
+						<view class="jobs-tags-item"
+							:class=" selectStartDateList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
+							v-for="(item,index) in ownStartDateList" :key="index" @click="selectStartDate(item)">
 							{{item.object_en}}
 						</view>
 					</view>
-					<view class="jobs-tags-item" v-if="addStartDateStatus==false" @click="addStartDateStatus=true">add+</view>
+					<view class="jobs-tags-item" v-if="addStartDateStatus==false" @click="addStartDateStatus=true">add+
+					</view>
 					<view class=" jobs-tags-add" v-if="addStartDateStatus">
 						<view class="jobs-tags-item-add">
 							<input type="text" v-model="ownStartDateValue" placeholder="Add start date">
 							<view class="jobs-tags-item-add-button">
-								<button type="default" v-if="ownStartDateValue.length>0" @click="addOwnStartDate">Confirm</button>
-								<button type="default" v-if="ownStartDateValue.length==0" @click="addStartDateStatus=false">Cancel</button>
+								<button type="default" v-if="ownStartDateValue.length>0"
+									@click="addOwnStartDate">Confirm</button>
+								<button type="default" v-if="ownStartDateValue.length==0"
+									@click="addStartDateStatus=false">Cancel</button>
 							</view>
 						</view>
 					</view>
@@ -118,14 +135,18 @@
 				<view class="jobs-tags-container">
 					<view class="jobs-tags-container">
 						<view class="jobs-tags">
-							<view class="jobs-tags-item" :class=" selectAgeToTeachList.findIndex((element)=>element===ageToTeach) == -1 ? '' : 'tags-active' "
-							 v-for="(ageToTeach,index) in ageToTeachList" :key="ageToTeach.id" @click="selectAgeToTeach(ageToTeach,1)">
+							<view class="jobs-tags-item"
+								:class=" selectAgeToTeachList.findIndex((element)=>element===ageToTeach) == -1 ? '' : 'tags-active' "
+								v-for="(ageToTeach,index) in ageToTeachList" :key="ageToTeach.id"
+								@click="selectAgeToTeach(ageToTeach,1)">
 								<!-- {{ageToTeach.object_en}} -->
 								<text v-if="languageValue=='en-US'">{{ageToTeach.object_en}}</text>
 								<text v-if="languageValue=='zh-CN'">{{ageToTeach.object_cn}}</text>
 							</view>
-							<view class="jobs-tags-item" :class=" selectAgeToTeachList.findIndex((element)=>element===ageToTeach)  == -1 ? '' : 'tags-active' "
-							 v-for="(ageToTeach,index) in ownAgeToTeachList" :key="index" @click="selectAgeToTeach(ageToTeach,2)">
+							<view class="jobs-tags-item"
+								:class=" selectAgeToTeachList.findIndex((element)=>element===ageToTeach)  == -1 ? '' : 'tags-active' "
+								v-for="(ageToTeach,index) in ownAgeToTeachList" :key="index"
+								@click="selectAgeToTeach(ageToTeach,2)">
 								{{ageToTeach.object_name}}
 							</view>
 						</view>
@@ -134,8 +155,10 @@
 							<view class="jobs-tags-item-add">
 								<input type="text" v-model="ownAgeToTeachValue" placeholder="Add your age to teach">
 								<view class="jobs-tags-item-add-button">
-									<button type="default" v-if="ownAgeToTeachValue.length>0" @click="addOwnAgeToTeach">Confirm</button>
-									<button type="default" v-if="ownAgeToTeachValue.length==0" @click="addAgeToTeachStatus=false">Cancel</button>
+									<button type="default" v-if="ownAgeToTeachValue.length>0"
+										@click="addOwnAgeToTeach">Confirm</button>
+									<button type="default" v-if="ownAgeToTeachValue.length==0"
+										@click="addAgeToTeachStatus=false">Cancel</button>
 								</view>
 							</view>
 
@@ -148,24 +171,29 @@
 				<view class="subject-1">{{i18n.jobssubject}} </view>
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
-						<view class="jobs-tags-item" :class=" selectSubjectList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
-						 v-for="(item,index) in subjectList" :key="item.id" @click="selectSubject(item)">
+						<view class="jobs-tags-item"
+							:class=" selectSubjectList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
+							v-for="(item,index) in subjectList" :key="item.id" @click="selectSubject(item)">
 							<!-- {{item.object_en}} -->
 							<text v-if="languageValue=='en-US'">{{item.object_en}}</text>
 							<text v-if="languageValue=='zh-CN'">{{item.object_cn}}</text>
 						</view>
-						<view class="jobs-tags-item" :class=" selectSubjectList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
-						 v-for="(item,index) in ownSubjectList" :key="index" @click="selectSubject(item)">
+						<view class="jobs-tags-item"
+							:class=" selectSubjectList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
+							v-for="(item,index) in ownSubjectList" :key="index" @click="selectSubject(item)">
 							{{item.object_name}}
 						</view>
 					</view>
-					<view class="jobs-tags-item" v-if="addSubjectStatus==false" @click="addSubjectStatus=true">add+</view>
+					<view class="jobs-tags-item" v-if="addSubjectStatus==false" @click="addSubjectStatus=true">add+
+					</view>
 					<view class=" jobs-tags-add" v-if="addSubjectStatus">
 						<view class="jobs-tags-item-add">
 							<input type="text" v-model="ownSubjectValue" placeholder="Add your subject">
 							<view class="jobs-tags-item-add-button">
-								<button type="default" v-if="ownSubjectValue.length>0" @click="addOwnSubject">Confirm</button>
-								<button type="default" v-if="ownSubjectValue.length==0" @click="addSubjectStatus=false">Cancel</button>
+								<button type="default" v-if="ownSubjectValue.length>0"
+									@click="addOwnSubject">Confirm</button>
+								<button type="default" v-if="ownSubjectValue.length==0"
+									@click="addSubjectStatus=false">Cancel</button>
 							</view>
 						</view>
 					</view>
@@ -173,7 +201,8 @@
 			</view>
 			<view class="position-description">
 				<view class="position-description-1">{{i18n.jobspositiondesc}} <text class="error-star">*</text> </view>
-				<fuck-textarea class="position-description-2" :maxlength="300" v-model="positionDescriptionValue" :placeholder="i18n.jobspositiondescph"></fuck-textarea>
+				<fuck-textarea class="position-description-2" :maxlength="300" v-model="positionDescriptionValue"
+					:placeholder="i18n.jobspositiondescph"></fuck-textarea>
 			</view>
 			<!-- <view class="subject">
 				<view class="subject-1">{{i18n.jobssubject}} <text class="error-star">*</text> </view>
@@ -194,13 +223,15 @@
 				<view class="salary-1">{{i18n.jobssalary}} <text class="error-star">*</text> </view>
 				<view class="salary-content">
 					<view class="salary-2">
-						<input :class="minSalaryInputError ? 'salary-input-error' : ''" type="number" :maxlength="8" v-model="minSalaryValue"
-						 @input="minSalaryInput" @blur="minSalaryBlur" @confirm="minSalaryConfirm" :placeholder="i18n.jobsminsalaryph" />
+						<input :class="minSalaryInputError ? 'salary-input-error' : ''" type="number" :maxlength="8"
+							v-model="minSalaryValue" @input="minSalaryInput" @blur="minSalaryBlur"
+							@confirm="minSalaryConfirm" :placeholder="i18n.jobsminsalaryph" />
 					</view>
 					<view class="salary-2-3">——</view>
 					<view class="salary-3">
-						<input type="number" :class="maxSalaryInputError ? 'salary-input-error' : ''" :maxlength="8" v-model="maxSalaryValue"
-						 @input="maxSalaryInput" @blur="maxSalaryBlur" @confirm="maxSalaryConfirm" :placeholder="i18n.jobsmaxsalaryph" />
+						<input type="number" :class="maxSalaryInputError ? 'salary-input-error' : ''" :maxlength="8"
+							v-model="maxSalaryValue" @input="maxSalaryInput" @blur="maxSalaryBlur"
+							@confirm="maxSalaryConfirm" :placeholder="i18n.jobsmaxsalaryph" />
 					</view>
 				</view>
 			</view>
@@ -217,24 +248,31 @@
 				<view class="currency-1">{{i18n.jobscurrency}} <text class="error-star">*</text> </view>
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
-						<view class="jobs-tags-item" :class=" selectCurrencyList.findIndex((element)=>element===currency) == -1 ? '' : 'tags-active' "
-						 v-for="(currency,index) in currencyList" :key="currency.id" @click="selectCurrency(currency,1)">
+						<view class="jobs-tags-item"
+							:class=" selectCurrencyList.findIndex((element)=>element===currency) == -1 ? '' : 'tags-active' "
+							v-for="(currency,index) in currencyList" :key="currency.id"
+							@click="selectCurrency(currency,1)">
 							<!-- {{currency.object_en}} -->
 							<text v-if="languageValue=='en-US'">{{currency.object_en}}</text>
 							<text v-if="languageValue=='zh-CN'">{{currency.object_cn}}</text>
 						</view>
-						<view class="jobs-tags-item" :class=" selectCurrencyList.findIndex((element)=>element===currency)  == -1 ? '' : 'tags-active' "
-						 v-for="(currency,index) in ownCurrencyList" :key="index" @click="selectCurrency(currency,2)">
+						<view class="jobs-tags-item"
+							:class=" selectCurrencyList.findIndex((element)=>element===currency)  == -1 ? '' : 'tags-active' "
+							v-for="(currency,index) in ownCurrencyList" :key="index"
+							@click="selectCurrency(currency,2)">
 							{{currency.object_en}}
 						</view>
 					</view>
-					<view class="jobs-tags-item" v-if="addCurrencyStatus==false" @click="addCurrencyStatus=true">add+</view>
+					<view class="jobs-tags-item" v-if="addCurrencyStatus==false" @click="addCurrencyStatus=true">add+
+					</view>
 					<view class="jobs-tags-add" v-if="addCurrencyStatus">
 						<view class="jobs-tags-item-add">
 							<input type="text" v-model="ownCurrencyValue" placeholder="Add your currency">
 							<view class="jobs-tags-item-add-button">
-								<button type="default" v-if="ownCurrencyValue.length>0" @click="addOwnCurrency">Confirm</button>
-								<button type="default" v-if="ownCurrencyValue.length==0" @click="addCurrencyStatus=false">Cancel</button>
+								<button type="default" v-if="ownCurrencyValue.length>0"
+									@click="addOwnCurrency">Confirm</button>
+								<button type="default" v-if="ownCurrencyValue.length==0"
+									@click="addCurrencyStatus=false">Cancel</button>
 							</view>
 						</view>
 					</view>
@@ -245,23 +283,29 @@
 				<view class="benefits-1">{{i18n.jobsbenefits}}</view>
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
-						<view class="jobs-tags-item" :class=" selectBenefitsList.findIndex((element)=>element===benefit) == -1 ? '' : 'tags-active' "
-						 v-for="(benefit,index) in benefitsList" :key="benefit.id" @click="selectBenefits(benefit,1)">
+						<view class="jobs-tags-item"
+							:class=" selectBenefitsList.findIndex((element)=>element===benefit) == -1 ? '' : 'tags-active' "
+							v-for="(benefit,index) in benefitsList" :key="benefit.id"
+							@click="selectBenefits(benefit,1)">
 							<text v-if="languageValue=='zh-CN'">{{benefit.object_cn}}</text>
 							<text v-if="languageValue=='en-US'">{{benefit.object_en}}</text>
 						</view>
-						<view class="jobs-tags-item" :class=" selectBenefitsList.findIndex((element)=>element===benefit) == -1 ? '' : 'tags-active' "
-						 v-for="(benefit,index) in ownBenefitsList" :key="index" @click="selectBenefits(benefit,2)">
+						<view class="jobs-tags-item"
+							:class=" selectBenefitsList.findIndex((element)=>element===benefit) == -1 ? '' : 'tags-active' "
+							v-for="(benefit,index) in ownBenefitsList" :key="index" @click="selectBenefits(benefit,2)">
 							{{benefit.object_name}}
 						</view>
 					</view>
-					<view class="jobs-tags-item" v-if="addBenefitsStatus==false" @click="addBenefitsStatus=true">add+</view>
+					<view class="jobs-tags-item" v-if="addBenefitsStatus==false" @click="addBenefitsStatus=true">add+
+					</view>
 					<view class=" jobs-tags-add" v-if="addBenefitsStatus">
 						<view class="jobs-tags-item-add">
 							<input type="text" v-model="ownBenefitsValue" placeholder="Add your benefits">
 							<view class="jobs-tags-item-add-button">
-								<button type="default" v-if="ownBenefitsValue.length>0" @click="addOwnBenefits">Confirm</button>
-								<button type="default" v-if="ownBenefitsValue.length==0" @click="addBenefitsStatus=false">Cancel</button>
+								<button type="default" v-if="ownBenefitsValue.length>0"
+									@click="addOwnBenefits">Confirm</button>
+								<button type="default" v-if="ownBenefitsValue.length==0"
+									@click="addBenefitsStatus=false">Cancel</button>
 							</view>
 						</view>
 					</view>
@@ -276,17 +320,20 @@
 			</view>
 			<view class="teaching-license">
 				<text>{{i18n.jobsnativespeaker}}</text>
-				<switch :checked="isNativeSpeaker==1" class="teaching-license-1" color="#0AA0A8" @change="nativeSpeakerChange" />
+				<switch :checked="isNativeSpeaker==1" class="teaching-license-1" color="#0AA0A8"
+					@change="nativeSpeakerChange" />
 			</view>
 			<view class="teaching-license">
 				<text>{{i18n.jobsteachinglicense}}</text>
-				<switch :checked="isTeachingLicense==1" class="teaching-license-1" color="#0AA0A8" @change="teachingLicenseChange" />
+				<switch :checked="isTeachingLicense==1" class="teaching-license-1" color="#0AA0A8"
+					@change="teachingLicenseChange" />
 			</view>
 			<view class="gender">
 				<view class="gender-1">
 					{{i18n.jobsgender}}
 				</view>
-				<view class="gender-2" v-if="genderStatus==false" @click="genderShow=true">{{i18n.jobschoosegender}}</view>
+				<view class="gender-2" v-if="genderStatus==false" @click="genderShow=true">{{i18n.jobschoosegender}}
+				</view>
 				<view class="gender-3" v-if="genderStatus" @click="genderShow=true">{{genderStr}}</view>
 			</view>
 
@@ -296,24 +343,32 @@
 				</view>
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
-						<view class="jobs-tags-item" :class=" selectTeachingCertificateList.findIndex((element)=>element===teachingCertificate) == -1 ? '' : 'tags-active' "
-						 v-for="(teachingCertificate,index) in teachingCertificateList" :key="teachingCertificate.id" @click="selectTeachingCertificate(teachingCertificate,1)">
+						<view class="jobs-tags-item"
+							:class=" selectTeachingCertificateList.findIndex((element)=>element===teachingCertificate) == -1 ? '' : 'tags-active' "
+							v-for="(teachingCertificate,index) in teachingCertificateList" :key="teachingCertificate.id"
+							@click="selectTeachingCertificate(teachingCertificate,1)">
 							<!-- {{teachingCertificate.object_en}} -->
 							<text v-if="languageValue=='en-US'">{{teachingCertificate.object_en}}</text>
 							<text v-if="languageValue=='zh-CN'">{{teachingCertificate.object_cn}}</text>
 						</view>
-						<view class="jobs-tags-item" :class=" selectTeachingCertificateList.findIndex((element)=>element===teachingCertificate)  == -1 ? '' : 'tags-active' "
-						 v-for="(teachingCertificate,index) in ownTeachingCertificateList" :key="index" @click="selectTeachingCertificate(teachingCertificate,2)">
+						<view class="jobs-tags-item"
+							:class=" selectTeachingCertificateList.findIndex((element)=>element===teachingCertificate)  == -1 ? '' : 'tags-active' "
+							v-for="(teachingCertificate,index) in ownTeachingCertificateList" :key="index"
+							@click="selectTeachingCertificate(teachingCertificate,2)">
 							{{teachingCertificate.object_name}}
 						</view>
 					</view>
-					<view class="jobs-tags-item" v-if="addTeachingCertificateStatus==false" @click="addTeachingCertificateStatus=true">add+</view>
+					<view class="jobs-tags-item" v-if="addTeachingCertificateStatus==false"
+						@click="addTeachingCertificateStatus=true">add+</view>
 					<view class="jobs-tags-add">
 						<view class="jobs-tags-item-add" v-if="addTeachingCertificateStatus">
-							<input type="text" v-model="ownTeachingCertificateValue" placeholder="Add your teaching certificate">
+							<input type="text" v-model="ownTeachingCertificateValue"
+								placeholder="Add your teaching certificate">
 							<view class="jobs-tags-item-add-button">
-								<button type="default" v-if="ownTeachingCertificateValue.length>0" @click="addOwnTeachingCertificate">Confirm</button>
-								<button type="default" v-if="ownTeachingCertificateValue.length==0" @click="addTeachingCertificateStatus=false">Cancel</button>
+								<button type="default" v-if="ownTeachingCertificateValue.length>0"
+									@click="addOwnTeachingCertificate">Confirm</button>
+								<button type="default" v-if="ownTeachingCertificateValue.length==0"
+									@click="addTeachingCertificateStatus=false">Cancel</button>
 							</view>
 						</view>
 					</view>
@@ -322,29 +377,38 @@
 
 			<view class="cpr-certified">
 				<text>{{i18n.jobscprcertified}}</text>
-				<switch :checked="isCprCertified==1" class="cpr-certified-1" color="#0AA0A8" @change="certifiedChange" />
+				<switch :checked="isCprCertified==1" class="cpr-certified-1" color="#0AA0A8"
+					@change="certifiedChange" />
 			</view>
 
 			<view class="first-aside-certified">
 				<text>{{i18n.jobsfirstasidecertified}}</text>
-				<switch :checked="isFirstAsideCertified==1" class="first-aside-certified-1" color="#0AA0A8" @change="firstAsideChange" />
+				<switch :checked="isFirstAsideCertified==1" class="first-aside-certified-1" color="#0AA0A8"
+					@change="firstAsideChange" />
 			</view>
 
 			<view class="teaching-experience">
 				<text>{{i18n.jobsteachingexperience}} </text>
-				<switch :checked="isTeachingExperience==1" class="teaching-experience-1" color="#0AA0A8" @change="teachingExperienceChange" />
+				<switch :checked="isTeachingExperience==1" class="teaching-experience-1" color="#0AA0A8"
+					@change="teachingExperienceChange" />
 			</view>
 
 			<view class="teaching-container">
 				<view class="teaching-exp" v-if="isTeachingExperience==1">
 					<!-- <view class="teaching-exp-1">Teaching Experience</view> -->
-					<view class="teaching-exp-2" v-if="teachingExpStatus==false" @click="teachingExpShow=true">{{i18n.jobschooseteachingexperience}}</view>
-					<view class="teaching-exp-3" v-if="teachingExpStatus" @click="teachingExpShow=true">{{teachingExpStr}}</view>
+					<view class="teaching-exp-2" v-if="teachingExpStatus==false" @click="teachingExpShow=true">
+						{{i18n.jobschooseteachingexperience}}
+					</view>
+					<view class="teaching-exp-3" v-if="teachingExpStatus" @click="teachingExpShow=true">
+						{{teachingExpStr}}
+					</view>
 				</view>
-				
+
 				<view class="education">
 					<view class="education-1">{{i18n.jobseducation}} </view>
-					<view class="education-2" v-if="educationStatus==false" @click="educationShow=true">{{i18n.jobschooseeducation}}</view>
+					<view class="education-2" v-if="educationStatus==false" @click="educationShow=true">
+						{{i18n.jobschooseeducation}}
+					</view>
 					<view class="education-3" v-if="educationStatus" @click="educationShow=true">{{educationStr}}</view>
 				</view>
 
@@ -352,24 +416,31 @@
 					<view class="languages-1">{{i18n.jobslanguages}}</view>
 					<view class="jobs-tags-container">
 						<view class="jobs-tags">
-							<view class="jobs-tags-item" :class=" selectLanguagesList.findIndex((element)=>element===language) == -1 ? '' : 'tags-active' "
-							 v-for="(language,index) in languagesList" :key="language.id" @click="selectLanguages(language,1)">
+							<view class="jobs-tags-item"
+								:class=" selectLanguagesList.findIndex((element)=>element===language) == -1 ? '' : 'tags-active' "
+								v-for="(language,index) in languagesList" :key="language.id"
+								@click="selectLanguages(language,1)">
 								<!-- {{language.object_en}} -->
 								<text v-if="languageValue=='en-US'">{{language.object_en}}</text>
 								<text v-if="languageValue=='zh-CN'">{{language.object_cn}}</text>
 							</view>
-							<view class="jobs-tags-item" :class=" selectLanguagesList.findIndex((element)=>element===language)  == -1 ? '' : 'tags-active' "
-							 v-for="(language,index) in ownLanguagesList" :key="index" @click="selectLanguages(language,2)">
+							<view class="jobs-tags-item"
+								:class=" selectLanguagesList.findIndex((element)=>element===language)  == -1 ? '' : 'tags-active' "
+								v-for="(language,index) in ownLanguagesList" :key="index"
+								@click="selectLanguages(language,2)">
 								{{language.object_name}}
 							</view>
 						</view>
-						<view class="jobs-tags-item" v-if="addLanguagesStatus==false" @click="addLanguagesStatus=true">add+</view>
+						<view class="jobs-tags-item" v-if="addLanguagesStatus==false" @click="addLanguagesStatus=true">
+							add+</view>
 						<view class="jobs-tags-add">
 							<view class="jobs-tags-item-add" v-if="addLanguagesStatus">
 								<input type="text" v-model="ownLanguagesValue" placeholder="Add your language">
 								<view class="jobs-tags-item-add-button">
-									<button type="default" v-if="ownLanguagesValue.length>0" @click="addOwnLanguages">Confirm</button>
-									<button type="default" v-if="ownLanguagesValue.length==0" @click="addLanguagesStatus=false">Cancel</button>
+									<button type="default" v-if="ownLanguagesValue.length>0"
+										@click="addOwnLanguages">Confirm</button>
+									<button type="default" v-if="ownLanguagesValue.length==0"
+										@click="addLanguagesStatus=false">Cancel</button>
 								</view>
 							</view>
 						</view>
@@ -380,25 +451,18 @@
 				<view class="employment-type">
 					<view class="employment-type-1">{{i18n.jobsage}} </view>
 					<view class="age-slider">
-						<SliderRange
-						  :value="ageSlider.rangeValue"
-						  :min="ageSlider.min"
-						  :max="ageSlider.max"
-						  :step="ageSlider.step"
-						  :bar-height="barHeight"
-						  :block-size="blockSize"
-						  :background-color="backgroundColor"
-						  :active-color="ageSlider.activeColor"
-						  :format="ageSliderformat"
-						  :decorationVisible="ageSlider.decorationVisible"
-						  @change="handleAgeRangeChange"
-						></SliderRange>
+						<SliderRange :value="ageSlider.rangeValue" :min="ageSlider.min" :max="ageSlider.max"
+							:step="ageSlider.step" :bar-height="barHeight" :block-size="blockSize"
+							:background-color="backgroundColor" :active-color="ageSlider.activeColor"
+							:format="ageSliderformat" :decorationVisible="ageSlider.decorationVisible"
+							@change="handleAgeRangeChange"></SliderRange>
 					</view>
 				</view>
 
 				<view class="equal-opportunity">
 					<text>{{i18n.jobsequalopportunity}}</text>
-					<switch :checked="isEqualOpportunity===1" class="equal-opportunity-1" color="#0AA0A8" @change="equalOpportunityChange" />
+					<switch :checked="isEqualOpportunity===1" class="equal-opportunity-1" color="#0AA0A8"
+						@change="equalOpportunityChange" />
 				</view>
 			</view>
 		</view>
@@ -407,7 +471,8 @@
 			<view class="contact-person-info-title">{{i18n.jobscontactpersoninfo}}</view>
 			<view class="doing-interview">
 				<text>{{i18n.jobswillyouinterview}} </text>
-				<switch :checked="isYouTheInterview==1" class="doing-interview-1" color="#0AA0A8" @change="doingInterviewChange" />
+				<switch :checked="isYouTheInterview==1" class="doing-interview-1" color="#0AA0A8"
+					@change="doingInterviewChange" />
 			</view>
 			<!-- 如果是 显示用户信息名片 -->
 			<view class="contact" v-if="isYouTheInterview==1">
@@ -460,66 +525,152 @@
 		</view>
 
 		<view class="flex-item checkout">
+			<view class="checkout-t">
+				Featured Job Charges
+			</view>
 			<!-- 3D轮播 -->
-			<swiper class="imageContainer" previous-margin="10" next-margin="10" @change="checkoutChange" circular :autoplay="false">
-				<swiper-item class="swiperitem">
-					<view class="swiperitem-container">
+			<swiper class="imageContainer"  previous-margin="20px" :style="'height:'+swiperHeight + 'rpx;' "
+				next-margin="20px" @change="checkoutChange" circular :autoplay="false">
+				<swiper-item class="swiperitem" v-if="businessLevel==1">
+					<view class="swiperitem-container" >
 						<view class="checkout-title">{{i18n.jobspriceforfreemembers}}</view>
-						<view class="checkout-item" v-for="(item,index) in serviceList" :key="index" @click="checkedCheckoutItem(item.id,item.money,item.money+10000)">
+						<view class="checkout-feature">Get featured on: </view>
+						<view class="checkout-item" v-for="(item,index) in basicServiceList" :key="index">
 							<view class="checkout-item-1">
-								<image v-if="freeCheckedCheckoutList.indexOf(item.id) == -1" src="./static/ok-1.png" mode="aspectFill"></image>
-								<image v-if="freeCheckedCheckoutList.indexOf(item.id) != -1" src="./static/ok-3.png" mode="aspectFill"></image>
+								<view class="checkout-item-1-1" v-if="languageValue == 'en-US'">{{item.services_en}}
+								</view>
+								<view class="checkout-item-1-1" v-if="languageValue == 'zh-CN'">{{item.services_cn}}
+								</view>
+								<view class="checkout-item-1-2">{{item.services_desc}}</view>
 							</view>
-							<view class="checkout-item-2" :class="freeCheckedCheckoutList.indexOf(item.id) == -1 ? '' : 'checkout-item-2-active'">
-								<text v-if="languageValue == 'en-US'">{{item.services_en}}</text>
-								<text v-if="languageValue == 'zh-CN'">{{item.services_cn}}</text>
-								<br>
-								<text>{{item.services_desc}}</text>
+							<view class="checkout-item-2">
+								<view class="checkout-item-2-1">¥ {{ item.money_y }}.00</view>
+								<view class="checkout-item-2-2">¥ {{item.sale_money_y}}.00</view>
 							</view>
 							<view class="checkout-item-3">
-								<text :class="freeCheckedCheckoutList.indexOf(item.id) == -1 ? '' : 'checkout-item-3-active'">¥ {{ (item.money + 10000) / 100}}</text>
-								<br>
-								<text :class="freeCheckedCheckoutList.indexOf(item.id) == -1 ? '' : 'checkout-item-3-active'">¥ {{item.money / 100}}</text>
+								<switch style="transform:scale(0.6)" type="switch" color="#0AA0A8"
+									:checked="freeCheckedCheckoutList.indexOf(item.id) != -1 "
+									@change="checkoutItemChecked($event,item.id,item.sale_money_y,item.money_y)" />
 							</view>
 						</view>
 						<view class="checkout-item checkout-total">
-							<view class="checkout-item-1">
+							<view class="checkout-total-1">
 								<image src="./static/total-today.png" mode="aspectFill"></image>
+								<view class="checkout-total-1-c">
+									<view class="checkout-total-1-1">Total</view>
+									<view class="checkout-total-1-2">Including Tax</view>
+								</view>
 							</view>
-							<view class="checkout-item-2">
-								<text>Total</text>
-								<br>
-								<text>Including Tax</text>
-							</view>
-							<view class="checkout-item-3">
-								<text :class="freeCheckoutNowTotalValue!=0 ? 'checkout-item-3-active' : ''">¥ {{freeCheckoutNowTotalValue/100}}.00</text>
-								<br>
-								<text :class="freeCheckoutOldTotalValue!=0 ? 'checkout-item-3-active' : ''">¥ {{freeCheckoutOldTotalValue/100}}.00</text>
+							<view class="checkout-total-3">
+								<view class="checkout-total-3-1">¥ {{freeCheckoutNowTotalValue}}.00</view>
+								<view class="checkout-total-3-2">¥ {{freeCheckoutOldTotalValue}}.00</view>
 							</view>
 						</view>
-						<view class="checkout-attention">
-							<p>{{i18n.jobsattentiontxt1}}</p>
-							<p>{{i18n.jobsattentiontxt2}}</p>
+						<view class="checkout-btn">
+							<button type="default" @click="submitCheckout">Checkout</button>
 						</view>
 					</view>
 				</swiper-item>
+				<swiper-item class="swiperitem" v-if="businessLevel <= 2">
+					<view class="swiperitem-container">
+						<view class="checkout-title">{{i18n.jobspriceforpromembers}}</view>
+						<view class="checkout-feature">Get featured on: </view>
+						<view class="checkout-item" v-for="(item,index) in proServiceList" :key="index">
+							<view class="checkout-item-1">
+								<view class="checkout-item-1-1" v-if="languageValue == 'en-US'">{{item.services_en}}
+								</view>
+								<view class="checkout-item-1-1" v-if="languageValue == 'zh-CN'">{{item.services_cn}}
+								</view>
+								<view class="checkout-item-1-2">{{item.services_desc}}</view>
+							</view>
+							<view class="checkout-item-2">
+								<view class="checkout-item-2-1">¥ {{ item.money_y }}.00</view>
+								<view class="checkout-item-2-2">¥ {{item.sale_money_y}}.00</view>
+							</view>
+							<view class="checkout-item-3">
+								<switch style="transform:scale(0.6)" type="switch" color="#0AA0A8"
+									:checked="freeCheckedCheckoutList.indexOf(item.id) != -1 "
+									@change="checkoutItemChecked($event,item.id,item.sale_money_y,item.money_y)" />
+							</view>
+						</view>
+						<view class="checkout-item checkout-total">
+							<view class="checkout-total-1">
+								<image src="./static/total-today.png" mode="aspectFill"></image>
+								<view class="checkout-total-1-c">
+									<view class="checkout-total-1-1">Total</view>
+									<view class="checkout-total-1-2">Including Tax</view>
+								</view>
+							</view>
+							<view class="checkout-total-3">
+								<view class="checkout-total-3-1">¥ {{freeCheckoutNowTotalValue}}.00</view>
+								<view class="checkout-total-3-2">¥ {{freeCheckoutOldTotalValue}}.00</view>
+							</view>
+						</view>
+						<view class="checkout-btn">
+							<button type="default" v-if="businessLevel==2" @click="submitCheckout">Checkout</button>
+							<button type="default" v-if="businessLevel==1" @click="submitJob(1)">Save & Upgrade</button>
+						</view>
+					</view>
+				</swiper-item>
+				<swiper-item class="swiperitem" v-if="businessLevel <= 3">
+					<view class="swiperitem-container">
+						<view class="checkout-title">{{i18n.jobspriceforplusmembers}}</view>
+						<view class="checkout-feature">Get featured on: </view>
+						<view class="checkout-item" v-for="(item,index) in plusServiceList" :key="index">
+							<view class="checkout-item-1">
+								<view class="checkout-item-1-1" v-if="languageValue == 'en-US'">{{item.services_en}}
+								</view>
+								<view class="checkout-item-1-1" v-if="languageValue == 'zh-CN'">{{item.services_cn}}
+								</view>
+								<view class="checkout-item-1-2">{{item.services_desc}}</view>
+							</view>
+							<view class="checkout-item-2">
+								<view class="checkout-item-2-1">¥ {{ item.money_y }}.00</view>
+								<view class="checkout-item-2-2">¥ {{item.sale_money_y}}.00</view>
+							</view>
+							<view class="checkout-item-3">
+								<switch style="transform:scale(0.6)" type="switch" color="#0AA0A8"
+									:checked="freeCheckedCheckoutList.indexOf(item.id) != -1 "
+									@change="checkoutItemChecked($event,item.id,item.sale_money_y,item.money_y)" />
+							</view>
+						</view>
+						<view class="checkout-item checkout-total">
+							<view class="checkout-total-1">
+								<image src="./static/total-today.png" mode="aspectFill"></image>
+								<view class="checkout-total-1-c">
+									<view class="checkout-total-1-1">Total</view>
+									<view class="checkout-total-1-2">Including Tax</view>
+								</view>
+							</view>
+							<view class="checkout-total-3">
+								<view class="checkout-total-3-1">¥ {{freeCheckoutNowTotalValue}}.00</view>
+								<view class="checkout-total-3-2">¥ {{freeCheckoutOldTotalValue}}.00</view>
+							</view>
+						</view>
+						<view class="checkout-btn">
+							<button type="default" v-if="businessLevel==3" @click="submitCheckout">Checkout</button>
+							<button type="default" v-if="businessLevel<3" @click="submitJob(1)">Save & Upgrade</button>
+						</view>
+					</view>
+				</swiper-item>
+
 			</swiper>
 		</view>
 		<view class="flex-item post-this-job">
-			<button type="default" @click="submitJob">{{i18n.jobspostjob}}</button>
+			<button type="default" @click="submitJob(0)">{{i18n.jobspostjob}}</button>
 		</view>
 
-		<u-select v-model="paymentPeriodShow" mode="single-column" cancelText="cancel" confirmText="confirm" :list="paymentPeriodList"
-		 @confirm="paymentPeriodConfirm" value-name="id" label-name="object_en"></u-select>
+		<u-select v-model="paymentPeriodShow" mode="single-column" cancelText="cancel" confirmText="confirm"
+			:list="paymentPeriodList" @confirm="paymentPeriodConfirm" value-name="id" label-name="object_en"></u-select>
 
 		<u-select v-model="genderShow" mode="single-column" cancelText="cancel" confirmText="confirm" :list="genderList"
-		 @confirm="genderConfirm"></u-select>
+			@confirm="genderConfirm"></u-select>
 
-		<u-select v-model="teachingExpShow" mode="single-column" cancelText="cancel" confirmText="confirm" :list="teachingExpList"
-		 @confirm="teachingExpConfirm" value-name="id" label-name="object_en"></u-select>
+		<u-select v-model="teachingExpShow" mode="single-column" cancelText="cancel" confirmText="confirm"
+			:list="teachingExpList" @confirm="teachingExpConfirm" value-name="id" label-name="object_en"></u-select>
 
-		<u-select v-model="educationShow" mode="single-column" cancelText="cancel" confirmText="confirm" :list="educationList"
-		 @confirm="educationConfirm" value-name="id" label-name="object_en"></u-select>
+		<u-select v-model="educationShow" mode="single-column" cancelText="cancel" confirmText="confirm"
+			:list="educationList" @confirm="educationConfirm" value-name="id" label-name="object_en"></u-select>
 	</view>
 </template>
 
@@ -541,7 +692,7 @@
 		});
 	}
 	export default {
-		components:{
+		components: {
 			SliderRange
 		},
 		data() {
@@ -726,25 +877,31 @@
 
 				jobmd5: '',
 				businessUserInfo: '',
-				
+
 				barHeight: 3,
 				blockSize: 26,
 				backgroundColor: '#EEEEF6',
 				ageSlider: {
-				  min: 0,
-				  max: 100,
-				  rangeValue: [18, 60],
-				  step: 1,
-				  activeColor: '#0aa0a8',
-				  decorationVisible: true,
+					min: 0,
+					max: 100,
+					rangeValue: [18, 60],
+					step: 1,
+					activeColor: '#0aa0a8',
+					decorationVisible: true,
 				},
-				
-				province:'',
-				city:'',
-				area:'',
-				locationStatus:false,
-				pickerText:'',
-				
+
+				province: '',
+				city: '',
+				area: '',
+				locationStatus: false,
+				pickerText: '',
+
+				swiperHeight: 300,
+				businessLevel: 1,
+				basicServiceList: [],
+				proServiceList: [],
+				plusServiceList: [],
+
 			}
 		},
 		computed: {
@@ -752,15 +909,7 @@
 				return this.$t('index')
 			}
 		},
-		watch: {
-			// jobLocationValue(val) {
-			// 	if (val != '') {
-			// 		this.jobLocationErrorMsg = ''
-			// 	} else {
-			// 		this.jobLocationErrorMsg = this.i18n.jobsjoblocationph
-			// 	}
-			// },
-		},
+		watch: {},
 		onShow() {
 
 		},
@@ -806,7 +955,7 @@
 
 			this.jobmd5 = option.jobmd5;
 			this.getSubCateList();
-			this.getJobServiceList();
+			// this.getJobServiceList();
 			this.getBasicUserInfo();
 
 			if (option.id != '' && option.id != undefined) {
@@ -836,30 +985,30 @@
 			uni.$on('nationalityTwo', function(data) {
 				that.nationalityValueTwo = data;
 			})
-			
-			uni.$on('locationEvent',function(data){
+
+			uni.$on('locationEvent', function(data) {
 				console.log(data)
 				that.province = data.province;
 				that.city = data.city;
 				that.area = data.area;
 				that.locationStatus = true;
-				that.pickerText =  that.area + ', ' + that.city + ', ' + that.province;
+				that.pickerText = that.area + ', ' + that.city + ', ' + that.province;
 			})
 
 		},
 		methods: {
-			chooseLocation(){
+			chooseLocation() {
 				uni.navigateTo({
-					url:'/pages/location/location'
+					url: '/pages/location/location'
 				})
 			},
 			ageSliderformat(val) {
 				return val
-			  // return `${val}%`
+				// return `${val}%`
 			},
 			handleAgeRangeChange(e) {
-			  this.rangeValue = e
-			  console.log(this.rangeValue)
+				this.rangeValue = e
+				console.log(this.rangeValue)
 			},
 			chooseAvatar() {
 				// 此为uView的跳转方法，详见"文档-JS"部分，也可以用uni的uni.navigateTo
@@ -962,12 +1111,36 @@
 				}
 			},
 			getJobServiceList() {
+				let token = uni.getStorageSync('token');
+
 				let data = {
-					token: uni.getStorageSync('token')
+					token: token,
+					identity: 2,
+					page: 1,
+					limit: 200
 				}
+
 				jobs.serviceList(data).then(res => {
+					console.log(res)
 					if (res.code == 200) {
-						this.serviceList = res.message;
+						let level = this.businessLevel;
+						let result = res.message.data;
+
+						let basicServiceList = result.filter(item => item.level == 1);
+						this.basicServiceList = basicServiceList;
+						let basicLen = basicServiceList.length;
+
+						let proServiceList = result.filter(item => item.level == 2);
+						this.proServiceList = proServiceList;
+						let proLen = proServiceList.length;
+
+						let plusServiceList = result.filter(item => item.level == 3);
+						this.plusServiceList = plusServiceList;
+						let plusLen = plusServiceList.length;
+						
+						let len = Math.max(basicLen,proLen,plusLen);
+						this.swiperHeight = 460 + (len * 140);
+
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -980,22 +1153,29 @@
 			},
 			getBasicUserInfo() {
 				var that = this;
+				let uid = uni.getStorageSync('uid');
+				let token = uni.getStorageSync('token');
+
 				let data = {
-					id: uni.getStorageSync('uid'),
-					token: uni.getStorageSync('token')
+					id: uid,
+					token: token
 				}
+
 				profile.getBasicInfo(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
-						that.businessUserInfo = res.message.business_info;
-						that.businessId = res.message.business_info.id;
-						that.businessName = res.message.business_info.business_name;
-						if (this.isYouTheInterview == 1) {
-							that.theInterviewName = res.message.business_info.first_name + ' ' + res.message.business_info.last_name;
-							that.theInterviewNationality = res.message.business_info.nationality;
-							that.theInterviewPhoto = res.message.business_info.profile_photo;
-						}
+						let businessInfo = res.message.business_info;
 
+						that.businessUserInfo = businessInfo;
+						that.businessId = businessInfo.id;
+						that.businessName = businessInfo.business_name;
+						if (this.isYouTheInterview == 1) {
+							that.theInterviewName = businessInfo.first_name + ' ' + businessInfo.last_name;
+							that.theInterviewNationality = businessInfo.nationality;
+							that.theInterviewPhoto = businessInfo.profile_photo;
+						}
+						that.businessLevel = businessInfo.level;
+						that.getJobServiceList();
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -1058,7 +1238,8 @@
 						// this.employmentTypeList = res.message.filter(item => item.pid === 3); //employment type
 						this.paymentPeriodList = res.message.filter(item => item.pid === 111); // payment period
 						this.currencyList = res.message.filter(item => item.pid === 117); // currency 
-						this.teachingCertificateList = res.message.filter(item => item.pid === 7); //teaching certificate ...
+						this.teachingCertificateList = res.message.filter(item => item.pid ===
+							7); //teaching certificate ...
 						this.teachingExpList = res.message.filter(item => item.pid === 120); //teaching exp
 						this.educationList = res.message.filter(item => item.pid === 125); // education
 						this.languagesList = res.message.filter(item => item.pid === 2); // language ..
@@ -1490,6 +1671,22 @@
 			},
 			checkoutChange(e) {
 				console.log(e)
+				this.freeCheckedCheckoutList = [];
+				this.freeCheckoutNowTotalValue = 0;
+				this.freeCheckoutOldTotalValue = 0;
+			},
+			checkoutItemChecked(e, index, oldValue, nowValue) {
+				let freeCheckedCheckoutList = this.freeCheckedCheckoutList;
+				if (freeCheckedCheckoutList.indexOf(index) == -1) {
+					this.freeCheckedCheckoutList.push(index);
+					this.freeCheckoutNowTotalValue = this.freeCheckoutNowTotalValue + nowValue;
+					this.freeCheckoutOldTotalValue = this.freeCheckoutOldTotalValue + oldValue;
+				} else {
+					this.freeCheckedCheckoutList.splice(this.freeCheckedCheckoutList.indexOf(index), 1);
+					this.freeCheckoutNowTotalValue = this.freeCheckoutNowTotalValue - nowValue;
+					this.freeCheckoutOldTotalValue = this.freeCheckoutOldTotalValue - oldValue;
+				}
+
 			},
 			checkedCheckoutItem(index, oldValue, nowValue) {
 				let freeCheckedCheckoutList = this.freeCheckedCheckoutList;
@@ -1533,24 +1730,38 @@
 						profile.getUserObjectList(subcate_data).then(subcateRes => {
 							// console.log(subcateRes);
 							if (subcateRes.code == 200) {
-								this.benefitsList = subcateRes.message.filter(item => item.pid === 6); //benefits
-								this.ageToTeachList = subcateRes.message.filter(item => item.pid === 4); //age to teach
+								this.benefitsList = subcateRes.message.filter(item => item.pid ===
+									6); //benefits
+								this.ageToTeachList = subcateRes.message.filter(item => item.pid ===
+									4); //age to teach
 								// this.employmentTypeList = subcateRes.message.filter(item => item.pid === 3); //employment type
-								this.paymentPeriodList = subcateRes.message.filter(item => item.pid === 111); // payment period
-								this.currencyList = subcateRes.message.filter(item => item.pid === 117); // currency 
-								this.teachingCertificateList = subcateRes.message.filter(item => item.pid === 7); //teaching certificate ...
-								this.teachingExpList = subcateRes.message.filter(item => item.pid === 120); //teaching exp
-								this.educationList = subcateRes.message.filter(item => item.pid === 125); // education
-								this.languagesList = subcateRes.message.filter(item => item.pid === 2); // language ..
-								this.jobTitleList = subcateRes.message.filter(item => item.pid === 103); //job title
-								this.startDateList = subcateRes.message.filter(item => item.pid === 108); // start date
-								this.subjectList = subcateRes.message.filter(item => item.pid === 1); //subject 
-								this.ageList = subcateRes.message.filter(item => item.pid === 131); //age list
-								
+								this.paymentPeriodList = subcateRes.message.filter(item => item.pid ===
+									111); // payment period
+								this.currencyList = subcateRes.message.filter(item => item.pid ===
+									117); // currency 
+								this.teachingCertificateList = subcateRes.message.filter(item => item
+									.pid === 7); //teaching certificate ...
+								this.teachingExpList = subcateRes.message.filter(item => item.pid ===
+									120); //teaching exp
+								this.educationList = subcateRes.message.filter(item => item.pid ===
+									125); // education
+								this.languagesList = subcateRes.message.filter(item => item.pid ===
+									2); // language ..
+								this.jobTitleList = subcateRes.message.filter(item => item.pid ===
+									103); //job title
+								this.startDateList = subcateRes.message.filter(item => item.pid ===
+									108); // start date
+								this.subjectList = subcateRes.message.filter(item => item.pid ===
+									1); //subject 
+								this.ageList = subcateRes.message.filter(item => item.pid ===
+									131); //age list
+
 								// job title
 								if (res.message.job_title != '') {
-									let arr = this.jobTitleList.filter(item => item.object_en == res.message.job_title);
-									let arrcn = this.jobTitleList.filter(item => item.object_cn == res.message.job_title);
+									let arr = this.jobTitleList.filter(item => item.object_en == res
+										.message.job_title);
+									let arrcn = this.jobTitleList.filter(item => item.object_cn == res
+										.message.job_title);
 									if (arr.length > 0 || arrcn.length > 0) {
 										this.selectJobTitleList = arr;
 									} else {
@@ -1567,8 +1778,10 @@
 
 								// start date
 								if (res.message.entry_date) {
-									let arr = this.startDateList.filter(item => item.object_en == res.message.entry_date);
-									let arrcn = this.startDateList.filter(item => item.object_cn == res.message.entry_date);
+									let arr = this.startDateList.filter(item => item.object_en == res
+										.message.entry_date);
+									let arrcn = this.startDateList.filter(item => item.object_cn == res
+										.message.entry_date);
 									if (arr.length > 0 || arrcn.length > 0) {
 										this.selectStartDateList = arr;
 									} else {
@@ -1583,8 +1796,10 @@
 								}
 								// currency
 								if (res.message.currency) {
-									let arr = this.currencyList.filter(item => item.object_en == res.message.currency);
-									let arrcn = this.currencyList.filter(item => item.object_cn == res.message.currency);
+									let arr = this.currencyList.filter(item => item.object_en == res
+										.message.currency);
+									let arrcn = this.currencyList.filter(item => item.object_cn == res
+										.message.currency);
 									// console.log(arr)
 									if (arr.length > 0 || arrcn.length > 0) {
 										this.selectCurrencyList = arr;
@@ -1605,7 +1820,8 @@
 									let a = res.message.benefits;
 									a.forEach(benefit => {
 										if (benefit.object_id !== 0) {
-											let b = this.benefitsList.filter(item => item.id === benefit.object_id)
+											let b = this.benefitsList.filter(item => item.id ===
+												benefit.object_id)
 											c.push(b[0])
 										} else {
 											let obj = {
@@ -1628,7 +1844,8 @@
 									a.forEach(ageToTeach => {
 										if (ageToTeach.object_id !== 0) {
 											console.log(that.ageToTeachList)
-											let b = that.ageToTeachList.filter(item => item.id === ageToTeach.object_id)
+											let b = that.ageToTeachList.filter(item => item.id ===
+												ageToTeach.object_id)
 											console.log(b)
 											c.push(b[0])
 										} else {
@@ -1650,7 +1867,8 @@
 									let a = res.message.subject;
 									a.forEach(subject => {
 										if (subject.object_id !== 0) {
-											let b = this.subjectList.filter(item => item.id === subject.object_id)
+											let b = this.subjectList.filter(item => item.id ===
+												subject.object_id)
 											c.push(b[0])
 										} else {
 											let obj = {
@@ -1671,7 +1889,8 @@
 									let a = res.message.Teaching_certificate;
 									a.forEach(teachCer => {
 										if (teachCer.object_id !== 0) {
-											let b = this.teachingCertificateList.filter(item => item.id === teachCer.object_id)
+											let b = this.teachingCertificateList.filter(item =>
+												item.id === teachCer.object_id)
 											c.push(b[0])
 										} else {
 											let obj = {
@@ -1691,7 +1910,8 @@
 									let a = res.message.languages;
 									a.forEach(language => {
 										if (language.object_id !== 0) {
-											let b = this.languagesList.filter(item => item.id === language.object_id)
+											let b = this.languagesList.filter(item => item.id ===
+												language.object_id)
 											c.push(b[0])
 										} else {
 											let obj = {
@@ -1708,11 +1928,13 @@
 								}
 
 								if (res.message.employment_type != '') {
-									this.selectEmploymentTypeList = this.employmentTypeList.filter(item => item.id == res.message.employment_type)
+									this.selectEmploymentTypeList = this.employmentTypeList.filter(item =>
+										item.id == res.message.employment_type)
 								}
 
 								if (res.message.age != '') {
-									let b = this.ageList.filter(item => this.$u.trim(item.object_en) == res.message.age);
+									let b = this.ageList.filter(item => this.$u.trim(item.object_en) == res
+										.message.age);
 									this.selectAgeList = b;
 								}
 
@@ -1730,7 +1952,7 @@
 
 						// this.jobLocationValue = res.message.job_location;
 						this.pickerText = res.message.job_location;
-						if(this.pickerText != ''){
+						if (this.pickerText != '') {
 							this.locationStatus = true;
 						}
 
@@ -1750,8 +1972,8 @@
 						}
 						let ageMin = res.message.age_min
 						let ageMax = res.message.age_max
-						this.ageSlider.rangeValue = [ageMin,ageMax]
-						
+						this.ageSlider.rangeValue = [ageMin, ageMax]
+
 						this.positionDescriptionValue = res.message.desc;
 						this.vacanciesValue = res.message.numbers;
 						this.isEqualOpportunity = res.message.is_equal;
@@ -1824,8 +2046,7 @@
 					console.log(error);
 				})
 			},
-			submitJob() {
-
+			submitCheckout(){
 				var currency;
 				var currencyValue;
 				var that = this;
@@ -1836,7 +2057,7 @@
 				// 		icon: "none"
 				// 	})
 				// }
-				if(this.pickerText == ''){
+				if (this.pickerText == '') {
 					return uni.showToast({
 						title: this.i18n.jobLocationErrorMsg,
 						icon: "none"
@@ -1875,21 +2096,21 @@
 						icon: "none"
 					})
 				}
-
+				
 				if (parseInt(this.maxSalaryValue) <= parseInt(this.minSalaryValue)) {
 					return uni.showToast({
 						title: this.i18n.jobsmaxsalaryph,
 						icon: "none"
 					})
 				}
-
+				
 				if (this.paymentPeriodValue == '') {
 					return uni.showToast({
 						title: this.i18n.paymentPeriodErrorMsg,
 						icon: "none"
 					})
 				}
-
+				
 				if (this.selectCurrencyList.length <= 0) {
 					return uni.showToast({
 						title: this.i18n.currencyErrorMsg,
@@ -1907,7 +2128,7 @@
 					let a = this.selectJobTitleList;
 					this.jobTitleValue = a[0].object_en;
 				}
-
+				
 				if (this.selectStartDateList.length > 0) {
 					let a = this.selectStartDateList;
 					this.startDateValue = a[0].object_en;
@@ -1932,7 +2153,7 @@
 						job_location: this.pickerText,
 						apply_due_date: this.applicationDueDateStr,
 						is_online: this.isOnlineJob,
-
+				
 						salary_min: parseInt(this.minSalaryValue),
 						salary_max: parseInt(this.maxSalaryValue),
 						payment_period: this.paymentPeriodValue,
@@ -1948,8 +2169,8 @@
 						education: this.educationValue,
 						nationality: this.nationalityValueOne.name,
 						age: this.ageValue,
-						age_min:this.rangeValue[0],
-						age_max:this.rangeValue[1],
+						age_min: this.rangeValue[0],
+						age_max: this.rangeValue[1],
 						is_interview: this.isYouTheInterview,
 						interview_name: this.theInterviewName,
 						interview_nationlity: this.nationalityValueTwo.name,
@@ -1984,8 +2205,300 @@
 						education: this.educationValue,
 						nationality: this.nationalityValueOne.name,
 						age: this.ageValue,
-						age_min:this.rangeValue[0],
-						age_max:this.rangeValue[1],
+						age_min: this.rangeValue[0],
+						age_max: this.rangeValue[1],
+						is_interview: this.isYouTheInterview,
+						interview_name: this.theInterviewName,
+						interview_nationlity: this.nationalityValueTwo.name,
+						interview_imgurl: this.theInterviewPhoto,
+						entry_date: this.startDateValue,
+						business_id: this.businessId,
+						business_name: this.businessName,
+						currency: currencyValue,
+						is_mom_language: this.isNativeSpeaker,
+						employment_type: this.selectEmploymentTypeList[0].id,
+						version_time: this.jobmd5
+					}
+				}
+				// console.log(data);
+				uni.showLoading({
+					title: 'loading'
+				})
+				jobs.add(data).then(res => {
+					// console.log(res);
+					if (res.code == 200) {
+						let jobId = res.data.job_id;
+						if (this.selectBenefitsList.length > 0) {
+							that.submitBenefits(jobId);
+						}
+				
+						if (this.selectAgeToTeachList.length > 0) {
+							that.submitAgeToTeach(jobId);
+						}
+						if (this.subjectList.length > 0) {
+							that.submitSubject(jobId);
+						}
+						// if (this.selectEmploymentTypeList.length > 0) {
+						// 	that.submitEmploymentType(jobId);
+						// }
+						if (this.selectTeachingCertificateList.length > 0) {
+							that.submitTeachingCertificate(jobId);
+						}
+						if (this.selectLanguagesList.length > 0) {
+							that.submitLanguages(jobId);
+						}
+				
+						if (this.freeCheckedCheckoutList.length === 0 && this.paidCheckedCheckoutList.length ===
+							0) {
+							uni.hideLoading();
+							uni.reLaunch({
+								url: '/pages/jobs/index?current=1'
+							})
+						}
+				
+						if (this.freeCheckedCheckoutList.length > 0) {
+							let service_data = {
+								job_id: jobId,
+								services: that.freeCheckedCheckoutList,
+								token: uni.getStorageSync('token')
+							}
+							jobs.addJobServices(service_data).then(res => {
+								console.log(res)
+								if (res.code == 200) {
+				
+									let pre_data = {
+										token: uni.getStorageSync('token'),
+										// total_fee: 1,
+										total_fee: res.data.money,
+										order_id: res.data.order_id,
+										body: that.jobTitleValue
+									}
+									// #ifdef H5
+									jobs.getPrepayId(pre_data).then(res => {
+										console.log(res)
+										uni.hideLoading();
+										let wxpayData = res.message;
+										this.$jwx.wxpay(wxpayData, function(result) {
+											console.log(result)
+											if (result.code == 1) {
+												uni.reLaunch({
+													url: '/pages/jobs/index?current=1'
+												})
+											}
+											if (result.code == -1) {
+												uni.navigateTo({
+													url: '/pages/public/payment/payment'
+												})
+											}
+										})
+									}).catch(error => {
+										console.log(error)
+									})
+									// #endif
+				
+									// #ifdef MP-WEIXIN
+									jobs.miniAppPay(pre_data).then(res => {
+										console.log(res)
+										uni.hideLoading();
+										let wxpayData = res.message;
+										uni.requestPayment({
+											provider: 'wxpay',
+											timeStamp: wxpayData.timeStamp,
+											nonceStr: wxpayData.nonceStr,
+											package: wxpayData.package,
+											signType: wxpayData.signType,
+											paySign: wxpayData.paySign,
+											success: function(res) {
+												uni.reLaunch({
+													url: '/pages/jobs/index?current=1'
+												})
+											},
+											fail: function(err) {
+												console.log(err)
+												uni.navigateTo({
+													url: '/pages/public/payment/payment'
+												})
+											}
+										});
+									}).catch(error => {
+										console.log(error)
+									})
+				
+									// #endif
+				
+								}
+							}).catch(error => {
+								console.log(error)
+							})
+						}
+				
+				
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+				}).catch(error => {
+					console.log(error);
+				})
+			},
+			submitJob(isUpgrade) {
+
+				var currency;
+				var currencyValue;
+				var that = this;
+				
+				if (this.pickerText == '') {
+					return uni.showToast({
+						title: this.i18n.jobLocationErrorMsg,
+						icon: "none"
+					})
+				}
+				if (this.selectEmploymentTypeList.length <= 0) {
+					return uni.showToast({
+						title: this.i18n.employmentTypeErrorMsg,
+						icon: "none"
+					})
+				}
+
+				if (this.selectJobTitleList.length <= 0) {
+					return uni.showToast({
+						title: this.i18n.jobTitleErrorMsg,
+						icon: "none"
+					})
+				}
+
+				if (this.positionDescriptionValue == '') {
+					return uni.showToast({
+						title: this.i18n.positionDescErrorMsg,
+						icon: "none"
+					})
+				}
+
+				if (this.minSalaryValue == '') {
+					return uni.showToast({
+						title: this.i18n.jobsminsalaryph,
+						icon: "none"
+					})
+				}
+				if (this.maxSalaryValue == '') {
+					return uni.showToast({
+						title: this.i18n.jobsmaxsalaryph,
+						icon: "none"
+					})
+				}
+
+				if (parseInt(this.maxSalaryValue) <= parseInt(this.minSalaryValue)) {
+					return uni.showToast({
+						title: this.i18n.jobsmaxsalaryph,
+						icon: "none"
+					})
+				}
+
+				if (this.paymentPeriodValue == '') {
+					return uni.showToast({
+						title: this.i18n.paymentPeriodErrorMsg,
+						icon: "none"
+					})
+				}
+
+				if (this.selectCurrencyList.length <= 0) {
+					return uni.showToast({
+						title: this.i18n.currencyErrorMsg,
+						icon: "none"
+					})
+				}
+
+				if (this.selectCurrencyList.length > 0) {
+					currency = this.selectCurrencyList;
+					currencyValue = currency[0].object_en;
+				} else {
+					currencyValue = '';
+				}
+				if (this.selectJobTitleList.length > 0) {
+					let a = this.selectJobTitleList;
+					this.jobTitleValue = a[0].object_en;
+				}
+
+				if (this.selectStartDateList.length > 0) {
+					let a = this.selectStartDateList;
+					this.startDateValue = a[0].object_en;
+				}
+				if (this.selectAgeList.length > 0) {
+					this.ageValue = this.selectAgeList[0].object_en;
+				}
+
+				if (this.isYouTheInterview == 1) {
+					this.theInterviewName = this.businessUserInfo.first_name + ' ' + this.businessUserInfo.last_name;
+					this.nationalityValueTwo = {
+						name: this.businessUserInfo.nationality
+					}
+					this.theInterviewPhoto = this.businessUserInfo.profile_photo
+				}
+
+				if (that.isEdit) {
+					var data = {
+						job_id: this.jobId,
+						token: uni.getStorageSync('token'),
+						job_title: this.jobTitleValue,
+						job_location: this.pickerText,
+						apply_due_date: this.applicationDueDateStr,
+						is_online: this.isOnlineJob,
+
+						salary_min: parseInt(this.minSalaryValue),
+						salary_max: parseInt(this.maxSalaryValue),
+						payment_period: this.paymentPeriodValue,
+						desc: this.positionDescriptionValue,
+						numbers: parseInt(this.vacanciesValue),
+						is_equal: this.isEqualOpportunity,
+						sex: parseInt(this.genderValue),
+						is_cpr: this.isCprCertified,
+						is_first_aside: this.isFirstAsideCertified,
+						is_teaching_exp: this.isTeachingExperience,
+						teaching_times: this.teachingExpValue,
+						is_teaching_license: this.isTeachingLicense,
+						education: this.educationValue,
+						nationality: this.nationalityValueOne.name,
+						age: this.ageValue,
+						age_min: this.rangeValue[0],
+						age_max: this.rangeValue[1],
+						is_interview: this.isYouTheInterview,
+						interview_name: this.theInterviewName,
+						interview_nationlity: this.nationalityValueTwo.name,
+						interview_imgurl: this.theInterviewPhoto,
+						entry_date: this.startDateValue,
+						business_id: this.businessId,
+						business_name: this.businessName,
+						currency: currencyValue,
+						is_mom_language: this.isNativeSpeaker,
+						employment_type: this.selectEmploymentTypeList[0].id,
+						version_time: this.jobmd5
+					}
+				} else {
+					var data = {
+						token: uni.getStorageSync('token'),
+						job_title: this.jobTitleValue,
+						job_location: this.pickerText,
+						apply_due_date: this.applicationDueDateStr,
+						is_online: this.isOnlineJob,
+						salary_min: parseInt(this.minSalaryValue),
+						salary_max: parseInt(this.maxSalaryValue),
+						payment_period: this.paymentPeriodValue,
+						desc: this.positionDescriptionValue,
+						numbers: parseInt(this.vacanciesValue),
+						is_equal: this.isEqualOpportunity,
+						sex: parseInt(this.genderValue),
+						is_cpr: this.isCprCertified,
+						is_first_aside: this.isFirstAsideCertified,
+						is_teaching_exp: this.isTeachingExperience,
+						teaching_times: this.teachingExpValue,
+						is_teaching_license: this.isTeachingLicense,
+						education: this.educationValue,
+						nationality: this.nationalityValueOne.name,
+						age: this.ageValue,
+						age_min: this.rangeValue[0],
+						age_max: this.rangeValue[1],
 						is_interview: this.isYouTheInterview,
 						interview_name: this.theInterviewName,
 						interview_nationlity: this.nationalityValueTwo.name,
@@ -2026,90 +2539,19 @@
 						if (this.selectLanguagesList.length > 0) {
 							that.submitLanguages(jobId);
 						}
-
-						if (this.freeCheckedCheckoutList.length === 0 && this.paidCheckedCheckoutList.length === 0) {
+						setTimeout(function(){
 							uni.hideLoading();
-							uni.reLaunch({
-								url: '/pages/jobs/index?current=1'
-							})
-						}
-
-						if (this.freeCheckedCheckoutList.length > 0) {
-							let service_data = {
-								job_id: jobId,
-								services: that.freeCheckedCheckoutList,
-								token: uni.getStorageSync('token')
+							if(isUpgrade==1){
+								uni.navigateTo({
+									url:'/pages/me/upgrade'
+								})
+							}else{
+								uni.reLaunch({
+									url: '/pages/jobs/index?current=1'
+								})
 							}
-							jobs.addJobServices(service_data).then(res => {
-								console.log(res)
-								if (res.code == 200) {
-
-									let pre_data = {
-										token: uni.getStorageSync('token'),
-										// total_fee: 1,
-										total_fee: res.data.money,
-										order_id: res.data.order_id,
-										body: that.jobTitleValue
-									}
-									// #ifdef H5
-									jobs.getPrepayId(pre_data).then(res => {
-										console.log(res)
-										uni.hideLoading();
-										let wxpayData = res.message;
-										this.$jwx.wxpay(wxpayData, function(result) {
-											console.log(result)
-											if (result.code == 1) {
-												uni.reLaunch({
-													url: '/pages/jobs/index?current=1'
-												})
-											}
-											if (result.code == -1) {
-												uni.reLaunch({
-													url: '/pages/home/index'
-												})
-											}
-										})
-									}).catch(error => {
-										console.log(error)
-									})
-									// #endif
-									
-									// #ifdef MP-WEIXIN
-									jobs.miniAppPay(pre_data).then(res=>{
-										console.log(res)
-										uni.hideLoading();
-										let wxpayData = res.message;
-										uni.requestPayment({
-										    provider: 'wxpay',
-										    timeStamp: wxpayData.timeStamp,
-										    nonceStr: wxpayData.nonceStr,
-										    package: wxpayData.package,
-										    signType:wxpayData.signType,
-										    paySign: wxpayData.paySign,
-										    success: function (res) {
-										        uni.reLaunch({
-										        	url: '/pages/jobs/index?current=1'
-										        })
-										    },
-										    fail: function (err) {
-												console.log(err)
-												uni.navigateTo({
-													url:'/pages/public/payment/payment'
-												})
-										    }
-										});
-									}).catch(error=>{
-										console.log(error)
-									})
-									
-									// #endif
-									
-								}
-							}).catch(error => {
-								console.log(error)
-							})
-						}
-
+						
+						},1200)
 
 					} else {
 						uni.showToast({
@@ -2343,17 +2785,17 @@
 			}
 
 		},
-		onReachBottom:function(){
-		
+		onReachBottom: function() {
+
 		},
-		onShareAppMessage:function(){
-			
+		onShareAppMessage: function() {
+
 		},
-		onShareTimeline:function(){
-			
+		onShareTimeline: function() {
+
 		},
-		onAddToFavorites:function(){
-			
+		onAddToFavorites: function() {
+
 		},
 	}
 </script>
