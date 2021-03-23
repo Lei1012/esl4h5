@@ -244,6 +244,11 @@
 				</view>
 			</view>
 		</view>
+		
+		<view class="gohome">
+			<button type="default" @click="turnHomepage()">Back to homepage</button>
+		</view>
+		
 	</view>
 </template>
 
@@ -304,6 +309,7 @@
 			}
 		},
 		methods: {
+			
 			loadedMetaData(e) {
 				console.log(e)
 				var that = this;
@@ -319,7 +325,7 @@
 			},
 			turnHomepage() {
 				// console.log('home')
-				uni.reLaunch({
+				uni.switchTab({
 					url: '/pages/home/index'
 				})
 			},
