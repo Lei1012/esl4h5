@@ -529,10 +529,10 @@
 				Featured Job Charges
 			</view>
 			<!-- 3D轮播 -->
-			<swiper class="imageContainer"  previous-margin="20px" :style="'height:'+swiperHeight + 'rpx;' "
-				next-margin="20px" @change="checkoutChange" circular :autoplay="false">
+			<swiper class="imageContainer" previous-margin="20px" :style="'height:'+swiperHeight + 'rpx;' "
+				next-margin="20px" @change="checkoutChange"  :autoplay="false">
 				<swiper-item class="swiperitem" v-if="businessLevel==1">
-					<view class="swiperitem-container" >
+					<view class="swiperitem-container">
 						<view class="checkout-title">{{i18n.jobspriceforfreemembers}}</view>
 						<view class="checkout-feature">Get featured on: </view>
 						<view class="checkout-item" v-for="(item,index) in basicServiceList" :key="index">
@@ -544,13 +544,13 @@
 								<view class="checkout-item-1-2">{{item.services_desc}}</view>
 							</view>
 							<view class="checkout-item-2">
-								<view class="checkout-item-2-1">¥ {{ item.money_y }}.00</view>
-								<view class="checkout-item-2-2">¥ {{item.sale_money_y}}.00</view>
+								<view class="checkout-item-2-1">¥ {{ parseInt(item.originally_money/100) }}.00</view>
+								<view class="checkout-item-2-2">¥ {{parseInt(item.money/100)}}.00</view>
 							</view>
 							<view class="checkout-item-3">
 								<switch style="transform:scale(0.6)" type="switch" color="#0AA0A8"
 									:checked="freeCheckedCheckoutList.indexOf(item.id) != -1 "
-									@change="checkoutItemChecked($event,item.id,item.sale_money_y,item.money_y)" />
+									@change="checkoutItemChecked($event,item.id,parseInt(item.money/100),parseInt(item.originally_money/100))" />
 							</view>
 						</view>
 						<view class="checkout-item checkout-total">
@@ -584,13 +584,13 @@
 								<view class="checkout-item-1-2">{{item.services_desc}}</view>
 							</view>
 							<view class="checkout-item-2">
-								<view class="checkout-item-2-1">¥ {{ item.money_y }}.00</view>
-								<view class="checkout-item-2-2">¥ {{item.sale_money_y}}.00</view>
+								<view class="checkout-item-2-1">¥ {{ parseInt(item.originally_money/100) }}.00</view>
+								<view class="checkout-item-2-2">¥ {{parseInt(item.money/100)}}.00</view>
 							</view>
 							<view class="checkout-item-3">
 								<switch style="transform:scale(0.6)" type="switch" color="#0AA0A8"
 									:checked="freeCheckedCheckoutList.indexOf(item.id) != -1 "
-									@change="checkoutItemChecked($event,item.id,item.sale_money_y,item.money_y)" />
+									@change="checkoutItemChecked($event,item.id,parseInt(item.money/100),parseInt(item.originally_money/100))" />
 							</view>
 						</view>
 						<view class="checkout-item checkout-total">
@@ -625,13 +625,13 @@
 								<view class="checkout-item-1-2">{{item.services_desc}}</view>
 							</view>
 							<view class="checkout-item-2">
-								<view class="checkout-item-2-1">¥ {{ item.money_y }}.00</view>
-								<view class="checkout-item-2-2">¥ {{item.sale_money_y}}.00</view>
+								<view class="checkout-item-2-1">¥ {{ parseInt(item.originally_money/100) }}.00</view>
+								<view class="checkout-item-2-2">¥ {{parseInt(item.money/100)}}.00</view>
 							</view>
 							<view class="checkout-item-3">
 								<switch style="transform:scale(0.6)" type="switch" color="#0AA0A8"
 									:checked="freeCheckedCheckoutList.indexOf(item.id) != -1 "
-									@change="checkoutItemChecked($event,item.id,item.sale_money_y,item.money_y)" />
+									@change="checkoutItemChecked($event,item.id,parseInt(item.money/100),parseInt(item.originally_money/100))" />
 							</view>
 						</view>
 						<view class="checkout-item checkout-total">
@@ -678,7 +678,7 @@
 	import profile from '@/api/profile.js';
 	import jobs from '@/api/jobs.js';
 	import axios from 'axios';
-	import SliderRange from '@/components/xll-range-slider/index.vue'
+	import SliderRange from '@/components/xll-range-slider/index.vue';
 
 	var sourceType = [
 		['camera'],
@@ -1137,8 +1137,8 @@
 						let plusServiceList = result.filter(item => item.level == 3);
 						this.plusServiceList = plusServiceList;
 						let plusLen = plusServiceList.length;
-						
-						let len = Math.max(basicLen,proLen,plusLen);
+
+						let len = Math.max(basicLen, proLen, plusLen);
 						this.swiperHeight = 460 + (len * 140);
 
 					} else {
@@ -2046,11 +2046,11 @@
 					console.log(error);
 				})
 			},
-			submitCheckout(){
+			submitCheckout() {
 				var currency;
 				var currencyValue;
 				var that = this;
-				
+
 				// if (this.jobLocationValue == '') {
 				// 	return uni.showToast({
 				// 		title: this.i18n.jobLocationErrorMsg,
@@ -2069,21 +2069,21 @@
 						icon: "none"
 					})
 				}
-				
+
 				if (this.selectJobTitleList.length <= 0) {
 					return uni.showToast({
 						title: this.i18n.jobTitleErrorMsg,
 						icon: "none"
 					})
 				}
-				
+
 				if (this.positionDescriptionValue == '') {
 					return uni.showToast({
 						title: this.i18n.positionDescErrorMsg,
 						icon: "none"
 					})
 				}
-				
+
 				if (this.minSalaryValue == '') {
 					return uni.showToast({
 						title: this.i18n.jobsminsalaryph,
@@ -2096,28 +2096,28 @@
 						icon: "none"
 					})
 				}
-				
+
 				if (parseInt(this.maxSalaryValue) <= parseInt(this.minSalaryValue)) {
 					return uni.showToast({
 						title: this.i18n.jobsmaxsalaryph,
 						icon: "none"
 					})
 				}
-				
+
 				if (this.paymentPeriodValue == '') {
 					return uni.showToast({
 						title: this.i18n.paymentPeriodErrorMsg,
 						icon: "none"
 					})
 				}
-				
+
 				if (this.selectCurrencyList.length <= 0) {
 					return uni.showToast({
 						title: this.i18n.currencyErrorMsg,
 						icon: "none"
 					})
 				}
-				
+
 				if (this.selectCurrencyList.length > 0) {
 					currency = this.selectCurrencyList;
 					currencyValue = currency[0].object_en;
@@ -2128,7 +2128,7 @@
 					let a = this.selectJobTitleList;
 					this.jobTitleValue = a[0].object_en;
 				}
-				
+
 				if (this.selectStartDateList.length > 0) {
 					let a = this.selectStartDateList;
 					this.startDateValue = a[0].object_en;
@@ -2136,7 +2136,7 @@
 				if (this.selectAgeList.length > 0) {
 					this.ageValue = this.selectAgeList[0].object_en;
 				}
-				
+
 				if (this.isYouTheInterview == 1) {
 					this.theInterviewName = this.businessUserInfo.first_name + ' ' + this.businessUserInfo.last_name;
 					this.nationalityValueTwo = {
@@ -2144,7 +2144,7 @@
 					}
 					this.theInterviewPhoto = this.businessUserInfo.profile_photo
 				}
-				
+
 				if (that.isEdit) {
 					var data = {
 						job_id: this.jobId,
@@ -2153,7 +2153,7 @@
 						job_location: this.pickerText,
 						apply_due_date: this.applicationDueDateStr,
 						is_online: this.isOnlineJob,
-				
+
 						salary_min: parseInt(this.minSalaryValue),
 						salary_max: parseInt(this.maxSalaryValue),
 						payment_period: this.paymentPeriodValue,
@@ -2231,7 +2231,7 @@
 						if (this.selectBenefitsList.length > 0) {
 							that.submitBenefits(jobId);
 						}
-				
+
 						if (this.selectAgeToTeachList.length > 0) {
 							that.submitAgeToTeach(jobId);
 						}
@@ -2247,7 +2247,7 @@
 						if (this.selectLanguagesList.length > 0) {
 							that.submitLanguages(jobId);
 						}
-				
+
 						if (this.freeCheckedCheckoutList.length === 0 && this.paidCheckedCheckoutList.length ===
 							0) {
 							uni.hideLoading();
@@ -2255,7 +2255,7 @@
 								url: '/pages/jobs/index?current=1'
 							})
 						}
-				
+
 						if (this.freeCheckedCheckoutList.length > 0) {
 							let service_data = {
 								job_id: jobId,
@@ -2265,7 +2265,7 @@
 							jobs.addJobServices(service_data).then(res => {
 								console.log(res)
 								if (res.code == 200) {
-				
+
 									let pre_data = {
 										token: uni.getStorageSync('token'),
 										// total_fee: 1,
@@ -2295,7 +2295,7 @@
 										console.log(error)
 									})
 									// #endif
-				
+
 									// #ifdef MP-WEIXIN
 									jobs.miniAppPay(pre_data).then(res => {
 										console.log(res)
@@ -2323,16 +2323,16 @@
 									}).catch(error => {
 										console.log(error)
 									})
-				
+
 									// #endif
-				
+
 								}
 							}).catch(error => {
 								console.log(error)
 							})
 						}
-				
-				
+
+
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -2348,7 +2348,7 @@
 				var currency;
 				var currencyValue;
 				var that = this;
-				
+
 				if (this.pickerText == '') {
 					return uni.showToast({
 						title: this.i18n.jobLocationErrorMsg,
@@ -2539,19 +2539,19 @@
 						if (this.selectLanguagesList.length > 0) {
 							that.submitLanguages(jobId);
 						}
-						setTimeout(function(){
+						setTimeout(function() {
 							uni.hideLoading();
-							if(isUpgrade==1){
+							if (isUpgrade == 1) {
 								uni.navigateTo({
-									url:'/pages/me/upgrade'
+									url: '/pages/me/upgrade'
 								})
-							}else{
+							} else {
 								uni.reLaunch({
 									url: '/pages/jobs/index?current=1'
 								})
 							}
-						
-						},1200)
+
+						}, 1200)
 
 					} else {
 						uni.showToast({

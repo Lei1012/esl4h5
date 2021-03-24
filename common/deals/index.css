@@ -151,7 +151,7 @@
 }
 
 .events-slider{
-	margin-top: 40rpx;
+	width: 96%;
+	margin: 0 auto;
+	margin-top: 20rpx;
 }
-
-

@@ -329,7 +329,7 @@
 				}, {
 					"path": "promotion",
 					"style": {
-						"navigationBarTitleText": "Promotion",
+						"navigationBarTitleText": "Promotions",
 						"enablePullDownRefresh": false,
 						"h5": {
 							"titleNView": {
@@ -499,7 +499,10 @@
 			"path": "pages/menu/deals",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true,
+				"h5":{
+					"titleNView": false
+				}
 			}
 
 		}

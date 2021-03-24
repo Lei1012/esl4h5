@@ -3,7 +3,7 @@
 		<view class="flex-item checkout">
 			<!-- 3D轮播 -->
 			<swiper class="imageContainer" previous-margin="20px" :style="'height:'+swiperHeight + 'rpx;' "
-				next-margin="20px" @change="checkoutChange" circular :autoplay="false">
+				next-margin="20px" @change="checkoutChange"  :autoplay="false">
 				<swiper-item class="swiperitem" v-if="businessLevel==1">
 					<view class="swiperitem-container">
 						<view class="checkout-title">{{i18n.jobspriceforfreemembers}}</view>
@@ -17,13 +17,13 @@
 								<view class="checkout-item-1-2">{{item.services_desc}}</view>
 							</view>
 							<view class="checkout-item-2">
-								<view class="checkout-item-2-1">¥ {{ item.money_y }}.00</view>
-								<view class="checkout-item-2-2">¥ {{item.sale_money_y}}.00</view>
+								<view class="checkout-item-2-1">¥ {{ parseInt(item.originally_money/100) }}.00</view>
+								<view class="checkout-item-2-2">¥ {{parseInt(item.money/100)}}.00</view>
 							</view>
 							<view class="checkout-item-3">
 								<switch style="transform:scale(0.6)" type="switch" color="#0AA0A8"
 									:checked="freeCheckedCheckoutList.indexOf(item.id) != -1 "
-									@change="checkoutItemChecked($event,item.id,item.sale_money_y,item.money_y)" />
+									@change="checkoutItemChecked($event,item.id,parseInt(item.money/100),parseInt(item.originally_money/100))" />
 							</view>
 						</view>
 						<view class="checkout-item checkout-total">
@@ -40,7 +40,7 @@
 							</view>
 						</view>
 						<view class="checkout-btn">
-							<button type="default" @click="createPromotion">Promotion</button>
+							<button type="default" @click="createPromotion">Promotions</button>
 						</view>
 					</view>
 				</swiper-item>
@@ -57,13 +57,13 @@
 								<view class="checkout-item-1-2">{{item.services_desc}}</view>
 							</view>
 							<view class="checkout-item-2">
-								<view class="checkout-item-2-1">¥ {{ item.money_y }}.00</view>
-								<view class="checkout-item-2-2">¥ {{item.sale_money_y}}.00</view>
+								<view class="checkout-item-2-1">¥ {{ parseInt(item.originally_money/100) }}.00</view>
+								<view class="checkout-item-2-2">¥ {{parseInt(item.money/100)}}.00</view>
 							</view>
 							<view class="checkout-item-3">
 								<switch style="transform:scale(0.6)" type="switch" color="#0AA0A8"
 									:checked="freeCheckedCheckoutList.indexOf(item.id) != -1 "
-									@change="checkoutItemChecked($event,item.id,item.sale_money_y,item.money_y)" />
+									@change="checkoutItemChecked($event,item.id,parseInt(item.money/100),parseInt(item.originally_money/100))" />
 							</view>
 						</view>
 						<view class="checkout-item checkout-total">
@@ -80,7 +80,7 @@
 							</view>
 						</view>
 						<view class="checkout-btn">
-							<button type="default" v-if="businessLevel==2" @click="createPromotion">Promotion</button>
+							<button type="default" v-if="businessLevel==2" @click="createPromotion">Promotions</button>
 							<button type="default" v-if="businessLevel==1" @click="turnUpgrade">Save & Upgrade</button>
 						</view>
 					</view>
@@ -98,13 +98,13 @@
 								<view class="checkout-item-1-2">{{item.services_desc}}</view>
 							</view>
 							<view class="checkout-item-2">
-								<view class="checkout-item-2-1">¥ {{ item.money_y }}.00</view>
-								<view class="checkout-item-2-2">¥ {{item.sale_money_y}}.00</view>
+								<view class="checkout-item-2-1">¥ {{ parseInt(item.originally_money/100) }}.00</view>
+								<view class="checkout-item-2-2">¥ {{parseInt(item.money/100)}}.00</view>
 							</view>
 							<view class="checkout-item-3">
 								<switch style="transform:scale(0.6)" type="switch" color="#0AA0A8"
 									:checked="freeCheckedCheckoutList.indexOf(item.id) != -1 "
-									@change="checkoutItemChecked($event,item.id,item.sale_money_y,item.money_y)" />
+									@change="checkoutItemChecked($event,item.id,parseInt(item.money/100),parseInt(item.originally_money/100))" />
 							</view>
 						</view>
 						<view class="checkout-item checkout-total">
@@ -121,7 +121,7 @@
 							</view>
 						</view>
 						<view class="checkout-btn">
-							<button type="default" v-if="businessLevel==3" @click="createPromotion">Promotion</button>
+							<button type="default" v-if="businessLevel==3" @click="createPromotion">Promotions</button>
 							<button type="default" v-if="businessLevel<3" @click="turnUpgrade">Save & Upgrade</button>
 						</view>
 					</view>
