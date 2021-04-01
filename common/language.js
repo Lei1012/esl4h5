@@ -6,6 +6,7 @@ const Chinese = {
 	tabbarsearch: "搜索",
 	tabbardeals: "折扣",
 	tabbarjobs: "工作",
+	tabbarevents:"活动",
 	tabbarme: "我",
 
 	homesearchjobs: "搜索工作",
@@ -209,7 +210,7 @@ const Chinese = {
 	dealsunderstandtxt: "我明白这个交易提交需要先得到ESL Passport的批准.",
 
 	// events 20201109
-	eventsaddevent1: "加入活动1",
+	eventsaddevent1: "加入活动1 (专业版)",
 	eventsaddevent2: "加入活动2 (专业版)",
 	eventsaddevent3: "加入活动3 (优享版)",
 	eventsaddevent4: "加入活动4 (优享版)",
@@ -548,70 +549,70 @@ const Chinese = {
 	eventsnotetxt: "耶！我们很高兴看到您发布新的活动信息，请稍等我们团队审核哦！",
 
 	//20201204
-	dealsaddlocationcategoryph: "Please select the location category",
-	vendorwechatidph: "Please enter your WeChat Id",
+	dealsaddlocationcategoryph: "请选择您的地点",
+	vendorwechatidph: "请输入您的微信号",
 
 	//20201208
-	dealsmyapproved: "Approved",
-	dealsmyunderreview: "Under Review",
-	dealsmyrejected: "Rejected",
+	dealsmyapproved: "审核通过",
+	dealsmyunderreview: "正在审核",
+	dealsmyrejected: "审核未通过",
 
 	//20201209
-	profilebusinessinfobusinessname: "Business Name",
-	profilebusinessinfobusinessnameph: "Please enter business name",
+	profilebusinessinfobusinessname: "商户名字",
+	profilebusinessinfobusinessnameph: "请输入您的商户名字",
 
 	//20201216
-	dealsadddealdescription: "Deal/Discount Description",
-	dealsadddealdescriptionph: "Deal Details ",
-	profilevendorbasicaddress: "Address",
-	profilevendorbasicaddressph: "Please enter address",
+	dealsadddealdescription: "描述",
+	dealsadddealdescriptionph: "详情",
+	profilevendorbasicaddress: "详细地址",
+	profilevendorbasicaddressph: "请输入您的详细地址",
 
 	//20201217
-	profilesharecompanyinfo: "Company Info",
-	profileeducategory: "Educator Category",
-	photomediahelpsone: "Media Helps",
-	photomediahelpstwo: "You STAND OUT!",
-	photomediahelpsthree: "Upload is automatic",
+	profilesharecompanyinfo: "公司信息",
+	profileeducategory: "类别",
+	photomediahelpsone: "帮助",
+	photomediahelpstwo: "您需要注意!",
+	photomediahelpsthree: "正在上传",
 
 	//20201221
-	jobslistjobtype: "Job Type",
-	jobslistjobtypeunlimited: "All",
-	jobslistjobtypefulltime: "Full-time",
-	jobslistjobtypeparttime: "Part-time",
-	jobslistjobtypeseasonal: "Seasonal",
-	jobsliststudentage: "Student(s) Age",
-	jobsliststudentageunlimited: "All",
+	jobslistjobtype: "职位类型",
+	jobslistjobtypeunlimited: "所有",
+	jobslistjobtypefulltime: "全职",
+	jobslistjobtypeparttime: "兼职",
+	jobslistjobtypeseasonal: "季节性",
+	jobsliststudentage: "学生年龄",
+	jobsliststudentageunlimited: "所有",
 
-	jobslistgender: "Gender",
-	jobslistgenderunlimited: "All",
-	jobslistgenderone: "Male",
-	jobslistgendertwo: "Female",
-	jobslistgenderthree: "None",
-	jobslistfilterreset: "Reset",
-	jobslistfilterconfirm: "Confirm",
+	jobslistgender: "性别",
+	jobslistgenderunlimited: "所有",
+	jobslistgenderone: "男士",
+	jobslistgendertwo: "女士",
+	jobslistgenderthree: "未知",
+	jobslistfilterreset: "重置",
+	jobslistfilterconfirm: "确定",
 
 	//20201224
-	firstloginprompt: "Make sure you follow the official WeChat account to use this App",
-	eduwechatid: "WeChat Id",
-	eduwechatidph: "Please enter your WeChat Id",
-	applicationcontactinfo: "Contact Info",
+	firstloginprompt: "打开我们的APP之前，需要先关注我们呦",
+	eduwechatid: "微信号",
+	eduwechatidph: "请输入您的微信号",
+	applicationcontactinfo: "联系信息",
 
 	//20201229
-	edushareprofilepics: "Profile pics",
-	shareprofilename: "Name",
+	edushareprofilepics: "图片集",
+	shareprofilename: "名字",
 
-	eduprofilecompanyname: "Company",
-	eventplace: "Place/Shop",
-	eventplaceph: "Enter the Place/Shop",
-	eventdetailaddress: "Detail address",
-	eventdetailaddressph: "Enter the Detail address",
-	eventticketprice: "Ticket Price",
-	eventeventtime: "Event Time",
+	eduprofilecompanyname: "公司名字",
+	eventplace: "举办地点",
+	eventplaceph: "请输入您的举办地点",
+	eventdetailaddress: "详细地址",
+	eventdetailaddressph: "请输入您的详细地址",
+	eventticketprice: "票价",
+	eventeventtime: "活动时间",
 
 	//20200111
-	myjobsopenclose: "Close/Open",
-	myjobsviews: "View",
-	myjobspromotion: "Promotion",
+	myjobsopenclose: "关/开",
+	myjobsviews: "浏览量",
+	myjobspromotion: "推广",
 
 	//20210305
 	applyjobmodaltips: "提示",
@@ -621,24 +622,48 @@ const Chinese = {
 
 	authorizeforlogin: "授权获取用户信息",
 
-	profilebusinessschoolinfo: "School Information",
-	vendorapplication: "Vendor Application",
-	vendorapplicationaboutyou: "About You",
-	vendorapplicationname: "Name",
-	vendorapplicationphone: "Phone #",
-	vendorapplicationbusinfo: "Business Info",
+	profilebusinessschoolinfo: "学校信息",
+	vendorapplication: "Vendor信息",
+	vendorapplicationaboutyou: "关于您",
+	vendorapplicationname: "名字",
+	vendorapplicationphone: "手机号 #",
+	vendorapplicationbusinfo: "商户信息",
 
-	vendorphonenumber: "Manager's phone number",
-	vendorcompanynameen: "English",
-	vendorcompanynamecn: "Chinese",
-	vendorcompanywebsite: "Company Website",
-	vendorproposeddeal: "Proposed Deal",
-	vendorproposeddealph: "10% off all set meals",
-	vendorlookinggreatpgtxt1: "Your profile is starting to look great!",
-	vendorlookinggreatpgtxt2: "Our Account Manager Will be in touch soon",
-	vendorlocation: "Location",
+	vendorphonenumber: "您的手机号",
+	vendorcompanynameen: "英文",
+	vendorcompanynamecn: "中文",
+	vendorcompanywebsite: "公司网址",
+	vendorproposeddeal: "您的Deal介绍",
+	vendorproposeddealph: "10%的优惠",
+	vendorlookinggreatpgtxt1: "您的简介看起来很好!",
+	vendorlookinggreatpgtxt2: "我们的官方管理员会很快与您联系",
+	vendorlocation: "地点",
 
-	loginauthtxt: "One more step",
+	loginauthtxt: "下一步",
+	dealseventslocation:"地点",
+	
+	h5loginuserandphone:"用户名/手机号",
+	h5loginpassword:"密码",
+	h5loginlogin:"登录",
+	h5retrievepassword:"找回密码",
+	h5registeredaccount:"注册账户",
+	h5loginphone:"手机号",
+	h5loginloginpassword:"登录密码",
+	h5vercode:"验证码",
+	h5getvercode:"获取验证码",
+	h5register:"注册",
+	h5forgettoptip:"若你忘记了密码，可在此重置新密码",
+	h5forgetph1:"请输入您得手机号码",
+	h5forgetph2:"请输入新的密码",
+	h5forgetgetcode:"获取重置码",
+	h5resetpassword:"重置密码",
+	
+	h5usernameerror:"用户名不能为空",
+	h5passworderror:"密码不正确",
+	h5phoneerror:"手机号不正确",
+	h5vercodeerror:"验证码不正确",
+	h5agreementerror:"请先同意《协议》",
+	
 
 }
 
@@ -650,6 +675,7 @@ const English = {
 	tabbarsearch: "Search",
 	tabbardeals: "Deals",
 	tabbarjobs: "Jobs",
+	tabbarevents:"Events",
 	tabbarme: "Me",
 
 	homesearchjobs: "Search Jobs",
@@ -853,10 +879,10 @@ const English = {
 	dealsunderstandtxt: "I understand this deal will need ESL Passport's approval.",
 
 	// events 20201109
-	eventsaddevent1: "Add Event 1",
-	eventsaddevent2: "Event 2 (Pro)",
-	eventsaddevent3: "Event 3 (Plus)",
-	eventsaddevent4: "Event 4 (Plus)",
+	eventsaddevent1: "Add Event 1 (Pro)",
+	eventsaddevent2: "Add Event 2 (Pro)",
+	eventsaddevent3: "Add Event 3 (Plus)",
+	eventsaddevent4: "Add Event 4 (Plus)",
 	eventsaddevent5: "Event 5 (Plus)",
 	eventsmoreevent: "Upgrade to unlock more events!",
 	eventsedit: "Edit",
@@ -1288,14 +1314,35 @@ const English = {
 	vendorcompanywebsite: "Company Website",
 	vendorproposeddeal: "Proposed Deal",
 	vendorproposeddealph: "10% off all set meals",
-	vendorlookinggreatpgtxt1: "Your profile is starting to look great!",
-	vendorlookinggreatpgtxt2: "Our Account Manager Will be in touch soon",
+	vendorlookinggreatpgtxt1: "Your Application is under Review",
+	vendorlookinggreatpgtxt2: "Your account manager will be in touch soon",
 	vendorlocation: "Location",
 
 	loginauthtxt: "One more step",
-
-
-
+	dealseventslocation:"Location",
+	
+	h5loginuserandphone:"Username/Phone #",
+	h5loginpassword:"Password",
+	h5loginlogin:"Sign in",
+	h5retrievepassword:"Retrieve password",
+	h5registeredaccount:"Registered account",
+	h5loginphone:"Phone #",
+	h5loginloginpassword:"Password",
+	h5vercode:"Verification code",
+	h5getvercode:"Get code",
+	h5register:"Sign up",
+	h5forgettoptip:"If you forget the password, you can reset in this new password",
+	h5forgetph1:"Please enter your phone number",
+	h5forgetph2:"Please enter a new password",
+	h5forgetgetcode:"Get reset code",
+	h5resetpassword:"Reset Password",
+	
+	h5usernameerror:"Username cannot be empty",
+	h5passworderror:"Incorrect password",
+	h5phoneerror:"Incorrect phone number",
+	h5vercodeerror:"Incorrect verification code",
+	h5agreementerror:"Please agree to the Agreement",
+	
 }
 
 module.exports = {

@@ -20,7 +20,12 @@
 							<view class="salary">{{item.currency}} {{item.salary_min}}-{{item.salary_max}}</view>
 							<view class="business-location">
 								<view class="business-name">{{item.business_name}}</view>
-								<view class="job-location">{{item.job_location}}</view>
+								<view class="job-location" v-if="item.city != 0 && (languageValue=='en-US' || !languageValue)  ">
+									{{item.citys.Pinyin}}
+								</view>
+								<view class="job-location" v-if="item.city != 0 && (languageValue=='zh-CN')  ">
+									{{item.citys.ShortName}}
+								</view>
 							</view>
 							<view class="xll-promotion-applications">
 								<view class="xll-promotion" @click="turnPromotion(item.id)">{{i18n.myjobspromotion}}</view>
@@ -57,7 +62,12 @@
 							<view class="salary">{{item.currency}} {{item.salary_min}}-{{item.salary_max}}</view>
 							<view class="business-location">
 								<view class="business-name">{{item.business_name}}</view>
-								<view class="job-location">{{item.job_location}}</view>
+								<view class="job-location" v-if="item.city != 0 && (languageValue=='en-US' || !languageValue)  ">
+									{{item.citys.Pinyin}}
+								</view>
+								<view class="job-location" v-if="item.city != 0 && (languageValue=='zh-CN')  ">
+									{{item.citys.ShortName}}
+								</view>
 							</view>
 						</view>
 					</view>
@@ -77,7 +87,12 @@
 							<view class="salary">{{item.currency}} {{item.salary_min}}-{{item.salary_max}}</view>
 							<view class="business-location">
 								<view class="business-name">{{item.business_name}}</view>
-								<view class="job-location">{{item.job_location}}</view>
+								<view class="job-location" v-if="item.city != 0 && (languageValue=='en-US' || !languageValue)  ">
+									{{item.citys.Pinyin}}
+								</view>
+								<view class="job-location" v-if="item.city != 0 && (languageValue=='zh-CN')  ">
+									{{item.citys.ShortName}}
+								</view>
 							</view>
 						</view>
 					</view>
@@ -128,6 +143,7 @@
 					nomore: 'no more'
 				},
 				identity: 0,
+				languageValue:'en-US'
 
 			};
 		},
@@ -137,6 +153,7 @@
 				this.current = option.current
 				this.swiperCurrent = option.current
 			}
+			this.languageValue = uni.getStorageSync('language');
 			this.getJobListApproved(this.pageApproved, this.limit);
 			this.getJobListUnderReview(this.pageUnderReview, this.limit);
 			this.getJobListRejected(this.pageRejected, this.limit);

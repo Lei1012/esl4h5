@@ -1,6 +1,6 @@
 <template>
 	<view class="uni-flex uni-column me-bg">
-		<view class="flex-item me-header-info u-skeleton">
+		<view class="flex-item me-header-info u-skeleton" v-if="!showLoginBtnStatus">
 			<view class="me-header-info-l u-skeleton-circle">
 				<image @click="turnMyProfile" :src="avatarUrl" mode="aspectFill" lazy-load></image>
 			</view>
@@ -28,8 +28,9 @@
 					<text v-if="identity==3 && vendorLevel == 1">{{i18n.mebasiclevel}}</text>
 					<text v-if="identity==3 && vendorLevel == 2">{{i18n.meprolevel}}</text>
 					<text v-if="identity==3 && vendorLevel == 3">{{i18n.mepluslevel}}</text>
-					<view class="me-level-upgrade" v-if=" (identity==2 && businessLevel!=3) || (identity==3 && vendorLevel !=3)" 
-					@click="upgradeLevel">{{i18n.meupgrade}}</view>
+					<view class="me-level-upgrade"
+						v-if=" (identity==2 && businessLevel!=3) || (identity==3 && vendorLevel !=3)"
+						@click="upgradeLevel">{{i18n.meupgrade}}</view>
 				</view>
 			</view>
 		</view>
@@ -37,7 +38,7 @@
 		<view class="flex-item user-verified" v-if="identity == 3">
 			<button @click="showContactStatus=true">{{i18n.Verified}}</button>
 		</view>
-		<view class="flex-item me-center-list ">
+		<view class="flex-item me-center-list" v-if="!showLoginBtnStatus">
 			<view class="center-list border-top-left-right-radius">
 				<view class="center-list-item border-bottom " v-if="identity!=4 && identity!=0"
 					@click="turnAccountInfo">
@@ -77,7 +78,8 @@
 
 				<contactus @close="closeContact" :showContact="showContactStatus"></contactus>
 
-				<view class="center-list-item border-bottom" v-if="identity==2 || identity ==1"  @click="turnMyJobs(identity)">
+				<view class="center-list-item border-bottom" v-if="identity==2 || identity ==1"
+					@click="turnMyJobs(identity)">
 					<image src="../../static/me/jobs.png" mode="aspectFill"></image>
 					<text class="list-text" v-if="identity==1">{{i18n.memyapplications}}</text>
 					<text class="list-text" v-if="identity==2">{{i18n.accountpgmyjobs}}</text>
@@ -107,6 +109,10 @@
 					</view>
 				</swiper-item>
 			</swiper>
+		</view>
+
+		<view class="login-btn" v-if="showLoginBtnStatus">
+			<button type="default" @click="miniLogin">Login</button>
 		</view>
 
 		<!-- 语言选择框 -->
@@ -185,8 +191,11 @@
 				businessLevel: 0,
 				vendorLevel: 0,
 				meAdsListBottom: [],
-				
-				showPostJobStatus:false,
+
+				showPostJobStatus: false,
+
+				showLoginBtnStatus: false,
+
 			}
 		},
 		components: {
@@ -200,23 +209,46 @@
 			}
 		},
 		onShow() {
+			// #ifdef H5
+			uni.setTabBarItem({
+				index:1,
+				text:this.i18n.tabbarjobs
+			})
+			// #endif
+			// #ifdef MP-WEIXIN
+			let token = uni.getStorageSync('token');
+			let identity = uni.getStorageSync('identity');
 			
+			if(token !='' && identity && identity !=0){
+				uni.setTabBarItem({
+					index:1,
+					text:this.i18n.tabbarjobs
+				})
+			}
+			// #endif
+
 		},
 		onLoad() {
 			var that = this;
+
 			let token = uni.getStorageSync('token');
-			if(token == ''){
-				uni.reLaunch({
-					url:'/pages/login/index'
-				})
+			// #ifdef MP-WEIXIN
+			if (token == '') {
+				this.showLoginBtnStatus = true;
+			} else {
+				this.showLoginBtnStatus = false;
 			}
+			// #endif
+
 			that.identity = uni.getStorageSync('identity');
-			this.getBasicInfo();
+			if(token != ''){
+				this.getBasicInfo();
+			}
 			uni.$on('changeIdentity', function(data) {
 				that.identity = data;
 				that.getBasicInfo();
 			})
-			uni.$on('userInfoUpdated',function(data){
+			uni.$on('userInfoUpdated', function(data) {
 				console.log(data)
 				that.getBasicInfo();
 			})
@@ -228,13 +260,13 @@
 			uni.$off('userInfoUpdated');
 		},
 		methods: {
-			adsTurn(relativeLink){
-				if(relativeLink!=''){
+			adsTurn(relativeLink) {
+				if (relativeLink != '') {
 					uni.navigateTo({
-						url:relativeLink
+						url: relativeLink
 					})
-				}else{
-					this.showContactStatus=true;
+				} else {
+					this.showContactStatus = true;
 				}
 			},
 			getAdsList() {
@@ -293,10 +325,30 @@
 					index: 0,
 					text: this.i18n.tabbarhome
 				})
+				// #ifdef H5
 				uni.setTabBarItem({
 					index: 1,
 					text: this.i18n.tabbarjobs
 				})
+				// #endif
+				
+				// #ifdef MP-WEIXIN
+				let token = uni.getStorageSync('token');
+				let identity = uni.getStorageSync('identity');
+				
+				if(token !='' && identity && identity !=0){
+					uni.setTabBarItem({
+						index:1,
+						text:this.i18n.tabbarjobs
+					})
+				}else{
+					uni.setTabBarItem({
+						index: 1,
+						text: this.i18n.tabbarevents
+					})
+				}
+				// #endif
+				
 				uni.setTabBarItem({
 					index: 2,
 					text: this.i18n.tabbardeals
@@ -330,10 +382,29 @@
 					index: 0,
 					text: this.i18n.tabbarhome
 				})
+				// #ifdef H5
 				uni.setTabBarItem({
 					index: 1,
 					text: this.i18n.tabbarjobs
 				})
+				// #endif
+				
+				// #ifdef MP-WEIXIN
+				let token = uni.getStorageSync('token');
+				let identity = uni.getStorageSync('identity');
+				
+				if(token !='' && identity && identity !=0){
+					uni.setTabBarItem({
+						index:1,
+						text:this.i18n.tabbarjobs
+					})
+				}else{
+					uni.setTabBarItem({
+						index: 1,
+						text: this.i18n.tabbarevents
+					})
+				}
+				// #endif
 				uni.setTabBarItem({
 					index: 2,
 					text: this.i18n.tabbardeals
@@ -375,11 +446,12 @@
 				var that = this;
 				let uid = uni.getStorageSync('uid');
 				let token = uni.getStorageSync('token');
-				
+				let identity = that.identity;
+
 				let data = {
 					id: uid,
 					token: token,
-					identity: that.identity
+					identity: identity
 				}
 				profile.getBasicInfo(data).then(res => {
 					console.log(res)
@@ -388,7 +460,6 @@
 						this.is_business = res.message.is_business;
 						this.is_vendor = res.message.is_vendor;
 						this.is_other = res.message.is_other;
-						this.identity = res.message.identity;
 						this.mobile = res.message.phone;
 
 						let educatorInfo = res.message.educator_info;
@@ -551,11 +622,22 @@
 					url: '/pages/me/events/index'
 				})
 			},
-			upgradeLevel(){
+			upgradeLevel() {
 				uni.navigateTo({
-					url:'/pages/me/upgrade'
+					url: '/pages/me/upgrade'
 				})
+
+			},
+			miniLogin() {
+				var pages = getCurrentPages(); // 当前页面
+				var currentPagePath = pages[pages.length - 1]; // 前一个页面
 				
+				if(currentPagePath.route == 'pages/login/index'){
+					return;
+				}
+				return uni.navigateTo({
+					url: '/pages/login/index?redirect='+encodeURIComponent(currentPagePath.route)
+				})
 			}
 
 		},

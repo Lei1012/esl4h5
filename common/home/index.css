@@ -3,7 +3,7 @@
 }
 
 .index-bg {
-	padding-bottom: 160rpx;
+	/* padding-bottom: 160rpx; */
 }
 
 .swiper {
@@ -40,7 +40,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	
+
 	background-color: #FFFFFF;
 	border-radius: 20rpx;
 	text-align: center;
@@ -74,23 +74,25 @@
 	padding-left: 20rpx;
 	padding-right: 20rpx;
 	box-shadow: 0 0 30rpx 0 rgba(43, 86, 112, .1);
-	
+
 	margin: 0;
 	margin-top: 20rpx;
-	
+
 	border: 0rpx solid transparent;
 	outline: none;
-	
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	
-	
+
+
 }
-.index-box-item-button::after{
+
+.index-box-item-button::after {
 	border: none;
 	background-color: none;
 }
+
 .index-box-item-button image {
 	width: 90rpx;
 	height: 90rpx;
@@ -168,4 +170,58 @@
 	width: 90%;
 	margin: 0 auto;
 	margin-top: 40rpx;
+}
+
+.article-swiper{
+	width: 92%;
+	height: 520rpx;
+	margin: 40rpx auto 0;
+}
+
+.article {
+	width: 100%;
+	padding: 20rpx;
+	background-color: #FFFFFF;
+	border-radius: 20rpx;
+}
+.article:active{
+	background-color: #EEEEEE !important;
+}
+.article-image {
+	width: 100%;
+	height: 300rpx;
+	overflow: hidden;
+}
+
+.article-image image {
+	width: 100%;
+	border-radius: 20rpx;
+}
+
+.article-title {
+	color: #808080;
+	width: 100%;
+	font-size: 30rpx;
+	line-height: 40rpx;
+	margin-top: 10rpx;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; //多行在这里修改数字即可
+	overflow: hidden;
+	/* autoprefixer: ignore next */
+	-webkit-box-orient: vertical;
+}
+
+.article-detail{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border-top: 1rpx solid #EEEEEE;
+	margin-top: 10rpx;
+	height: 80rpx;
+}
+.article-detail-txt{
+	font-size: 30rpx;
 }

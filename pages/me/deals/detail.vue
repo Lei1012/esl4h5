@@ -27,7 +27,15 @@
 						{{detailValue.desc}}
 					</view>
 				</view>
-
+				<view class="flex-item detail-item" v-if="detailValue.provinces && detailValue.citys && detailValue.districts">
+					<view class="detail-item-title">{{i18n.dealseventslocation}}</view>
+					<view class="detail-item-result" v-if="languageValue=='en-US'">
+						{{detailValue.districts.Pinyin}}, {{detailValue.citys.Pinyin}}, {{detailValue.provinces.Pinyin}}
+					</view>
+					<view class="detail-item-result" v-if="languageValue=='zh-CN'">
+						{{detailValue.districts.ShortName}}, {{detailValue.citys.ShortName}}, {{detailValue.provinces.ShortName}}
+					</view>
+				</view>
 				<view class="flex-item detail-item" v-if="detailValue.location != '' ">
 					<view class="detail-item-title">{{i18n.dealsaddaddress}} </view>
 					<view class="detail-item-result">
@@ -117,6 +125,7 @@
 				address: '',
 				isImage: false, // 文件类型是不是图片类型
 				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_25.png',
+				languageValue:'en-US'
 			}
 		},
 		filters: {
@@ -133,7 +142,7 @@
 			if (option.id != '' && option.id != undefined) {
 				this.getDetail(option.id);
 			}
-
+			this.languageValue = uni.getStorageSync('language')
 		},
 		methods: {
 			phoneCall(phone) {

@@ -57,16 +57,19 @@ const request = (config) => {
 						}
 					})
 					// #endif
-
+					
 					// #ifdef MP-WEIXIN
-					let reloginStatus = uni.getStorageSync('relogin')
-					if (reloginStatus != 1) {
-						uni.setStorageSync('relogin', 1);
-						uni.navigateTo({
-							url: '/pages/login/index'
-						})
+					var pages = getCurrentPages(); // 当前页面
+					var currentPagePath = pages[pages.length - 1]; // 前一个页面
+					
+					if(currentPagePath.route == 'pages/login/index'){
+						return;
 					}
+					return uni.navigateTo({
+						url: '/pages/login/index?redirect='+ encodeURIComponent(currentPagePath.route) 
+					})
 					// #endif
+					
 				} else {
 					resolve(response);
 				}

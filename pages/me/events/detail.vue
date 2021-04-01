@@ -16,7 +16,7 @@
 				<view class="xll-header-tag" v-if="detailValue.is_all == 1">{{i18n.eventssocial}}</view>
 				<view class="xll-header-tag" v-if="detailValue.is_all == 2">{{i18n.eventsprofessional}}</view>
 			</view>
-			<view class="xll-header-location" v-if="detailValue.location">{{detailValue.location}}</view>
+			<view class="xll-header-location" v-if="detailValue.city">{{detailValue.citys.Pinyin}}</view>
 		</view>
 		<view class="content-container">
 			<view class="flex-item detail-item" v-if="detailValue.file !='' ">
@@ -49,6 +49,22 @@
 					{{detailValue.desc}}
 				</view>
 			</view>
+			
+			<view class="flex-item detail-item" v-if="detailValue.provinces && detailValue.citys && detailValue.districts">
+				<view class="detail-item-title">{{i18n.dealseventslocation}}</view>
+				<view class="detail-item-result" v-if="languageValue=='en-US'">
+					{{detailValue.districts.Pinyin}}, {{detailValue.citys.Pinyin}}, {{detailValue.provinces.Pinyin}}
+				</view>
+				<view class="detail-item-result" v-if="languageValue=='zh-CN'">
+					{{detailValue.districts.ShortName}}, {{detailValue.citys.ShortName}}, {{detailValue.provinces.ShortName}}
+				</view>
+			</view>
+			<view class="flex-item detail-item" v-if="detailValue.location != '' ">
+				<view class="detail-item-title">{{i18n.dealsaddaddress}} </view>
+				<view class="detail-item-result">
+					<text>{{detailValue.location}}</text>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -64,6 +80,7 @@
 				detailUserInfo:'',
 				fileSrc: '',
 				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_25.png',
+				languageValue:'en-US'
 			}
 		},
 		computed: {

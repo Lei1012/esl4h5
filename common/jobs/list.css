@@ -5,12 +5,9 @@ page {
 .list {
 	padding-bottom: 120rpx;
 }
-.filter-container-mp{
-	height: 100rpx;
-}
 
 .list-container {
-	
+	margin-top: 100rpx;
 }
 
 .list-item {

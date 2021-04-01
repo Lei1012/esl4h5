@@ -4,10 +4,10 @@ export default{
 	    isWechat: function() {  
 	        var ua = window.navigator.userAgent.toLowerCase();  
 	        if (ua.match(/micromessenger/i) == 'micromessenger') {  
-	            //console.log('是微信客户端')  
+	            console.log('是微信客户端')  
 	            return true;  
 	        } else {  
-	            //console.log('不是微信客户端')  
+	            console.log('不是微信客户端')  
 	            return false;  
 	        }  
 	    },  
@@ -72,7 +72,7 @@ export default{
 	    //在需要定位页面调用  
 	    getlocation: function(callback) {  
 	        if (!this.isWechat()) {  
-	            //console.log('不是微信客户端')  
+	            console.log('不是微信客户端')  
 	            return;  
 	        }  
 	        this.initJssdk(function(res) {  

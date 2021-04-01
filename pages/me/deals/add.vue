@@ -5,8 +5,8 @@
 				{{i18n.dealsdealordiscount}} <text class="error-star">*</text>
 			</view>
 			<u-radio-group v-model="valueOne" @change="radioGroupChangeOne">
-				<u-radio active-color="#0aa0a8" label-size="30" v-for="(item, index) in listOne" :key="index" :name="item.name"
-				 :disabled="item.disabled" @change="radioChangeOne(item.id)">
+				<u-radio active-color="#0aa0a8" label-size="30" v-for="(item, index) in listOne" :key="index"
+					:name="item.name" :disabled="item.disabled" @change="radioChangeOne(item.id)">
 					{{item.name}}
 				</u-radio>
 			</u-radio-group>
@@ -16,7 +16,8 @@
 				{{i18n.dealsdealordisinfo}} <text class="error-star">*</text>
 			</view>
 			<view class="xll-textarea-con">
-				<fuck-textarea :maxlength="30" v-model="dealTitle" :placeholder="i18n.dealsdealordisinfoph"></fuck-textarea>
+				<fuck-textarea :maxlength="30" v-model="dealTitle" :placeholder="i18n.dealsdealordisinfoph">
+				</fuck-textarea>
 			</view>
 		</view>
 		<view class="flex-item xll-textarea">
@@ -24,7 +25,8 @@
 				{{i18n.dealsadddealdescription}} <text class="error-star">*</text>
 			</view>
 			<view class="xll-textarea-con">
-				<fuck-textarea :maxlength="100" v-model="infoValue" :placeholder="i18n.dealsadddealdescriptionph"></fuck-textarea>
+				<fuck-textarea :maxlength="100" v-model="infoValue" :placeholder="i18n.dealsadddealdescriptionph">
+				</fuck-textarea>
 			</view>
 		</view>
 		<!-- All Locations or Limited?  -->
@@ -33,8 +35,8 @@
 				{{i18n.dealsalllocationorlimited}} <text class="error-star">*</text>
 			</view>
 			<u-radio-group v-model="valueTwo" @change="radioGroupChangeTwo">
-				<u-radio active-color="#0aa0a8" label-size="30" v-for="(item, index) in listTwo" :key="index" :name="item.name"
-				 :disabled="item.disabled" @change="radioChangeTwo(item.id)">
+				<u-radio active-color="#0aa0a8" label-size="30" v-for="(item, index) in listTwo" :key="index"
+					:name="item.name" :disabled="item.disabled" @change="radioChangeTwo(item.id)">
 					{{item.name}}
 				</u-radio>
 			</u-radio-group>
@@ -42,65 +44,35 @@
 		<view class="flex-item xll-file" v-if="isAll==1">
 			<!-- <view>(csv, excel, .numbers, xls)</view> -->
 			<view class="xll-file-file">
-				<uImg ref="upimg" :isXllType="true" :cropperWidth="cropperWidth" :cropperHeight="cropperHeight" :canUploadFile="true"
-				 :limit="limitNum" :uploadFileUrl="uploadFileUrl" :heaer="header" :formData="formData" :fileKeyName="name"
-				 :uImgList.sync="uImgList" @uploadSuccess="uploadSuccess"></uImg>
+				<uImg ref="upimg" :isXllType="true" :cropperWidth="cropperWidth" :cropperHeight="cropperHeight"
+					:canUploadFile="true" :limit="limitNum" :uploadFileUrl="uploadFileUrl" :heaer="header"
+					:formData="formData" :fileKeyName="name" :uImgList.sync="uImgList" @uploadSuccess="uploadSuccess">
+				</uImg>
 			</view>
 			<view class="xll-file-tips">If have more locations , please upload file !</view>
 		</view>
-		
-		<!-- popular-city -->
-		<view class="flex-item xll-single">
-			<view class="xll-single-title">{{i18n.dealspopularcity}} </view>
-			<view class="jobs-tags-container">
-				<view class="jobs-tags">
-					<view class="jobs-tags-item" v-for="(item,index) in popularLocationList" :key="index" :class="selectPopularLocationList.findIndex((city)=>city===item) == -1 ? '' : 'tags-active' "
-					 @click="selectPopularLocation(item)">
-						{{item.object_en}}
-					</view>
-				</view>
+
+		<view class="xll-location">
+			<view class="xll-location-label">{{i18n.profilevendorlocation}} <text class="error-star">*</text></view>
+			<view class="xll-location-content" @click="chooseLocation">
+				<text class="xll-location-c-1" v-if="locationStatus">{{pickerText}}</text>
+				<text class="xll-location-c-2"
+					v-if="locationStatus===false">{{i18n.basicbusinesstwochooselocation}}</text>
 			</view>
 		</view>
 
 		<view class="flex-item xll-input">
 			<view class="xll-input-title">{{i18n.dealsaddaddress}} <text class="error-star">*</text></view>
-			<view class="xll-input-input"><input type="text" v-model="dealLocationValue" :placeholder="i18n.dealsaddaddressph" /></view>
+			<view class="xll-input-input"><input type="text" v-model="dealLocationValue"
+					:placeholder="i18n.dealsaddaddressph" /></view>
 		</view>
-		<!-- <view class="flex-item xll-dog-friendly">
-			<view class="xll-single-title">
-				{{i18n.dealsdogfriendly}} 
-			</view>
-			<switch style="margin-left: 20rpx;" :checked="allowedDogValue==1" color="#0AA0A8" @change="dogChange" />
-		</view> -->
-		<!-- <view class="flex-item xll-single">
-			<view class="xll-single-title">
-				{{i18n.dealscontractdur}} <text class="error-star">*</text>
-			</view>
-			<u-radio-group v-model="valueThree" @change="radioGroupChangeThree">
-				<u-radio active-color="#0aa0a8" label-size="30" v-for="(item, index) in listThree" :key="index" :name="item.name"
-				 :disabled="item.disabled" @change="radioChangeThree(item.id)">
-					{{item.name}}
-				</u-radio>
-			</u-radio-group>
-		</view> -->
-
-		<!-- <view class="flex-item xll-checkout">
-			<view class="xll-checkout-title">{{i18n.dealsdealcheckout}} </view>
-			<view>
-				<input type="number" v-model="checkoutValue"  :placeholder="i18n.dealsdealcheckoutph" />
-				
-			</view>
-		</view> -->
 
 		<view class="flex-item xll-agreement">
 			<view class="xll-agreement-title">{{i18n.dealsagreement}} <text class="error-star">*</text></view>
-			<!-- <view>
-				{{i18n.dealsunderstandtxt}} 
-			</view> -->
 			<view class="xll-agreement-content">
 				<u-checkbox-group @change="checkboxGroupChange">
-					<u-checkbox active-color="#0aa0a8" :label-disabled="true" @change="checkboxChange" v-model="item.checked" v-for="(item, index) in list"
-					 :key="index" :name="item.name">
+					<u-checkbox active-color="#0aa0a8" :label-disabled="true" @change="checkboxChange"
+						v-model="item.checked" v-for="(item, index) in list" :key="index" :name="item.name">
 						<text class="xll-agreement-text" @click="turnAgreement(index)">{{item.name}}</text>
 					</u-checkbox>
 				</u-checkbox-group>
@@ -125,7 +97,6 @@
 
 <script>
 	import uImg from '@/components/zhtx-uploadImg/zhtx-uploadImg.vue';
-	
 	import profile from '@/api/profile.js';
 	import deals from '@/api/deals.js';
 	import axios from 'axios';
@@ -136,7 +107,7 @@
 		});
 	}
 	export default {
-		
+
 		data() {
 			var _this = this;
 			return {
@@ -145,7 +116,7 @@
 				type: 1,
 				isAll: 1,
 				dueContract: 1,
-				dealTitle:'',
+				dealTitle: '',
 				infoValue: '',
 				checkoutValue: '',
 				dealLocationValue: '',
@@ -194,14 +165,13 @@
 					checked: false,
 					disabled: false
 				}],
-				
+
 				isEditStatus: false,
 				dealId: 0,
-				popularLocationList: [], //热门地点
-				selectPopularLocationList: [],
+
 				fileName: '',
-				
-				
+
+
 				msg: '',
 				limitNum: 1,
 				uploadFileUrl: _this.$uploadFileUrl, //替换成你的后端接收文件地址
@@ -214,7 +184,16 @@
 				source: '',
 				userImageList: [],
 				cropperHeight: 400,
-				cropperWidth: 300
+				cropperWidth: 300,
+
+				province: '',
+				provinceId: 0,
+				city: '',
+				cityId: 0,
+				area: '',
+				areaId: 0,
+				locationStatus: false,
+				pickerText: '',
 
 			}
 		},
@@ -228,14 +207,32 @@
 
 		},
 		onLoad(option) {
+			var that = this;
+			uni.$on('locationEvent', function(data) {
+				console.log(data)
+				that.province = data.province;
+				that.city = data.city;
+				that.area = data.area;
+				that.provinceId = data.provinceId;
+				that.cityId = data.cityId;
+				that.areaId = data.areaId;
+				that.locationStatus = true;
+				that.pickerText = that.area + ', ' + that.city + ', ' + that.province;
+			})
+
 			if (option.id != '' && option.id != undefined) {
 				this.getDetail(option.id);
 				this.isEditStatus = true;
 				this.dealId = option.id;
 			}
-			this.getSubObject(71)
+
 		},
 		methods: {
+			chooseLocation() {
+				uni.navigateTo({
+					url: '/pages/location/location'
+				})
+			},
 			uploadSuccess(result) {
 				console.log(result)
 				if (result === 1) {
@@ -245,32 +242,6 @@
 				} else {
 					this.fileUrl = result.file_url;
 					this.fileName = result.file_name;
-				}
-			
-			},
-			dogChange(e) {
-				console.log(e)
-				if (e.detail.value) {
-					this.allowedDogValue = 1
-				} else {
-					this.allowedDogValue = 0
-				}
-			},
-			selectPopularLocation(value) {
-
-				let index = this.selectPopularLocationList.findIndex(function(element, index, array) {
-					return element === value;
-				})
-
-				if (index == -1) {
-					let len = this.selectPopularLocationList.length;
-
-					if (len > 0) {
-						this.selectPopularLocationList.splice(len - 1, 1);
-					}
-					this.selectPopularLocationList.push(value);
-				} else {
-					this.selectPopularLocationList.splice(index, 1);
 				}
 
 			},
@@ -289,19 +260,9 @@
 				console.log(id)
 				this.isAll = id;
 			},
-			radioGroupChangeThree(e) {
-				console.log(e);
-			},
-			radioChangeThree(id) {
-				this.dueContract = id;
-			},
 			// 选中某个复选框时，由checkbox时触发
 			checkboxChange(e) {
 				console.log(e);
-			},
-			dealCheckoutChange(e) {
-				console.log(e);
-				this.checkoutValue = e;
 			},
 			// 选中任一checkbox时，由checkbox-group触发
 			checkboxGroupChange(e) {
@@ -311,12 +272,6 @@
 			turnAgreement(index) {
 				console.log(index);
 			},
-			openPopup() {
-				this.$refs.popup.open()
-			},
-			closePopup() {
-				this.$refs.popup.close()
-			},
 			submitPopup() {
 				uni.navigateBack({
 					delta: 1
@@ -324,36 +279,31 @@
 			},
 			submit() {
 				var that = this;
-				
-				if(that.dealTitle == ''){
+
+				if (that.dealTitle == '') {
 					return uni.showToast({
-						title:this.i18n.dealsdealordisinfoph,
-						icon:'none'
+						title: this.i18n.dealsdealordisinfoph,
+						icon: 'none'
 					})
 				}
-				
-				if(that.infoValue == ''){
+
+				if (that.infoValue == '') {
 					return uni.showToast({
-						title:this.i18n.dealsadddealdescriptionph,
-						icon:'none'
+						title: this.i18n.dealsadddealdescriptionph,
+						icon: 'none'
 					})
 				}
-				
-				
-				var city_id = 0;
-				if (that.selectPopularLocationList.length > 0) {
-					city_id = that.selectPopularLocationList[0].id;
-				}else{
-					// return uni.showToast({
-					// 	title:this.i18n.dealsaddlocationcategoryph,
-					// 	icon:'none'
-					// })
-				}
-				
-				if(that.dealLocationValue == ''){
+				if (that.provinceId == 0) {
 					return uni.showToast({
-						title:this.i18n.dealsaddaddressph,
-						icon:'none'
+						title: this.i18n.basicbusinesstwochooselocation,
+						icon: 'none'
+					})
+				}
+
+				if (that.dealLocationValue == '') {
+					return uni.showToast({
+						title: this.i18n.dealsaddaddressph,
+						icon: 'none'
 					})
 				}
 				if (that.selectAgreementList.length < 1) {
@@ -374,8 +324,11 @@
 						pay_money: Number(that.checkoutValue),
 						file: that.fileUrl,
 						file_name: that.fileName,
-						title:that.dealTitle,
+						title: that.dealTitle,
 						desc: that.infoValue,
+						province: that.provinceId,
+						city: that.cityId,
+						district: that.areaId,
 						location: that.dealLocationValue,
 						city: city_id,
 						allowed_dog: that.allowedDogValue
@@ -390,10 +343,12 @@
 						pay_money: Number(that.checkoutValue),
 						file: that.fileUrl,
 						file_name: that.fileName,
-						title:that.dealTitle,
+						title: that.dealTitle,
 						desc: that.infoValue,
 						location: that.dealLocationValue,
-						city: city_id,
+						province: that.provinceId,
+						city: that.cityId,
+						district: that.areaId,
 						allowed_dog: that.allowedDogValue
 					}
 				}
@@ -441,20 +396,9 @@
 						that.filename = res.message.file_name;
 						that.showfile = true;
 						that.fileUrl = res.message.file;
-						that.dueContract = res.message.due_contract;
-						if (that.dueContract == 1) {
-							this.valueThree = '1 years'
-						}
-						if (that.dueContract == 2) {
-							this.valueThree = '2 years'
-						}
-						that.checkoutValue = res.message.pay_money;
+
 						that.dealLocationValue = res.message.location;
-						if (res.message.city != "") {
-							// console.log(this.popularLocationList);
-							let b = this.popularLocationList.filter(item => item.id == res.message.city)
-							this.selectPopularLocationList = b;
-						}
+
 
 					} else {
 						uni.showToast({
@@ -465,66 +409,14 @@
 				}).catch(error => {
 					console.log(error);
 				})
-			},
-			getSubObject(pid) {
-				let data = {
-					token: uni.getStorageSync('token'),
-					pid: pid
-				}
-				profile.getUserObjectList(data).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						let result = res.message;
-						this.popularLocationList = result.filter(item => item.object_en === 'Shanghai')
-						console.log(this.popularLocationList)
-					} else {
-						toast(res.msg);
-					}
-				}).catch(error => {
-					console.log(error)
-				})
-
 			}
+
 		}
 	}
 </script>
 
 <style>
 	@import url("@/common/me/deals/add.css");
-
-	.jobs-tags-container {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		flex-wrap: wrap;
-		margin-top: 10rpx;
-	}
-
-	.jobs-tags {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		flex-wrap: wrap;
-
-	}
-
-	.jobs-tags-item {
-		background-color: rgba(0, 179, 210, 0.1);
-		padding-left: 20rpx;
-		padding-right: 20rpx;
-		padding-top: 10rpx;
-		padding-bottom: 10rpx;
-		border-radius: 20rpx;
-		margin-top: 10rpx;
-		margin-left: 10rpx;
-		font-size: 30rpx;
-	}
-
-	.tags-active {
-		background-color: #00CE47;
-		color: #FFFFFF;
-	}
 
 	.popup {
 		position: fixed;
@@ -584,14 +476,37 @@
 		color: #00B3D2;
 		/* text-decoration: underline; */
 	}
-	.xll-file-btn{
+
+	.xll-file-btn {
 		width: 100%;
 		height: 70rpx;
 	}
+
 	.error-star {
 		font-size: 40rpx;
 		font-weight: 700;
 		color: #FF3333;
 		margin-left: 10rpx;
+	}
+
+	.xll-location {}
+
+	.xll-location-label {
+		font-size: 34rpx;
+		font-weight: 700;
+	}
+
+	.xll-location-content {
+		padding-left: 20rpx;
+	}
+
+	.xll-location-c-2 {
+		font-size: 30rpx !important;
+		color: #808080;
+	}
+
+	.xll-location-c-1 {
+		font-size: 30rpx !important;
+		color: #000000;
 	}
 </style>

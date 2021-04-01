@@ -51,21 +51,17 @@
 				<fuck-textarea :maxlength="200" v-model="eventDescValue" :placeholder="i18n.eventsdescriptionph"></fuck-textarea>
 			</view>
 		</view>
-		<!-- popular-city -->
-		<view class="flex-item xll-single">
-			<view class="xll-single-title">{{i18n.eventspopularcity}}</view>
-			<view class="jobs-tags-container">
-				<view class="jobs-tags">
-					<view class="jobs-tags-item" v-for="(item,index) in popularLocationList" :key="index" :class="selectPopularLocationList.findIndex((city)=>city===item) == -1 ? '' : 'tags-active' "
-					 @click="selectPopularLocation(item)">
-						{{item.object_en}}
-					</view>
-				</view>
-			</view>
-		</view>
 		<view class="flex-item xll-input">
 			<view class="xll-input-title">{{i18n.eventplace}}</view>
 			<view class="xll-input-input"><input type="text" v-model="eventPlace" :placeholder="i18n.eventplaceph" /></view>
+		</view>
+		<view class="xll-location">
+			<view class="xll-location-label">{{i18n.profilevendorlocation}} <text class="error-star">*</text></view>
+			<view class="xll-location-content" @click="chooseLocation">
+				<text class="xll-location-c-1" v-if="locationStatus">{{pickerText}}</text>
+				<text class="xll-location-c-2"
+					v-if="locationStatus===false">{{i18n.basicbusinesstwochooselocation}}</text>
+			</view>
 		</view>
 		<view class="flex-item xll-input">
 			<view class="xll-input-title">{{i18n.eventdetailaddress}}</view>
@@ -86,21 +82,6 @@
 				<input type="number" v-model="checkoutValue"  :placeholder="i18n.eventseventpriceph"/>
 			</view>
 		</view>
-
-		<!-- <view class="flex-item xll-agreement">
-			<view class="xll-agreement-title">{{i18n.eventsagreement}}</view>
-			<view>
-				{{i18n.eventsagreementtxt}}
-			</view>
-			<view>
-				<u-checkbox-group @change="checkboxGroupChange">
-					<u-checkbox active-color="#0aa0a8" :label-disabled="true" @change="checkboxChange" v-model="item.checked" v-for="(item, index) in list"
-					 :key="index" :name="item.name">
-						<text @click="turnAgreement(index)" style="color: #004956;text-decoration: underline;">{{item.name}}</text>
-					</u-checkbox>
-				</u-checkbox-group>
-			</view>
-		</view> -->
 
 		<view class="flex-item submit">
 			<button type="default" @click="submit">{{i18n.eventssubmit}}</button>
@@ -215,7 +196,15 @@
 				source: '',
 				userImageList: [],
 				cropperHeight: 400,
-				cropperWidth: 300
+				cropperWidth: 300,
+				province: '',
+				provinceId: 0,
+				city: '',
+				cityId: 0,
+				area: '',
+				areaId: 0,
+				locationStatus: false,
+				pickerText: '',
 
 			}
 		},
@@ -226,15 +215,31 @@
 
 		},
 		onLoad(option) {
+			var that = this;
+			uni.$on('locationEvent', function(data) {
+				console.log(data)
+				that.province = data.province;
+				that.city = data.city;
+				that.area = data.area;
+				that.provinceId = data.provinceId;
+				that.cityId = data.cityId;
+				that.areaId = data.areaId;
+				that.locationStatus = true;
+				that.pickerText = that.area + ', ' + that.city + ', ' + that.province;
+			})
 			if (option.id != '' && option.id != undefined) {
 				this.getDetail(option.id);
 				this.isEditStatus = true;
 				this.eventId = option.id;
 
 			}
-			this.getSubObject(71)
 		},
 		methods: {
+			chooseLocation() {
+				uni.navigateTo({
+					url: '/pages/location/location'
+				})
+			},
 			uploadSuccess(result) {
 				console.log(result)
 				if (result === 1) {
@@ -247,25 +252,6 @@
 				}
 			
 			},
-			selectPopularLocation(value) {
-
-				let index = this.selectPopularLocationList.findIndex(function(element, index, array) {
-					return element === value;
-				})
-
-				if (index == -1) {
-					let len = this.selectPopularLocationList.length;
-
-					if (len > 0) {
-						this.selectPopularLocationList.splice(len - 1, 1);
-					}
-					this.selectPopularLocationList.push(value);
-				} else {
-					this.selectPopularLocationList.splice(index, 1);
-				}
-				
-
-			},
 			// 选中任一radio时，由radio-group触发
 			radioGroupChangeOne(e) {
 				console.log(e);
@@ -273,28 +259,6 @@
 			radioChangeOne(id) {
 				console.log(id);
 				this.type = id;
-			},
-			// 选中某个复选框时，由checkbox时触发
-			checkboxChange(e) {
-				console.log(e);
-			},
-			eventCheckoutChange(e) {
-				console.log(e);
-				this.checkoutValue = e;
-			},
-			// 选中任一checkbox时，由checkbox-group触发
-			checkboxGroupChange(e) {
-				console.log(e);
-				this.selectAgreementList = e;
-			},
-			turnAgreement(index) {
-				console.log(index);
-			},
-			openPopup() {
-				this.$refs.popup.open()
-			},
-			closePopup() {
-				this.$refs.popup.close()
 			},
 			// 上传附件按钮 绑定file的点击事件
 			uploadBtn() {
@@ -333,10 +297,8 @@
 				}
 								
 				var data = {};
-				var city_id = 0;
-				if (that.selectPopularLocationList.length > 0) {
-					city_id = that.selectPopularLocationList[0].id;
-				}
+				
+				
 				if (that.isEditStatus) {
 					data = {
 						token: uni.getStorageSync('token'),
@@ -351,7 +313,9 @@
 						is_all: that.type,
 						location: that.eventLocationValue,
 						event_id: Number(that.eventId),
-						city:city_id,
+						province:that.provinceId,
+						city:that.cityId,
+						district:that.areaId,
 						event_place:that.eventPlace,
 						start_time: start,
 						end_time: end,
@@ -369,7 +333,9 @@
 						file_name:that.fileName,
 						is_all: that.type,
 						location: that.eventLocationValue,
-						city:city_id,
+						province:that.provinceId,
+						city:that.cityId,
+						district:that.areaId,
 						event_place:that.eventPlace,
 						start_time: start,
 						end_time: end,
@@ -420,11 +386,6 @@
 
 						that.eventDateValue = res.message.date;
 						that.dateValueStatus = true;
-						if (res.message.city !="" ) {
-							// console.log(this.popularLocationList);
-							let b = this.popularLocationList.filter(item => item.id == res.message.city)
-							this.selectPopularLocationList=b;
-						}
 
 
 					} else {
@@ -451,26 +412,8 @@
 				console.log(e);
 				this.endTimeValue = e.hour + ':' + e.minute;
 				this.endTimeValueStatus = true;
-			},
-			getSubObject(pid) {
-				let data = {
-					token: uni.getStorageSync('token'),
-					pid: pid
-				}
-				profile.getUserObjectList(data).then(res => {
-					// console.log(res)
-					if (res.code == 200) {
-						let result = res.message;
-						this.popularLocationList = result.filter(item => item.object_en === 'Shanghai')
-						// console.log(this.popularLocationList)
-					} else {
-						toast(res.msg);
-					}
-				}).catch(error => {
-					console.log(error)
-				})
-
 			}
+			
 
 		}
 	}
@@ -478,39 +421,6 @@
 
 <style>
 	@import url("@/common/me/events/add.css");
-	.jobs-tags-container {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		flex-wrap: wrap;
-		margin-top: 10rpx;
-	}
-	
-	.jobs-tags {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		flex-wrap: wrap;
-	
-	}
-	
-	.jobs-tags-item {
-		background-color: rgba(0, 179, 210, 0.1);
-		padding-left: 20rpx;
-		padding-right: 20rpx;
-		padding-top: 10rpx;
-		padding-bottom: 10rpx;
-		border-radius: 20rpx;
-		margin-top: 10rpx;
-		margin-left: 10rpx;
-		font-size: 30rpx;
-	}
-	
-	.tags-active {
-		background-color: #00CE47;
-		color: #FFFFFF;
-	}
 	
 	.popup{
 		position: fixed;
@@ -564,5 +474,26 @@
 	.xll-file-btn{
 		width: 100%;
 		height: 70rpx;
+	}
+	
+	.xll-location {}
+	
+	.xll-location-label {
+		font-size: 34rpx;
+		font-weight: 700;
+	}
+	
+	.xll-location-content {
+		padding-left: 20rpx;
+	}
+	
+	.xll-location-c-2 {
+		font-size: 30rpx !important;
+		color: #808080;
+	}
+	
+	.xll-location-c-1 {
+		font-size: 30rpx !important;
+		color: #000000;
 	}
 </style>

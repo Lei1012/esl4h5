@@ -5,7 +5,8 @@
 				<view class="page-section-spacing">
 					<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
 						:duration="duration">
-						<swiper-item v-for="(item,index) in adsListTop" :key="index" @click="turnBanner(item.relative_link)">
+						<swiper-item v-for="(item,index) in adsListTop" :key="index"
+							@click="turnBanner(item.relative_link)">
 							<view class="swiper-item">
 								<image :src="item.url" mode="scaleToFit" lazy-load="true"></image>
 							</view>
@@ -138,15 +139,21 @@
 						class="text">{{i18n.homeadvertise}}</text>
 				</button>
 				<!-- #endif -->
-
 			</view>
 
-			<view class="index-box-box" v-if="identity==4 || identity == 0">
-				<!-- @click="openIdentity(1)" -->
+			<view class="index-box-box" v-if="identity == 0 || !identity">
+				<!-- #ifdef H5 -->
 				<view class="index-box-item" @click="searchJobs">
 					<image src="/static/esl/search-jobs.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homesearchjobs}}</text>
 				</view>
+				<!-- #endif -->
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="index-box-item" @click="searchEvents()">
+					<image src="/static/esl/search-jobs.png" class="image" mode="aspectFit" />
+					<text class="text">Events</text>
+				</view>
+				<!-- #endif -->
 				<view class="index-box-item" @click="turnDeals">
 					<image src="/static/esl/deals.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homedeals}}</text>
@@ -155,10 +162,18 @@
 					<image src="/static/esl/help.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homehelp}}</text>
 				</view>
+				<!-- #ifdef H5 -->
 				<view class="index-box-item" @click="openIdentity(2)">
 					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homepostjobs}}</text>
 				</view>
+				<!-- #endif -->
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="index-box-item" @click="miniLogin">
+					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" />
+					<text class="text">Login</text>
+				</view>
+				<!-- #endif -->
 				<view class="index-box-item" @click="openIdentity(3)">
 					<image src="/static/esl/deals.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homecreatedeal}}</text>
@@ -169,13 +184,12 @@
 				</view>
 			</view>
 		</view>
-		
-		<view class="flex-item flex-item-V latest-jobs"
-			v-if="(identity==1 && jobList.length>0) || (identity==4 && jobList.length>0) || (identity==0 && jobList.length>0)">
+
+		<view class="flex-item flex-item-V latest-jobs" v-if="showRecentJobsStatus">
 			<view class="latest-jobs-title">
 				{{i18n.homefeatjobs}}
 			</view>
-			<swiper class="latest-jobs-swiper" circular :indicator-dots="false" :autoplay="true" interval="2000">
+			<swiper class="latest-jobs-swiper" circular :indicator-dots="false" :autoplay="true" interval="2500">
 				<swiper-item v-for="(item,index) in jobList" :key="index">
 					<view class="latest-jobs-item ">
 						<view class="latest-jobs-item-top" @click="turnJobDetail(item.id)">
@@ -208,20 +222,24 @@
 									<view class="job-type" v-if="item.employment_type==3">
 										{{i18n.jobslistemploymentseasonal}}
 									</view>
-		
+
 								</view>
-		
+
 								<view class="latest-jobs-item-r-3">
 									<view class="interview-name">
 										{{item.business_name}}
 									</view>
-									<view class="job-location">
-										{{item.job_location}}
+									<view class="job-location"
+										v-if="item.city != 0 && (language=='en-US' || !language)  ">
+										{{item.citys.Pinyin}}
+									</view>
+									<view class="job-location" v-if="item.city != 0 && (language=='zh-CN')  ">
+										{{item.citys.ShortName}}
 									</view>
 								</view>
 							</view>
 						</view>
-		
+
 						<view class="latest-jobs-item-bottom">
 							<view class="latest-jobs-item-bottom-button" @click="applyJobs(item.id)">
 								{{i18n.homeapplyjob}}
@@ -232,12 +250,11 @@
 			</swiper>
 		</view>
 
-		<view class="flex-item flex-item-V latest-deals"
-			v-if="(identity==3 && recentDealsList.length>0) || (identity==4 && recentDealsList.length>0) || (identity==0 && recentDealsList.length>0)">
+		<view class="flex-item flex-item-V latest-deals" v-if="showRecentDealsStatus">
 			<view class="latest-deals-title">
 				{{i18n.dealsrecentdeals}}
 			</view>
-			<swiper class="latest-deals-swiper" :indicator-dots="false" :autoplay="true" :interval="2000">
+			<swiper class="latest-deals-swiper" :indicator-dots="false" :autoplay="true" :interval="2500">
 				<swiper-item v-for="(item,index) in recentDealsList" :key="index" @click="turnDealsDetail(item.id)">
 					<view class="latest-deals-item ">
 						<view class="latest-deals-item-top">
@@ -255,7 +272,7 @@
 			</swiper>
 		</view>
 
-		<view class="flex-item events-slider" v-if="identity == 0 || identity==4">
+		<view class="flex-item events-slider" v-if="identity == 0 || identity =='' ">
 			<swiper class="swiper" :indicator-dots="false" :autoplay="true" :interval="5000" :duration="600">
 				<swiper-item style="height: 306rpx;" v-for="(item,index) in dealsAdsListMid" :key="index"
 					@click="turnBanner(item.relative_link)">
@@ -272,7 +289,8 @@
 			<view class="why-esl-passport-img">
 				<swiper class="why-esl-passport-img-swiper" :indicator-dots="false" :autoplay="true" :interval="4000"
 					:duration="500">
-					<swiper-item v-for="(item,index) in adsListMid" :key="index" @click="turnBanner(item.relative_link)">
+					<swiper-item v-for="(item,index) in adsListMid" :key="index"
+						@click="upgradeAndGoPro(item.relative_link)">
 						<view class="swiper-item">
 							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
 						</view>
@@ -280,6 +298,26 @@
 				</swiper>
 			</view>
 		</view>
+		
+		<view class="flex-item ">
+			<swiper class="article-swiper" :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000">
+				<swiper-item v-for="(item,index) in adsListArticles" :key="index" @click="turnArticle(item.link)">
+					<view class="flex-item article" >
+						<view class="article-image">
+							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
+						</view>
+						<view class="article-title">
+							{{item.title}}
+						</view>
+						<view class="article-detail">
+							<view class="article-detail-txt">Detail</view>
+							<uni-icons type="forward"></uni-icons>
+						</view>
+					</view>
+				</swiper-item>
+			</swiper>
+		</view>
+		
 		<view class="flex-item  why-esl-passport">
 			<view class="why-esl-passport-title">
 				{{i18n.homebannerfollowus}}
@@ -287,22 +325,23 @@
 			<view class="why-esl-passport-img">
 				<swiper class="why-esl-passport-img-swiper" :indicator-dots="false" :autoplay="true" :interval="6000"
 					:duration="500">
-					<swiper-item v-for="(item,index) in adsListBottom" :key="index" @click="turnBanner(item.relative_link)">
-						<view class="swiper-item">
+					<swiper-item v-for="(item,index) in adsListBottom" :key="index">
+						<!-- <view class="swiper-item">
 							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
-						</view>
-						<!-- <view class="swiper-item swiper-item-bg" :style="{backgroundImage:'url('+item.url+')'}"> -->
-							<!-- <view class="qrcode-image" @click="qrcodeType = 1;showQrcode=true"></view>
+						</view> -->
+						<view class="swiper-item swiper-item-bg" :style="{backgroundImage:'url('+item.url+')'}">
+						<view class="qrcode-image" @click="qrcodeType = 1;showQrcode=true"></view>
 							<view class="qrcode-image" @click="qrcodeType = 2;showQrcode=true"></view>
 							<view class="qrcode-image" @click="qrcodeType = 3;showQrcode=true"></view>
 							<view class="qrcode-image" @click="qrcodeType = 4;showQrcode=true"></view>
-							<view class="qrcode-image" @click="qrcodeType = 5;showQrcode=true"></view> -->
-						<!-- </view> -->
+							<view class="qrcode-image" @click="qrcodeType = 5;showQrcode=true"></view>
+						</view>
 					</swiper-item>
 				</swiper>
 			</view>
 			<xll-qrcode-popup @close="closeQrcode" :showQrcode="showQrcode" :codeType="qrcodeType"></xll-qrcode-popup>
 		</view>
+		
 		<contactus @close="showContactStatus = false" :showContact="showContactStatus"></contactus>
 		<discountcard @close="showDiscountStatus=false" :showContact="showDiscountStatus"></discountcard>
 		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity"
@@ -313,11 +352,14 @@
 		<!-- #ifdef MP-WEIXIN -->
 		<aTip :isCustom="false" text='Add to my mini program' :closeColor="false"></aTip>
 		<!-- #endif -->
-
-		<!-- howpostjob -->
+		
 		<how-post-job @close="showPostJobStatus=false" :showPostJobStatus="showPostJobStatus"></how-post-job>
 		<!-- #ifdef MP-WEIXIN -->
 		<official-account class="official-account"></official-account>
+		<!-- #endif -->
+		
+		<!-- #ifdef H5 -->
+		<view style="height: 160rpx;width: 100%;"></view>
 		<!-- #endif -->
 	</view>
 
@@ -357,7 +399,7 @@
 
 				indicatorDots: true,
 				autoplay: true,
-				interval: 2000,
+				interval: 3000,
 				duration: 500,
 				language: 'en-US',
 				languageValue: 2,
@@ -368,13 +410,17 @@
 				is_other: 0,
 				identity: 0, //当前身份、
 				mobile: '', // 用户手机号
+				token: '',
 
 				jobList: [],
+				showRecentJobsStatus: false,
 
 				adsList: [],
 				adsListTop: [],
 				adsListMid: [],
 				adsListBottom: [],
+				adsListArticles:[],
+				
 				dealsAdsListTop: [],
 				dealsAdsListMid: [],
 				dealsAdsListBottom: [],
@@ -384,13 +430,14 @@
 
 				profilePercentValue: 0,
 				recentDealsList: [],
+				showRecentDealsStatus: false,
 
 				selectRoleIdentity: 0,
 				showOfficialStatus: false,
 
 				showPostJobStatus: false,
 
-
+				articleImageHeight:300,
 			}
 		},
 		components: {
@@ -404,8 +451,24 @@
 
 		},
 		onShow() {
+			// #ifdef H5
+			uni.setTabBarItem({
+				index: 1,
+				text: this.i18n.tabbarjobs
+			})
+			// #endif
+			// #ifdef MP-WEIXIN
+			let token = uni.getStorageSync('token');
+			let identity = uni.getStorageSync('identity');
+
+			if (token != '' && identity && identity != 0) {
+				uni.setTabBarItem({
+					index: 1,
+					text: this.i18n.tabbarjobs
+				})
+			}
+			// #endif
 			this.getAdsList();
-			this.getDealsAdsList();
 		},
 		computed: {
 			i18n() {
@@ -414,23 +477,29 @@
 		},
 		onUnload() {
 			uni.$off('changeIdentity');
+			uni.$off('changeLanguage');
 		},
 		onLoad(option) {
-
+		
 			var that = this;
-			
+
 			let wxcode = option.code;
 			let reLoginStatus = option.reLogin;
 			let uid = uni.getStorageSync('uid');
 			let token = uni.getStorageSync('token');
 			let language = uni.getStorageSync('language');
+			let identity = uni.getStorageSync('identity');
 
-			that.identity = uni.getStorageSync('identity');
-
+			that.identity = identity;
 			uni.$on('changeIdentity', function(data) {
 				console.log('监听到事件来自 changeIdentity ，携带参数 identity 为：' + data);
 				that.identity = data;
-				
+
+			})
+
+			uni.$on('changeLanguage', function(data) {
+				console.log('监听changelanguage', data);
+
 			})
 
 			if (token == '') {
@@ -443,11 +512,67 @@
 				// #endif
 
 			} else {
-				console.log('token已存在')
+
 				//获取职位列表
 				this.getJobsList();
 				this.getRecentDealsList(1, 6);
+				this.getBasicInfo(token, uid);
 
+			}
+
+			if (language != '') {
+				if (language == 'zh-CN') {
+					uni.setStorageSync("language", 'zh-CN')
+					this.language = 'zh-CN';
+					this.languageValue = 1;
+					this._i18n.locale = 'zh-CN';
+				}
+				if (language == 'en-US') {
+					this.language = 'en-US';
+					this.languageValue = 2;
+					uni.setStorageSync("language", 'en-US')
+					this._i18n.locale = 'en-US';
+				}
+
+				uni.setTabBarItem({
+					index: 0,
+					text: this.i18n.tabbarhome
+				})
+				// #ifdef H5
+				uni.setTabBarItem({
+					index: 1,
+					text: this.i18n.tabbarjobs
+				})
+				// #endif
+				// #ifdef MP-WEIXIN
+				if (token != '' && identity && identity != 0) {
+					uni.setTabBarItem({
+						index: 1,
+						text: this.i18n.tabbarjobs
+					})
+				} else {
+					uni.setTabBarItem({
+						index: 1,
+						text: this.i18n.tabbarevents
+					})
+				}
+				// #endif
+
+				uni.setTabBarItem({
+					index: 2,
+					text: this.i18n.tabbardeals
+				})
+				uni.setTabBarItem({
+					index: 3,
+					text: this.i18n.tabbarme
+				})
+
+			}
+			
+		},
+		methods: {
+			getBasicInfo(token, uid) {
+				var that = this;
 				let data = {
 					token: token,
 					id: uid
@@ -455,17 +580,67 @@
 				profile.getBasicInfo(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
-						uni.setStorageSync('unionid', res.message.unionid)
-						uni.setStorageSync('phone', res.message.phone)
-						uni.setStorageSync('nickname', res.message.nickname)
-						uni.setStorageSync('uid', res.message.id)
-						uni.setStorageSync('identity', res.message.identity)
-						that.is_educator = res.message.is_educator;
-						that.is_business = res.message.is_business;
-						that.is_vendor = res.message.is_vendor;
-						that.is_other = res.message.is_other;
-						that.identity = res.message.identity;
-						that.mobile = res.message.phone;
+						let unionid = res.message.unionid;
+						let phone = res.message.phone;
+						let nickname = res.message.nickname;
+						let uid = res.message.id;
+						let identity = res.message.identity;
+						let isEducator = res.message.is_educator;
+						let isBusiness = res.message.is_business;
+						let isVendor = res.message.is_vendor;
+						let isOther = res.message.is_other;
+
+						uni.setStorageSync('unionid', unionid)
+						uni.setStorageSync('phone', phone)
+						uni.setStorageSync('nickname', nickname)
+						uni.setStorageSync('uid', uid)
+
+						that.is_educator = isEducator;
+						that.is_business = isBusiness;
+						that.is_vendor = isVendor;
+						that.is_other = isOther;
+						that.mobile = phone;
+						if (identity == 0) {
+							uni.setStorageSync('identity', 0)
+							that.identity = 0;
+						}
+						if (identity == 1) {
+							if (isEducator == 0) {
+								uni.setStorageSync('identity', 0)
+								that.identity = 0;
+							} else {
+								uni.setStorageSync('identity', identity)
+								that.identity = identity;
+							}
+						}
+						if (identity == 2) {
+							if (isBusiness == 0) {
+								uni.setStorageSync('identity', 0)
+								that.identity = 0;
+							} else {
+								uni.setStorageSync('identity', identity)
+								that.identity = identity;
+							}
+						}
+
+						if (identity == 3) {
+							if (isVendor == 0) {
+								uni.setStorageSync('identity', 0)
+								that.identity = 0;
+							} else {
+								uni.setStorageSync('identity', identity)
+								that.identity = identity;
+							}
+						}
+						if (identity == 4) {
+							if (isOther == 0) {
+								uni.setStorageSync('identity', 0)
+								that.identity = 0;
+							} else {
+								uni.setStorageSync('identity', identity)
+								that.identity = identity;
+							}
+						}
 						// #ifdef H5
 						let subscribeValue = res.message.subscribe;
 						if (subscribeValue === 0) {
@@ -483,57 +658,30 @@
 				}).catch(error => {
 					console.log(error)
 				})
-			}
-
-			if (language != '') {
-				if (language == 'zh-CN') {
-					uni.setStorageSync("language", 'zh-CN')
-					this.language = 'zh-CN';
-					this.languageValue = 1;
-					this._i18n.locale = 'zh-CN';
-				}
-				if (language == 'en-US') {
-					this.language = 'en-US';
-					this.languageValue = 2;
-					uni.setStorageSync("language", 'en-US')
-					this._i18n.locale = 'en-US';
-				}
-
-
-				uni.setTabBarItem({
-					index: 0,
-					text: this.i18n.tabbarhome
-				})
-				uni.setTabBarItem({
-					index: 1,
-					text: this.i18n.tabbarjobs
-				})
-				uni.setTabBarItem({
-					index: 2,
-					text: this.i18n.tabbardeals
-				})
-				uni.setTabBarItem({
-					index: 3,
-					text: this.i18n.tabbarme
-				})
-
-			}
-		},
-		methods: {
+			},
 			openIdentity(identity) {
 				this.rolePopupStatus = true;
 				this.selectRoleIdentity = identity;
 			},
 			getRecentDealsList(page, limit) {
+				let identity = uni.getStorageSync('identity');
+				let token = uni.getStorageSync('token');
+
 				let data = {
-					token: uni.getStorageSync('token'),
+					token: token,
 					page: page,
 					limit: limit
 				}
 				deals.dealsList(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
-						this.recentDealsList = res.message.data;
+						let list = res.message.data;
+						this.recentDealsList = list;
+
+						if (list.length > 0) {
+							this.showRecentDealsStatus = true;
+						}
+
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -545,6 +693,21 @@
 				})
 			},
 			turnDealsDetail(id) {
+				// #ifdef MP-WEIXIN
+				let token = uni.getStorageSync('token');
+				if (token == '') {
+					var pages = getCurrentPages(); // 当前页面
+					var currentPagePath = pages[pages.length - 1]; // 前一个页面
+
+					if (currentPagePath.route == 'pages/login/index') {
+						return;
+					}
+					return uni.navigateTo({
+						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+					})
+				}
+				// #endif
+
 				let identity = uni.getStorageSync('identity')
 				if (identity == 0) {
 					this.rolePopupStatus = true;
@@ -568,61 +731,22 @@
 			closeQrcode() {
 				this.showQrcode = false;
 			},
-			closeContact(e) {
-				// console.log(e)
-				this.showContactStatus = false;
-			},
-			closeDiscount(e) {
-				this.showDiscountStatus = false;
-			},
-			changeIndicatorDots(e) {
-				this.indicatorDots = !this.indicatorDots
-			},
-			changeAutoplay(e) {
-				this.autoplay = !this.autoplay
-			},
-			intervalChange(e) {
-				this.interval = e.target.value
-			},
-			durationChange(e) {
-				this.duration = e.target.value
-			},
-			selectMemberType: function() {
-				uni.reLaunch({
-					url: '/pages/me/member'
-				})
-			},
-			postJob() {
-				let uid = uni.getStorageSync('uid')
-				let data = {
-					user_id: uid
-				}
-				profile.getUserIntegrity(data).then(res => {
-					// console.log(res)
-					if (res.code == 200) {
-						let percentValue = res.message.is_business
-						// this.profilePercentValue = res.message.is_business;
-						if (percentValue < 50) {
-							uni.reLaunch({
-								url: '/pages/me/business/prompt'
-							})
-						} else {
-							uni.navigateTo({
-								url: '/pages/jobs/jobs?jobmd5=' + this.$u.guid(32)
-							})
-						}
-
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-				}).catch(error => {
-					console.log(error)
-				})
-			},
 			turnMyProfile: function() {
+				// #ifdef MP-WEIXIN
+				let token = uni.getStorageSync('token');
+				if (token == '') {
+					var pages = getCurrentPages(); // 当前页面
+					var currentPagePath = pages[pages.length - 1]; // 前一个页面
+
+					if (currentPagePath.route == 'pages/login/index') {
+						return;
+					}
+					return uni.navigateTo({
+						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+					})
+				}
+				// #endif
+
 				if (this.identity == 1) {
 					// #ifdef H5
 					var url = window.location.href;
@@ -667,12 +791,32 @@
 				}
 
 			},
+			searchEvents() {
+				uni.switchTab({
+					url: '/pages/menu/job'
+				})
+			},
 			turnDeals() {
 				uni.switchTab({
 					url: '/pages/menu/deals'
 				})
 			},
 			turnMyDeals() {
+				// #ifdef MP-WEIXIN
+				let token = uni.getStorageSync('token');
+				if (token == '') {
+					var pages = getCurrentPages(); // 当前页面
+					var currentPagePath = pages[pages.length - 1]; // 前一个页面
+
+					if (currentPagePath.route == 'pages/login/index') {
+						return;
+					}
+					return uni.navigateTo({
+						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+					})
+				}
+				// #endif
+
 				let data = {
 					token: uni.getStorageSync('token'),
 					id: uni.getStorageSync('uid'),
@@ -698,6 +842,20 @@
 
 			},
 			turnMyEvents() {
+				// #ifdef MP-WEIXIN
+				let token = uni.getStorageSync('token');
+				if (token == '') {
+					var pages = getCurrentPages(); // 当前页面
+					var currentPagePath = pages[pages.length - 1]; // 前一个页面
+
+					if (currentPagePath.route == 'pages/login/index') {
+						return;
+					}
+					return uni.navigateTo({
+						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+					})
+				}
+				// #endif
 				let data = {
 					token: uni.getStorageSync('token'),
 					id: uni.getStorageSync('uid'),
@@ -724,7 +882,7 @@
 			},
 			searchJobs() {
 				let identity = uni.getStorageSync('identity');
-				if(identity == 0){
+				if (identity == 0) {
 					this.rolePopupStatus = true;
 					this.selectRoleIdentity = 1;
 					return;
@@ -773,8 +931,7 @@
 					.replace(/\+/g, '%20')) || null
 			},
 			isWechat() {
-				// return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
-				return true;
+				return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
 			},
 			getUserInfo: function(code) {
 				var that = this;
@@ -789,6 +946,68 @@
 						let unionid = message.unionid;
 						let phone = message.phone;
 						let token = message.token;
+						let nickname = message.nickname;
+						let uid = message.id;
+						let identity = message.identity;
+						let isEducator = message.is_educator;
+						let isBusiness = message.is_business;
+						let isVendor = message.is_vendor;
+						let isOther = message.is_other;
+
+						this.mobile = phone;
+						this.is_educator = isEducator;
+						this.is_business = isBusiness;
+						this.is_vendor = isVendor;
+						this.is_other = isOther;
+
+						uni.setStorageSync('unionid', unionid)
+						uni.setStorageSync('phone', phone)
+						uni.setStorageSync('nickname', nickname)
+						uni.setStorageSync('token', token)
+						uni.setStorageSync('uid', uid)
+
+
+						if (identity == 0) {
+							uni.setStorageSync('identity', 0)
+							this.identity = 0;
+						}
+						if (identity == 1) {
+							if (isEducator == 0) {
+								uni.setStorageSync('identity', 0)
+								this.identity = 0;
+							} else {
+								uni.setStorageSync('identity', identity)
+								this.identity = identity;
+							}
+						}
+						if (identity == 2) {
+							if (isBusiness == 0) {
+								uni.setStorageSync('identity', 0)
+								this.identity = 0;
+							} else {
+								uni.setStorageSync('identity', identity)
+								this.identity = identity;
+							}
+						}
+
+						if (identity == 3) {
+							if (isVendor == 0) {
+								uni.setStorageSync('identity', 0)
+								this.identity = 0;
+							} else {
+								uni.setStorageSync('identity', identity)
+								this.identity = identity;
+							}
+						}
+						if (identity == 4) {
+							if (isOther == 0) {
+								uni.setStorageSync('identity', 0)
+								this.identity = 0;
+							} else {
+								uni.setStorageSync('identity', identity)
+								this.identity = identity;
+							}
+						}
 
 						// #ifdef H5
 						let subscribeValue = res.message.subscribe;
@@ -797,20 +1016,6 @@
 							this.showOfficialStatus = true
 						}
 						// #endif
-
-						uni.setStorageSync('unionid', unionid)
-						uni.setStorageSync('phone', phone)
-						uni.setStorageSync('nickname', message.nickname)
-						uni.setStorageSync('token', token)
-						uni.setStorageSync('uid', message.id)
-						uni.setStorageSync('identity', message.identity)
-
-						this.is_educator = message.is_educator;
-						this.is_business = message.is_business;
-						this.is_vendor = message.is_vendor;
-						this.is_other = message.is_other;
-						this.identity = message.identity;
-						this.mobile = message.phone;
 
 						if (message.language == 0) {
 							this.languageValue = 2;
@@ -824,41 +1029,9 @@
 							uni.setStorageSync('language', 'en-US')
 						}
 
-						// 用户第一次进入 没有选择身份
-						// if (message.identity == 0) {
-						// 	this.rolePopupStatus = true;
-						// }
-
-						// 如果用户educator
-						// if (message.identity == 1) {
-						// 	if (message.is_educator == 0) {
-						// 		uni.reLaunch({
-						// 			url: '../role/educator'
-						// 		})
-						// 	}
-						// }
-						// 如果用户business
-						// if (message.identity == 2) {
-						// 	if (message.is_business == 0) {
-						// 		uni.reLaunch({
-						// 			url: '../role/business'
-						// 		})
-						// 	}
-						// }
-						// 如果用户vendor
-						// if (message.identity == 3) {
-						// 	if (message.is_vendor == 0) {
-						// 		uni.reLaunch({
-						// 			url: '../role/vendor'
-						// 		})
-						// 	}
-						// }
-						// 如果用户other
-
 						//获取职位列表
 						this.getJobsList();
 						this.getRecentDealsList(1, 6)
-
 
 					}
 					if (res.code == 400) {
@@ -871,14 +1044,29 @@
 
 			},
 			getJobsList() {
+				let token = uni.getStorageSync('token');
+				let identity = uni.getStorageSync('identity');
+
 				let data = {
-					token: uni.getStorageSync('token'),
+					token: token,
 					ad_type: 1
 				}
 				jobs.featureList(data).then(res => {
 					console.log(res);
 					if (res.code == 200) {
-						this.jobList = res.message;
+						let list = res.message;
+						this.jobList = list;
+						// #ifdef H5
+						if (list.length > 0 && identity != 3) {
+							this.showRecentJobsStatus = true;
+						}
+						// #endif
+						// #ifdef MP-WEIXIN
+						if (list.length > 0 && identity != 0 && identity != '' && identity != 3) {
+							this.showRecentJobsStatus = true;
+						}
+						// #endif
+
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -892,15 +1080,19 @@
 			getAdsList() {
 				let data = {
 					page: 1,
-					limit: 100,
-					cate: 1
+					limit: 100
 				}
 				ads.list(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
-						this.adsListTop = res.message.data.filter(item => item.position == 1)
-						this.adsListMid = res.message.data.filter(item => item.position == 2)
-						this.adsListBottom = res.message.data.filter(item => item.position == 3)
+						this.adsListTop = res.message.data.filter(item => item.position == 1 && item.cate == 1)
+						this.adsListMid = res.message.data.filter(item => item.position == 2 && item.cate == 1)
+						this.adsListBottom = res.message.data.filter(item => item.position == 3 && item.cate == 1)
+						this.dealsAdsListTop = res.message.data.filter(item => item.position == 1 && item.cate == 6)
+						this.dealsAdsListMid = res.message.data.filter(item => item.position == 2 && item.cate == 6)
+						this.dealsAdsListBottom = res.message.data.filter(item => item.position == 3 && item.cate == 6)
+						this.adsListArticles = res.message.data.filter(item=>item.position == 4 && item.cate == 1)
+						
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -908,34 +1100,25 @@
 						})
 					}
 
-				}).catch(error => {
-					console.log(error)
-				})
-			},
-			getDealsAdsList() {
-				let data = {
-					page: 1,
-					limit: 1000,
-					cate: 6
-				}
-				ads.list(data).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						this.dealsAdsListTop = res.message.data.filter(item => item.position == 1)
-						this.dealsAdsListMid = res.message.data.filter(item => item.position == 2)
-						this.dealsAdsListBottom = res.message.data.filter(item => item.position == 3)
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
 				}).catch(error => {
 					console.log(error)
 				})
 			},
 			turnJobDetail(id) {
+				// #ifdef MP-WEIXIN
+				let token = uni.getStorageSync('token');
+				if (token == '') {
+					var pages = getCurrentPages(); // 当前页面
+					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
+					if (currentPagePath.route == 'pages/login/index') {
+						return;
+					}
+					return uni.navigateTo({
+						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+					})
+				}
+				// #endif
 				let identity = uni.getStorageSync('identity')
 				if (identity == 4 || identity == 0) {
 					this.rolePopupStatus = true;
@@ -955,6 +1138,20 @@
 				}
 			},
 			applyJobs(id) {
+				// #ifdef MP-WEIXIN
+				let token = uni.getStorageSync('token');
+				if (token == '') {
+					var pages = getCurrentPages(); // 当前页面
+					var currentPagePath = pages[pages.length - 1]; // 前一个页面
+
+					if (currentPagePath.route == 'pages/login/index') {
+						return;
+					}
+					return uni.navigateTo({
+						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+					})
+				}
+				// #endif
 				let identity = uni.getStorageSync('identity')
 				if (identity == 0 || identity == 4) {
 					this.rolePopupStatus = true;
@@ -1003,20 +1200,91 @@
 
 			},
 			turnBanner(relativeLink) {
-				// if (link != '') {
-				// 	window.location.href = link;
-				// }
-				if(relativeLink!=''){
+
+				if (relativeLink != '') {
 					uni.navigateTo({
-						url:relativeLink
+						url: relativeLink
 					})
-				}else{
-					this.showContactStatus=true;
+				} else {
+					// // #ifdef MP-WEIXIN
+					// let token = uni.getStorageSync('token');
+					// if (token == '') {
+					// 	var pages = getCurrentPages(); // 当前页面
+					// 	var currentPagePath = pages[pages.length - 1]; // 前一个页面
+
+					// 	if (currentPagePath.route == 'pages/login/index') {
+					// 		return;
+					// 	}
+					// 	return uni.navigateTo({
+					// 		url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+					// 	})
+					// }
+					// // #endif
+					// this.rolePopupStatus = true;
+					// this.selectRoleIdentity = 0;
 				}
 
 			},
+			upgradeAndGoPro(relativeLink){
+				if (relativeLink != '') {
+					uni.navigateTo({
+						url: relativeLink
+					})
+				} else {
+					// #ifdef MP-WEIXIN
+					let token = uni.getStorageSync('token');
+					if (token == '') {
+						var pages = getCurrentPages(); // 当前页面
+						var currentPagePath = pages[pages.length - 1]; // 前一个页面
+				
+						if (currentPagePath.route == 'pages/login/index') {
+							return;
+						}
+						return uni.navigateTo({
+							url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+						})
+					}
+					// #endif
+					let identity = uni.getStorageSync('identity');
+					
+					if(identity && identity>0){
+						uni.navigateTo({
+							url:'/pages/me/upgrade'
+						})
+					}
+				}
+				
+			},
+			miniLogin() {
+				let token = uni.getStorageSync('token')
+				if (token == '') {
+					var pages = getCurrentPages(); // 当前页面
+					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
+					if (currentPagePath.route == 'pages/login/index') {
+						return;
+					}
+					return uni.navigateTo({
+						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+					})
+				} else {
+					this.rolePopupStatus = true;
+					this.selectRoleIdentity = 0;
+				}
 
+			},
+			turnArticle(link){
+				if(link !=''){
+					// #ifdef MP-WEIXIN
+					uni.navigateTo({
+						url:'/pages/webview/webview?url='+link
+					})
+					// #endif
+					// #ifdef H5
+					window.location.href = link;
+					// #endif
+				}
+			}
 
 		},
 		onShareAppMessage: function(res) {
@@ -1040,22 +1308,28 @@
 		onReady: function() {
 			var _this = this;
 			let token = uni.getStorageSync('token')
-
+			// #ifdef H5
+			console.log(_this.$isWechat())
+			// #endif
+			
 			if (token == '') {
 				// #ifdef H5
-				let code = _this.getUrlCode('code')
-				if (code == null || code == '') {
-					this.getCode();
+				if(_this.isWechat()){
+					console.log('微信内置浏览器打开。。。login')
+					let code = _this.getUrlCode('code')
+					if (code == null || code == '') {
+						this.getCode();
+					}
+				}else{
+					console.log('外部浏览器打开。。。login')
+					uni.navigateTo({
+						url:'/pages/login/index'
+					})
 				}
-				// #endif
-				
-				// #ifdef MP-WEIXIN
-				uni.navigateTo({
-					url: '/pages/login/index'
-				})
 				// #endif
 
 			}
+		
 		}
 	}
 </script>
@@ -1088,8 +1362,8 @@
 		height: 100rpx;
 		/* border: 1rpx solid #EEEEEE; */
 	}
-	
-	.official-account{
+
+	.official-account {
 		width: 96%;
 		margin: 0 auto;
 		margin-top: 40rpx;

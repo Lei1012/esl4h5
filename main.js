@@ -11,6 +11,9 @@ Vue.use(uView);
 // #ifdef H5
 import jwx from '@/common/jwx'
 Vue.prototype.$jwx = jwx
+Vue.prototype.$isWechat = function() {
+	return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
+}
 // #endif
 
 Vue.use(VueI18n)

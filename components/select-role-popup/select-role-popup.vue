@@ -6,7 +6,7 @@
 			<view class="language-change">
 				<view class="language-en">English</view>
 				<view class="language-switch">
-					<switch color="#004956" :checked="language=='zh-CN'" @change="changeLang" />
+					<switch color="#0AA0A8" :checked="language=='zh-CN'" @change="changeLang" />
 				</view>
 				<view class="language-cn">
 					中文/CN
@@ -97,8 +97,23 @@
 				// this.rolePopupStatus = false;
 				that.$emit('close')
 
-				let mobile = uni.getStorageSync('phone')
+				let mobile = uni.getStorageSync('phone');
 				let token = uni.getStorageSync('token');
+				let uid = uni.getStorageSync('uid');
+
+				// #ifdef MP-WEIXIN
+				if (token == '') {
+					var pages = getCurrentPages(); // 当前页面
+					var currentPagePath = pages[pages.length - 1]; // 前一个页面
+
+					if (currentPagePath.route == 'pages/login/index') {
+						return;
+					}
+					return uni.navigateTo({
+						url: '/pages/login/index?redirect=' + currentPagePath.route
+					})
+				}
+				// #endif
 
 				// console.log(mobile)
 				if (mobile == '') {
@@ -110,8 +125,8 @@
 
 					if (token != '') {
 						let data = {
-							token: uni.getStorageSync('token'),
-							id: uni.getStorageSync('uid')
+							token: token,
+							id: uid
 						}
 						profile.getBasicInfo(data).then(res => {
 							// console.log(res)
@@ -120,7 +135,7 @@
 								uni.setStorageSync('phone', res.message.phone)
 								uni.setStorageSync('nickname', res.message.nickname)
 								uni.setStorageSync('uid', res.message.id)
-								uni.setStorageSync('identity', res.message.identity)
+								// uni.setStorageSync('identity', res.message.identity)
 								that.is_educator = res.message.is_educator;
 								that.is_business = res.message.is_business;
 								that.is_vendor = res.message.is_vendor;
@@ -161,9 +176,6 @@
 									}
 
 								}
-								if (e == 4) {
-									this.changeIdentityApi(4)
-								}
 
 
 							} else {
@@ -201,10 +213,28 @@
 					index: 0,
 					text: _this.i18n.tabbarhome
 				})
+				// #ifdef H5
 				uni.setTabBarItem({
 					index: 1,
 					text: _this.i18n.tabbarjobs
 				})
+				// #endif
+				// #ifdef MP-WEIXIN
+				let token = uni.getStorageSync('token');
+				let identity = uni.getStorageSync('identity');
+				if (token != '' && identity && identity != 0) {
+					uni.setTabBarItem({
+						index: 1,
+						text: _this.i18n.tabbarjobs
+					})
+				} else {
+					uni.setTabBarItem({
+						index: 1,
+						text: _this.i18n.tabbarevents
+					})
+				}
+				// #endif
+
 				uni.setTabBarItem({
 					index: 2,
 					text: _this.i18n.tabbardeals

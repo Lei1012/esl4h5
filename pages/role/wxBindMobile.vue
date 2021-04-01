@@ -60,52 +60,24 @@
 			var _this = this;
 			_this.roleValue = option.roleValue;
 			_this.language = option.language;
-			let token = uni.getStorageSync('token')
-			if(token != ''){
-				_this.getUserInfo()
+			// #ifdef MP-WEIXIN
+			let token = uni.getStorageSync('token');
+			if (token == '') {
+				var pages = getCurrentPages(); // 当前页面
+				var currentPagePath = pages[pages.length - 1]; // 前一个页面
+				
+				if(currentPagePath.route == 'pages/login/index'){
+					return;
+				}
+				let redirectUrl = currentPagePath.route + '?roleValue='+option.roleValue;
+				console.log(encodeURIComponent(redirectUrl))
+				return uni.navigateTo({
+					url: '/pages/login/index?redirect='+ encodeURIComponent(redirectUrl)
+				})
 			}
+			// #endif
 		},
 		methods: {
-			getUserInfo(){
-				var _this = this;
-				let data = {
-					token: uni.getStorageSync('token'),
-					id: uni.getStorageSync('uid')
-				}
-				profile.getBasicInfo(data).then(res => {
-					// console.log(res)
-					if (res.code == 200) {
-						let phone  = res.message.phone;
-						if(phone!=''){
-							if (_this.roleValue == 1) {
-								uni.navigateTo({
-									url: 'educator'
-								})
-							}
-							if (_this.roleValue == 2) {
-								uni.navigateTo({
-									url: 'business'
-								})
-							}
-							if (_this.roleValue == 3) {
-								uni.navigateTo({
-									url: 'vendor'
-								})
-							}
-							
-						}
-						
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-				
-				}).catch(error => {
-					console.log(error)
-				})
-			},
 			isShowAgree() {
 				//是否选择协议
 				_this.showAgree = !_this.showAgree;
@@ -122,8 +94,8 @@
 				}
 				console.log("获取验证码")
 				let data = {
-					// unionid: uni.getStorageSync('unionid'),
-					unionid: 3,
+					unionid: uni.getStorageSync('unionid'),
+					// unionid: 3,
 					phone: _this.phoneData
 				}
 				// 发送验证码 api
@@ -263,17 +235,7 @@
 			}
 		},
 		onReady() {
-			var _this = this;
-			let token = uni.getStorageSync('token')
 			
-			if (token == '') {
-				// #ifdef MP-WEIXIN
-				uni.navigateTo({
-					url:'/pages/login/index'
-				})
-				// #endif
-				
-			}
 		}
 	}
 </script>

@@ -518,19 +518,20 @@
 	}
 	.region {
 		flex: 1;
-		height: 44px;
+		height: 100rpx;
 	}
 	.nav {
 		width: 100%;
-		height: 44px;
+		height: 100rpx;
 		border-bottom: solid 1rpx #eee;
 		z-index: 12;
 		background-color: #ffffff;
 		flex-direction: row;
 		.first-menu {
 			width: 100%;
-			font-size: 13px;
-			color: #757575;
+			font-size: 30rpx;
+			font-weight: 700;
+			color: #000000;
 			flex-direction: row;
 			align-items: center;
 			justify-content: center;
@@ -575,7 +576,7 @@
 		}
 
 		&.show {
-			transform: translate3d(0, calc(44px + 1rpx), 0);
+			transform: translate3d(0, calc(100rpx + 1rpx), 0);
 		}
 	}
 	.sub-menu-list {
@@ -583,12 +584,12 @@
 		height: 345px;
 		flex-direction: column;
 		.sub-menu {
-			min-height: 44px;
+			min-height: 100rpx;
 			font-size: 13px;
 			flex-direction: column;
 			padding-right: 15px;
 			>.menu-name {
-				height: 44px;
+				height: 100rpx;
 				flex-direction: row;
 				align-items: center;
 				justify-content: space-between;
@@ -616,7 +617,7 @@
 			min-height: 170px;
 			height: auto;
 			.sub-menu {
-				min-height: calc(44px - 1rpx);
+				min-height: calc(100rpx - 1rpx);
 				margin-left: 15px;
 				border-bottom: solid 1rpx #e5e5e5;
 
@@ -633,11 +634,11 @@
 		}
 		&.not-first {
 			.sub-menu {
-				min-height: calc(44px - 1rpx);
+				min-height: calc(100rpx - 1rpx);
 				margin-left: 15px;
 				border-bottom: solid 1rpx #e5e5e5;
 				>.menu-name {
-					height: calc(44px - 1rpx);
+					height: calc(100rpx - 1rpx);
 					>.iconfont {
 						display: none;
 						font-size: 18px;
@@ -783,7 +784,7 @@
 		font-family: "HM-FD-font" !important;
 		font-size: 13px;
 		font-style: normal;
-		color: #757575;
+		color: #000000;
 		&.triangle {
 			&:before {
 				content: "\e65a";

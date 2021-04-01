@@ -298,6 +298,20 @@
 			this.identity = uni.getStorageSync('identity');
 			this.getBasicInfo()
 			this.updateVendorProfile()
+			// #ifdef MP-WEIXIN
+			let token = uni.getStorageSync('token');
+			if (token == '') {
+				var pages = getCurrentPages(); // 当前页面
+				var currentPagePath = pages[pages.length - 1]; // 前一个页面
+				
+				if(currentPagePath.route == 'pages/login/index'){
+					return;
+				}
+				return uni.navigateTo({
+					url: '/pages/login/index?redirect='+encodeURIComponent(currentPagePath.route)
+				})
+			}
+			// #endif
 		},
 		onLoad(option) {
 			_self = this;

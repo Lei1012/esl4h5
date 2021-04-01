@@ -46,8 +46,8 @@
 
 		</view>
 		<view class="agreement">
-			<view class="agreement-no-active" v-if="agreeStatus==false" @tap="agreeStatus=true"></view>
-			<view class="agreement-active" v-if="agreeStatus" @tap="agreeStatus=false"></view>
+			<uni-icons type="circle"  v-if="agreeStatus==false" @click="agreeStatus=true"></uni-icons>
+			<uni-icons type="circle-filled" v-if="agreeStatus" @click="agreeStatus=false"></uni-icons>
 			I understand my application is subject to approval. 我明白申请和参加商户计划需要由ESL Passport批准.
 		</view>
 		<view class="role-form-done">
@@ -138,6 +138,9 @@
 			}
 		},
 		methods: {
+			agree(e){
+				console.log(e)
+			},
 			chooseLocation() {
 				uni.navigateTo({
 					url: '/pages/location/location'
@@ -310,30 +313,9 @@
 
 	.agreement {
 		width: 96%;
-		margin: 20rpx auto;
-		position: relative;
+		margin: 20rpx auto 0;
 		padding: 20rpx;
-		text-indent: 50rpx;
-		/* color:#FF2870; */
 		font-size: 24rpx;
-	}
-
-	.agreement-no-active {
-		position: absolute;
-
-		width: 40rpx;
-		height: 40rpx;
-		border-radius: 40rpx;
-		border: 1rpx solid #808080;
-		background-color: #FFFFFF;
-	}
-	.agreement-active {
-		position: absolute;
-	
-		width: 40rpx;
-		height: 40rpx;
-		border-radius: 40rpx;
-		border: 2rpx solid #808080;
-		background-color: #0AA0A8;
+		line-height: 40rpx;
 	}
 </style>

@@ -1,18 +1,13 @@
 <template>
 	<view class="uni-column uni-flex container">
+		<!-- #ifdef MP-WEIXIN -->
 		<view class="logo">
 			<image src="@/static/esl-logo.png" mode="aspectFill"></image><br>
 			<text>Mini Program </text>
 		</view>
-		<view class="welcome">
-			<!-- <text>Welcome to ESL Passport!</text> -->
-			
-		</view>
 		<view class="login-btn">
 			<button @click="login()" type="default">Enter</button>
 		</view>
-
-		<!-- #ifdef MP-WEIXIN -->
 		<view class="auth-bg" v-if="authUserInfoStatus">
 			<view class="auth-userinfo">
 				<view class="auth-logo">
@@ -21,17 +16,47 @@
 				<view class="auth-txt">
 					{{i18n.loginauthtxt}}
 				</view>
-				<button type="default" open-type="getUserInfo"
-					@getuserinfo="getMiniUserInfo">OK</button>
+				<button type="default" open-type="getUserInfo" @getuserinfo="getMiniUserInfo">OK</button>
 			</view>
 		</view>
 		<!-- #endif -->
+
+		<!-- #ifdef H5 -->
+		<view class="login">
+			<view class="content">
+				<!-- 头部logo -->
+				<view class="header">
+					<image :src="logoImage"></image>
+				</view>
+				<!-- 主体表单 -->
+				<view class="main">
+					<wInput v-model="phoneData" type="text" maxlength="11" :placeholder="i18n.h5loginuserandphone" :focus="isFocus">
+					</wInput>
+					<wInput v-model="passData" type="password" maxlength="11" :placeholder="i18n.h5loginpassword"></wInput>
+				</view>
+				<wButton class="wbutton" :text="i18n.h5loginlogin" :rotate="isRotate" @click="startLogin"></wButton>
+
+				<!-- 底部信息 -->
+				<view class="footer">
+					<navigator url="forget" open-type="navigate">{{i18n.h5retrievepassword}}</navigator>
+					<text>|</text>
+					<navigator url="register" open-type="navigate">{{i18n.h5registeredaccount}}</navigator>
+				</view>
+			</view>
+		</view>
+		<!-- #endif -->
+
 	</view>
 </template>
 
 <script>
 	import profile from '@/api/profile.js';
 	import login from '@/api/login.js';
+	
+	let _this;
+	import wInput from '../../components/watch-login/watch-input.vue' //input
+	import wButton from '../../components/watch-login/watch-button.vue' //button
+
 
 	export default {
 		data() {
@@ -46,9 +71,25 @@
 				miniOpenId: '',
 				miniUnionId: '',
 
-				miniCode: ''
+				miniCode: '',
+				redirectPath: '',
+
+				// #ifdef H5
+				logoImage: '/static/esl-logo.png',
+				phoneData: '', //用户/电话
+				passData: '', //密码
+				isRotate: false, //是否加载旋转
+				isFocus: true // 是否聚焦
+				// #endif
 
 			}
+		},
+		components: {
+			wInput,
+			wButton,
+		},
+		mounted() {
+			_this = this;
 		},
 		computed: {
 			i18n() {
@@ -56,12 +97,50 @@
 			}
 		},
 		onLoad(option) {
-			var pages = getCurrentPages(); // 当前页面
-			var beforePage = pages[pages.length - 2]; // 前一个页面
-			console.log(beforePage.route)
-
+			// #ifdef MP-WEIXIN
+			this.redirectPath = decodeURIComponent(option.redirect);
+			console.log(this.redirectPath);
+			// #endif
+		
 		},
 		methods: {
+			isLogin() {
+				//判断缓存中是否登录过，直接登录
+			},
+			startLogin(e) {
+				console.log(e)
+				//登录
+				if (this.isRotate) {
+					//判断是否加载中，避免重复点击请求
+					return false;
+				}
+				if (this.phoneData.length == "") {
+					uni.showToast({
+						icon: 'none',
+						position: 'bottom',
+						title: this.i18n.h5usernameerror
+					});
+					return;
+				}
+				if (this.passData.length < 5) {
+					uni.showToast({
+						icon: 'none',
+						position: 'bottom',
+						title: this.i18n.h5passworderror
+					});
+					return;
+				}
+
+				console.log("登录成功")
+
+				_this.isRotate = true
+				setTimeout(function() {
+					_this.isRotate = false
+				}, 3000)
+				
+
+			},
+			
 			getMiniUserInfo(e) {
 				console.log(e)
 				this.loginByCode()
@@ -69,6 +148,10 @@
 			addMiniUserInfo() {
 				var _this = this;
 				// 获取用户信息
+				uni.showLoading({
+					title: 'logging in',
+					mask: true
+				})
 				uni.getUserInfo({
 					provider: 'weixin',
 					success: function(infoRes) {
@@ -82,7 +165,7 @@
 							city: userInfo.city,
 							gender: userInfo.gender,
 							// language: userInfo.language,
-							language:'en-US',
+							language: 'en-US',
 							province: userInfo.province,
 							country: userInfo.country,
 							platform: 'mini'
@@ -108,26 +191,83 @@
 										uni.setStorageSync('phone', res.message.phone)
 										uni.setStorageSync('nickname', res.message.nickname)
 										uni.setStorageSync('uid', res.message.id)
-										uni.setStorageSync('identity', res.message.identity)
-										uni.$emit('changeIdentity',res.message.identity)
-									
-										_this.is_educator = res.message.is_educator;
-										_this.is_business = res.message.is_business;
-										_this.is_vendor = res.message.is_vendor;
-										_this.is_other = res.message.is_other;
-										_this.identity = res.message.identity;
-										_this.mobile = res.message.phone;
-										var pages = getCurrentPages(); // 当前页面
-										var beforePage = pages[pages.length - 2]; // 前一个页面
-										console.log(beforePage)
-										uni.removeStorageSync('relogin')
-										uni.reLaunch({
-											url: '/' + beforePage.route
-										})
+										uni.setStorageSync('phone', res.message.phone)
 
-										// uni.reLaunch({
-										// 	url:'/pages/home/index'
-										// })
+										_this.mobile = res.message.phone;
+										let identity = res.message.identity;
+										let isEducator = res.message.is_educator;
+										let isBusiness = res.message.is_business;
+										let isVendor = res.message.is_vendor;
+										let isOther = res.message.is_other;
+
+										_this.is_educator = isEducator;
+										_this.is_business = isBusiness;
+										_this.is_vendor = isVendor;
+										_this.is_other = isOther;
+
+										if (identity == 0) {
+											uni.setStorageSync('identity', 0)
+											_this.identity = 0;
+										}
+										if (identity == 1) {
+											if (isEducator == 0) {
+												uni.setStorageSync('identity', 0)
+												_this.identity = 0;
+											} else {
+												uni.setStorageSync('identity', identity)
+												_this.identity = identity;
+												uni.$emit('changeIdentity', identity)
+											}
+										}
+										if (identity == 2) {
+											if (isBusiness == 0) {
+												uni.setStorageSync('identity', 0)
+												_this.identity = 0;
+											} else {
+												uni.setStorageSync('identity', identity)
+												_this.identity = identity;
+												uni.$emit('changeIdentity', identity)
+											}
+										}
+
+										if (identity == 3) {
+											if (isVendor == 0) {
+												uni.setStorageSync('identity', 0)
+												_this.identity = 0;
+											} else {
+												uni.setStorageSync('identity', identity)
+												_this.identity = identity;
+												uni.$emit('changeIdentity', identity)
+											}
+										}
+										if (identity == 4) {
+											if (isOther == 0) {
+												uni.setStorageSync('identity', 0)
+												_this.identity = 0;
+											} else {
+												uni.setStorageSync('identity', identity)
+												_this.identity = identity;
+												uni.$emit('changeIdentity', identity)
+											}
+										}
+
+										let redirectPath = _this.redirectPath;
+										if (redirectPath != undefined && redirectPath) {
+											setTimeout(function() {
+												uni.hideLoading();
+												uni.reLaunch({
+													url: '/' + redirectPath
+												})
+											}, 1200)
+
+										} else {
+											setTimeout(function() {
+												uni.hideLoading();
+												uni.reLaunch({
+													url: '/pages/menu/me'
+												})
+											}, 1200)
+										}
 
 									} else {
 										uni.showToast({
@@ -159,6 +299,10 @@
 			loginByCode() {
 				var _this = this;
 				let code = _this.miniCode;
+				uni.showLoading({
+					title: 'logging in',
+					mask: true
+				})
 				login.miniWxDecode({
 					code: code,
 					platform: 'mini'
@@ -178,19 +322,73 @@
 							uni.setStorageSync('nickname', message.nickname)
 							uni.setStorageSync('token', message.token)
 							uni.setStorageSync('uid', message.id)
-							uni.setStorageSync('identity', message.identity)
-							uni.$emit('changeIdentity',message.identity)
-							_this.is_educator = message.is_educator;
-							_this.is_business = message.is_business;
-							_this.is_vendor = message.is_vendor;
-							_this.is_other = message.is_other;
-							_this.identity = message.identity;
+							uni.setStorageSync('phone', message.phone)
+
+
+
 							_this.mobile = message.phone;
+							let identity = message.identity;
+							let isEducator = message.is_educator;
+							let isBusiness = message.is_business;
+							let isVendor = message.is_vendor;
+							let isOther = message.is_other;
+
+							_this.is_educator = isEducator;
+							_this.is_business = isBusiness;
+							_this.is_vendor = isVendor;
+							_this.is_other = isOther;
+
+							if (identity == 0) {
+								uni.setStorageSync('identity', 0)
+								_this.identity = 0;
+							}
+							if (identity == 1) {
+								if (isEducator == 0) {
+									uni.setStorageSync('identity', 0)
+									_this.identity = 0;
+								} else {
+									uni.setStorageSync('identity', identity)
+									_this.identity = identity;
+									uni.$emit('changeIdentity', identity)
+								}
+							}
+							if (identity == 2) {
+								if (isBusiness == 0) {
+									uni.setStorageSync('identity', 0)
+									_this.identity = 0;
+								} else {
+									uni.setStorageSync('identity', identity)
+									_this.identity = identity;
+									uni.$emit('changeIdentity', identity)
+								}
+							}
+
+							if (identity == 3) {
+								if (isVendor == 0) {
+									uni.setStorageSync('identity', 0)
+									_this.identity = 0;
+								} else {
+									uni.setStorageSync('identity', identity)
+									_this.identity = identity;
+									uni.$emit('changeIdentity', identity)
+								}
+							}
+							if (identity == 4) {
+								if (isOther == 0) {
+									uni.setStorageSync('identity', 0)
+									_this.identity = 0;
+								} else {
+									uni.setStorageSync('identity', identity)
+									_this.identity = identity;
+									uni.$emit('changeIdentity', identity)
+								}
+							}
+
 
 							if (message.language == 0) {
 								uni.setStorageSync('language', 'en-US')
 								_this.languageValue = 2;
-							} 
+							}
 							if (message.language == 1) {
 								uni.setStorageSync('language', 'zh-CN')
 								_this.languageValue = 1;
@@ -200,13 +398,25 @@
 								_this.languageValue = 2;
 							}
 
-							var pages = getCurrentPages(); // 当前页面
-							var beforePage = pages[pages.length - 2]; // 前一个页面
-							console.log(beforePage.route)
-							uni.removeStorageSync('relogin')
-							uni.reLaunch({
-								url: '/' + beforePage.route
-							})
+							let redirectPath = _this.redirectPath;
+
+							if (redirectPath != undefined && redirectPath) {
+								setTimeout(function() {
+									uni.hideLoading();
+									uni.reLaunch({
+										url: '/' + redirectPath
+									})
+								}, 1200)
+
+							} else {
+								setTimeout(function() {
+									uni.hideLoading();
+									uni.reLaunch({
+										url: '/pages/menu/me'
+									})
+								}, 1200)
+							}
+
 						}
 
 					} else {
@@ -253,7 +463,7 @@
 											console.log(authSetting["scope.userInfo"])
 											if (authSetting["scope.userInfo"] ==
 												undefined || authSetting[
-												"scope.userInfo"] == false) {
+													"scope.userInfo"] == false) {
 												_this.authUserInfoStatus = true;
 											}
 										}
@@ -265,16 +475,20 @@
 					}
 				});
 			}
-
 		}
 	}
 </script>
 
 <style>
+	/* #ifdef H5 */
+	@import url("./css/main.css");
+	/* #endif */
+
 	page {
 		background-color: #FFFFFF;
 	}
 
+	/* #ifdef MP-WEIXIN */
 	.logo {
 		text-align: center;
 		padding-top: 80rpx;
@@ -349,14 +563,17 @@
 	.auth-logo {
 		text-align: center;
 	}
-	
+
 	.auth-logo image {
 		width: 200rpx;
 		height: 200rpx;
 	}
-	.auth-txt{
+
+	.auth-txt {
 		text-align: center;
 		font-size: 28rpx;
 		font-weight: 700;
 	}
+
+	/* #endif */
 </style>

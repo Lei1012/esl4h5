@@ -47,7 +47,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="add-deals-item add-deals-first" v-if="eventsList.length<1" :class="eventsNum>=1 ? 'add-deals-first' : '' "  @click="addDeal(1)" >
+			<view class="add-deals-item" v-if="eventsList.length<1" :class="eventsNum>=2 ? 'add-deals-first' : '' "  @click="addDeal(1)" >
 				{{i18n.eventsaddevent1}}
 			</view>
 			<view class="add-deals-item" v-if="eventsList.length<2" :class="eventsNum>=2 ? 'add-deals-first' : '' "  @click="addDeal(2)">
@@ -96,7 +96,7 @@
 		},
 		onShow() {
 			this.getEventsList();
-				this.getBasicInfo();
+			this.getBasicInfo();
 		},
 		onLoad() {
 

@@ -1,6 +1,6 @@
 <template>
 	<view class="uni-flex uni-column index-bg">
-		<view class="flex-item flex-item-V " style="margin-top: 120rpx;">
+		<view class="flex-item flex-item-V " style="margin-top: 110rpx;">
 			<view class="page-section swiper">
 				<view class="page-section-spacing">
 					<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
@@ -20,63 +20,10 @@
 			:defaultSelected="defaultSelected" @confirm="confirm">
 		</HMfilterDropdown>
 
-		<!-- <view class="flex-item flex-item-V latest-deals" v-if="recentDealsList.length>0">
-			<view class="latest-deals-title">
-				{{i18n.dealsrecentdeals}}
-			</view>
-			<swiper class="latest-deals-swiper" :indicator-dots="false" :autoplay="true" :interval="4000">
-				<swiper-item v-for="(item,index) in recentDealsList" :key="item.id" @click="turnDealsDetail(item.id)">
-					<view class="latest-deals-item ">
-						<view class="latest-deals-item-top">
-							<view class="latest-deals-item-l">
-								<image v-if="item.user_info" :src="item.user_info.logo" mode="aspectFit" lazy-load>
-								</image>
-							</view>
-							<view class="latest-deals-item-r">
-								<view class="latest-deals-item-r-1">{{item.user_info.vendor_name_en}}</view>
-								<view class="latest-deals-item-r-2">{{item.title}}</view>
-							</view>
-						</view>
-					</view>
-				</swiper-item>
-			</swiper>
-		</view> -->
-
 		<view class="xll-deals-list">
-
-			<view class=" list-item" v-for="(item,index) in eventsOneList" :key="item.id + 90">
-				<view class="list-item-l">
-					<view class="interview-photo">
-						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
-						</image>
-					</view>
-				</view>
-				<view class="list-item-r" @click="turnEventDetail(item.id)">
-					<view class="list-item-t">
-						<view class=" list-item-1">
-							<view class="list-item-name" v-if="item.user_info.vendor_name_en">
-								{{item.user_info.vendor_name_en}}
-							</view>
-							<view class="list-item-title">{{item.name}}</view>
-						</view>
-						<view class="list-item-2">
-							<view class="tags-item" v-if="item.event_place && item.event_place != 0">
-								<text>{{item.event_place}}</text>
-							</view>
-							<view class="tags-item">
-								<text v-if="item.is_all==1">Social</text>
-								<text v-if="item.is_all==2">Professional</text>
-							</view>
-						</view>
-					</view>
-					<view class="list-item-b">
-						<view class="location">{{item.location}}</view>
-						<view class="date">{{item.date}}</view>
-					</view>
-				</view>
-			</view>
-
-			<view class=" list-item" v-for="(item,index) in dealsOneList" :key="item.id">
+			
+			<view class=" list-item" v-for="(item,index) in dealsOneList" :key="item.id" v-if="showDealsStatus">
+				<view class="deals-tips">Deals</view>
 				<view class="list-item-l">
 					<view class="interview-photo">
 						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFit">
@@ -84,6 +31,7 @@
 					</view>
 				</view>
 				<view class="list-item-r" @click="turnDealsDetail(item.id)">
+					
 					<view class="list-item-name">{{item.user_info.vendor_name_en}}</view>
 					<view class="list-item-title">{{item.title}}</view>
 					<view class="list-item-2">
@@ -106,8 +54,8 @@
 					</view>
 				</view>
 			</view>
-
-			<view class="flex-item events-slider">
+			
+			<view class="flex-item events-slider" v-if="showDealsStatus && dealsOneList.length>0">
 				<swiper class="swiper" :indicator-dots="false" :autoplay="true" :interval="5000" :duration="600">
 					<swiper-item v-for="(item,index) in adsListMid" :key="index"
 						@click="turnBanner(item.relative_link)">
@@ -117,8 +65,55 @@
 					</swiper-item>
 				</swiper>
 			</view>
+			
+			<view class=" list-item" v-for="(item,index) in eventsOneList" :key="item.name" v-if="showEventsStatus">
+				<view class="events-tips">Events</view>
+				<view class="list-item-l">
+					<view class="interview-photo">
+						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
+						</image>
+					</view>
+				</view>
+				<view class="list-item-r" @click="turnEventDetail(item.id)">
 
-			<view class=" list-item" v-for="(item,k) in dealsTwoList" :key="item.id">
+					<view class="list-item-t">
+						<view class=" list-item-1">
+							<view class="list-item-name" v-if="item.user_info.vendor_name_en">
+								{{item.user_info.vendor_name_en}}
+							</view>
+							<view class="list-item-title">{{item.name}}</view>
+						</view>
+						<view class="list-item-2">
+							<view class="tags-item" v-if="item.event_place && item.event_place != 0">
+								<text>{{item.event_place}}</text>
+							</view>
+							<view class="tags-item">
+								<text v-if="item.is_all==1">Social</text>
+								<text v-if="item.is_all==2">Professional</text>
+							</view>
+						</view>
+					</view>
+					<view class="list-item-b" v-if="item.citys">
+						<view class="location" v-if="language=='en-US' || !language">{{item.citys.Pinyin}}</view>
+						<view class="location" v-if="language=='zh-CN'">{{item.citys.ShortName}}</view>
+						<view class="date">{{item.date}}</view>
+					</view>
+				</view>
+			</view>
+			
+			<view class="flex-item events-slider" v-if="showEventsStatus && eventsOneList.length>0 && adsListBottom.length>0">
+				<swiper class="swiper" :indicator-dots="false" :autoplay="true" :interval="5000" :duration="600">
+					<swiper-item v-for="(item,index) in adsListBottom" :key="index"
+						@click="turnBanner(item.relative_link)">
+						<view class="swiper-item">
+							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+			
+			<view class=" list-item" v-for="(item,k) in dealsTwoList" :key="item.id" v-if="showDealsStatus">
+				<view class="deals-tips">Deals</view>
 				<view class="list-item-l">
 					<view class="interview-photo">
 						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFit">
@@ -126,6 +121,7 @@
 					</view>
 				</view>
 				<view class="list-item-r" @click="turnDealsDetail(item.id)">
+
 					<view class="list-item-name">{{item.user_info.vendor_name_en}}</view>
 					<view class="list-item-title">{{item.title}}</view>
 					<view class="list-item-2">
@@ -149,7 +145,8 @@
 				</view>
 			</view>
 
-			<view class=" list-item" v-for="(item,index) in eventsTwoList" :key="item.id + 100">
+			<view class=" list-item" v-for="(item,index) in eventsTwoList" :key="item.name" v-if="showEventsStatus">
+				<view class="events-tips">Events</view>
 				<view class="list-item-l">
 					<view class="interview-photo">
 						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
@@ -157,6 +154,7 @@
 					</view>
 				</view>
 				<view class="list-item-r" @click="turnEventDetail(item.id)">
+
 					<view class="list-item-t">
 						<view class=" list-item-1">
 							<view class="list-item-name" v-if="item.user_info.vendor_name_en">
@@ -174,8 +172,9 @@
 							</view>
 						</view>
 					</view>
-					<view class="list-item-b">
-						<view class="location">{{item.location}}</view>
+					<view class="list-item-b" v-if="item.citys">
+						<view class="location" v-if="language=='en-US' || !language">{{item.citys.Pinyin}}</view>
+						<view class="location" v-if="language=='zh-CN'">{{item.citys.ShortName}}</view>
 						<view class="date">{{item.date}}</view>
 					</view>
 				</view>
@@ -204,13 +203,12 @@
 	export default {
 		data() {
 			return {
-
+				
 				indicatorDots: true,
 				autoplay: true,
-				interval: 2000,
-				duration: 500,
+				interval: 3000,
+				duration: 1000,
 				language: 'en-US',
-				languageValue: 2,
 
 				identity: 0, //当前身份、
 				selectLocationValue: 89,
@@ -219,7 +217,7 @@
 				adsListTop: [],
 				adsListMid: [],
 				adsListBottom: [],
-				recentDealsList: [],
+				
 				rolePopupStatus: false,
 				selectRoleIdentity: 0,
 				showContactStatus: false,
@@ -230,6 +228,7 @@
 						"type": 'hierarchy',
 						"submenu": [{
 							"name": "All",
+							"value": 0,
 							"submenu": []
 						}]
 					},
@@ -237,52 +236,38 @@
 						"name": 'Location',
 						"type": 'hierarchy',
 						"submenu": [{
-								"name": '附近',
-								"value": "附近",
-								"submenu": [
+							"name": 'All',
+							"value": 0,
+							"submenu": [
 
-								]
-							},
-							{
-								"name": '热门商圈',
-								"value": "热门商圈",
-								"submenu": [{
-										"name": "全部商圈",
-										"value": "全部商圈"
-									},
-									{
-										"name": "燕岭/五山",
-										"value": "燕岭/五山"
-									},
-								]
-							},
-						]
+							]
+						}]
 					},
 				],
-
-				dealsOnePage: 1,
-				dealsTwoPage: 2,
-				dealsOneLimit: 3,
-				dealsTwoLimit: 3,
-				dealsOneLastPage: 1,
-				dealsTwoLastPage: 1,
+				
 				dealsOneList: [],
 				dealsTwoList: [],
-
-				eventsOnePage: 1,
-				eventsTwoPage: 2,
-				eventsOneLimit: 3,
-				eventsTwoLimit: 3,
-				eventsOneLastPage: 1,
-				eventsTwoLastPage: 1,
+				dealsPage:1,
+				dealsLimit:6,
+				dealsLastPage:1,
+				
 				eventsOneList: [],
 				eventsTwoList: [],
+				eventsPage:1,
+				eventsLimit:6,
+				eventsLastPage:1,
+				
 				status: 'loadmore',
 				loadText: {
 					loadmore: 'load more',
 					loading: 'loading',
 					nomore: 'no more'
 				},
+
+				categoryId: 0,
+				cityId: 0,
+				showDealsStatus: true,
+				showEventsStatus: true,
 
 			}
 		},
@@ -292,24 +277,36 @@
 			HMfilterDropdown
 		},
 		onShow() {
+			// #ifdef H5
+			uni.setTabBarItem({
+				index: 1,
+				text:this.i18n.tabbarjobs
+			})
+			// #endif
+			// #ifdef MP-WEIXIN
+			let token = uni.getStorageSync('token');
+			let identity = uni.getStorageSync('identity');
 
+			if (token != '' && identity && identity != 0) {
+				uni.setTabBarItem({
+					index: 1,
+					text: this.i18n.tabbarjobs
+				})
+			}
+			// #endif
 		},
 		created() {
 			this.getSubCateList(3);
+			this.getDealsAreaList();
 		},
 		onLoad(option) {
 			var that = this;
-
-			this.getAdsList();
-			this.getRecentDealsList(1, 6);
+			this.language = uni.getStorageSync('language');
 			
-			this.getLocationList();
-
-			this.getDealsOneList(this.dealsOnePage, this.dealsOneLimit);
-			this.getDealsTwoList(this.dealsTwoPage, this.dealsTwoLimit);
-
-			this.getEventsOneList(this.eventsOnePage, this.eventsOneLimit);
-			this.getEventsTwoList(this.eventsTwoPage, this.eventsTwoLimit);
+			this.getAdsList();
+			this.getDealsList(this.dealsPage, this.dealsLimit, this.categoryId, this.cityId);
+			this.getEventsList(this.eventsPage,this.eventsLimit,this.cityId)
+			
 		},
 		computed: {
 			i18n() {
@@ -317,18 +314,95 @@
 			}
 		},
 		methods: {
-			getLocationList(){
-				let data = {}
-				location.getAreas(data).then(res=>{
+			getDealsAreaList() {
+				deals.dealsAreaList().then(res => {
 					console.log(res)
-				}).catch(err=>{
+					if (res.code == 200) {
+
+						let categories = res.message;
+						let lan = uni.getStorageSync('language');
+						let obj;
+						categories.forEach(item => {
+							if (lan == 'zh-CN') {
+								obj = {
+									name: item.ShortName,
+									value: item.id
+								}
+
+							} else {
+								obj = {
+									name: item.Pinyin,
+									value: item.id
+								}
+							}
+							this.filterData[1].submenu.push(obj)
+						})
+
+						console.log(this.filterData)
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+				}).catch(err => {
 					console.log(err)
 				})
+			},
+			initDealsList() {
+				this.dealsOneList = [];
+				this.dealsTwoList =  [];
+				this.dealsPage = 1;
+				this.dealsLimit = 6;
+				this.dealsLastPage = 1;
+				
+				this.getDealsList(this.dealsPage, this.dealsLimit, this.categoryId, this.cityId);
+
+			},
+			initEventsList() {
+				
+				this.eventsOneList = [];
+				this.eventsTwoList = [];
+				this.eventsPage = 1;
+				this.eventsLimit = 6;
+				this.eventsLastPage = 1;
+				
+				this.getEventsList(this.eventsPage,this.eventsLimit,this.cityId)
 			},
 			//接收菜单结果
 			confirm(e) {
 				console.log(e)
-				this.filterResult = e.value;
+				let value = e.value;
+
+				let categoryId = value[0][0];
+				let cityId = value[1][0];
+				if(categoryId != null){
+					this.categoryId = categoryId;
+				}
+				if(cityId != null){
+					this.cityId = cityId;
+				}
+				console.log(categoryId)
+				console.log(cityId)
+				
+				if (categoryId != 0 && categoryId!=null) {
+					if(categoryId == 17){
+						this.showDealsStatus = false;
+						this.showEventsStatus = true;
+						this.initEventsList();
+					}else{
+						this.initDealsList();
+						this.showEventsStatus = false;
+						this.showDealsStatus = true;
+					}
+				
+				} else {
+					this.showDealsStatus = true;
+					this.showEventsStatus = true;
+					this.initDealsList();
+					this.initEventsList();
+				}
+
 			},
 			turnEventDetail(id) {
 				// #ifdef H5
@@ -345,23 +419,17 @@
 				// #endif
 			},
 			turnDealsDetail(id) {
-				let identity = uni.getStorageSync('identity')
-				if (identity == 0) {
-					this.rolePopupStatus = true;
-					this.selectRoleIdentity = 0;
-				} else {
-					// #ifdef H5
-					var url = window.location.href;
-					var origin = window.location.origin;
-					let turn_url = origin + '/esl_h5/pages/me/deals/detail?id=' + id;
-					window.location.href = turn_url;
-					// #endif
-					// #ifndef H5
-					uni.navigateTo({
-						url: '/pages/me/deals/detail?id=' + id
-					})
-					// #endif
-				}
+				// #ifdef H5
+				var url = window.location.href;
+				var origin = window.location.origin;
+				let turn_url = origin + '/esl_h5/pages/me/deals/detail?id=' + id;
+				window.location.href = turn_url;
+				// #endif
+				// #ifndef H5
+				uni.navigateTo({
+					url: '/pages/me/deals/detail?id=' + id
+				})
+				// #endif
 			},
 			selectLocation(value) {
 				this.selectLocationValue = value;
@@ -405,18 +473,6 @@
 					console.log(error)
 				})
 			},
-			turnEventsList() {
-				let cityId = this.selectLocationValue;
-				uni.navigateTo({
-					url: '/pages/deals/events/list?cityId=' + cityId
-				})
-			},
-			turnDealsList(id) {
-				let cityId = this.selectLocationValue;
-				uni.navigateTo({
-					url: '/pages/deals/deals/list?cityId=' + cityId + '&typeId=' + id
-				})
-			},
 			getAdsList() {
 				let data = {
 					page: 1,
@@ -451,60 +507,28 @@
 					this.showContactStatus = true;
 				}
 			},
-			getRecentDealsList(page, limit) {
-				let data = {
-					token: uni.getStorageSync('token'),
-					page: page,
-					limit: limit
-				}
-				deals.dealsList(data).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						this.recentDealsList = res.message.data;
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-				}).catch(error => {
-					console.log(error)
-				})
-			},
-			getEventsOneList(page, limit, city_id) {
+			getEventsList(page,limit,city_id){
+				
 				let data = {
 					token: uni.getStorageSync('token'),
 					page: page,
 					limit: limit,
 					city: city_id
 				}
-				events.eventList(data).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						this.eventsOneList = res.message.data;
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-				}).catch(error => {
-					console.log(error)
-				})
-			},
-			getEventsTwoList(page, limit, city_id) {
-				let data = {
-					token: uni.getStorageSync('token'),
-					page: page,
-					limit: limit,
-					city: city_id
-				}
+				
 				events.eventList(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
 						let eventsData = res.message.data;
-						this.eventsTwoList = this.eventsTwoList.concat(eventsData);
-						this.eventsTwoLastPage = res.message.last_page;
+						if(page == 1){
+							let eventsOneList = eventsData.slice(0,3);
+							let eventsTwoList = eventsData.slice(3);
+							this.eventsOneList = eventsOneList;
+							this.eventsTwoList = eventsTwoList;
+						}else{
+							this.eventsTwoList = this.eventsTwoList.concat(eventsData);
+						}
+						this.eventsLastPage = res.message.last_page;
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -514,43 +538,32 @@
 				}).catch(error => {
 					console.log(error)
 				})
+				
+				
 			},
-			getDealsOneList(dealsOnePage, dealsOneLimit, city_id, type_id) {
+			getDealsList(page, limit, typeId, cityId){
 				let data = {
 					token: uni.getStorageSync('token'),
-					page: dealsOnePage,
-					limit: dealsOneLimit,
-					city: city_id,
-					vendor_type_id: type_id
-				}
-				deals.dealsList(data).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						this.dealsOneList = res.message.data;
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-				}).catch(error => {
-					console.log(error)
-				})
-			},
-			getDealsTwoList(dealsTwoPage, dealsTwoLimit, city_id, type_id) {
-				let data = {
-					token: uni.getStorageSync('token'),
-					page: dealsTwoPage,
-					limit: dealsTwoLimit,
-					city: city_id,
-					vendor_type_id: type_id
+					page: page,
+					limit: limit,
+					vendor_type_id: typeId,
+					city: cityId
 				}
 				deals.dealsList(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
 						let dealsData = res.message.data;
-						this.dealsTwoList = this.dealsTwoList.concat(dealsData);
-						this.dealsTwoLastPage = res.message.last_page;
+						if(page == 1){
+							let dealsOneList = dealsData.slice(0,3);
+							let dealsTwoList = dealsData.slice(3);
+							this.dealsOneList = dealsOneList;
+							this.dealsTwoList = dealsTwoList;
+							
+						}else{
+							this.dealsTwoList = this.dealsTwoList.concat(dealsData);
+						}
+						this.dealsLastPage = res.message.last_page;
+						
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -561,47 +574,35 @@
 					console.log(error)
 				})
 			},
+			
 
 		},
 		onReachBottom: function() {
 			console.log('bottom')
-			if (this.dealsTwoPage >= this.dealsTwoLastPage) return;
-			this.status = 'loading';
-			this.dealsTwoPage++;
-			setTimeout(() => {
-				this.getDealsTwoList(this.dealsTwoPage, this.dealsTwoLimit);
-				if (this.dealsTwoPage >= this.dealsTwoLastPage) {
-					this.status = 'nomore';
-				} else {
-					this.status = 'loading';
-				}
-			}, 1200)
+			var _this = this;
+			
+			if (this.dealsPage >= this.dealsLastPage && this.eventsPage >= this.eventsLastPage){
+				_this.status = 'nomore';
+			} else{
+				this.status = 'loading';
+				this.dealsPage++;
+				this.eventsPage++;
+				
+				setTimeout(() => {
+					_this.getDealsList(_this.dealsPage, _this.dealsLimit, _this.categoryId, _this.cityId);
+					_this.getEventsList(_this.eventsPage, _this.eventsLimit, _this.cityId);
+					if (_this.dealsPage >= _this.dealsLastPage && _this.eventsPage >= _this.eventsLastPage) {
+						_this.status = 'nomore';
+					} else {
+						_this.status = 'loading';
+					}
+				}, 1000)
+			}
 
-			if (this.eventsTwoPage >= this.eventsTwoLastPage) return;
-			this.status = 'loading';
-			this.eventsTwoPage++;
-			setTimeout(() => {
-				this.getEventsTwoList(this.eventsTwoPage, this.eventsTwoLimit);
-				if (this.eventsTwoPage >= this.eventsTwoLastPage) {
-					this.status = 'nomore';
-				} else {
-					this.status = 'loading';
-				}
-			}, 1200)
 		},
 		onPullDownRefresh: function() {
-			this.dealsOnePage = 1;
-			this.dealsTwoPage = 2;
-			this.dealsOneLimit = 3;
-			this.dealsTwoLimit = 3;
-			this.dealsOneLastPage = 1;
-			this.dealsTwoLastPage = 1;
-			this.dealsOneList = [];
-			this.dealsTwoList = [];
-
-			this.getRecentDealsList();
-			this.getDealsOneList(1, this.dealsOneLimit);
-			this.getDealsTwoList(2, this.dealsTwoLimit);
+			this.initDealsList();
+			this.initEventsList();
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
@@ -653,6 +654,8 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		position: relative;
+		overflow: hidden;
 	}
 
 	.list-item-l {
@@ -666,6 +669,31 @@
 
 	.list-item-r {
 		width: 80%;
+
+	}
+
+	.deals-tips {
+		position: absolute;
+		right: 0rpx;
+		top: 0rpx;
+		background-color: #0AA0A8;
+		color: #FFFFFF;
+		font-size: 24rpx;
+		text-align: center;
+		border-radius: 4rpx;
+		padding: 4rpx 16rpx;
+	}
+
+	.events-tips {
+		position: absolute;
+		right: 0rpx;
+		top: 0rpx;
+		background-color: #B1C452;
+		color: #FFFFFF;
+		font-size: 24rpx;
+		text-align: center;
+		border-radius: 4rpx;
+		padding: 4rpx 16rpx;
 	}
 
 
@@ -834,6 +862,7 @@
 		justify-content: space-between;
 		align-items: center;
 		margin-top: 14rpx;
+		padding-left: 20rpx;
 	}
 
 	.location {

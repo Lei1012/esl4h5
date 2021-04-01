@@ -7,13 +7,10 @@
 			<view class="job-location">
 				<view class="job-location-1"> {{i18n.jobsjoblocation}} <text class="error-star">*</text> </view>
 				<view class="job-location-2" v-if="locationStatus" @click="chooseLocation">{{pickerText}}
-					<!-- <u-field v-model="jobLocationValue"  required	:placeholder="i18n.jobsjoblocationph" /> -->
-					<!-- <input type="text" v-model="jobLocationValue" :placeholder="i18n.jobsjoblocationph" @blur="inputBlur(1,$event)" /> -->
 				</view>
 				<view class="job-location-3" v-if="locationStatus===false" @click="chooseLocation">
 					{{i18n.basicbusinesstwochooselocation}}
 				</view>
-				<!-- <view class="error-tips" v-if="jobLocationErrorMsg!=''">{{jobLocationErrorMsg}}</view> -->
 			</view>
 
 			<view class="number-vacancies">
@@ -891,8 +888,11 @@
 				},
 
 				province: '',
+				provinceId:0,
 				city: '',
+				cityId:0,
 				area: '',
+				areaId:0,
 				locationStatus: false,
 				pickerText: '',
 
@@ -989,8 +989,11 @@
 			uni.$on('locationEvent', function(data) {
 				console.log(data)
 				that.province = data.province;
+				that.provinceId = data.provinceId;
 				that.city = data.city;
+				that.cityId = data.cityId;
 				that.area = data.area;
+				that.areaId = data.areaId;
 				that.locationStatus = true;
 				that.pickerText = that.area + ', ' + that.city + ', ' + that.province;
 			})
@@ -1730,31 +1733,19 @@
 						profile.getUserObjectList(subcate_data).then(subcateRes => {
 							// console.log(subcateRes);
 							if (subcateRes.code == 200) {
-								this.benefitsList = subcateRes.message.filter(item => item.pid ===
-									6); //benefits
-								this.ageToTeachList = subcateRes.message.filter(item => item.pid ===
-									4); //age to teach
+								this.benefitsList = subcateRes.message.filter(item => item.pid ===6); //benefits
+								this.ageToTeachList = subcateRes.message.filter(item => item.pid ===4); //age to teach
 								// this.employmentTypeList = subcateRes.message.filter(item => item.pid === 3); //employment type
-								this.paymentPeriodList = subcateRes.message.filter(item => item.pid ===
-									111); // payment period
-								this.currencyList = subcateRes.message.filter(item => item.pid ===
-									117); // currency 
-								this.teachingCertificateList = subcateRes.message.filter(item => item
-									.pid === 7); //teaching certificate ...
-								this.teachingExpList = subcateRes.message.filter(item => item.pid ===
-									120); //teaching exp
-								this.educationList = subcateRes.message.filter(item => item.pid ===
-									125); // education
-								this.languagesList = subcateRes.message.filter(item => item.pid ===
-									2); // language ..
-								this.jobTitleList = subcateRes.message.filter(item => item.pid ===
-									103); //job title
-								this.startDateList = subcateRes.message.filter(item => item.pid ===
-									108); // start date
-								this.subjectList = subcateRes.message.filter(item => item.pid ===
-									1); //subject 
-								this.ageList = subcateRes.message.filter(item => item.pid ===
-									131); //age list
+								this.paymentPeriodList = subcateRes.message.filter(item => item.pid === 111); // payment period
+								this.currencyList = subcateRes.message.filter(item => item.pid ===117); // currency 
+								this.teachingCertificateList = subcateRes.message.filter(item => item.pid === 7); //teaching certificate ...
+								this.teachingExpList = subcateRes.message.filter(item => item.pid ===120); //teaching exp
+								this.educationList = subcateRes.message.filter(item => item.pid ===125); // education
+								this.languagesList = subcateRes.message.filter(item => item.pid ===2); // language ..
+								this.jobTitleList = subcateRes.message.filter(item => item.pid ===103); //job title
+								this.startDateList = subcateRes.message.filter(item => item.pid ===108); // start date
+								this.subjectList = subcateRes.message.filter(item => item.pid ===1); //subject 
+								this.ageList = subcateRes.message.filter(item => item.pid ===131); //age list
 
 								// job title
 								if (res.message.job_title != '') {
@@ -1955,6 +1946,10 @@
 						if (this.pickerText != '') {
 							this.locationStatus = true;
 						}
+						
+						this.provinceId = res.message.province;
+						this.cityId = res.message.city;
+						this.areaId = res.message.district;
 
 						if (res.message.apply_due_date != '' && res.message.apply_due_date != '0000-00-00') {
 							this.applicationDueDateStatus = true;
@@ -2050,13 +2045,7 @@
 				var currency;
 				var currencyValue;
 				var that = this;
-
-				// if (this.jobLocationValue == '') {
-				// 	return uni.showToast({
-				// 		title: this.i18n.jobLocationErrorMsg,
-				// 		icon: "none"
-				// 	})
-				// }
+				
 				if (this.pickerText == '') {
 					return uni.showToast({
 						title: this.i18n.jobLocationErrorMsg,
@@ -2151,6 +2140,10 @@
 						token: uni.getStorageSync('token'),
 						job_title: this.jobTitleValue,
 						job_location: this.pickerText,
+						province:this.provinceId,
+						city:this.cityId,
+						district:this.areaId,
+						
 						apply_due_date: this.applicationDueDateStr,
 						is_online: this.isOnlineJob,
 
@@ -2188,6 +2181,9 @@
 						token: uni.getStorageSync('token'),
 						job_title: this.jobTitleValue,
 						job_location: this.pickerText,
+						province:this.provinceId,
+						city:this.cityId,
+						district:this.areaId,
 						apply_due_date: this.applicationDueDateStr,
 						is_online: this.isOnlineJob,
 						salary_min: parseInt(this.minSalaryValue),
@@ -2443,6 +2439,9 @@
 						token: uni.getStorageSync('token'),
 						job_title: this.jobTitleValue,
 						job_location: this.pickerText,
+						province:this.provinceId,
+						city:this.cityId,
+						district:this.areaId,
 						apply_due_date: this.applicationDueDateStr,
 						is_online: this.isOnlineJob,
 
@@ -2480,6 +2479,9 @@
 						token: uni.getStorageSync('token'),
 						job_title: this.jobTitleValue,
 						job_location: this.pickerText,
+						province:this.provinceId,
+						city:this.cityId,
+						district:this.areaId,
 						apply_due_date: this.applicationDueDateStr,
 						is_online: this.isOnlineJob,
 						salary_min: parseInt(this.minSalaryValue),

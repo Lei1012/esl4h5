@@ -242,14 +242,14 @@
 				{
 					"path": "profile/cropperPhoto",
 					"style": {
-						"navigationBarTitleText": "",
+						"navigationBarTitleText": "Cropper Photo",
 						"enablePullDownRefresh": false
 					}
 
 				}, {
 					"path": "business/edit/school",
 					"style": {
-						"navigationBarTitleText": "",
+						"navigationBarTitleText": "School",
 						"enablePullDownRefresh": false
 					}
 
@@ -264,7 +264,7 @@
 							}
 						}
 					}
-					
+
 
 				}
 			]
@@ -470,21 +470,35 @@
 		}, {
 			"path": "pages/location/location",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "Location",
 				"enablePullDownRefresh": false
 			}
 
 		}, {
 			"path": "pages/login/index",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "Login",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/login/forget",
+			"style": {
+				"navigationBarTitleText": "Forget",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/login/register",
+			"style": {
+				"navigationBarTitleText": "Register",
 				"enablePullDownRefresh": false
 			}
 
 		}, {
 			"path": "pages/public/payment/payment",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "Payment failed",
 				"enablePullDownRefresh": false
 			}
 
@@ -498,9 +512,9 @@
 		}, {
 			"path": "pages/menu/deals",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "Deals",
 				"enablePullDownRefresh": true,
-				"h5":{
+				"h5": {
 					"titleNView": false
 				}
 			}
@@ -526,6 +540,33 @@
 			}
 		}
 	},
+	"topWindow": {
+		"path": "responsive/top.vue", // 指定 topWindow 页面文件
+		"style": {
+			"height": "0"
+		},
+		"matchMedia": {
+			"minWidth": 768 //生效条件，当窗口宽度大于768px时显示
+		}
+	},
+	"leftWindow": {
+		"path": "responsive/left.vue", // 指定 leftWindow 页面文件
+		"style": {
+			"width": "calc((100% - 750px)/2)"
+		},
+		"matchMedia": {
+			"minWidth": 768 //生效条件，当窗口宽度大于768px时显示
+		}
+	},
+	"rightWindow": {
+		"path": "responsive/right.vue", // 指定 rightWindow 页面文件
+		"style": {
+			"width": "calc((100% - 750px)/2)" // 页面宽度
+		},
+		"matchMedia": {
+			"minWidth": 768 //生效条件，当窗口宽度大于768px时显示
+		}
+	},
 	"tabBar": {
 		"color": "#FFFFFF",
 		"selectedColor": "#000000",
@@ -545,7 +586,7 @@
 				"pagePath": "pages/menu/job",
 				"iconPath": "static/esl/jobs-icon-white.png",
 				"selectedIconPath": "static/esl/jobs-icon-black.png",
-				"text": "Jobs"
+				"text": "Events"
 			},
 			{
 				"pagePath": "pages/menu/deals",

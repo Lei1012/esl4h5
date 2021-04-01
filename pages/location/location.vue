@@ -67,8 +67,11 @@
 				showCity: false,
 				showArea: false,
 				provinceValue: '',
+				provinceId:0,
 				cityValue: '',
+				cityId:0,
 				areaValue: '',
+				areaId:0,
 				source: '',
 				scrollTop: 0,
 
@@ -117,6 +120,7 @@
 						this.cityList = res.message;
 						this.showCity = true;
 						this.showProvince = false;
+						this.provinceId = item.id;
 						if (that.languageValue == 'zh-CN') {
 							this.provinceValue = item.Name;
 						}
@@ -142,6 +146,7 @@
 						this.areaList = res.message;
 						this.showArea = true;
 						this.showCity = false;
+						this.cityId = item.id;
 						if (that.languageValue == 'zh-CN') {
 							this.cityValue = item.Name;
 						}
@@ -158,6 +163,7 @@
 			},
 			submit(item) {
 				var that = this;
+				this.areaId = item.id;
 				if (that.languageValue == 'zh-CN') {
 					this.areaValue = item.Name;
 				}
@@ -169,8 +175,11 @@
 				// console.log(this.areaValue)
 				let data = {
 					province: this.provinceValue,
+					provinceId:this.provinceId,
 					city: this.cityValue,
-					area: this.areaValue
+					cityId:this.cityId,
+					area: this.areaValue,
+					areaId:this.areaId
 				}
 				uni.$emit('locationEvent', data)
 				uni.navigateBack({

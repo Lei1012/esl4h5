@@ -40,10 +40,19 @@ function myDeals(data){
 		data:data
 	})
 }
+function dealsAreaList(data){
+	return request({
+		method:"GET",
+		url:'deals/dealsAreaList',
+		data:data
+	})
+}
+
 export default{
 	addDeals,
 	dealsList,
 	detail,
 	visitorDealInfo,
-	myDeals
+	myDeals,
+	dealsAreaList
 }

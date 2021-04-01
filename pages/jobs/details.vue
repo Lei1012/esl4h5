@@ -248,7 +248,7 @@
 
 		<view class="flex-item contact-person-info" v-if="jobValue.interview_name != '' ">
 			<view class="contact-person-info-title">{{i18n.jobscontactpersoninfo}}</view>
-			<view class="contact">
+			<view class="contact" v-if="canSeeContact">
 				<view class="contact-l">
 					<image
 						:src="jobValue.interview_imgurl != '' ? jobValue.interview_imgurl : 'https://oss.esl-passport.cn/educator.png' "
@@ -324,6 +324,8 @@
 				rolePopupStatus: false, // 角色选择弹框
 				selectRoleValue: 0, //选择的角色值
 				selectRoleIdentity: 0,
+				
+				canSeeContact:true,
 
 			}
 		},
@@ -337,10 +339,26 @@
 		},
 		onLoad(option) {
 			var that = this;
+			
 			this.jobId = option.id;
 			// console.log(this.jobId);
 			this.getDetail(option.id);
 			this.identity = uni.getStorageSync('identity');
+			
+			let token = uni.getStorageSync('token')
+			// #ifdef MP-WEIXIN
+			if (token == '') {
+				var pages = getCurrentPages(); // 当前页面
+				var currentPagePath = pages[pages.length - 1]; // 前一个页面
+				that.canSeeContact = false;
+				if(currentPagePath.route == 'pages/login/index'){
+					return;
+				}
+				return uni.navigateTo({
+					url: '/pages/login/index?redirect='+encodeURIComponent(currentPagePath.route)
+				})
+			}
+			// #endif
 
 		},
 		methods: {

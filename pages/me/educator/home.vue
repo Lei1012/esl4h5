@@ -654,7 +654,10 @@
 				</view>
 			</view>
 		</view>
-
+		
+		<view class="gohome">
+			<button type="default" @click="turnHomepage()">Back to homepage</button>
+		</view>
 	</view>
 </template>
 
@@ -812,6 +815,20 @@
 			this.cHeight3 = uni.upx2px(300); //这里要与样式的宽高对应
 			this.arcbarWidth = uni.upx2px(24);
 			this.anchorPoint = option.anchor;
+			// #ifdef MP-WEIXIN
+			let token = uni.getStorageSync('token');
+			if (token == '') {
+				var pages = getCurrentPages(); // 当前页面
+				var currentPagePath = pages[pages.length - 1]; // 前一个页面
+				
+				if(currentPagePath.route == 'pages/login/index'){
+					return;
+				}
+				return uni.navigateTo({
+					url: '/pages/login/index?redirect='+encodeURIComponent(currentPagePath.route)
+				})
+			}
+			// #endif
 		},
 		methods: {
 			loadedMetaData(e) {

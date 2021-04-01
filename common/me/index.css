@@ -335,3 +335,14 @@ uni-button:after {
 .swiper-item{
 	height: 240rpx;
 }
+
+.login-btn{
+	width: 80%;
+	margin: 20rpx auto;
+}
+.login-btn button{
+	background-color: #0AA0A8;
+	color: #FFFFFF;
+	line-height: 80rpx;
+	font-size: 34rpx;
+}
