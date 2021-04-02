@@ -1,10 +1,10 @@
 <template>
 	<view class="uni-flex uni-column">
-		<view class="flex-item top-container" :style="{backgroundImage: businessUserInfo.header_photo != '' ? 'url('+businessUserInfo.header_photo+')' : 'url(https://oss.esl-passport.cn/esl_passport_25.png)'}">
+		<view class="flex-item top-container" :style="{backgroundImage: 'url('+companyBg+')'}">
 			<view class="top-container-mask">
 				<view class="top-t">
 					<view class="top-left">
-						<image :src="businessUserInfo.logo != '' ? businessUserInfo.logo : 'https://oss.esl-passport.cn/business.png' " mode="aspectFill"></image>
+						<image :src="companyLogo " mode="aspectFill"></image>
 					</view>
 					<view class="top-right">
 						<text>{{jobValue.business_name}}</text> <br>
@@ -34,11 +34,14 @@
 		</view>
 
 		<view class="flex-item jobs-desc-container">
-			<view class="flex-item jobs-title" style="text-align: center;font-size: 38rpx;">
+			<view class="flex-item jobs-title">
 				{{jobValue.job_title}}
 			</view>
-			<view class="flex-item jobs-location" style="text-align: center;font-size: 34rpx;">
-				{{jobValue.job_location}}, {{i18n.China}}
+			<view class="flex-item jobs-location" v-if="jobValue.province && jobValue.city && jobValue.district && language=='en-US' ">
+				{{jobValue.districts.Pinyin}}, {{jobValue.citys.Pinyin}}, {{i18n.China}}
+			</view>
+			<view class="flex-item jobs-location" v-if="jobValue.province && jobValue.city && jobValue.district && language=='zh-CN' ">
+				{{jobValue.districts.ShortName}}, {{jobValue.citys.ShortName}}, {{i18n.China}}
 			</view>
 			<view class="flex-item job-xll-tags">
 				<view class="xll-tag" v-if="jobValue.employment_type==1">{{i18n.jobslistjobtypefulltime}}</view>
@@ -312,7 +315,10 @@
 				identity: 0,
 				showWxShareStatus: false,
 				showContactStatus: false,
-				businessUserInfo: ''
+				businessUserInfo: '',
+				companyBg:'',
+				companyLogo:'',
+				language:'en-US'
 			}
 		},
 		computed: {
@@ -326,7 +332,7 @@
 		onLoad(option) {
 			var that = this;
 			this.jobId = option.id;
-			// console.log(this.jobId);
+			this.language = uni.getStorageSync('language');
 			this.getDetail(option.id);
 			this.identity = uni.getStorageSync('identity');
 			
@@ -343,12 +349,14 @@
 				})
 			},
 			getDetail(id) {
+				var _this = this;
 				let data = {
 					job_id: id
 				}
 				jobs.visitorJobInfo(data).then(res => {
 					console.log(res);
 					if (res.code == 200) {
+						let jobValue = res.message;
 						this.jobValue = res.message;
 						uni.setNavigationBarTitle({
 							title:res.message.job_title
@@ -408,6 +416,26 @@
 							console.log(res)
 							if (res.code == 200) {
 								this.businessUserInfo = res.message.business_info;
+								let businessInfo = res.message.business_info;
+								if(jobValue.third_com_bg == '' && businessInfo.header_photo == ''){
+									_this.companyBg = 'https://oss.esl-passport.cn/esl_passport_25.png'
+								}
+								if(jobValue.third_com_bg == '' && businessInfo.header_photo != ''){
+									_this.companyBg = businessInfo.header_photo;
+								}
+								if(jobValue.third_com_bg != ''){
+									_this.companyBg = jobValue.third_com_bg;
+								}
+								if(jobValue.third_com_logo == '' && businessInfo.logo == ''){
+									_this.companyLogo = 'https://oss.esl-passport.cn/business.png'
+								}
+								if(jobValue.third_com_logo == '' && businessInfo.logo != ''){
+									_this.companyLogo = businessInfo.logo;
+								}
+								if(jobValue.third_com_logo != '' ){
+									_this.companyLogo = jobValue.third_com_logo;
+								}
+								
 							}
 						})
 

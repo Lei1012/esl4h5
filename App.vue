@@ -5,6 +5,35 @@
 			// #ifdef APP-PLUS
 			// App平台检测升级，服务端代码是通过uniCloud的云函数实现的，详情可参考：https://ext.dcloud.net.cn/plugin?id=2226
 			// #endif
+			
+			// #ifdef MP-WEIXIN
+			const updateManager = uni.getUpdateManager();
+
+			updateManager.onCheckForUpdate(function(res) {
+				// 请求完新版本信息的回调
+				console.log(res.hasUpdate);
+			});
+
+			updateManager.onUpdateReady(function(res) {
+				console.log(res);
+				uni.showModal({
+					title: 'Update Tips 更新提示',
+					content: 'The new version is ready, whether to restart the application? 新版本已经准备好，是否重启应用？',
+					cancelText: "Cancel",
+					confirmText: "Sure",
+					success(res) {
+						if (res.confirm) {
+							// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+							updateManager.applyUpdate();
+						}
+					}
+				});
+			});
+
+			updateManager.onUpdateFailed(function(res) {
+				// 新的版本下载失败
+			});
+			// #endif
 		},
 		onShow: function() {
 			console.log('App Show')

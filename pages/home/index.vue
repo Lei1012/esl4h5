@@ -194,14 +194,15 @@
 					<view class="latest-jobs-item ">
 						<view class="latest-jobs-item-top" @click="turnJobDetail(item.id)">
 							<view class="latest-jobs-item-l">
-								<image :src="item.logo !='' ? item.logo : 'https://oss.esl-passport.cn/business.png' "
-									mode="aspectFit" lazy-load></image>
+								<image v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit"></image>
+								<image v-if="item.third_com_logo == '' && item.logo !='' " :src="item.logo" mode="aspectFit"></image>
+								<image v-if="item.third_com_logo == '' && item.logo == '' " src="https://oss.esl-passport.cn/business.png" mode="aspectFit"></image>
 							</view>
 							<view class="latest-jobs-item-r">
 								<view class="latest-jobs-item-r-1">
 									<view class="job-title">{{item.job_title}}</view>
 									<view class="jobs-view">
-										<image src="@/static/view_line.png" mode="aspectFit"></image>
+										<uni-icons type="eye" size="14"></uni-icons>
 										<text>{{item.views}}</text>
 									</view>
 								</view>

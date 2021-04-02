@@ -13,7 +13,9 @@
 							<image src="./static/jobs/edit-job.png" mode="aspectFill"></image>
 						</view>
 						<view class="list-item-left">
-							<image @click="turnBusinessProfile(item.user_id)" :src="item.logo !='' ? item.logo : 'https://oss.esl-passport.cn/business.png' " mode="aspectFit"></image>
+							<image @click="turnBusinessProfile(item.user_id)" v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit"></image>
+							<image @click="turnBusinessProfile(item.user_id)" v-if="item.third_com_logo == '' && item.logo !='' " :src="item.logo" mode="aspectFit"></image>
+							<image @click="turnBusinessProfile(item.user_id)" v-if="item.third_com_logo == '' && item.logo == '' " src="https://oss.esl-passport.cn/business.png" mode="aspectFit"></image>
 						</view>
 						<view class="list-item-right">
 							<view class="job-title">{{item.job_title}}</view>
@@ -55,7 +57,9 @@
 							<image src="./static/jobs/edit-job.png" mode="aspectFill"></image>
 						</view>
 						<view class="list-item-left">
-							<image @click="turnBusinessProfile(item.user_id)" :src="item.logo !='' ? item.logo : 'https://oss.esl-passport.cn/business.png' " mode="aspectFit"></image>
+							<image @click="turnBusinessProfile(item.user_id)" v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit"></image>
+							<image @click="turnBusinessProfile(item.user_id)" v-if="item.third_com_logo == '' && item.logo !='' " :src="item.logo" mode="aspectFit"></image>
+							<image @click="turnBusinessProfile(item.user_id)" v-if="item.third_com_logo == '' && item.logo == '' " src="https://oss.esl-passport.cn/business.png" mode="aspectFit"></image>
 						</view>
 						<view class="list-item-right" @click="turnJobDetails(item.id)">
 							<view class="job-title">{{item.job_title}}</view>
@@ -80,7 +84,9 @@
 
 					<view class=" list-item" v-for="(item,index) in jobsListRejected" :key="index">
 						<view class="list-item-left">
-							<image @click="turnBusinessProfile(item.user_id)" :src="item.logo !='' ? item.logo : 'https://oss.esl-passport.cn/business.png' " mode="aspectFit"></image>
+							<image @click="turnBusinessProfile(item.user_id)" v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit"></image>
+							<image @click="turnBusinessProfile(item.user_id)" v-if="item.third_com_logo == '' && item.logo !='' " :src="item.logo" mode="aspectFit"></image>
+							<image @click="turnBusinessProfile(item.user_id)" v-if="item.third_com_logo == '' && item.logo == '' " src="https://oss.esl-passport.cn/business.png" mode="aspectFit"></image>
 						</view>
 						<view class="list-item-right" @click="turnJobDetails(item.id)">
 							<view class="job-title">{{item.job_title}}</view>
