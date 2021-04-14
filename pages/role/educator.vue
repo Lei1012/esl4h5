@@ -8,32 +8,30 @@
 		</view>
 
 		<view class="flex-item role-form">
-			<view class="role-form-item">
-				<view class="role-form-item-label">{{i18n.Basicinfofirstname}}:</view>
-				<input type="text" name="firstname" v-model="firstname" :placeholder="i18n.Basicinfofirstname">
-			</view>
+			
+			<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
+				:label-style="{'font-weight':700}">
+				<u-form-item :label="i18n.Basicinfofirstname" prop="first_name">
+					<u-input border v-model="form.first_name" :placeholder="i18n.Basicinfofirstname" />
+				</u-form-item>
+				<u-form-item :label="i18n.eduwechatid" prop="wx_id">
+					<u-input border v-model="form.wx_id" :placeholder="i18n.eduwechatid" />
+				</u-form-item>
+				<u-form-item :label="i18n.nationality" prop="nationality">
+					<u-input border v-model="form.nationality" :placeholder="i18n.nationality" type="select"
+						@click="turnNationalityPage"></u-input>
+				</u-form-item>
+			</u-form>
+			
 			<!-- <view class="role-form-item">
 				<input type="text" name="nickname" v-model="nickname" :placeholder="i18n.basicinfonickname">
 			</view> -->
 			<!-- 	<view class="role-form-item">
 				<input type="text"  name="applyContact"  v-model="applicationContact" :placeholder="i18n.basiceduapplicationcontact"/>
 			</view> -->
-			<view class="role-form-item">
-				<view class="role-form-item-label">{{i18n.eduwechatid}}:</view>
-				<input type="text" name='wxid' v-model="wxId" :placeholder="i18n.eduwechatid" />
-			</view>
 			<!-- 	<view class="role-form-item">
 				<input type="text" name='email' v-model="email" :placeholder="i18n.basiceduemail" />
 			</view> -->
-			<view class="role-form-item">
-				<view class="role-form-item-label">{{i18n.nationality}}:</view>
-				<view class="nationality-1" v-if="nationalitySelectStatus===false" @click="turnNationalityPage">
-					{{i18n.nationality}}
-				</view>
-				<view class="nationality-2" v-if="nationalitySelectStatus" @click="turnNationalityPage">
-					{{nationality}}
-				</view>
-			</view>
 			<view class="categories">
 				<view class="category-title">
 					{{i18n.basicinfoeducategory}}:
@@ -66,15 +64,42 @@
 		data() {
 			return {
 				range: [],
-				firstname: "",
-				nationality: "",
-				nickname: '',
-				email: '',
-				wxId: '',
-				applicationContact: '',
+				
 				educatorType: '',
 				selectEducatorTypeList: [],
 				nationalitySelectStatus: false,
+				
+				errorType:['message'],
+				form:{
+					first_name:'',
+					wx_id:'',
+					nationality:'',
+					sub_identity: '',
+					country:'',
+					province:'',
+					city:'',
+					lon:'',
+					lat:'',
+					apply_contact: '',
+					email: '',
+				},
+				rules:{
+					first_name: [{
+						required: true,
+						message: this.$t('index').frstnameerror,
+						trigger: ['change', 'blur'],
+					}, ],
+					wx_id: [{
+						required: true,
+						message: this.$t('index').eduwechatidph,
+						trigger: ['change', 'blur'],
+					}, ],
+					nationality: [{
+						required: true,
+						message: this.$t('index').nationalityerror,
+						trigger: ['change', 'blur'],
+					}]
+				}
 			}
 		},
 		computed: {
@@ -86,8 +111,7 @@
 			var that = this;
 			this.subCateList()
 			uni.$on('nationalityObj', function(data) {
-				that.nationality = data.name;
-				that.nationalitySelectStatus = true;
+				that.form.nationality = data;
 			})
 		},
 		onUnload() {
@@ -132,104 +156,76 @@
 
 				var that = this;
 
-				if (that.firstname.length < 1) {
-					return uni.showToast({
-						title: that.i18n.frstnameerror,
-						icon: 'none'
-					})
-				}
-				// if(that.applicationContact == ''){
-				// 	return uni.showToast({
-				// 		title: that.i18n.basiceduapplicationcontactph,
-				// 		icon: "none"
-				// 	})
-				// }
-
-				if (that.nationality == '') {
-					return uni.showToast({
-						title: that.i18n.nationalityerror,
-						icon: "none"
-					})
-				}
-
-				if (that.wxId == '') {
-					return uni.showToast({
-						title: that.i18n.eduwechatidph,
-						icon: 'none'
-					})
-				}
-
-				let educatorType = that.selectEducatorTypeList.join(',');
-
-				if (that.selectEducatorTypeList.length <= 0) {
-					return uni.showToast({
-						title: that.i18n.categoryerror,
-						icon: "none"
-					})
-				}
-
-				var formData = {
-					unionid: uni.getStorageSync('unionid'),
-					sub_identity: educatorType,
-					first_name: that.firstname,
-					nationality: that.nationality,
-					nickname: that.nickname,
-					token: uni.getStorageSync('token'),
-					country: that.country,
-					province: that.province,
-					city: that.city,
-					lon: that.lon,
-					lat: that.lat,
-					apply_contact: that.applicationContact,
-					email: that.email,
-					wx_id: that.wxId
-				}
-				uni.showLoading({
-					title: 'loading'
-				})
-				profile.addEduBasic(formData).then(res => {
-					// console.log(res)
-					if (res.code == 200) {
-						//切换身份
-						let identity_data = {
-							identity: 1,
-							unionid: uni.getStorageSync('unionid'),
-							token: uni.getStorageSync('token')
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log('验证通过');
+						let educatorType = that.selectEducatorTypeList.join(',');
+						
+						if (that.selectEducatorTypeList.length <= 0) {
+							return uni.showToast({
+								title: that.i18n.categoryerror,
+								icon: "none"
+							})
 						}
-						uni.setStorageSync('identity',1)
-						// console.log(identity_data)
-						login.changeLanguageAndIdentity(identity_data).then(res => {
+						that.form.token = uni.getStorageSync('token');
+						that.form.unionid = uni.getStorageSync('unionid');
+						that.form.sub_identity = educatorType;
+						
+						let data = Object.assign({},that.form);
+						
+						uni.showLoading({
+							title: 'loading'
+						})
+						profile.addEduBasic(data).then(res => {
 							// console.log(res)
 							if (res.code == 200) {
-								uni.reLaunch({
-									url: '/pages/me/welcome?firstname=' + that.firstname
+								//切换身份
+								let identity_data = {
+									identity: 1,
+									unionid: uni.getStorageSync('unionid'),
+									token: uni.getStorageSync('token')
+								}
+								uni.setStorageSync('identity',1)
+								// console.log(identity_data)
+								login.changeLanguageAndIdentity(identity_data).then(res => {
+									// console.log(res)
+									if (res.code == 200) {
+										let firstname = that.form.first_name;
+										uni.reLaunch({
+											url: '/pages/me/welcome?firstname=' + firstname
+										})
+									} else {
+										uni.showToast({
+											title: res.msg,
+											icon: 'none'
+										})
+									}
+						
+								}).catch(err => {
+									console.log(err)
 								})
+								//end
+						
 							} else {
 								uni.showToast({
 									title: res.msg,
-									icon: 'none'
+									icon: "none"
 								})
 							}
-
 						}).catch(err => {
 							console.log(err)
 						})
-						//end
-
+						
 					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: "none"
-						})
+						console.log('验证失败');
 					}
-				}).catch(err => {
-					console.log(err)
-				})
+				});
+				
 			},
 
 		},
 		onReady() {
-
+			this.$refs.uForm.setRules(this.rules);
 		}
 	}
 </script>

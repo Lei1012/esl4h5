@@ -45,7 +45,7 @@ module.exports = {
 		}
 	},
 	onReachBottom() {
-		// uni.$emit('uOnReachBottom')
+		uni.$emit('uOnReachBottom')
 	},
 	beforeDestroy() {
 		// 判断当前页面是否存在parent和chldren，一般在checkbox和checkbox-group父子联动的场景会有此情况

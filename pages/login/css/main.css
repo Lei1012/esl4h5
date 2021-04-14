@@ -1,24 +1,25 @@
 .content {
 	display: flex;
 	flex-direction: column;
-	justify-content:center;
+	justify-content: center;
 	/* margin-top: 128rpx; */
 }
 
 /* 头部 logo */
 .header {
-	width:220rpx;
-	height:220rpx;
-	border-radius:50%;
+	width: 220rpx;
+	height: 220rpx;
+	border-radius: 50%;
 	margin-top: 128rpx;
 	margin-bottom: 72rpx;
 	margin-left: auto;
 	margin-right: auto;
 }
-.header image{
-	width:220rpx;
-	height:220rpx;
-	border-radius:50%;
+
+.header image {
+	width: 220rpx;
+	height: 220rpx;
+	border-radius: 50%;
 }
 
 /* 主体 */
@@ -28,6 +29,38 @@
 	padding-left: 70rpx;
 	padding-right: 70rpx;
 }
+
+.login-sms {
+	padding-left: 70rpx;
+	padding-right: 70rpx;
+	line-height: 80rpx;
+	text-align: center;
+}
+
+.login-sms-text {
+	
+	color: #00B3D2;
+	font-size: 30rpx;
+}
+
+.vcode-popup {
+	position: fixed;
+	z-index: 1000;
+	background-color: rgba(0, 0, 0, 1);
+	color: #FFFFFF;
+	width: 200rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	text-align: center;
+	border-radius: 20rpx;
+	font-size: 34rpx;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
 .tips {
 	color: #999999;
 	font-size: 28rpx;
@@ -36,49 +69,80 @@
 }
 
 /* 登录按钮 */
-.wbutton{
+.wbutton {
 	margin-top: 96rpx;
 }
 
 /* 其他登录方式 */
-.other_login{
+.other_login {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	margin-top: 256rpx;
+	margin-top: 20rpx;
 	text-align: center;
 }
-.login_icon{
+
+.login_icon {
 	border: none;
 	font-size: 64rpx;
 	margin: 0 64rpx 0 64rpx;
-	color: rgba(0,0,0,0.7)
+	color: rgba(0, 0, 0, 0.7)
 }
-.wechat_color{
+
+.wechat_color {
 	color: #83DC42;
 }
-.weibo_color{
+
+.weibo_color {
 	color: #F9221D;
 }
-.github_color{
+
+.github_color {
 	color: #24292E;
 }
 
+.wechat-h5login {
+	margin-top: 40rpx;
+}
+
+.wechat-h5login button {
+	width: 80%;
+	margin: 0 auto;
+	height: 80rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	background-color: #0AA0A8;
+	color: #FFFFFF;
+}
+
+.wechat-h5login text {
+	font-size: 30rpx;
+	margin-left: 10rpx;
+}
+.wechat-phone-login{
+	text-align: center;
+	font-size: 30rpx;
+	color: #00B3D2;
+	line-height: 80rpx;
+}
 /* 底部 */
-.footer{
+.footer {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	font-size: 28rpx;
-	margin-top: 64rpx;
-	color: rgba(0,0,0,0.7);
+	margin-top: 20rpx;
+	color: rgba(0, 0, 0, 0.7);
 	text-align: center;
 	height: 40rpx;
 	line-height: 40rpx;
 }
-.footer text{
+
+.footer text {
 	font-size: 24rpx;
 	margin-left: 15rpx;
 	margin-right: 15rpx;

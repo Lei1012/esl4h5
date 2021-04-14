@@ -35,7 +35,7 @@ page {
 	width: 96%;
 	background-color: #FFFFFF;
 	border-radius: 20rpx;
-	padding: 20rpx 20rpx 40rpx 20rpx;
+	padding: 20rpx 40rpx 40rpx 40rpx;
 	margin: 0 auto;
 	margin-top: 40rpx;
 	box-sizing: border-box;
@@ -48,22 +48,6 @@ page {
 	color: #000000;
 	text-align: left;
 	line-height: 80rpx;
-}
-
-input {
-	line-height: 80rpx;
-	height: 80rpx;
-	text-align: left;
-	/* border: none; */
-	border: 1rpx solid #EEEEEE;
-	border-radius: 10rpx;
-	font-size: 32rpx;
-	text-indent: 20rpx;
-}
-
-.uni-input-placeholder {
-	text-align: left;
-	text-indent: 20rpx;
 }
 
 .role-form-nickname {
@@ -159,7 +143,7 @@ input {
 }
 
 .category-title {
-	font-size: 32rpx;
+	font-size: 28rpx;
 	text-align: left;
 	color: #000000;
 	line-height: 80rpx;
@@ -188,7 +172,7 @@ input {
 
 .category-parent {
 	width: 100%;
-	font-size: 30rpx;
+	font-size: 28rpx;
 	color: #808080;
 	font-weight: 700;
 	text-align: left;
@@ -203,7 +187,7 @@ input {
 	margin-top: 10rpx;
 	margin-left: 10rpx;
 	border-radius: 20rpx;
-
+	font-size: 28rpx;
 }
 
 .tag-active {

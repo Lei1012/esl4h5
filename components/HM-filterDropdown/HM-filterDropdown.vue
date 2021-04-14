@@ -545,7 +545,7 @@
 				}
 			}
 			.name {
-				height: 20px;
+				// height: 20px;
 				text-align: center;
 				text-overflow: clip;
 				overflow: hidden;

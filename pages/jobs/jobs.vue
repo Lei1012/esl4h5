@@ -907,7 +907,13 @@
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			// #ifdef H5
+			isWechat(){
+				return this.$isWechat()
 			}
+			// #endif
+			
 		},
 		watch: {},
 		onShow() {
@@ -922,6 +928,16 @@
 				uni.uploadFile({
 					url: this.$uploadFileUrl,
 					filePath: path,
+					// #ifdef H5
+					header:{
+						platform: that.isWechat ? 2 : 1
+					},
+					// #endif
+					// #ifdef MP-WEIXIN
+					header:{
+						platform:3
+					},
+					// #endif
 					name: 'file[]',
 					formData: {
 						token: uni.getStorageSync('token')

@@ -4,55 +4,53 @@
 			{{i18n.profileeducation}}
 		</view>
 		<view class="flex-item work-form">
-			<view class="education-form-school">
-				<view class="education-form-title">{{i18n.profileschool}}</view>
-				<input type="text" v-model="schoolValue" :placeholder="i18n.profileschoolph" />
-			</view>
-			<view class="education-form-degree">
-				<view class="education-form-title">{{i18n.profiledegree}}</view>
-				<view class="degree-2" v-if="degreeStatus==false" @click="degreeShow=true">{{i18n.profiledegreeph}}</view>
-				<view class="degree-3" v-if="degreeStatus" @click="degreeShow=true">{{degreeStr}}</view>
-			</view>
-			
-			<view class="education-form-field-study">
-				<view class="education-form-title">{{i18n.profilefieldofstudy}}</view>
-				<input type="text" v-model="fieldStudyValue" :placeholder="i18n.profilefieldofstudyph" />
-			</view>
-			<view class="education-form-year">
-				<view class="education-form-title">{{i18n.profileeducationtimes}}</view>
-				<view class="education-teaching-times">
-					<view class="education-form-start-year" v-if="educationStartYearStatus" @click="startYearShow = true">
-						{{educationStartYear | date('mm/yyyy') }}
-					</view>
-					<view class="education-form-start-year" v-if="educationStartYearStatus===false" @click="startYearShow = true">
-						{{i18n.profilechoosestartyear}}
-					</view>
-					<view class="education-form-end-year" v-if="educationEndYearStatus" @click="endYearShow = true">
-						{{educationEndYear | date('mm/yyyy') }}
-					</view>
-					<view class="education-form-end-year" v-if="educationEndYearStatus===false" @click="endYearShow = true">
-						{{i18n.profilechooseendyear}}
-					</view>
-					<u-picker :show-time-tag="false" :params="{year:true,month:true}" confirm-text="Confirm" :end-year="startDateEndYear"
-					 cancel-text="Cancel" v-model="startYearShow" mode="time" @confirm="startYearConfirm"></u-picker>
-					<u-picker :show-time-tag="false" :params="{year:true,month:true}" confirm-text="Confirm" :start-year="endDateStartYear"
-					 cancel-text="Cancel" v-model="endYearShow" mode="time" @confirm="endYearConfirm"></u-picker>
-				</view>
-			</view>
+
+			<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
+				:label-style="{'font-weight':700}">
+				<u-form-item :label="i18n.profileschool" prop="school_name" required>
+					<u-input border v-model="form.school_name" :placeholder="i18n.profileschoolph" />
+				</u-form-item>
+				<u-form-item :label="i18n.profiledegree" prop="degree" required>
+					<u-input border v-model="form.degree" :placeholder="i18n.profiledegreeph" @click="degreeShow=true"
+						type="select" />
+				</u-form-item>
+				<u-form-item :label="i18n.profilefieldofstudy" prop="field_of_study">
+					<u-input border type="textarea" height="150" autoHeight v-model="form.field_of_study"
+						:placeholder="i18n.profilefieldofstudyph" />
+				</u-form-item>
+				<u-form-item :label="i18n.profileeducationtimes" prop="date" required>
+					<u-form-item prop="start_time_str">
+						<u-input border type="select" v-model="form.start_time_str"
+							:placeholder="i18n.profilechoosestartyear" @click="startYearShow = true" /> 
+					</u-form-item>
+					-
+					<u-form-item prop="end_time_str">
+						<u-input border type="select" v-model="form.end_time_str" :placeholder="i18n.profilechooseendyear"
+							@click="endYearShow = true" />
+					</u-form-item>
+					
+				</u-form-item>
+			</u-form>
+
+			<u-picker :show-time-tag="false" :params="{year:true,month:true}" confirm-text="Confirm"
+				:end-year="startDateEndYear" cancel-text="Cancel" v-model="startYearShow" mode="time"
+				@confirm="startYearConfirm"></u-picker>
+			<u-picker :show-time-tag="false" :params="{year:true,month:true}" confirm-text="Confirm"
+				:start-year="endDateStartYear" cancel-text="Cancel" v-model="endYearShow" mode="time"
+				@confirm="endYearConfirm"></u-picker>
 
 		</view>
 		<view class="flex-item work-submit">
 			<button type="default" @click="workSubmit">{{i18n.profileeditsubmit}}</button>
 		</view>
-		
+
 		<u-select v-model="degreeShow" mode="single-column" cancelText="cancel" confirmText="confirm" :list="degreeList"
-		 @confirm="degreeConfirm" value-name="object_en" label-name="object_en"></u-select>
+			@confirm="degreeConfirm" value-name="object_en" label-name="object_en"></u-select>
 	</view>
 </template>
 
 <script>
 	import profile from '@/api/profile.js'
-	import fuckTextarea from '@/components/fuck-textarea/fuck-textarea.vue'
 	export default {
 		data() {
 			return {
@@ -61,16 +59,6 @@
 				endDateShow: false,
 				startYearShow: false,
 				endYearShow: false,
-				showTeaching: false,
-				teachingList: [{
-						value: '1',
-						label: '1'
-					},
-					{
-						value: '2',
-						label: '2'
-					}
-				],
 
 				educationStartYear: '',
 				educationStartYearStr: '',
@@ -80,23 +68,55 @@
 				educationEndYearStatus: false,
 				teachingExpStatus: false,
 				teachingExpValue: '',
-				schoolValue: '',
-				degreeValue: "",
-				fieldStudyValue: '',
-				gradeValue: "",
+
 				type: 1,
 				educationId: 1,
-				endDateStartYear: 2021,
-				startDateEndYear: 2021,
-				degreeShow:false,
-				degreeStatus:false,
-				degreeList:[],
-				degreeStr:''
-				
+				endDateStartYear: new Date().getFullYear(),
+				startDateEndYear: new Date().getFullYear(),
+				degreeShow: false,
+				degreeStatus: false,
+				degreeList: [],
+				degreeStr: '',
+
+				errorType: ['message'],
+				form: {
+					school_name: '',
+					degree: '',
+					field_of_study: '',
+					start_time: '',
+					start_time_str: '',
+					end_time: '',
+					end_time_str: '',
+					grade: '',
+					token: uni.getStorageSync('token')
+				},
+				rules: {
+					school_name: [{
+						required: true,
+						message: this.$t('index').profileschoolph,
+						trigger: ['change', 'blur'],
+					}, ],
+					degree: [{
+						required: true,
+						message: this.$t('index').profiledegreeph,
+						trigger: ['change', 'blur'],
+					}, ],
+					start_time_str: [{
+						required: true,
+						message: this.$t('index').profilechoosestartyear,
+						trigger: ['change', 'blur'],
+					}, ],
+					end_time_str: [{
+						required: true,
+						message: this.$t('index').profilechooseendyear,
+						trigger: ['change', 'blur'],
+					}, ],
+				}
+
 			}
 		},
 		components: {
-			fuckTextarea
+
 		},
 		computed: {
 			i18n() {
@@ -121,13 +141,10 @@
 			change(arr) {
 				console.log(JSON.stringify(arr));
 			},
-			degreeConfirm(e){
+			degreeConfirm(e) {
+				console.log(e)
 				var that = this;
-				this.degreeStatus = true;
-				e.forEach(item => {
-					that.degreeValue = item.value;
-					that.degreeStr = item.label;
-				})
+				this.form.degree = e[0].value;
 			},
 			startYearConfirm(e) {
 				console.log(e)
@@ -135,6 +152,9 @@
 				let month = e.month;
 				let str = year + '-' + month + '-' + '01'
 				let date = new Date(str)
+
+				this.form.start_time_str = month + '/' + year;
+				this.form.start_time = Math.floor(date.getTime() / 1000);
 				this.educationStartYear = Math.floor(date.getTime() / 1000);
 				this.endDateStartYear = year;
 				this.educationStartYearStatus = true;
@@ -144,109 +164,60 @@
 				let month = e.month;
 				let str = year + '-' + month + '-' + '01'
 				let date = new Date(str)
-				this.startDateEndYear = year;
 				let endDate = Math.floor(date.getTime() / 1000);
 
-				if (endDate <= this.educationStartYear) {
+				if (endDate <= this.form.start_time) {
+
 					return uni.showToast({
 						title: 'Select correct end year',
 						icon: 'none'
 					})
-				} else {
-					this.educationEndYear = endDate;
-					this.educationEndYearStatus = true;
 				}
 
-
-			},
-			showTeachingSelect() {
-				this.showTeaching = true;
-			},
-			confirmTeaching(e) {
-				// console.log(e)
-				e.forEach(item => {
-					console.log(item)
-					this.teachingExpValue = item.value;
-				})
-				this.showTeaching = false;
-				this.teachingExpStatus = true;
-			},
-			switchCpr(e) {
-				console.log(e)
-			},
-			switchFirstAside(e) {
-				console.log(e)
+				this.form.end_time_str = month + '/' + year;
+				this.form.end_time = Math.floor(date.getTime() / 1000);
+				this.startDateEndYear = year;
 			},
 			workSubmit() {
 
-				if (this.type == 1) {
-					var data = {
-						token: uni.getStorageSync('token'),
-						school_name: this.schoolValue,
-						degree: this.degreeValue,
-						field_of_study: this.fieldStudyValue,
-						start_time: this.educationStartYear,
-						end_time: this.educationEndYear,
-						grade: this.gradeValue
-					}
+				var that = this;
 
-				}
-				if (this.type == 2) {
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log('验证通过');
+						if (that.type == 2) {
+							that.form.education_id = that.educationId;
+						}
+						let data = Object.assign({}, that.form);
+						profile.addUserEducation(data).then(res => {
+							// console.log(res)
+							if (res.code == 200) {
+								uni.showLoading({
+									title: 'loading'
+								})
+								setTimeout(function() {
+									uni.hideLoading()
+									uni.navigateBack({
+										delta: 1
+									})
+								}, 1200)
 
-					var data = {
-						token: uni.getStorageSync('token'),
-						school_name: this.schoolValue,
-						degree: this.degreeValue,
-						field_of_study: this.fieldStudyValue,
-						start_time: this.educationStartYear,
-						end_time: this.educationEndYear,
-						grade: this.gradeValue,
-						education_id: this.educationId
-					}
-
-				}
-
-				if (this.schoolValue == '') {
-					return uni.showToast({
-						title: this.i18n.profileschoolph,
-						icon: 'none'
-					})
-				}
-				if (this.degreeValue == '') {
-					return uni.showToast({
-						title: this.i18n.profiledegreeph,
-						icon: 'none'
-					})
-				}
-				if (this.educationStartYear == '') {
-					return uni.showToast({
-						title: this.i18n.profilechoosestartyear,
-						icon: 'none'
-					})
-				}
-				if (this.educationEndYear == '') {
-					return uni.showToast({
-						title: this.i18n.profilechooseendyear,
-						icon: 'none'
-					})
-				}
-
-				profile.addUserEducation(data).then(res => {
-					// console.log(res)
-					if (res.code == 200) {
-						uni.navigateBack({
-							delta: 1
+							} else {
+								uni.showToast({
+									title: res.msg,
+									icon: 'none'
+								})
+							}
+						}).catch(error => {
+							console.log(error)
 						})
+
 
 					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
+						console.log('验证失败');
 					}
-				}).catch(error => {
-					console.log(error)
-				})
+				});
+
 
 			},
 			getBasicInfo() {
@@ -262,25 +233,19 @@
 						let education = result.filter(item => item.id === Number(this.educationId));
 						let educationInfo = education[0];
 						console.log(educationInfo)
-						that.schoolValue = educationInfo.school_name;
-						that.degreeValue = educationInfo.degree;
-						if(educationInfo.degree != ''){
-							this.degreeStatus = true;
-							this.degreeStr = educationInfo.degree;
-						}
-						that.fieldStudyValue = educationInfo.field_of_study;
-						that.gradeValue = educationInfo.grade;
+						that.form.school_name = educationInfo.school_name;
+						that.form.degree = educationInfo.degree;
+						that.form.field_of_study = educationInfo.field_of_study;
+						that.form.start_time = educationInfo.start_time;
+						that.form.end_time = educationInfo.end_time;
 
-						that.educationStartYear = educationInfo.start_time;
-
-						if (that.educationStartYear != '') {
-							that.educationStartYearStatus = true;
-							that.startDateEndYear = this.$u.timeFormat(this.educationStartYear, 'yyyy');
+						if (educationInfo.start_time) {
+							that.startDateEndYear = this.$u.timeFormat(educationInfo.start_time, 'yyyy');
+							that.form.start_time_str = this.$u.timeFormat(educationInfo.start_time, 'mm/yyyy');
 						}
-						that.educationEndYear = educationInfo.end_time;
-						if (that.educationEndYear != '') {
-							that.educationEndYearStatus = true;
-							that.endDateStartYear = this.$u.timeFormat(this.educationEndYear, 'yyyy');
+						if (educationInfo.end_time) {
+							that.endDateStartYear = this.$u.timeFormat(educationInfo.end_time, 'yyyy');
+							that.form.end_time_str = this.$u.timeFormat(educationInfo.end_time, 'mm/yyyy');
 						}
 
 					} else {
@@ -312,6 +277,9 @@
 				})
 			},
 
+		},
+		onReady() {
+			this.$refs.uForm.setRules(this.rules);
 		}
 	}
 </script>
@@ -342,33 +310,12 @@
 		border-radius: 20rpx;
 	}
 
-	input {
-		height: 80rpx;
-		text-align: left;
-		border: 1px solid #EEEEEE;
-		border-radius: 20rpx;
-		text-indent: 20rpx;
-		font-size: 30rpx;
-	}
-
-	.uni-input-placeholder {
-		text-align: left;
-		text-indent: 20rpx;
-		font-size: 30rpx;
-	}
-
 	.education-form-title {
-		font-size: 34rpx;
+		font-size: 28rpx;
 		font-weight: 700;
 
 	}
-	.degree-2{
-		text-indent: 20rpx;
-		color: #808080;
-	}
-	.degree-3{
-		text-indent: 20rpx;
-	}
+
 
 	.education-form-year {
 		width: 100%;
@@ -391,7 +338,7 @@
 		height: 100%;
 		line-height: 80rpx;
 		text-align: center;
-		font-size: 30rpx;
+		font-size: 28rpx;
 	}
 
 
@@ -418,9 +365,6 @@
 		/* height: 80rpx; */
 		margin-top: 20rpx;
 	}
-
-
-
 
 	.work-submit {
 		width: 80%;

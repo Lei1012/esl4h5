@@ -129,6 +129,11 @@
 			_this.getBasicInfo();
 
 		},
+		computed:{
+			isWechat(){
+				return this.$isWechat()
+			}
+		},
 		methods: {
 			async getVipList(level) {
 				var _this = this;
@@ -193,29 +198,38 @@
 						body: res.message.order_id
 					}
 					// #ifdef H5
-					jobs.getPrepayId(pre_data).then(res => {
-						console.log(res)
-						uni.hideLoading();
-						let wxpayData = res.message;
-						this.$jwx.wxpay(wxpayData, function(result) {
-							console.log(result)
-							if (result.code == 1) {
-								uni.$emit('userInfoUpdated', {
-									msg: 'page updated'
-								});
-								uni.switchTab({
-									url: '/pages/menu/me'
-								})
-							}
-							if (result.code == -1) {
-								uni.navigateTo({
-									url: '/pages/public/payment/payment'
-								})
-							}
+					if(_this.isWechat){
+						jobs.getPrepayId(pre_data).then(res => {
+							console.log(res)
+							uni.hideLoading();
+							let wxpayData = res.message;
+							this.$jwx.wxpay(wxpayData, function(result) {
+								console.log(result)
+								if (result.code == 1) {
+									uni.$emit('userInfoUpdated', {
+										msg: 'page updated'
+									});
+									uni.switchTab({
+										url: '/pages/menu/me'
+									})
+								}
+								if (result.code == -1) {
+									uni.navigateTo({
+										url: '/pages/public/payment/payment'
+									})
+								}
+							})
+						}).catch(error => {
+							console.log(error)
 						})
-					}).catch(error => {
-						console.log(error)
-					})
+					}else{
+						jobs.wapPay(pre_data).then(res=>{
+							console.log(res)
+						}).catch(err=>{
+							console.log(err)
+						})
+					}
+					
 					// #endif
 
 					// #ifdef MP-WEIXIN

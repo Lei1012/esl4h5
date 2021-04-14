@@ -1,9 +1,11 @@
 page {
 	background-color: #F4F5F6;
 }
-.me-bg{
+
+.me-bg {
 	padding-bottom: 160rpx;
 }
+
 .me-header-info {
 	width: 96%;
 	margin: 0 auto;
@@ -35,6 +37,14 @@ page {
 	width: 70%;
 	height: 200rpx;
 
+}
+
+.me-header-nologin-info-r {
+	width: 70%;
+	height: 220rpx;
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-start;
 }
 
 .me-header-info-r-1 {
@@ -160,20 +170,21 @@ page {
 	align-items: center;
 
 	margin: 0;
-	
-	padding:10rpx 20rpx;
-	
+
+	padding: 10rpx 20rpx;
+
 	border: 0rpx solid transparent;
 	outline: none;
 	background-color: #FFFFFF !important;
-	
+
 }
+
 .center-list-item-button image {
 	width: 40rpx;
 	height: 40rpx;
 }
 
-.center-list-item-button::after{
+.center-list-item-button::after {
 	border: none;
 	background-color: none;
 }
@@ -320,27 +331,31 @@ uni-button:after {
 }
 
 
-.xll-ads{
+.xll-ads {
 	width: 96%;
 	margin: 20rpx auto;
 }
-.xll-ads-swiper{
+
+.xll-ads-swiper {
 	width: 100%;
-	height: 240rpx;
-}
-.xll-ads-swiper image{
-	width: 100%;
-	height: 100%;
-}
-.swiper-item{
 	height: 240rpx;
 }
 
-.login-btn{
+.xll-ads-swiper image {
+	width: 100%;
+	height: 100%;
+}
+
+.swiper-item {
+	height: 240rpx;
+}
+
+.login-btn {
 	width: 80%;
 	margin: 20rpx auto;
 }
-.login-btn button{
+
+.login-btn button {
 	background-color: #0AA0A8;
 	color: #FFFFFF;
 	line-height: 80rpx;

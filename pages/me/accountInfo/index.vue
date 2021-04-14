@@ -44,7 +44,9 @@
 			<button type="default" @click="showContactStatus=true" >{{i18n.accountinfoneedhelp}}</button>
 		</view>
 		<view class="flex-item back-button">
-			<button type="default" @click="showContactStatus=true" >{{i18n.accountinfoupgrade}}</button>
+			<button type="default" v-if="(identity==2 && businessInfo.level!=3) || (identity==3 && vendorInfo.level !=3)" @click="upgradeLevel" >
+				{{i18n.accountinfoupgrade}}
+			</button>
 		</view>
 		<contactus @close="closeContact" :showContact="showContactStatus" ></contactus>
 	</view>
@@ -87,6 +89,12 @@
 
 		},
 		methods: {
+			upgradeLevel() {
+				uni.navigateTo({
+					url: '/pages/me/upgrade'
+				})
+			
+			},
 			closeContact(e){
 				// console.log(e)
 				this.showContactStatus=false;

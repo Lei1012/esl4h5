@@ -7,33 +7,24 @@
 			<view class="role-intro-1">{{i18n.basicinfowindowheader}}</view>
 		</view>
 		<view class="flex-item role-form">
-			<view class="role-form-item">
-				<view class="role-form-item-label">{{i18n.Basicinfofirstname}}:</view>
-				<input type="text" name="firstname" v-model="firstname" :placeholder="i18n.Basicinfofirstname">
-			</view>
-		<!-- 	<view class="role-form-item">
-				<input type="text" name="lastname" v-model="lastname" :placeholder="i18n.basicinfolastname">
-			</view> -->
-			<!-- <view class="role-form-item">
-				<input type="text" v-model="nickname" :placeholder="i18n.basicinfonickname">
-			</view> -->
-			<view class="role-form-item">
-				<view class="role-form-item-label">{{i18n.basicinfojobtitle}}:</view>
-				<input type="text" v-model="jobTitle" :placeholder="i18n.basicinfojobtitle">
-			</view>
-			<view class="role-form-item">
-				<view class="role-form-item-label">{{i18n.basicinfoworkemail}}:</view>
-				<input type="text" v-model="workEmail" :placeholder="i18n.basicinfoworkemail">
-			</view>
-			<view class="role-form-item">
-				<view class="role-form-item-label">{{i18n.nationality}}:</view>
-				<view class="nationality-1" v-if="nationalitySelectStatus===false" @click="turnNationalityPage">
-					{{i18n.nationality}}
-				</view>
-				<view class="nationality-2" v-if="nationalitySelectStatus" @click="turnNationalityPage">
-					{{nationality}}
-				</view>
-			</view>
+
+			<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
+				:label-style="{'font-weight':700}">
+				<u-form-item :label="i18n.Basicinfofirstname" prop="first_name">
+					<u-input border v-model="form.first_name" :placeholder="i18n.Basicinfofirstname" />
+				</u-form-item>
+				<u-form-item :label="i18n.basicinfojobtitle" prop="job_title">
+					<u-input border v-model="form.job_title" :placeholder="i18n.basicinfojobtitle" />
+				</u-form-item>
+				<u-form-item :label="i18n.basicinfoworkemail" prop="work_email">
+					<u-input border v-model="form.work_email" :placeholder="i18n.basicinfoworkemail" />
+				</u-form-item>
+				<u-form-item :label="i18n.nationality" prop="nationality">
+					<u-input border v-model="form.nationality" :placeholder="i18n.nationality" type="select"
+						@click="turnNationalityPage"></u-input>
+				</u-form-item>
+			</u-form>
+			
 		</view>
 		<view class="role-form-done">
 			<button class="btn-submit" @click="submitBusiness">
@@ -44,18 +35,42 @@
 </template>
 
 <script>
-	import formChecker from '../../common/formChecker.js'
-
+	
 	export default {
 		data() {
+			var _this = this;
 			return {
-				nickname: '',
-				jobTitle: '',
-				workEmail: '',
-				firstname: "",
-				lastname: "",
-				nationality: "",
-				nationalitySelectStatus:false,
+				
+				errorType: ['message'],
+				form: {
+					first_name: "",
+					job_title: '',
+					work_email: '',
+					nationality: ''
+				},
+				rules: {
+					first_name: [{
+						required: true,
+						message: this.$t('index').frstnameerror,
+						trigger: ['change', 'blur'],
+					}, ],
+					job_title: [{
+						required: true,
+						message: this.$t('index').jobtitleerror,
+						trigger: ['change', 'blur'],
+					}],
+					work_email: [{
+						required: true,
+						type: 'email',
+						message: this.$t('index').workemailerror,
+						trigger: ['change', 'blur'],
+					}],
+					nationality: [{
+						required: true,
+						message: this.$t('index').nationalityerror,
+						trigger: ['change', 'blur'],
+					}]
+				}
 
 			}
 		},
@@ -66,9 +81,8 @@
 		},
 		onLoad() {
 			var that = this;
-			uni.$on('nationalityObj',function(data){
-				that.nationality= data.name;
-				that.nationalitySelectStatus=true;
+			uni.$on('nationalityObj', function(data) {
+				that.form.nationality = data;
 			})
 		},
 		methods: {
@@ -79,49 +93,34 @@
 			},
 			submitBusiness() {
 				var that = this;
-			
-				if (that.firstname.length < 1) {
-					return uni.showToast({
-						title: that.i18n.frstnameerror,
-						icon: 'none'
-					})
-				}
-				if(that.nationality == ''){
-					return uni.showToast({
-						title: that.i18n.nationalityerror,
-						icon: "none"
-					})
-				}
-				if (that.jobTitle.length < 1) {
-					return uni.showToast({
-						title: that.i18n.jobtitleerror,
-						icon: 'none'
-					})
-				}
-				if (!formChecker.checkEmail(that.workEmail)) {
-					return uni.showToast({
-						title: that.i18n.workemailerror,
-						icon: 'none'
-					})
-				}
-
-				uni.showLoading({
-					mask: true,
-					title: that.i18n.Verified,
-					success() {
-						setTimeout(function() {
-							uni.navigateTo({
-								url: 'businessTwo?fname=' + that.firstname + '&nationality=' + that.nationality + '&nickname=' + that.nickname + '&jobTitle=' +
-									that.jobTitle + '&workEmail=' + that.workEmail
-							})
-						}, 1000)
+				let formStr = JSON.stringify(that.form)
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log('验证通过');
+						uni.showLoading({
+							mask: true,
+							title: that.i18n.Verified,
+							success() {
+								setTimeout(function() {
+									uni.navigateTo({
+										url: 'businessTwo?formStr=' + formStr
+									})
+								}, 1000)
+							}
+						})
+						
+					} else {
+						console.log('验证失败');
 					}
-				})
-
+				});
 			},
+			
 
-
+		},
+		onReady() {
+			this.$refs.uForm.setRules(this.rules);
 		}
+
 	}
 </script>
 

@@ -174,7 +174,7 @@
 		/* height: 36rpx; */   /* Input 高度 */
 		color: #333333;
 		padding: 40rpx 32rpx;
-		margin:32rpx 0;
+		margin:20rpx 0;
 	}
 	.img{
 		width: 32rpx;

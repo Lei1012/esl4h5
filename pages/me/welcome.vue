@@ -75,7 +75,7 @@
 	.welcome-bg {
 		width: 100%;
 		height: 100%;
-		background-color: #F4F5F6;
+		background-color: #FFFFFF;
 	}
 
 	.welcome-logo {
@@ -109,38 +109,29 @@
 	.welcome-arrow image {
 		width: 100rpx;
 		height: 100rpx;
-		/* max-width: 100%; */
-		/* width: 80rpx; */
-		/* max-height: 100%; */
 	}
 
 	.welcome-button {
 		width: 80%;
-		margin: 0 auto;
-		margin-top: 10%;
+		margin: 40rpx auto 0;
 	}
 
 	.welcome-button button {
-		height: 100rpx;
+		line-height: 80rpx;
 		background-color: #0AA0A8;
-		border-radius: 100rpx;
-		line-height: 100rpx;
 		color: #FFFFFF;
-		font-size: 34rpx;
+		font-size: 30rpx;
 	}
 
 	.later-button {
 		width: 80%;
-		margin: 0 auto;
-		margin-top: 10%;
+		margin: 140rpx auto 0;
 	}
 
 	.later-button button {
-		height: 100rpx;
+		line-height: 80rpx;
 		background-color: #E0E0E0;
-		border-radius: 100rpx;
-		line-height: 100rpx;
 		color: #808080;
-		font-size: 34rpx;
+		font-size: 30rpx;
 	}
 </style>

@@ -3,19 +3,19 @@
 		<view class="uni-flex uni-column basic-bg">
 			<view class="flex-item basic-title">{{i18n.profilecompanylegalinfo}}</view>
 			<view class="flex-item basic-form">
-				<view class="basic-form-bio">
-					<view class="basic-form-label">{{i18n.profilecompanynameen}} <text class="error-star">*</text></view>
-					<input type="text" :maxlength="100" v-model="companyNameValue" :placeholder="i18n.profilecompanynameenph" />
-					<!-- <fuck-textarea style="font-size: 34rpx;" :maxlength="200" v-model="companyNameValue"  :placeholder="i18n.profilecompanynameenph"></fuck-textarea> -->
-				</view>
-				<view class="basic-form-wechat">
-					<view class="basic-form-label">{{i18n.profilelegalcompanyname}}</view>
-					<input type="text" v-model="legalCompanyNameValue" :placeholder="i18n.profilelegalcompanynameph" />
-				</view>
-				<view class="basic-form-website">
-					<view class="basic-form-label">{{i18n.profilebusinessregistrationnumber}}</view>
-					<input type="text" :maxlength="18" v-model="businessRegistrationNumberValue" :placeholder="i18n.profilebusinessregistrationnumberph" />
-				</view>
+				
+				<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
+					:label-style="{'font-weight':700}">
+					<u-form-item :label="i18n.profilecompanynameen" prop="vendor_name_en">
+						<u-input required border v-model="form.vendor_name_en" :placeholder="i18n.profilecompanynameenph" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilelegalcompanyname" prop="legal_company_name">
+						<u-input border v-model="form.legal_company_name" :placeholder="i18n.profilelegalcompanynameph" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilebusinessregistrationnumber" prop="busin_reg_num">
+						<u-input border :maxlength="18" v-model="form.busin_reg_num" :placeholder="i18n.profilebusinessregistrationnumberph" />
+					</u-form-item>
+				</u-form>
 
 				<view class="basic-form-phone">
 					<view class="basic-form-label">{{i18n.profilebusinesslicense}}</view>
@@ -68,7 +68,22 @@
 				source: '',
 				userImageList: [],
 				cropperHeight: 400,
-				cropperWidth: 300
+				cropperWidth: 300,
+				
+				errorType:['message'],
+				form:{
+					vendor_name_en: '',
+					legal_company_name: '',
+					busin_reg_num: '',
+					busin_reg_img: '',
+				},
+				rules:{
+					vendor_name_en: [{
+						required: true,
+						message: this.$t('index').profilecompanynameenph,
+						trigger: ['change', 'blur'],
+					}, ],
+				}
 
 
 			}
@@ -98,38 +113,34 @@
 
 			},
 			basicSubmit() {
-
-				if (this.companyNameValue == '') {
-					return uni.showToast({
-						title: this.i18n.profilecompanynameenph,
-						icon: 'none'
-					})
-				}
-
-				let data = {
-					token: uni.getStorageSync('token'),
-					vendor_name_en: this.companyNameValue,
-					legal_company_name: this.legalCompanyNameValue,
-					busin_reg_num: this.businessRegistrationNumberValue,
-					busin_reg_img: this.fileUrl,
-				}
-
-				profile.addVendorBasic(data).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						uni.navigateBack({
-							delta: 1
+				var that =this;
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log('验证通过');
+						that.form.token = uni.getStorageSync('token');
+						that.form.busin_reg_img = this.fileUrl;
+						let data = Object.assign({},that.form);
+						profile.addVendorBasic(data).then(res => {
+							console.log(res)
+							if (res.code == 200) {
+								uni.navigateBack({
+									delta: 1
+								})
+							} else {
+								uni.showToast({
+									title: res.msg,
+									icon: 'none'
+								})
+							}
+						}).catch(err => {
+							console.log(err)
 						})
+						
+						
 					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
+						console.log('验证失败');
 					}
-				}).catch(err => {
-					console.log(err)
-				})
-
+				});
 
 			},
 			getBasicInfo() {
@@ -144,10 +155,13 @@
 
 						let vendorInfo = res.message.vendor_info;
 						// console.log(vendorInfo)
-						that.companyNameValue = vendorInfo.vendor_name_en;
-						that.legalCompanyNameValue = vendorInfo.legal_company_name;
-						that.businessRegistrationNumberValue = vendorInfo.busin_reg_num;
-						if (vendorInfo.busin_reg_img != '') {
+						if(vendorInfo.vendor_name_en){
+							that.form.vendor_name_en = vendorInfo.vendor_name_en;
+						}
+						if(vendorInfo.legal_company_name){that.form.legal_company_name =vendorInfo.legal_company_name; }
+						if(vendorInfo.busin_reg_num){that.form.busin_reg_num = vendorInfo.busin_reg_num;}
+						
+						if (vendorInfo.busin_reg_img) {
 							that.uImgList.push(vendorInfo.busin_reg_img)
 							that.fileUrl = vendorInfo.busin_reg_img;
 						}
@@ -164,6 +178,9 @@
 			},
 
 		},
+		onReady() {
+			this.$refs.uForm.setRules(this.rules);
+		}
 
 	}
 </script>
@@ -196,36 +213,9 @@
 	}
 
 	.basic-form-label {
-		font-size: 34rpx;
+		font-size: 28rpx;
 		font-weight: 700;
 
-	}
-
-	input {
-		height: 80rpx;
-		text-indent: 20rpx;
-		text-align: left;
-		border: 1rpx solid #EEEEEE;
-		font-size: 30rpx;
-		border-radius: 20rpx;
-	}
-
-	.uni-input-placeholder {
-		text-align: left;
-		font-size: 30rpx;
-		text-indent: 20rpx;
-	}
-
-	.basic-form-bio {
-		width: 100%;
-		margin-top: 20rpx;
-	}
-
-	.basic-form-website,
-	.basic-form-phone {
-		width: 100%;
-		margin-top: 10rpx;
-		text-align: left;
 	}
 
 	.basic-submit {

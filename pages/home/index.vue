@@ -194,9 +194,12 @@
 					<view class="latest-jobs-item ">
 						<view class="latest-jobs-item-top" @click="turnJobDetail(item.id)">
 							<view class="latest-jobs-item-l">
-								<image v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit"></image>
-								<image v-if="item.third_com_logo == '' && item.logo !='' " :src="item.logo" mode="aspectFit"></image>
-								<image v-if="item.third_com_logo == '' && item.logo == '' " src="https://oss.esl-passport.cn/business.png" mode="aspectFit"></image>
+								<image v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit">
+								</image>
+								<image v-if="item.third_com_logo == '' && item.logo !='' " :src="item.logo"
+									mode="aspectFit"></image>
+								<image v-if="item.third_com_logo == '' && item.logo == '' "
+									src="https://oss.esl-passport.cn/business.png" mode="aspectFit"></image>
 							</view>
 							<view class="latest-jobs-item-r">
 								<view class="latest-jobs-item-r-1">
@@ -299,11 +302,11 @@
 				</swiper>
 			</view>
 		</view>
-		
+
 		<view class="flex-item ">
 			<swiper class="article-swiper" :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000">
 				<swiper-item v-for="(item,index) in adsListArticles" :key="index" @click="turnArticle(item.link)">
-					<view class="flex-item article" >
+					<view class="flex-item article">
 						<view class="article-image">
 							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
 						</view>
@@ -318,7 +321,7 @@
 				</swiper-item>
 			</swiper>
 		</view>
-		
+
 		<view class="flex-item  why-esl-passport">
 			<view class="why-esl-passport-title">
 				{{i18n.homebannerfollowus}}
@@ -331,7 +334,7 @@
 							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
 						</view> -->
 						<view class="swiper-item swiper-item-bg" :style="{backgroundImage:'url('+item.url+')'}">
-						<view class="qrcode-image" @click="qrcodeType = 1;showQrcode=true"></view>
+							<view class="qrcode-image" @click="qrcodeType = 1;showQrcode=true"></view>
 							<view class="qrcode-image" @click="qrcodeType = 2;showQrcode=true"></view>
 							<view class="qrcode-image" @click="qrcodeType = 3;showQrcode=true"></view>
 							<view class="qrcode-image" @click="qrcodeType = 4;showQrcode=true"></view>
@@ -342,7 +345,7 @@
 			</view>
 			<xll-qrcode-popup @close="closeQrcode" :showQrcode="showQrcode" :codeType="qrcodeType"></xll-qrcode-popup>
 		</view>
-		
+
 		<contactus @close="showContactStatus = false" :showContact="showContactStatus"></contactus>
 		<discountcard @close="showDiscountStatus=false" :showContact="showDiscountStatus"></discountcard>
 		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity"
@@ -353,12 +356,12 @@
 		<!-- #ifdef MP-WEIXIN -->
 		<aTip :isCustom="false" text='Add to my mini program' :closeColor="false"></aTip>
 		<!-- #endif -->
-		
+
 		<how-post-job @close="showPostJobStatus=false" :showPostJobStatus="showPostJobStatus"></how-post-job>
 		<!-- #ifdef MP-WEIXIN -->
 		<official-account class="official-account"></official-account>
 		<!-- #endif -->
-		
+
 		<!-- #ifdef H5 -->
 		<view style="height: 160rpx;width: 100%;"></view>
 		<!-- #endif -->
@@ -373,10 +376,13 @@
 	import jobs from '@/api/jobs.js';
 	import ads from '@/api/ads.js';
 
+	import {
+		getUrlCode
+	} from '@/common/util.js';
 	import contactus from "@/components/xll-contact-us/xll-contact-us.vue";
 	import discountcard from "@/components/xll-discount-card/xll-discount-card.vue";
-	import xllwechatofficialaccount from "@/components/xll-wechat-official-account/xll-wechat-official-account.vue"
-	import selectRolePopup from '@/components/select-role-popup/select-role-popup.vue'
+	import xllwechatofficialaccount from "@/components/xll-wechat-official-account/xll-wechat-official-account.vue";
+	import selectRolePopup from '@/components/select-role-popup/select-role-popup.vue';
 
 	// #ifdef MP-WEIXIN
 	import aTip from "@/components/a_tip/aTip";
@@ -420,8 +426,8 @@
 				adsListTop: [],
 				adsListMid: [],
 				adsListBottom: [],
-				adsListArticles:[],
-				
+				adsListArticles: [],
+
 				dealsAdsListTop: [],
 				dealsAdsListMid: [],
 				dealsAdsListBottom: [],
@@ -438,7 +444,7 @@
 
 				showPostJobStatus: false,
 
-				articleImageHeight:300,
+				articleImageHeight: 300,
 			}
 		},
 		components: {
@@ -474,54 +480,47 @@
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			// #ifdef H5
+			isWechat() {
+				return this.$isWechat()
 			}
+			// #endif
+			
 		},
 		onUnload() {
 			uni.$off('changeIdentity');
 			uni.$off('changeLanguage');
 		},
 		onLoad(option) {
-		
-			var that = this;
 
-			let wxcode = option.code;
-			let reLoginStatus = option.reLogin;
+			var that = this;
+			
+			uni.$on('changeIdentity', function(data) {
+				console.log('监听到事件来自 changeIdentity ，携带参数 identity 为：' + data);
+				that.identity = data;
+			})
+			
+			uni.$on('changeLanguage', function(data) {
+				console.log('监听changelanguage', data);
+			})
+			
 			let uid = uni.getStorageSync('uid');
 			let token = uni.getStorageSync('token');
 			let language = uni.getStorageSync('language');
 			let identity = uni.getStorageSync('identity');
-
-			that.identity = identity;
-			uni.$on('changeIdentity', function(data) {
-				console.log('监听到事件来自 changeIdentity ，携带参数 identity 为：' + data);
-				that.identity = data;
-
-			})
-
-			uni.$on('changeLanguage', function(data) {
-				console.log('监听changelanguage', data);
-
-			})
-
-			if (token == '') {
-				console.log('token空，需要登录')
-				// #ifdef H5
-				if (wxcode != '' && wxcode != null && wxcode != undefined) {
-					that.getUserInfo(wxcode)
-					that.updateBusProfile()
-				}
-				// #endif
-
-			} else {
-
+			if(identity){
+				that.identity = identity;
+			}
+			
+			if (token && token !='' ) {
 				//获取职位列表
 				this.getJobsList();
 				this.getRecentDealsList(1, 6);
 				this.getBasicInfo(token, uid);
-
 			}
 
-			if (language != '') {
+			if (language && language != '') {
 				if (language == 'zh-CN') {
 					uni.setStorageSync("language", 'zh-CN')
 					this.language = 'zh-CN';
@@ -569,7 +568,7 @@
 				})
 
 			}
-			
+
 		},
 		methods: {
 			getBasicInfo(token, uid) {
@@ -644,8 +643,11 @@
 						}
 						// #ifdef H5
 						let subscribeValue = res.message.subscribe;
-						if (subscribeValue === 0) {
-							this.showOfficialStatus = true
+
+						if (this.isWechat) {
+							if (subscribeValue === 0) {
+								this.showOfficialStatus = true
+							}
 						}
 						// #endif
 
@@ -882,167 +884,9 @@
 
 			},
 			searchJobs() {
-				let identity = uni.getStorageSync('identity');
-				if (identity == 0) {
-					this.rolePopupStatus = true;
-					this.selectRoleIdentity = 1;
-					return;
-				}
 				uni.switchTab({
 					url: '/pages/menu/job'
 				});
-			},
-			getCode() {
-				var that = this;
-				const appid = that.appid
-				const redirect_uri = encodeURIComponent(that.redirect_uri)
-				const response_type = that.response_type
-				const scope = that.scope
-				const state = that.state
-				const url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' +
-					redirect_uri +
-					'&response_type=' + response_type + '&scope=' + scope + '&state=' + state + '#wechat_redirect'
-				// 截取地址中的code，如果没有code就去微信授权，如果已经获取到code了就直接把code传给后台获取openId
-				// console.log(url)
-				let code = this.getUrlCode('code')
-				if (code === null || code === '') {
-					window.location.href = url
-				}
-
-			},
-			getCodeRefresh() {
-				var that = this;
-				const appid = that.appid
-				const redirect_uri = encodeURIComponent(that.redirect_uri)
-				const response_type = that.response_type
-				const scope = that.scope
-				const state = that.state
-				const url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' +
-					redirect_uri +
-					'&response_type=' + response_type + '&scope=' + scope + '&state=' + state + '#wechat_redirect'
-				// 截取地址中的code，如果没有code就去微信授权，如果已经获取到code了就直接把code传给后台获取openId
-				// console.log(url)
-				window.location.href = url
-
-			},
-			getUrlCode(name) {
-				return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) ||
-					[, ''
-					])[1]
-					.replace(/\+/g, '%20')) || null
-			},
-			isWechat() {
-				return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
-			},
-			getUserInfo: function(code) {
-				var that = this;
-				let data = {
-					code: code,
-					platform: 'mp'
-				}
-				login.getUserInfoByWxCode(data).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						let message = res.message;
-						let unionid = message.unionid;
-						let phone = message.phone;
-						let token = message.token;
-						let nickname = message.nickname;
-						let uid = message.id;
-						let identity = message.identity;
-						let isEducator = message.is_educator;
-						let isBusiness = message.is_business;
-						let isVendor = message.is_vendor;
-						let isOther = message.is_other;
-
-						this.mobile = phone;
-						this.is_educator = isEducator;
-						this.is_business = isBusiness;
-						this.is_vendor = isVendor;
-						this.is_other = isOther;
-
-						uni.setStorageSync('unionid', unionid)
-						uni.setStorageSync('phone', phone)
-						uni.setStorageSync('nickname', nickname)
-						uni.setStorageSync('token', token)
-						uni.setStorageSync('uid', uid)
-
-
-						if (identity == 0) {
-							uni.setStorageSync('identity', 0)
-							this.identity = 0;
-						}
-						if (identity == 1) {
-							if (isEducator == 0) {
-								uni.setStorageSync('identity', 0)
-								this.identity = 0;
-							} else {
-								uni.setStorageSync('identity', identity)
-								this.identity = identity;
-							}
-						}
-						if (identity == 2) {
-							if (isBusiness == 0) {
-								uni.setStorageSync('identity', 0)
-								this.identity = 0;
-							} else {
-								uni.setStorageSync('identity', identity)
-								this.identity = identity;
-							}
-						}
-
-						if (identity == 3) {
-							if (isVendor == 0) {
-								uni.setStorageSync('identity', 0)
-								this.identity = 0;
-							} else {
-								uni.setStorageSync('identity', identity)
-								this.identity = identity;
-							}
-						}
-						if (identity == 4) {
-							if (isOther == 0) {
-								uni.setStorageSync('identity', 0)
-								this.identity = 0;
-							} else {
-								uni.setStorageSync('identity', identity)
-								this.identity = identity;
-							}
-						}
-
-						// #ifdef H5
-						let subscribeValue = res.message.subscribe;
-
-						if (subscribeValue === 0) {
-							this.showOfficialStatus = true
-						}
-						// #endif
-
-						if (message.language == 0) {
-							this.languageValue = 2;
-						} else {
-							this.languageValue = message.language;
-						}
-						if (message.language == 1) {
-							uni.setStorageSync('language', 'zh-CN')
-						}
-						if (message.language == 2) {
-							uni.setStorageSync('language', 'en-US')
-						}
-
-						//获取职位列表
-						this.getJobsList();
-						this.getRecentDealsList(1, 6)
-
-					}
-					if (res.code == 400) {
-						uni.removeStorageSync('token')
-						this.getCodeRefresh();
-					}
-				}).catch(err => {
-					console.log(err)
-				})
-
 			},
 			getJobsList() {
 				let token = uni.getStorageSync('token');
@@ -1089,11 +933,15 @@
 						this.adsListTop = res.message.data.filter(item => item.position == 1 && item.cate == 1)
 						this.adsListMid = res.message.data.filter(item => item.position == 2 && item.cate == 1)
 						this.adsListBottom = res.message.data.filter(item => item.position == 3 && item.cate == 1)
-						this.dealsAdsListTop = res.message.data.filter(item => item.position == 1 && item.cate == 6)
-						this.dealsAdsListMid = res.message.data.filter(item => item.position == 2 && item.cate == 6)
-						this.dealsAdsListBottom = res.message.data.filter(item => item.position == 3 && item.cate == 6)
-						this.adsListArticles = res.message.data.filter(item=>item.position == 4 && item.cate == 1)
-						
+						this.dealsAdsListTop = res.message.data.filter(item => item.position == 1 && item.cate ==
+							6)
+						this.dealsAdsListMid = res.message.data.filter(item => item.position == 2 && item.cate ==
+							6)
+						this.dealsAdsListBottom = res.message.data.filter(item => item.position == 3 && item
+							.cate == 6)
+						this.adsListArticles = res.message.data.filter(item => item.position == 4 && item.cate ==
+							1)
+
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -1226,7 +1074,7 @@
 				}
 
 			},
-			upgradeAndGoPro(relativeLink){
+			upgradeAndGoPro(relativeLink) {
 				if (relativeLink != '') {
 					uni.navigateTo({
 						url: relativeLink
@@ -1237,7 +1085,7 @@
 					if (token == '') {
 						var pages = getCurrentPages(); // 当前页面
 						var currentPagePath = pages[pages.length - 1]; // 前一个页面
-				
+
 						if (currentPagePath.route == 'pages/login/index') {
 							return;
 						}
@@ -1247,14 +1095,14 @@
 					}
 					// #endif
 					let identity = uni.getStorageSync('identity');
-					
-					if(identity && identity>0){
+
+					if (identity && identity > 0) {
 						uni.navigateTo({
-							url:'/pages/me/upgrade'
+							url: '/pages/me/upgrade'
 						})
 					}
 				}
-				
+
 			},
 			miniLogin() {
 				let token = uni.getStorageSync('token')
@@ -1274,11 +1122,11 @@
 				}
 
 			},
-			turnArticle(link){
-				if(link !=''){
+			turnArticle(link) {
+				if (link != '') {
 					// #ifdef MP-WEIXIN
 					uni.navigateTo({
-						url:'/pages/webview/webview?url='+link
+						url: '/pages/webview/webview?url=' + link
 					})
 					// #endif
 					// #ifdef H5
@@ -1307,30 +1155,7 @@
 
 		},
 		onReady: function() {
-			var _this = this;
-			let token = uni.getStorageSync('token')
-			// #ifdef H5
-			console.log(_this.$isWechat())
-			// #endif
-			
-			if (token == '') {
-				// #ifdef H5
-				if(_this.isWechat()){
-					console.log('微信内置浏览器打开。。。login')
-					let code = _this.getUrlCode('code')
-					if (code == null || code == '') {
-						this.getCode();
-					}
-				}else{
-					console.log('外部浏览器打开。。。login')
-					uni.navigateTo({
-						url:'/pages/login/index'
-					})
-				}
-				// #endif
-
-			}
-		
+			console.log('on Ready')
 		}
 	}
 </script>

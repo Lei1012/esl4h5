@@ -7,15 +7,19 @@
 			<view class="role-intro-1">{{i18n.businessinfowindowheader}}</view>
 		</view>
 		<view class="flex-item role-form">
-			<view class="role-form-item">
-				<view class="role-form-item-label">{{i18n.businessname}}:</view>
-				<input type="text" v-model="businessName" :placeholder="i18n.businessname">
-			</view>
-			<view class="role-form-role-location">
-				<view class="role-location-label">{{i18n.vendorlocation}}:</view>
-				<view class="role-location-txt" v-if="locationStatus===false"  @click="chooseLocation()">{{i18n.basicbusinesstwochooselocation}}</view>
-				<view class="role-location-txt-2" v-if="locationStatus" @click="chooseLocation()">{{pickerText}}</view>
-			</view>
+
+			<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
+				:label-style="{'font-weight':700}">
+				<u-form-item :label="i18n.businessname" prop="business_name">
+					<u-input border v-model="form.business_name" :placeholder="i18n.businessname" />
+				</u-form-item>
+				<u-form-item :label="i18n.vendorlocation" prop="location">
+					<u-input border v-model="form.location" :placeholder="i18n.basicbusinesstwochooselocation" type="select"
+						@click="chooseLocation()" />
+				</u-form-item>
+
+			</u-form>
+
 			<view class="categories">
 				<view class="category-title">
 					{{i18n.businesscategory}}
@@ -23,10 +27,12 @@
 				<view class="categories-content">
 					<view class="categories-tags" v-for="(item,k) in range" :key="k">
 						<view v-if="item['children'].length>0" class="category-parent">{{item.identity_name}}</view>
-						<view v-if="item['children'].length===0" class="categories-tags-item"  :class="selectBusinessTypeList.indexOf(item) == -1 ? '' : 'tag-active' "
-						 @click="selectBusinessType(item)">{{item.identity_name}}</view>
-						<view class="categories-tags-item" v-for="(child,key) in item['children']" :key="key" :class="selectBusinessTypeList.indexOf(child) == -1 ? '' : 'tag-active' "
-						 @click="selectBusinessType(child)">
+						<view v-if="item['children'].length===0" class="categories-tags-item"
+							:class="selectBusinessTypeList.indexOf(item) == -1 ? '' : 'tag-active' "
+							@click="selectBusinessType(item)">{{item.identity_name}}</view>
+						<view class="categories-tags-item" v-for="(child,key) in item['children']" :key="key"
+							:class="selectBusinessTypeList.indexOf(child) == -1 ? '' : 'tag-active' "
+							@click="selectBusinessType(child)">
 							{{child.identity_name}}
 						</view>
 					</view>
@@ -43,42 +49,39 @@
 </template>
 
 <script>
-
 	import profile from '@/api/profile.js'
 	import login from '@/api/login.js'
 
 	export default {
 		data() {
 			return {
-				yourname: '', //名字
-				nickname: '',
-				firstname: '',
-				lastname: '',
-				nationality:'',
-				jobTitle: '', // 职位
-				workEmail: '', //工作email
-				businessName: '',
-				country: '', //
-				province: '',
-				city: '',
-				area:'',
-				lon: '',
-				lat: '',
 				selectBusinessTypeStr: '',
 				selectBusinessTypeList: [],
 				range: [],
 
-				cityPickerValueDefault: [11, 1101, 110101],
-				pickerText: '',
-				locationStatus: false,
-				geolocation: '',
-				positionNum: 0,
-				options: {
-					timeout: 9000
+				formStepOneData: {},
+				errorType: ['message'],
+				form: {
+					business_name: '',
+					location: '',
+					province: '',
+					city: '',
+					district: '',
+					business_type_id: '',
+					business_type_name: ''
 				},
-				position: '',
-				positionSuccess: false,
-				
+				rules: {
+					business_name: [{
+						required: true,
+						message: this.$t('index').businessnameerror,
+						trigger: ['change', 'blur'],
+					}, ],
+					location: [{
+						required: true,
+						message: this.$t('index').basicbusinesstwochooselocation,
+						trigger: ['change', 'blur'],
+					}],
+				}
 
 			}
 		},
@@ -88,20 +91,19 @@
 		onLoad(option) {
 			var that = this;
 			// 接收第一步传参
-			that.firstname = option.fname;
-			that.nationality = option.nationality;
-			that.nickname = option.nickname;
-			that.jobTitle = option.jobTitle;
-			that.workEmail = option.workEmail;
+			if (option.formStr) {
+				let formData = JSON.parse(option.formStr)
+				console.log(formData)
+				that.formStepOneData = formData;
+			}
 
 			this.subCateList()
-			uni.$on('locationEvent',function(data){
+			uni.$on('locationEvent', function(data) {
 				// console.log(data)
-				that.province = data.province;
-				that.city = data.city;
-				that.area = data.area;
-				that.locationStatus = true;
-				that.pickerText =  that.area + ', ' + that.city + ', ' + that.province;
+				that.form.province = data.province;
+				that.form.city = data.city;
+				that.form.district = data.area;
+				that.form.location = data.area + ', ' + data.city + ', ' + data.province;
 			})
 		},
 		computed: {
@@ -110,13 +112,10 @@
 			}
 		},
 		methods: {
-			chooseLocation(){
+			chooseLocation() {
 				uni.navigateTo({
-					url:'/pages/location/location'
+					url: '/pages/location/location'
 				})
-			},
-			openAddres3() {
-				
 			},
 			selectBusinessType(item) {
 				// console.log(item);
@@ -134,7 +133,7 @@
 			},
 			subCateList: function() {
 				let data = {
-					pid:2,
+					pid: 2,
 					tree: 1
 				}
 				let rangeData = [];
@@ -160,101 +159,82 @@
 				//定义表单规则
 				var that = this;
 
-				let firstname = that.firstname;
-				let nationality = that.nationality;
-				let nickname = that.nickname;
-				let jobTitle = that.jobTitle;
-				let workEmail = that.workEmail;
-				let businessName = that.businessName;
-
-				let country = that.country;
-				let province = that.province;
-				let city = that.city;
-				let area = that.area;
-		
-				if (businessName.length < 1) {
-					return uni.showToast({
-						title: that.i18n.businessnameerror,
-						icon: "none"
-					})
-				}
-				if (that.selectBusinessTypeList.length < 1) {
-					return uni.showToast({
-						title: that.i18n.businesscategoryerror,
-						icon: "none"
-					})
-				}
-
-				let businessTypeId;
-				let businessTypeName;
-				that.selectBusinessTypeList.forEach(item => {
-					businessTypeId = item.id;
-					businessTypeName = item.identity_name;
-				})
-
-				let data = {
-					country: country,
-					province: province,
-					city: city,
-					district:area,
-					token: uni.getStorageSync('token'),
-					nickname: nickname,
-					first_name: firstname,
-					nationality: nationality,
-					job_title: jobTitle,
-					work_email: workEmail,
-					business_name: businessName,
-					business_type_id: businessTypeId,
-					business_type_name: businessTypeName
-				}
-				// console.log(data)
-				uni.showLoading({
-					title:'loading'
-				})
-
-				profile.addBusinessBasic(data).then(res => {
-					if (res.code == 200) {
-						//切换身份
-						let identity_data = {
-							identity: 2,
-							unionid: uni.getStorageSync('unionid'),
-							token: uni.getStorageSync('token')
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log('验证通过');
+						if (that.selectBusinessTypeList.length < 1) {
+							return uni.showToast({
+								title: that.i18n.businesscategoryerror,
+								icon: "none"
+							})
 						}
-						login.changeLanguageAndIdentity(identity_data).then(res => {
+
+						let businessTypeId;
+						let businessTypeName;
+						that.selectBusinessTypeList.forEach(item => {
+							businessTypeId = item.id;
+							businessTypeName = item.identity_name;
+						})
+						that.form.token = uni.getStorageSync('token');
+						that.form.business_type_id = businessTypeId;
+						that.form.business_type_name = businessTypeName;
+						let data = Object.assign(that.formStepOneData, that.form)
+
+						console.log(data)
+						uni.showLoading({
+							title: 'loading'
+						})
+
+						profile.addBusinessBasic(data).then(res => {
 							if (res.code == 200) {
-								uni.reLaunch({
-									url: '/pages/me/welcome?firstname='+that.firstname,
-									success() {
-										uni.setStorageSync('identity', 2)
-										uni.hideLoading();
+								//切换身份
+								let identity_data = {
+									identity: 2,
+									unionid: uni.getStorageSync('unionid'),
+									token: uni.getStorageSync('token')
+								}
+								let firstname = that.formStepOneData.first_name;
+								login.changeLanguageAndIdentity(identity_data).then(res => {
+									if (res.code == 200) {
+										uni.reLaunch({
+											url: '/pages/me/welcome?firstname=' +
+												firstname,
+											success() {
+												uni.setStorageSync('identity', 2)
+												uni.hideLoading();
+											}
+										})
+
+									} else {
+										uni.showToast({
+											title: res.msg,
+											icon: 'none'
+										})
 									}
+
+								}).catch(err => {
+									console.log(err)
 								})
-								
+								//end
 							} else {
 								uni.showToast({
 									title: res.msg,
-									icon: 'none'
+									icon: "none"
 								})
 							}
-
 						}).catch(err => {
 							console.log(err)
 						})
-						//end
+
 					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: "none"
-						})
+						console.log('验证失败');
 					}
-				}).catch(err => {
-					console.log(err)
-				})
+				});
 
 			},
 		},
 		onReady() {
-			
+			this.$refs.uForm.setRules(this.rules);
 		}
 	}
 </script>

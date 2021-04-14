@@ -6,40 +6,43 @@
 				{{i18n.profilecompanygeneralinfo}}
 			</view>
 			<view class="flex-item basic-form">
-				<view class="basic-form-bio">
-					<view class="basic-form-label">{{i18n.profilevendorbio}} </view>
-					<fuck-textarea style="font-size: 34rpx;" :maxlength="250" v-model="bioValue" :placeholder="i18n.profilevendorbioph"></fuck-textarea>
-				</view>
-				<view class="basic-form-wechat">
-					<view class="basic-form-label">{{i18n.profilewechatofficialaccountid}} </view>
-					<input :maxlength="20" type="text" v-model="wechatIdValue" :placeholder="i18n.profilewechatofficialaccountidph" />
-				</view>
-				<view class="basic-form-website">
-					<view class="basic-form-label">{{i18n.profilevendorwebsite}}</view>
-					<input type="text" v-model="webSiteValue" :placeholder="i18n.profilevendorwebsiteph" />
-				</view>
-				<view class="basic-form-phone">
-					<view class="basic-form-label">{{i18n.profilevendorphone}} </view>
-					<input :maxlength="11" type="number" v-model="phoneValue" :placeholder="i18n.profilevendorphoneph" />
-				</view>
-				<view class="basic-form-current-city" >
-					<view class="basic-form-label">{{i18n.profilevendorlocation}} <text class="error-star">*</text></view>
-					<view class="current-city" @click="chooseLocation">
-						<text v-if="locationStatus">{{pickerText}}</text>
-						<text v-if="locationStatus===false">{{i18n.basicbusinesstwochooselocation}}</text>
-					</view>
-				</view>
-				<view class="basic-form-website">
-					<view class="basic-form-label">{{i18n.profilevendorbasicaddress}}</view>
-					<input type="text" v-model="address" :placeholder="i18n.profilevendorbasicaddressph" />
-				</view>
+
+				<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
+					:label-style="{'font-weight':700}">
+					<u-form-item :label="i18n.profilevendorbio" prop="vendor_bio">
+						<u-input type="textarea" :height="150" autoHeight :maxlength="250" border
+							v-model="form.vendor_bio" :placeholder="i18n.profilevendorbioph" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilewechatofficialaccountid" prop="wechat_public_name">
+						<u-input border :maxlength="20" v-model="form.wechat_public_name"
+							:placeholder="i18n.profilewechatofficialaccountid" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilevendorwebsite" prop="website">
+						<u-input border :maxlength="18" v-model="form.website"
+							:placeholder="i18n.profilevendorwebsiteph" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilevendorphone" prop="phone">
+						<u-input border :maxlength="11" type="number" v-model="form.phone"
+							:placeholder="i18n.profilevendorphoneph" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilevendorlocation" prop="location">
+						<u-input border type="select" v-model="form.location"
+							:placeholder="i18n.basicbusinesstwochooselocation" @click="chooseLocation" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilevendorbasicaddress" prop="address">
+						<u-input border v-model="form.address" :placeholder="i18n.profilevendorbasicaddressph" />
+					</u-form-item>
+				</u-form>
+
 				<view class="basic-form-job-seeking">
 					<view class="basic-form-label">{{i18n.profiledogfriendly}}</view>
-					<switch style="margin-left: 20rpx;" :checked="dogFriendlyValue==1" color="#0AA0A8" @change="dogFriendlyChange" />
+					<switch style="margin-left: 20rpx;" :checked="form.is_dog_friendly==1" color="#0AA0A8"
+						@change="dogFriendlyChange" />
 				</view>
 				<view class="basic-form-public-profile">
 					<view class="basic-form-label">{{i18n.profilevendorevents}}</view>
-					<switch style="margin-left: 20rpx;" :checked="eventsValue == 1" color="#0AA0A8" @change="eventsChange" />
+					<switch style="margin-left: 20rpx;" :checked="form.is_events == 1" color="#0AA0A8"
+						@change="eventsChange" />
 				</view>
 			</view>
 			<view class="flex-item basic-submit">
@@ -60,29 +63,30 @@
 		data() {
 
 			return {
-				confirmText: 'Confirm',
-				cancelText: 'Cancel',
-				formatted_addresses: '',
+			
+				errorType: ['message'],
+				form: {
+					vendor_bio: '',
+					country: '',
+					location:'',
+					province: '',
+					city: '',
+					district: '',
+					address: '',
+					website: '',
+					wechat_public_name: '',
+					phone: '',
+					is_events: '',
+					is_dog_friendly: ''
+				},
+				rules: {
+					location: [{
+						required: true,
+						message: this.$t('index').basicbusinesstwochooselocation,
+						trigger: ['change', 'blur'],
+					}, ],
 
-				country: '', //
-				province: '',
-				city: '',
-				area:'',
-				address:'',
-				lon: '',
-				lat: '',
-				qqmapMarkUrl: '',
-				geolocation: '',
-				locationStatus: false,
-				
-				dogFriendlyValue: 0,
-				eventsValue: 0,
-				bioValue: '',
-				webSiteValue: '',
-				phoneValue: '',
-				wechatIdValue: '',
-				pickerText:'',
-
+				}
 
 			}
 		},
@@ -98,23 +102,22 @@
 			uni.$off('locationEvent');
 		},
 		onLoad(option) {
-			
+
 			var that = this;
-			uni.$on('locationEvent',function(data){
+			uni.$on('locationEvent', function(data) {
 				console.log(data)
-				that.province = data.province;
-				that.city = data.city;
-				that.area = data.area;
-				that.locationStatus = true;
-				that.pickerText =  that.area + ', ' + that.city + ', ' + that.province;
+				that.form.province = data.province;
+				that.form.city = data.city;
+				that.form.district = data.area;
+				that.form.location = data.area + ', ' + data.city + ', ' + data.province;
 			})
 			this.getBasicInfo();
-			
+
 		},
 		methods: {
-			chooseLocation(){
+			chooseLocation() {
 				uni.navigateTo({
-					url:'/pages/location/location'
+					url: '/pages/location/location'
 				})
 			},
 			turnSearchTags() {
@@ -122,88 +125,54 @@
 					url: '/pages/me/profile/searchTags'
 				})
 			},
-			showgenderPicker() {
-				this.$refs.tkitree._show()
-			},
 			dogFriendlyChange(e) {
 				console.log(e)
 				if (e.detail.value) {
-					this.dogFriendlyValue = 1;
+					this.form.is_dog_friendly = 1;
 				} else {
-					this.dogFriendlyValue = 0;
+					this.form.is_dog_friendly = 0;
 				}
 			},
 			eventsChange(e) {
 				console.log(e)
 				if (e.detail.value) {
-					this.eventsValue = 1;
+					this.form.is_events = 1;
 				} else {
-					this.eventsValue = 0;
+					this.form.is_events = 0;
 				}
 			},
 			basicSubmit() {
-
-				let data = {
-					token: uni.getStorageSync('token'),
-					vendor_bio: this.bioValue,
-					country: this.country,
-					province: this.province,
-					city: this.city,
-					district:this.area,
-					address:this.address,
-					website: this.webSiteValue,
-					wechat_public_name: this.wechatIdValue,
-					phone: this.phoneValue,
-					is_events: this.eventsValue,
-					is_dog_friendly: this.dogFriendlyValue
-				}
-
-				let phone = this.phoneValue;
-				let website = this.webSiteValue;
-				// if(this.bioValue == ''){
-				// 	return uni.showToast({
-				// 		title: this.i18n.profilevendorbioph,
-				// 		icon: 'none'
-				// 	})
-				// }
-				// if(this.wechatIdValue == ''){
-				// 	return uni.showToast({
-				// 		title: this.i18n.profilewechatofficialaccountidph,
-				// 		icon: 'none'
-				// 	})
-				// }
-
-				// console.log(formCheck.checkPhone(phone));
-				// if (!formCheck.checkPhone(phone)) {
-				// 	return uni.showToast({
-				// 		title: 'Please enter a valid phone number ',
-				// 		icon: 'none'
-				// 	})
-				// }
-				
-				if(this.pickerText == ''){
-					return uni.showToast({
-						title: this.i18n.basicbusinesstwochooselocation,
-						icon: 'none'
-					})
-				}
-				
-				profile.addVendorBasic(data).then(res => {
-					console.log(res)
-					uni.$emit('userInfoUpdated',{msg:'page updated'})
-					if (res.code == 200) {
-						uni.navigateTo({
-							url: '../home?current=0'
+				var that = this;
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log('验证通过');
+						that.form.token = uni.getStorageSync('token');
+						
+						let data = Object.assign({},that.form);
+						profile.addVendorBasic(data).then(res => {
+							console.log(res)
+							uni.$emit('userInfoUpdated', {
+								msg: 'page updated'
+							})
+							if (res.code == 200) {
+								uni.navigateTo({
+									url: '../home?current=0'
+								})
+							} else {
+								uni.showToast({
+									title: res.msg,
+									icon: 'none'
+								})
+							}
+						}).catch(err => {
+							console.log(err)
 						})
+						
 					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
+						console.log('验证失败');
 					}
-				}).catch(err => {
-					console.log(err)
-				})
+				});
+				
 
 
 			},
@@ -216,26 +185,23 @@
 				profile.getBasicInfo(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
-						
+
 						let vendorInfo = res.message.vendor_info;
 						console.log(vendorInfo)
-						that.bioValue = vendorInfo.vendor_bio;
-						that.webSiteValue = vendorInfo.website;
-						that.phoneValue = vendorInfo.phone;
-						that.dogFriendlyValue = vendorInfo.is_dog_friendly;
-						that.eventsValue = vendorInfo.is_events;
-						that.address = vendorInfo.address;
-						that.wechatIdValue = vendorInfo.wechat_public_name;
-						if(vendorInfo.province!='' && vendorInfo.city !='' && vendorInfo.district !=''){
-							that.province = vendorInfo.province;
-							that.city = vendorInfo.city;
-							that.district = vendorInfo.district;
-							this.pickerText = vendorInfo.district + ', '+vendorInfo.city + ', '+ vendorInfo.province
-							this.locationStatus=true;
+						that.form.vendor_bio = vendorInfo.vendor_bio;
+						that.form.website = vendorInfo.website;
+						that.form.phone = vendorInfo.phone;
+						that.form.is_dog_friendly = vendorInfo.is_dog_friendly;
+						that.form.is_events = vendorInfo.is_events;
+						that.form.address = vendorInfo.address;
+						that.form.wechat_public_name = vendorInfo.wechat_public_name;
+						if (vendorInfo.province != '' && vendorInfo.city != '' && vendorInfo.district != '') {
+							that.form.province = vendorInfo.province;
+							that.form.city = vendorInfo.city;
+							that.form.district = vendorInfo.district;
+							that.form.location = vendorInfo.district + ', ' + vendorInfo.city + ', ' + vendorInfo.province;
 						}
-						
-						
-			
+
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -249,7 +215,7 @@
 
 		},
 		onReady() {
-		
+			this.$refs.uForm.setRules(this.rules);
 		}
 	}
 </script>
@@ -282,59 +248,9 @@
 	}
 
 	.basic-form-label {
-		font-size: 34rpx;
+		font-size: 28rpx;
 		font-weight: 700;
-
 	}
-
-	input {
-		height: 80rpx;
-		text-indent: 20rpx;
-		text-align: left;
-		border: 1rpx solid #EEEEEE;
-		font-size: 30rpx;
-		border-radius: 20rpx;
-	}
-
-	.uni-input-placeholder {
-		text-align: left;
-		font-size: 30rpx;
-		text-indent: 20rpx;
-	}
-
-	.basic-form-bio {
-		width: 100%;
-		margin-top: 20rpx;
-	}
-
-	.basic-form-website,
-	.basic-form-phone {
-		width: 100%;
-		/* height: 80rpx; */
-		margin-top: 10rpx;
-		text-align: left;
-	}
-
-	.form-title {
-		font-size: 30rpx;
-		color: #000000;
-	}
-
-	.basic-form-current-city {
-		width: 100%;
-		margin-top: 20rpx;
-	}
-
-	.current-city {
-		text-align: left;
-		text-indent: 20rpx;
-		border-radius: 20rpx;
-		height: 80rpx;
-		line-height: 80rpx;
-		font-size: 30rpx;
-		border: 1px solid #EEEEEE;
-	}
-
 
 	.basic-form-job-seeking {
 		margin-top: 20rpx;
@@ -368,8 +284,8 @@
 		border-radius: 80rpx;
 		line-height: 80rpx;
 	}
-	
-	.error-star{
+
+	.error-star {
 		font-size: 40rpx;
 		font-weight: 700;
 		color: #FF3333;

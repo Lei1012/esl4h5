@@ -47,6 +47,14 @@
 				hParam: {}
 			}
 		},
+		computed:{
+			// #ifdef H5
+			isWechat(){
+				return this.$isWechat()
+			}
+			// #endif
+			
+		},
 		mounted() {
 			// #ifdef H5
 			var input = document.createElement('input')
@@ -166,7 +174,16 @@
 							name,
 							filePath,
 							formData,
-							header,
+							// #ifdef H5
+							header:{
+								platform: this.isWechat ? 2 : 1
+							},
+							// #endif
+							// #ifdef MP-WEIXIN
+							header:{
+								platform:3
+							},
+							// #endif
 							success: (res) => {
 								console.log(res)
 								if (res.statusCode == 200) {
@@ -343,6 +360,16 @@
 					
 					let downloadTask = uni.downloadFile({
 						url,
+						// #ifdef H5
+						header:{
+							platform: this.isWechat ? 2 : 1
+						},
+						// #endif
+						// #ifdef MP-WEIXIN
+						header:{
+							platform:3
+						},
+						// #endif
 						success: ({
 							statusCode,
 							tempFilePath

@@ -91,7 +91,13 @@
 				get() {
 					return this.uImgList
 				}
+			},
+			// #ifdef H5
+			isWechat(){
+				return this.$isWechat()
 			}
+			// #endif
+			
 		},
 		data() {
 			return {
@@ -174,6 +180,16 @@
 							const uploadTask = uni.uploadFile({
 								url: this.uploadFileUrl, //仅为示例，非真实的接口地址
 								name: 'file[]',
+								// #ifdef H5
+								header:{
+									platform: this.isWechat ? 2 : 1
+								},
+								// #endif
+								// #ifdef MP-WEIXIN
+								header:{
+									platform:3
+								},
+								// #endif
 								filePath: tempFiles[0],
 								formData: {
 									'token': uni.getStorageSync('token')
@@ -278,6 +294,16 @@
 							// console.log(i)
 							const uploadTask = uni.uploadFile({
 								url: this.uploadFileUrl, //仅为示例，非真实的接口地址
+								// #ifdef H5
+								header:{
+									platform: this.isWechat ? 2 : 1
+								},
+								// #endif
+								// #ifdef MP-WEIXIN
+								header:{
+									platform:3
+								},
+								// #endif
 								name: 'file[]',
 								filePath: fileList[i].path,
 								formData: {

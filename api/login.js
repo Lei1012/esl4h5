@@ -45,9 +45,46 @@ function miniAddUser(data){
 	})
 }
 
+function mpRegister(data){
+	return request({
+		method:"POST",
+		url:'mp/register',
+		data:data
+	})
+}
+
+function h5Login(data){
+	return request({
+		method:"POST",
+		url:"h5/login",
+		data:data
+	})
+}
+
+function miniRegister(data){
+	return request({
+		method:"POST",
+		url:'mini/register',
+		data:data
+	})
+}
+
+function miniGetPhoneNumber(data){
+	return request({
+		method:"POST",
+		url:'mini/getPhoneNumber',
+		data:data
+	})
+}
 
 
-
+function miniBindPhone(data){
+	return request({
+		method:"POST",
+		url:'mini/bindPhone',
+		data:data
+	})
+}
 
 export default{
 	sendCode,
@@ -55,5 +92,10 @@ export default{
 	getUserInfoByWxCode,
 	changeLanguageAndIdentity,
 	miniWxDecode,
-	miniAddUser
+	miniAddUser,
+	mpRegister,
+	h5Login,
+	miniRegister,
+	miniGetPhoneNumber,
+	miniBindPhone
 }

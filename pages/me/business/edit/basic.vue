@@ -5,85 +5,81 @@
 				{{i18n.profileyourcontactbasicinfo}}
 			</view>
 			<view class="flex-item me-edit-form">
-				<view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.profilefirstname}}</view>
-					<input type="text" v-model="firstname"  :placeholder="i18n.profilefirstnameph" />
-				</view>
-				<view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.profilelastname}}</view>
-					<input type="text" v-model="lastname"  :placeholder="i18n.profilelastname" />
-				</view>
-				<view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.profilenickname}}</view>
-					<input type="text" v-model="nickname"  :placeholder="i18n.profilenicknameph" />
-				</view>
-				<view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.profilecontactphone}}</view>
-					<input type="number" :maxlength="11" v-model="contactPhoneValue" :placeholder="i18n.profilecontactphoneph" />
-				</view>
-				<view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.businesswechatid}}</view>
-					<input type="text" v-model="wechatId"  :placeholder="i18n.businesswechatid" />
-				</view>
-				<!-- <view class="me-edit-form-gender" @click="showgenderPicker">
-					<view class="me-edit-form-item-label">{{i18n.profilegender}}</view>
-					<view class="me-edit-form-gender-1" v-if="genderStatus===false">{{i18n.profilechoosegender}}</view>
-					<view class="me-edit-form-gender-2" v-if="genderStatus">{{genderValue.value}}</view>
-				</view> -->
-				<view class="me-edit-form-nation">
-					<view class="me-edit-form-item-label">{{i18n.profilenationality}}</view>
-					<view class="me-edit-form-nation-1" v-if="nationalitySelectStatus===false" @click="turnNationalityPage">
-						{{i18n.profilechoosenationality}}
-					</view>
-					<view class="me-edit-form-nation-2" v-if="nationalitySelectStatus" @click="turnNationalityPage">
-						{{nationalityValue}}
-					</view>
-				</view>
-				<view class="me-edit-form-job-title">
-					<view class="me-edit-form-item-label">{{i18n.profilejobtitle}}</view>
-					<input type="text"  v-model="jobTitle" :placeholder="i18n.profilejobtitleph" />
-					<!-- <fuck-textarea :maxlength="100" v-model="jobTitle" :placeholder="i18n.profilejobtitleph"></fuck-textarea> -->
-				</view>
-				<view class="me-edit-form-small-bio">
-					<view class="me-edit-form-item-label">{{i18n.profilesmallbio}}</view>
-					<fuck-textarea :maxlength="200" v-model="smallBio" :placeholder="i18n.profilesmallbioph"></fuck-textarea>
-				</view>
+
+				<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
+					:label-style="{'font-weight':700}">
+					<u-form-item :label="i18n.profilefirstname" prop="first_name">
+						<u-input border v-model="form.first_name" :placeholder="i18n.profilefirstname" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilelastname" prop="last_name">
+						<u-input border v-model="form.last_name" :placeholder="i18n.profilelastname" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilenickname" prop="nickname">
+						<u-input border v-model="form.nickname" :placeholder="i18n.profilenickname" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilecontactphone" prop="contact_phone">
+						<u-input border type="number" :maxlength="11" v-model="form.contact_phone" :placeholder="i18n.profilecontactphone" />
+					</u-form-item>
+					<u-form-item :label="i18n.businesswechatid" prop="wx_id">
+						<u-input border v-model="form.wx_id" :placeholder="i18n.businesswechatid" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilegender" prop="sex_name">
+						<u-input border v-model="form.sex_name" :placeholder="i18n.profilechoosegender" type="select"
+							@click="showgenderPicker" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilenationality" prop="nationality">
+						<u-input border v-model="form.nationality" :placeholder="i18n.profilechoosenationality"
+							type="select" @click="turnNationalityPage" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilejobtitle" prop="job_title">
+						<u-input border v-model="form.job_title" :placeholder="i18n.profilejobtitleph" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilesmallbio" prop="bio">
+						<u-input border type="textarea" :maxlength="200" height="150" autoHeight v-model="form.bio"
+							:placeholder="i18n.profilesmallbioph" />
+					</u-form-item>
+
+				</u-form>
+
 				<view>
 					<view class="me-edit-form-item-label">{{i18n.profilehobbies}}</view>
 					<view class="jobs-tags-container">
 						<view class="jobs-tags">
-							<view class="jobs-tags-item" :class=" selectInfoListList.indexOf(item) == -1 ? '' : 'tags-active' "
-							 v-for="(item,index) in infoList" :key="index" @click="selectInfoList(item)">
+							<view class="jobs-tags-item"
+								:class=" selectInfoListList.indexOf(item) == -1 ? '' : 'tags-active' "
+								v-for="(item,index) in infoList" :key="index" @click="selectInfoList(item)">
 								{{item}}
 							</view>
-							<view class="jobs-tags-item" :class=" selectInfoListList.indexOf(item) == -1 ? '' : 'tags-active' "
-							 v-for="(item,index) in ownInfoListList" :key="item" @click="selectInfoList(item)">
+							<view class="jobs-tags-item"
+								:class=" selectInfoListList.indexOf(item) == -1 ? '' : 'tags-active' "
+								v-for="(item,index) in ownInfoListList" :key="item" @click="selectInfoList(item)">
 								{{item}}
 							</view>
 						</view>
-						<view class="jobs-tags-item" v-if="addInfoListStatus==false" @click="addInfoListStatus=true">add+</view>
+						<view class="jobs-tags-item" v-if="addInfoListStatus==false" @click="addInfoListStatus=true">
+							add+</view>
 						<view class="jobs-tags-add">
 							<view class="jobs-tags-item-add" v-if="addInfoListStatus">
 								<input type="text" v-model="ownInfoListValue" placeholder="Add your hobbies">
 								<view class="jobs-tags-item-add-button">
-									<button type="default" v-if="ownInfoListValue.length>0" @click="addOwnInfoList">Confirm</button>
-									<button type="default" v-if="ownInfoListValue.length==0" @click="addInfoListStatus=false">Cancel</button>
+									<button type="default" v-if="ownInfoListValue.length>0"
+										@click="addOwnInfoList">Confirm</button>
+									<button type="default" v-if="ownInfoListValue.length==0"
+										@click="addInfoListStatus=false">Cancel</button>
 								</view>
 							</view>
-							
+
 						</view>
 					</view>
 				</view>
-				
-				
-				
 			</view>
 			<view class="flex-item me-edit-submit">
 				<button @click="basicSubmit" type="default">{{i18n.profileeditsubmit}}</button>
 			</view>
 		</view>
-		<tki-tree ref="tkitree" :range="genderList" :rangeKey="rangeKey" confirmColor="#119fa9" :multiple="false" @confirm="cofirmgenderType"
-		 :confirmText="confirmText" :cancelText="cancelText" @cancel="cancelgenderType" />
+		<tki-tree ref="tkitree" :range="genderList" :rangeKey="rangeKey" confirmColor="#119fa9" :multiple="false"
+			@confirm="cofirmgenderType" :confirmText="confirmText" :cancelText="cancelText"
+			@cancel="cancelgenderType" />
 	</view>
 </template>
 
@@ -111,36 +107,40 @@
 				}],
 				confirmText: 'Confirm',
 				cancelText: 'Cancel',
-				genderStatus: false,
-				genderValue: '',
-
-				countryCode: '',
-				jobTitle: '',
-				smallBio: '',
-				nationalityValue: '',
-				nationalitySelectStatus: false,
-				disabled: false, //不禁用
-				// 默认的数组 不填默认的是空数组
-				selectlist: [],
-				infoList: ['Fitness', 'Photography', 'Travel'],
-				// 默认提示
-				placeholder: 'Please enter your hobbies',
-				languagesList: [],
-				nickname: '',
-				firstname:'',
-				lastname:"",
+				infoList:[],
 				hobbiesStr: '',
-				
+
 				editInfoList: [],
 				addInfoListStatus: false,
 				ownInfoListValue: '',
 				ownInfoListList: [],
 				selectInfoListList: [],
 				selectInfoListArr: [],
+
+				isFirstEdit: undefined,
 				
-				isFirstEdit:undefined,
-				wechatId:'',
-				contactPhoneValue:''
+				errorType: ['message'],
+				form: {
+					first_name: '',
+					last_name: '',
+					nickname: '',
+					sex: '',
+					sex_name:'',
+					nationality: '',
+					job_title: '',
+					bio: '',
+					hobbies: '',
+					wx_id: '',
+					contact_phone: '',
+					token: uni.getStorageSync('token')
+				},
+				rules: {
+					first_name: [{
+						required: false,
+						message: this.$t('index').frstnameerror,
+						trigger: ['change', 'blur'],
+					}, ],
+				}
 			}
 		},
 		components: {
@@ -157,49 +157,32 @@
 		},
 		onLoad(option) {
 			var that = this;
-			this.isFirstEdit=option.firstEdit;
+			this.isFirstEdit = option.firstEdit;
 			this.getBasicInfo();
 			uni.$on('nationalityObj', function(data) {
 				console.log(data)
-				that.nationalityValue = data.name;
-				that.nationalitySelectStatus = true;
+				that.form.nationality = data;
 			})
 
 		},
 		methods: {
-			
+
 			turnNationalityPage() {
 				uni.navigateTo({
 					url: '/pages/me/profile/countriesList'
-				})
-			},
-			turnIndexList(type) {
-				uni.navigateTo({
-					url: '/pages/me/profile/indexList?type=' + type
 				})
 			},
 			showgenderPicker() {
 				this.$refs.tkitree._show()
 			},
 			cofirmgenderType: function(e) {
-				let a = []
-				e.forEach(item => {
-					this.genderValue = item;
-				})
-				this.genderStatus = true;
-			
+				console.log(e)
+				this.form.sex = e[0].id;
+				this.form.sex_name = e[0].value;
 			},
 			cancelgenderType: function() {
 				console.log('cancel')
 				// this.$refs.tkitree._hide()
-			},
-			changeGenderValue: function(e) {
-				let key = e.target.value;
-				let genderList = this.genderList;
-				this.genderValue = genderList[key];
-				this.genderStatus = true;
-				this.genderId = genderList[key].id;
-				console.log(this.genderId)
 			},
 			addOwnInfoList() {
 				this.addInfoListStatus = false;
@@ -211,7 +194,7 @@
 					this.selectInfoListList.push(this.ownInfoListValue);
 					this.ownInfoListList.push(this.ownInfoListValue);
 					this.ownInfoListValue = '';
-					
+
 				} else {
 					this.selectInfoListList.splice(index, 1);
 				}
@@ -223,52 +206,63 @@
 						return false;
 					}
 					this.selectInfoListList.push(value);
-			
+
 				} else {
 					this.selectInfoListList.splice(index, 1);
 				}
 				console.log(this.selectInfoListList)
 			},
 			basicSubmit() {
-				let hobbiesStr = this.selectInfoListList.join(',');
-				let data = {
-					first_name:this.firstname,
-					last_name:this.lastname,
-					nickname: this.nickname,
-					sex: this.genderId,
-					nationality: this.nationalityValue,
-					job_title: this.jobTitle,
-					bio: this.smallBio,
-					hobbies: hobbiesStr,
-					wx_id:this.wechatId,
-					contact_phone:this.contactPhoneValue,
-					token: uni.getStorageSync('token')
-				}
-
-				profile.addBusinessBasic(data).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						uni.$emit('userInfoUpdated',{msg:'page updated'});
-						if(this.isFirstEdit==1){
-							uni.navigateTo({
-								url: '/pages/me/profile/photo?type=14'
-							})
-						}else{
-							uni.navigateBack({
-								delta: 1
-							})
+				var that = this;
+				
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log('验证通过');
+						that.form.hobbies = this.selectInfoListList.join(',');
+						let data = Object.assign({},that.form);
 						
-						}
-					
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
+						profile.addBusinessBasic(data).then(res => {
+							console.log(res)
+							if (res.code == 200) {
+								uni.showLoading({
+									title:'loading'
+								})
+								uni.$emit('userInfoUpdated', {
+									msg: 'page updated'
+								});
+								if (this.isFirstEdit == 1) {
+									setTimeout(function(){
+										uni.hideLoading();
+										uni.navigateTo({
+											url: '/pages/me/profile/photo?type=14'
+										})
+									},1200)
+									
+								} else {
+									setTimeout(function(){
+										uni.hideLoading();
+										uni.navigateBack({
+											delta: 1
+										})
+									},1200)
+								}
+						
+							} else {
+								uni.showToast({
+									title: res.msg,
+									icon: 'none'
+								})
+							}
+						}).catch(err => {
+							console.log(err)
 						})
+						
+					} else {
+						console.log('验证失败');
 					}
-				}).catch(err => {
-					console.log(err)
-				})
+				});
+				
+				
 			},
 			getBasicInfo() {
 				var that = this;
@@ -282,46 +276,37 @@
 						let gender = res.message.sex;
 						
 						if (gender == 1) {
-							this.genderStatus = true;
-							this.genderValue = {
-								id: 1,
-								value: 'Male'
-							}
+							that.form.sex_name = 'Male';
+							that.form.sex = 1;
 						}
 						if (gender == 2) {
-							this.genderStatus = true;
-							this.genderValue = {
-								id: 2,
-								value: 'Female'
-							}
+							that.form.sex_name = 'Female';
+							that.form.sex = 2;
 						}
 						if (gender == 3) {
-							this.genderStatus = true;
-							this.genderValue = {
-								id: 3,
-								value: 'Undisclosed'
-							}
+							that.form.sex_name = 'Undisclosed';
+							that.form.sex = 3;
 						}
-					
+
 						let businessUserInfo = res.message.business_info;
+
+						this.form.nickname = businessUserInfo.nickname;
+						this.form.first_name = businessUserInfo.first_name;
+						this.form.last_name = businessUserInfo.last_name;
+
+						this.form.nationality = businessUserInfo.nationality;
 						
-						this.nickname = businessUserInfo.nickname;
-						this.firstname = businessUserInfo.first_name;
-						this.lastname = businessUserInfo.last_name;
+						this.form.job_title = businessUserInfo.job_title;
+						this.form.bio = businessUserInfo.bio;
+						this.form.wx_id = businessUserInfo.wx_id;
+						this.form.contact_phone = businessUserInfo.contact_phone;
 						
-						this.nationalityValue = businessUserInfo.nationality;
-						this.nationalitySelectStatus=true;
-						this.jobTitle = businessUserInfo.job_title;
-						this.smallBio = businessUserInfo.bio;
-						this.wechatId = businessUserInfo.wx_id;
-						this.contactPhoneValue = businessUserInfo.contact_phone;
 						let hobbies = businessUserInfo.hobbies;
-						if(hobbies != ''){
-							that.infoList =hobbies.split(',');
+						if (hobbies != '') {
+							that.infoList = hobbies.split(',');
 							that.selectInfoListList = hobbies.split(',');
 						}
-						
-			
+
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -335,13 +320,62 @@
 
 		},
 		onReady() {
-
+			this.$refs.uForm.setRules(this.rules);
 		}
 	}
 </script>
 
 <style>
-	@import url("@/common/me/basic.css");
+	page {
+		background-color: #F4F5F6;
+	}
+
+	.me-edit-title {
+		text-align: center;
+		font-size: 38rpx;
+		font-weight: 700;
+		background-color: #004956;
+		color: #FFFFFF;
+		height: 200rpx;
+		line-height: 200rpx;
+	}
+
+	.me-edit-form {
+		width: 96%;
+		margin: 0 auto;
+		margin-top: 20rpx;
+		padding: 20rpx;
+		background-color: #FFFFFF;
+		border-radius: 20rpx;
+	}
+
+	.me-edit-form-item {
+		width: 100%;
+		margin-top: 20rpx;
+	}
+
+	.me-edit-form-item-label {
+		font-size: 28rpx;
+		font-weight: 700;
+	}
+	
+	.me-edit-submit {
+		width: 80%;
+		margin: 0 auto;
+		margin-top: 10%;
+		padding-bottom: 100rpx;
+
+	}
+
+	.me-edit-submit button {
+		background-color: #004956;
+		box-sizing: border-box;
+		color: #FFFFFF;
+		height: 80rpx;
+		border-radius: 80rpx;
+		line-height: 80rpx;
+	}
+	
 	.jobs-tags-container {
 		display: flex;
 		flex-direction: row;
@@ -349,16 +383,16 @@
 		flex-wrap: wrap;
 		margin-top: 10rpx;
 	}
-	
+
 	.jobs-tags {
 		display: flex;
 		flex-direction: row;
 		justify-content: flex-start;
 		align-items: center;
 		flex-wrap: wrap;
-	
+
 	}
-	
+
 	.jobs-tags-item {
 		background-color: rgba(0, 179, 210, 0.1);
 		padding-left: 20rpx;
@@ -368,13 +402,14 @@
 		border-radius: 20rpx;
 		margin-top: 10rpx;
 		margin-left: 10rpx;
-		font-size: 30rpx;
-		/* width: 100%; */
+		font-size: 28rpx;
 	}
-	.jobs-tags-add{
+
+	.jobs-tags-add {
 		width: 100%;
 		margin-top: 10rpx;
 	}
+
 	.jobs-tags-item-add {
 		width: 100%;
 		display: flex;
@@ -383,20 +418,20 @@
 		justify-content: space-around;
 		flex-wrap: wrap;
 	}
-	
+
 	.jobs-tags-item-add input {
 		width: 70%;
 		border: 1rpx solid #EEEEEE;
 		height: 80rpx;
 		line-height: 80rpx;
-		font-size: 30rpx;
+		font-size: 28rpx;
 	}
-	
+
 	.jobs-tags-item-add-button {
 		width: 20%;
-		
+
 	}
-	
+
 	.jobs-tags-item-add-button button {
 		width: 100%;
 		text-align: center;
@@ -404,11 +439,11 @@
 		line-height: 80rpx;
 		background-color: #0AA0A8;
 		color: #FFFFFF;
-		font-size: 30rpx;
+		font-size:28rpx;
 		padding: 0;
-		border-radius:20rpx;
+		border-radius: 20rpx;
 	}
-	
+
 	.tags-active {
 		background-color: #00CE47;
 		color: #FFFFFF;

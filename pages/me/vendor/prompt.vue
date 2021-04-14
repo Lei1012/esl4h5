@@ -35,8 +35,8 @@
 				<uni-icons type="pulldown" size="30"></uni-icons>
 			</view>
 			<view class="account-qrcode-3">
-				<image :src="list[0].url" mode="aspectFill" @click="previewQrcode(list[0].url)"></image>
-				<text>Save and Scan</text>
+				<image :src="list[0].url" mode="widthFix" @click="previewQrcode(list[0].url)"></image>
+				<text>Save & Scan</text>
 			</view>
 		</view>
 
@@ -106,7 +106,7 @@
 				ads.list(data).then(res => {
 					// console.log(res)
 					if (res.code == 200) {
-						this.list = res.message.data.filter(item => item.position == 1);
+						this.list = res.message.data.filter(item => item.position == 2);
 					}
 				}).catch(error => {
 					console.log(error)
@@ -288,12 +288,12 @@
 		align-items: center;
 		justify-content: center;
 	}
-
-	.account-qrcode-3 image {
-		width: 300rpx;
-		height: 300rpx;
+	
+	.account-qrcode-3 image{
+		width: 400rpx;
+		border-radius: 20rpx;
 	}
-
+	
 	.account-qrcode-3 text {
 		font-size: 30rpx;
 	}

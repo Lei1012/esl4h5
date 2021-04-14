@@ -10,7 +10,7 @@ function wranning(str) {
 	// 这个环境的来由是在程序编写时候,点击hx编辑器运行调试代码的时候,详见:
 	// 	https://uniapp.dcloud.io/frame?id=%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83%e5%92%8c%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83
 	if (process.env.NODE_ENV === 'development') {
-		// console.warn(str)
+		console.warn(str)
 	}
 }
 

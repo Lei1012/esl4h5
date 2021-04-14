@@ -1,57 +1,58 @@
-	.prompt-bg{
+.prompt-bg {
 		width: 100%;
 		height: 100%;
 		background-color: #FFFFFF;
 	}
-	.prompt-title{
+
+	.prompt-title {
 		width: 100%;
 		text-align: center;
 		font-size: 38rpx;
 		margin-top: 10%;
 	}
+
 	.home-picture {
 		margin-top: 40rpx;
 		text-align: center;
 		position: relative;
 	}
-	
+
 	.charts3 {
 		width: 600rpx;
 		height: 260rpx;
 		margin: 0 auto;
 		margin-top: 10rpx;
-		
+
 	}
-	
+
 	.charts3 image {
 		width: 200rpx;
 		height: 200rpx;
 		border-radius: 200rpx;
 		margin-top: 50rpx;
 	}
-	
-	
-	.prompt-button{
+
+
+	.prompt-button {
 		width: 80%;
 		margin: 0 auto;
 		margin-top: 10%;
 	}
-	.prompt-button-1 button{
+
+	.prompt-button-1 button {
 		background-color: #0AA0A8;
-		height: 100rpx;
-		line-height: 100rpx;
-		border-radius: 100rpx;
+		line-height: 80rpx;
 		color: #FFFFFF;
-		font-size: 34rpx;
+		font-size: 30rpx;
 	}
-	.prompt-button-2{
+
+	.prompt-button-2 {
 		margin-top: 20rpx;
 	}
-	.prompt-button-2 button{
+
+	.prompt-button-2 button {
 		background-color: #004956;
-		height: 100rpx;
-		line-height: 100rpx;
-		border-radius: 100rpx;
+		line-height: 80rpx;
 		color: #FFFFFF;
-		font-size: 34rpx;
+		font-size: 30rpx;
 	}

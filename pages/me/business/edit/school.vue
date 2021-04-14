@@ -4,31 +4,36 @@
 			{{i18n.profilebusinessschoolinfo}}
 		</view>
 		<view class="flex-item basic-form">
-			<view class="school-container">
-				<view class="school-curriculum">
-					<view class="basic-form-label">{{i18n.profilecurriculum}}</view>
-					<fuck-textarea :maxlength="200" v-model="curriculumValue" :placeholder="i18n.profilecurriculumph"></fuck-textarea>
-				</view>
-				<view class="school-technology">
-					<view class="basic-form-label">{{i18n.profiletechnologyavailable}}</view>
-					<fuck-textarea :maxlength="200" v-model="technologyValue" :placeholder="i18n.profiletechnologyavailableph "></fuck-textarea>
-				</view>
-				<view class="school-staff">
-					<view class="basic-form-label">{{i18n.profileaverageclasssize}}</view>
-					<input type="number" v-model="staffValue" :placeholder="i18n.profileaverageclasssizeph" />
-				</view>
-				<view class="school-trips">
-					<view class="basic-form-label">{{i18n.profilefieldstrips}}</view>
-					<switch style="margin-left: 20rpx;" :checked="tripsValue==1" color="#0AA0A8" @change="tripsChange" />
-				</view>
-				<view class="school-events">
-					<view class="basic-form-label">{{i18n.profileevents}}</view>
-					<switch style="margin-left: 20rpx;" :checked="eventsValue==1" color="#0AA0A8" @change="eventsChange" />
-				</view>
-				<view class="school-needs">
-					<view class="basic-form-label">{{i18n.profilespecialneeds}}</view>
-					<switch style="margin-left: 20rpx;" :checked="needsValue==1" color="#0AA0A8" @change="needsChange" />
-				</view>
+			
+			<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
+				:label-style="{'font-weight':700}">
+				<u-form-item :label="i18n.profilecurriculum" prop="curriculum" >
+					<u-input border :maxlength="200" type="textarea" v-model="form.curriculum" height="150"	:placeholder="i18n.profilecurriculumph" /> 
+					 <view class="textarea-number"> {{form.curriculum.length}}/200</view>
+				</u-form-item>
+				
+				<u-form-item :label="i18n.profiletechnologyavailable"  prop="technology_available">
+					<u-input border :maxlength="200" type="textarea" v-model="form.technology_available"
+					 height="150"	:placeholder="i18n.profiletechnologyavailableph" />
+					 <view class="textarea-number"> {{form.technology_available.length}}/200</view>
+				</u-form-item>
+				<u-form-item :label="i18n.profileaverageclasssize"  prop="staff_student_ratio">
+					<u-input border type="number" :maxlength="11" v-model="form.staff_student_ratio"
+						:placeholder="i18n.profileaverageclasssizeph" />
+				</u-form-item>
+			</u-form>
+			
+			<view class="switch-container">
+				<view class="basic-form-label">{{i18n.profilefieldstrips}}</view>
+				<switch style="margin-left: 20rpx;"  :checked="form.felds_trips==1" color="#0AA0A8" @change="tripsChange" />
+			</view>
+			<view class="switch-container">
+				<view class="basic-form-label">{{i18n.profileevents}}</view>
+				<switch style="margin-left: 20rpx;" :checked="form.is_events==1" color="#0AA0A8" @change="eventsChange" />
+			</view>
+			<view class="switch-container">
+				<view class="basic-form-label">{{i18n.profilespecialneeds}}</view>
+				<switch style="margin-left: 20rpx;" :checked="form.is_special_needs==1" color="#0AA0A8" @change="needsChange" />
 			</view>
 			
 			<view class="student-age">
@@ -78,7 +83,6 @@
 				</view>
 			</view>
 			
-			
 		</view>
 		<view class="flex-item basic-submit">
 			<button @click="basicSubmit" type="default">{{i18n.profileeditsubmit}}</button>
@@ -96,51 +100,9 @@
 		data() {
 
 			return {
-				confirmText: 'Confirm',
-				cancelText: 'Cancel',
-				
-				formatted_addresses: '',
-				yearFoundedShow: false,
-				selectYearStatus: false, // 是否选择生日
-
-				country: '', //
-				province: '',
-				city: '',
-				area:'',
-				lon: '',
-				lat: '',
-				qqmapMarkUrl: '',
-				geolocation: '',
-				locationStatus: false,
-				pickerText:'',
-
-				jobSeekingValue: 0,
-				publicProfileValue: 0,
-				nationalityValue: '',
-				nationalitySelectStatus: false,
-				bioValue: '',
-				headlineValue: "",
-				webSiteValue: '',
-				phoneValue: '',
-				contactNameValue:'',
-				contactPhoneValue:'',
-				yearFoundedStr: '',
-				hiringValue: 0,
-				schoolsValue: '',
-				curriculumValue: '',
-				needsValue: 0,
-				staffValue: "",
-				technologyValue: "",
-				tripsValue: '',
-				eventsValue: 0,
-				businessNameValue:'',
-				
-				isSchoolValue: 0,
 				
 				subjectList: [],
 				studentAgeList: [],
-				selectStudentAgeList: [],
-				selectStudentAgeArr: [],
 				
 				editStudentAgeList: [],
 				addStudentAgeStatus: false,
@@ -155,7 +117,27 @@
 				ownSubjectList: [],
 				selectSubjectList: [],
 				selectSubjectArr: [],
-
+				
+				errorType:['message'],
+				form:{
+					is_currently_hiring: '',
+					curriculum: '',
+					is_special_needs: '',
+					staff_student_ratio: '',
+					technology_available: '',
+					felds_trips: '',
+					is_events: '',
+					is_school:1
+				},
+				rules:{
+					curriculum: [{
+						required:false,
+						mini:0,
+						max:200,
+						message: '200',
+						trigger: ['change', 'blur'],
+					}, ],
+				}
 			}
 		},
 		computed: {
@@ -163,33 +145,15 @@
 				return this.$t('index')
 			}
 		},
-		onUnload() {
-			uni.$off('locationEvent');
-		},
 		onLoad(option) {
 			var that = this;
-			uni.$on('locationEvent',function(data){
-				console.log(data)
-				that.province = data.province;
-				that.city = data.city;
-				that.area = data.area;
-				that.locationStatus = true;
-				that.pickerText =  that.area + ', ' + that.city + ', ' + that.province;
-			})
 			that.turnSearchTags(73);
 			that.turnSearchTags(1);
 			that.getBasicInfo();
-		
-
 		},
 		methods: {
-			chooseLocation(){
-				uni.navigateTo({
-					url:'/pages/location/location'
-				})
-			},
-			turnSearchTags(type) {
 			
+			turnSearchTags(type) {
 				// student age
 				let data = {
 					token: uni.getStorageSync('token'),
@@ -205,100 +169,72 @@
 			
 					if (type == 1) {
 						this.editSubjectList = res.message;
-						
-			
 					}
 			
 				}).catch(error => {
 					console.log(error)
 				})
 			},
-			showgenderPicker() {
-				this.$refs.tkitree._show()
-			},
-
-			yearFoundedConfirm(e) {
-				this.selectYearStatus = true;
-				let year = e.year;
-				let month = e.month;
-				let day = e.day;
-				this.yearFoundedStr = year;
-				console.log(e)
-			},
-			hiringChange(e) {
-				console.log(e)
-				if (e.detail.value) {
-					this.hiringValue = 1;
-				} else {
-					this.hiringValue = 0;
-				}
-			},
-			isSchoolChange(e) {
-				if (e.detail.value) {
-					this.isSchoolValue = 1;
-					this.showSchoolStatus = true;
-				} else {
-					this.isSchoolValue = 0;
-					this.showSchoolStatus = false;
-				}
-			},
 			tripsChange(e) {
 				console.log(e)
 				if (e.detail.value) {
-					this.tripsValue = 1;
+					this.form.felds_trips = 1;
 				} else {
-					this.tripsValue = 0;
+					this.form.felds_trips = 0;
 				}
 			},
 			needsChange(e) {
 				console.log(e)
 				if (e.detail.value) {
-					this.needsValue = 1;
+					this.form.is_special_needs = 1;
 				} else {
-					this.needsValue = 0;
+					this.form.is_special_needs = 0;
 				}
 			},
 			eventsChange(e) {
 				console.log(e)
 				if (e.detail.value) {
-					this.eventsValue = 1;
+					this.form.is_events = 1;
 				} else {
-					this.eventsValue = 0;
+					this.form.is_events = 0;
 				}
 			},
 			basicSubmit() {
-
-				let data = {
-					token: uni.getStorageSync('token'),
-					is_currently_hiring: this.hiringValue,
-					curriculum: this.curriculumValue,
-					is_special_needs: this.needsValue,
-					staff_student_ratio: this.staffValue,
-					technology_available: this.technologyValue,
-					felds_trips: this.tripsValue,
-					is_events: this.eventsValue,
-					is_school:1
-				}
-				
-				profile.addBusinessBasic(data).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						this.studentAgeConfirm();
-						this.subjectConfirm();
-						uni.navigateTo({
-							url: '../home?current=0'
+				var that = this;
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log('验证通过');
+						that.form.token = uni.getStorageSync('token');
+						let data = Object.assign({},that.form);
+						profile.addBusinessBasic(data).then(res => {
+							console.log(res)
+							if (res.code == 200) {
+								uni.showLoading({
+									title:'loading'
+								})
+								that.studentAgeConfirm();
+								that.subjectConfirm();
+								setTimeout(function(){
+									uni.hideLoading();
+									uni.navigateTo({
+										url: '../home?current=0'
+									})
+								},1200)
+								
+							} else {
+								uni.showToast({
+									title: res.msg,
+									icon: 'none'
+								})
+							}
+						}).catch(err => {
+							console.log(err)
 						})
+						
 					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
+						console.log('验证失败');
 					}
-				}).catch(err => {
-					console.log(err)
-				})
-
-
+				});
 			},
 			getBasicInfo() {
 				var that = this;
@@ -311,35 +247,13 @@
 					if (res.code == 200) {
 
 						let businessInfo = res.message.business_info;
-						that.businessNameValue = businessInfo.business_name;
-						that.bioValue = businessInfo.business_bio;
-						that.yearFoundedStr = businessInfo.year_founded;
-						if(that.yearFoundedStr != ''){
-							this.selectYearStatus=true;
-						}
-						that.webSiteValue = businessInfo.website;
-						that.phoneValue = businessInfo.business_phone;
-						that.hiringValue = businessInfo.is_currently_hiring;
-						that.curriculumValue = businessInfo.curriculum;
-						that.technologyValue = businessInfo.technology_available;
-						that.staffValue = businessInfo.staff_student_ratio;
-						that.tripsValue = businessInfo.felds_trips;
-						that.eventsValue = businessInfo.is_events;
-						that.needsValue = businessInfo.is_special_needs;
-						that.contactNameValue = businessInfo.contact_name;
-						that.contactPhoneValue = businessInfo.contact_phone;
-						that.isSchoolValue = businessInfo.is_school;
-						if(that.isSchoolValue == 1){
-							this.showSchoolStatus=true;
-						}
-						
-						if(businessInfo.province!='' && businessInfo.city !='' && businessInfo.district !=''){
-							that.province = businessInfo.province;
-							that.city = businessInfo.city;
-							that.district = businessInfo.district;
-							this.pickerText = businessInfo.district + ', '+businessInfo.city + ', '+ businessInfo.province
-							this.locationStatus=true;
-						}
+						that.form.curriculum = businessInfo.curriculum;
+						that.form.technology_available = businessInfo.technology_available;
+						that.form.staff_student_ratio = businessInfo.staff_student_ratio;
+						that.form.felds_trips = businessInfo.felds_trips;
+						that.form.is_events = businessInfo.is_events;
+						that.form.is_special_needs = businessInfo.is_special_needs;
+						that.form.is_school = businessInfo.is_school;
 						
 						if (res.message.business_info.subject != undefined) {
 							that.subjectList = res.message.business_info.subject;
@@ -395,7 +309,6 @@
 								}
 							}
 						}
-
 
 					} else {
 						uni.showToast({
@@ -558,7 +471,7 @@
 		},
 
 		onReady() {
-			
+			this.$refs.uForm.setRules(this.rules);
 		}
 	}
 </script>
@@ -567,7 +480,10 @@
 	page {
 		background-color: #F4F5F6;
 	}
-
+	.textarea-number{
+		font-size: 24rpx;
+		text-align: right;
+	}
 	.basic-title {
 		text-align: center;
 		font-size: 38rpx;
@@ -590,194 +506,20 @@
 
 	}
 
-	input {
-		height: 80rpx;
-		text-align: left;
-		border: 1rpx solid #EEEEEE;
-		border-radius: 20rpx;
-		font-size: 30rpx;
-		line-height: 80rpx;
-		text-indent: 20rpx;
-	}
-
-	.uni-input-placeholder {
-		text-align: left;
-		font-size: 30rpx;
-		text-indent: 20rpx;
-	}
-
 	.basic-form-label {
-		font-size: 34rpx;
+		font-size: 28rpx;
 		font-weight: 700;
 		text-align: left;
 	}
-
-	.basic-form-bio {
-		width: 100%;
-		margin-top: 20rpx;
-	}
-
-
-	.basic-form-headline {
-		width: 100%;
-		margin-top: 20rpx;
-	}
-
-	.basic-form-year {
-		width: 100%;
-		margin-top: 10rpx;
-		text-align: center;
-	}
-
-	.basic-form-year-1,
-	.basic-form-year-2 {
-		height: 80rpx;
-		line-height: 80rpx;
-		border: 1px solid #EEEEEE;
-		border-radius: 20rpx;
-		font-size: 30rpx;
-		text-align: left;
-		text-indent: 20rpx;
-	}
-
-	.basic-form-year-2 {
-		color: #808080;
-	}
-
-	.basic-form-location {
-		height: 80rpx;
-		line-height: 80rpx;
-		border: 1px solid #EEEEEE;
-		border-radius: 20rpx;
-		font-size: 30rpx;
-		text-align: left;
-		text-indent: 20rpx;
-	}
-
-	.basic-form-birthday {
-		width: 100%;
-		height: 80rpx;
-		margin-top: 10rpx;
-		text-align: center;
-	}
-
-	.basic-form-birthday-1 {
-		height: 100%;
-		line-height: 80rpx;
-		font-size: 32rpx;
-		color: #333333;
-	}
-
-	.basic-form-birthday-2 {
-		height: 100%;
-		line-height: 80rpx;
-		font-size: 32rpx;
-		color: #808080;
-	}
-
-	.basic-form-current-city {
-		width: 100%;
-		/* height: 80rpx; */
-		margin-top: 20rpx;
-		/* border-bottom: 1px solid #EEEEEE; */
-		text-align: center;
-		font-size: 32rpx;
-		color: #333333;
-	}
-
-
-	.basic-form-website {
-		/* margin-top: 20rpx; */
-		width: 100%;
-		/* height: 80rpx; */
-		margin-top: 20rpx;
-		/* border-bottom: 1px solid #EEEEEE; */
-		text-align: center;
-		font-size: 32rpx;
-		color: #333333;
-	}
-
-	.basic-form-phone {
-		width: 100%;
-		/* height: 80rpx; */
-		margin-top: 20rpx;
-		/* border-bottom: 1px solid #EEEEEE; */
-		text-align: center;
-		font-size: 32rpx;
-		color: #333333;
-	}
-
-	.basic-form-hiring {
+	
+	.switch-container{
 		display: flex;
 		flex-direction: row;
 		justify-content: flex-start;
 		align-items: center;
 		margin-top: 20rpx;
 	}
-
-	.school-curriculum {
-		margin-top: 20rpx;
-	}
-
-	.school-technology {
-		margin-top: 20rpx;
-	}
-
-	.school-staff {
-		width: 100%;
-		/* height: 80rpx; */
-		margin-top: 20rpx;
-		/* border-bottom: 1px solid #EEEEEE; */
-		text-align: center;
-		font-size: 32rpx;
-		color: #333333;
-	}
-
-	.school-trips {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		margin-top: 20rpx;
-	}
-
-	.school-events {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		margin-top: 20rpx;
-	}
-
-	.school-needs {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		margin-top: 20rpx;
-	}
-
-	.basic-form-toggle-box {
-		width: 100%;
-
-		margin-top: 20rpx;
-		/* border-bottom: 1px solid #EEEEEE; */
-		text-align: center;
-		display: flex;
-		flex-direction: column;
-
-
-	}
-
-	.basic-form-job-seeking {
-		border-bottom: 1px solid #EEEEEE;
-		padding-bottom: 10rpx;
-	}
-
-	.basic-form-public-profile {
-		padding-top: 20rpx;
-	}
-
+	
 	.basic-submit {
 		width: 80%;
 		margin: 0 auto;
@@ -794,13 +536,6 @@
 		border-radius: 80rpx;
 		line-height: 80rpx;
 	}
-	.toggels-title{
-		margin-top: 10rpx;
-		font-size: 34rpx;
-		font-weight: 700;
-		line-height: 80rpx;
-		border-bottom: 1rpx solid #EEEEEE;
-	}
 	
 	.student-age,.subject {
 		margin-top:20rpx;
@@ -811,7 +546,7 @@
 		padding-bottom: 20rpx;
 	}
 	.student-age-title ,.subject-title{
-		font-size: 34rpx;
+		font-size: 28rpx;
 		font-weight: 700;
 	}
 	.student-age-t,.subject-t {
@@ -839,7 +574,7 @@
 		margin-left: 20rpx;
 		height: 60rpx;
 		line-height: 60rpx;
-		font-size: 30rpx;
+		font-size: 28rpx;
 	}
 	
 	.edit-icon {
@@ -881,8 +616,7 @@
 		border-radius: 20rpx;
 		margin-top: 10rpx;
 		margin-left: 10rpx;
-		font-size: 30rpx;
-		/* width: 100%; */
+		font-size: 28rpx;
 	}
 	
 	.jobs-tags-add {
@@ -904,7 +638,7 @@
 		border: 1rpx solid #EEEEEE;
 		height: 80rpx;
 		line-height: 80rpx;
-		font-size: 30rpx;
+		font-size: 28rpx;
 	}
 	
 	.jobs-tags-item-add-button {
@@ -919,7 +653,7 @@
 		line-height: 80rpx;
 		background-color: #0AA0A8;
 		color: #FFFFFF;
-		font-size: 30rpx;
+		font-size: 28rpx;
 		padding: 0;
 		border-radius: 20rpx;
 	}

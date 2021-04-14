@@ -265,7 +265,7 @@
 				basicUserInfo: {},
 				vendorUserInfo: {},
 				anchorPoint: '',
-				avatarUrl: "",
+				avatarUrl: "https://oss.esl-passport.cn/educator.png",
 				uerInfo: {},
 				cWidth3: '', //圆弧进度图
 				cHeight3: '', //圆弧进度图
@@ -510,7 +510,7 @@
 						
 						// #endif
 						
-						that.avatarUrl = res.message.headimgurl;
+						// that.avatarUrl = res.message.headimgurl;
 						// that.percent = res.message.is_vendor + '%';
 						// that.correctRate = res.message.is_vendor / 100;
 

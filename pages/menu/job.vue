@@ -393,10 +393,11 @@
 			this.identity = identity;
 			this.languageValue = uni.getStorageSync('language');
 			// #ifdef H5
-			this.getSubCateList()
-			this.getRecentJobsList();
+			if(token){
+				this.getSubCateList()
+				this.getRecentJobsList();
+			}
 			this.getJobsAdsList();
-			
 			this.getJobList(this.jobsPage, this.jobsLimit, this.filterResult);
 			// #endif
 

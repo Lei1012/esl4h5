@@ -1,16 +1,28 @@
 <template>
 	<view class="uni-flex uni-column me-bg">
-		<view class="flex-item me-header-info u-skeleton" v-if="!showLoginBtnStatus">
+		<view class="flex-item me-header-info u-skeleton">
 			<view class="me-header-info-l u-skeleton-circle">
-				<image @click="turnMyProfile" :src="avatarUrl" mode="aspectFill" lazy-load></image>
+				<image  @click="turnMyProfile" :src="avatarUrl" mode="aspectFill" lazy-load></image>
 			</view>
-			<view class="me-header-info-r ">
+			<view class="me-header-nologin-info-r" v-if="showLoginBtnStatus">
+				<view class="login-btn">
+					<uni-icons type="xll-yuan"></uni-icons>
+					<button type="default" @click="miniLogin">Login</button>
+				</view>
+			</view>
+			<view class="me-header-info-r " v-if="!showLoginBtnStatus">
 				<view class="me-header-info-r-1 u-skeleton-rect">
-					<text>{{nickname}}</text>
+					<text v-if="nickname != '' ">{{nickname}}</text>
+					<!-- #ifdef MP-WEIXIN -->
+					<open-data v-if="nickname=='' " type="userNickName"></open-data>
+					<!-- #endif -->
 				</view>
 				<view class="me-header-info-r-2 u-skeleton-rect">
 					<image src="../../static/esl/location.png" mode="aspectFit"></image>
-					<text>{{location}}</text>
+					<text v-if="location!='' ">{{location}}</text>
+					<!-- #ifdef MP-WEIXIN -->
+					<open-data v-if="location=='' " type="userCity"></open-data>, <open-data v-if="location=='' " type="userProvince"></open-data>
+					<!-- #endif -->
 				</view>
 				<view class="me-header-info-r-3 u-skeleton-rect">
 					<text v-if="identity==1">{{i18n.meeducator}}</text>
@@ -38,27 +50,29 @@
 		<view class="flex-item user-verified" v-if="identity == 3">
 			<button @click="showContactStatus=true">{{i18n.Verified}}</button>
 		</view>
-		<view class="flex-item me-center-list" v-if="!showLoginBtnStatus">
+		<view class="flex-item me-center-list">
 			<view class="center-list border-top-left-right-radius">
-				<view class="center-list-item border-bottom " v-if="identity!=4 && identity!=0"
+				<view class="center-list-item border-bottom " v-if="identity && !showLoginBtnStatus"
 					@click="turnAccountInfo">
 					<image src="../../static/me/my-account.png" mode="aspectFill"></image>
 					<text class="list-text">{{i18n.accountpgaccountinfo}}</text>
 				</view>
-				<view class="center-list-item border-bottom" v-if="identity!=4 && identity!=0" @click="turnMyProfile">
+				<view class="center-list-item border-bottom" v-if="identity && !showLoginBtnStatus"
+					@click="turnMyProfile">
 					<image src="../../static/me/profile.png" mode="aspectFill"></image>
 					<text class="list-text">{{i18n.accountpgeditprofile}}</text>
 				</view>
-				<view class="center-list-item border-bottom" @click="showDiscountStatus=true">
+				<view class="center-list-item border-bottom" v-if="!showLoginBtnStatus"
+					@click="showDiscountStatus=true">
 					<image src="../../static/me/discount.png" mode="aspectFill"></image>
 					<text class="list-text">{{i18n.accountpgdiscount}}</text>
 				</view>
-				<discountcard @close="closeDiscount" :showContact="showDiscountStatus"></discountcard>
+
 				<view class="center-list-item border-bottom" @click="showLanguagePopup">
 					<image src="../../static/me/language-change.png" mode="aspectFill"></image>
 					<text class="list-text">{{i18n.accountpglanguage}}</text>
 				</view>
-				<view class="center-list-item border-bottom" @click="showRolePopup">
+				<view class="center-list-item border-bottom" v-if="!showLoginBtnStatus" @click="showRolePopup">
 					<image src="../../static/me/switch-identity.png" mode="aspectFill"></image>
 					<text class="list-text">{{i18n.accountinfoadd}}</text>
 				</view>
@@ -75,9 +89,6 @@
 					<text class="list-text">{{i18n.accountpgcontact}}</text>
 				</button>
 				<!-- #endif -->
-
-				<contactus @close="closeContact" :showContact="showContactStatus"></contactus>
-
 				<view class="center-list-item border-bottom" v-if="identity==2 || identity ==1"
 					@click="turnMyJobs(identity)">
 					<image src="../../static/me/jobs.png" mode="aspectFill"></image>
@@ -110,9 +121,9 @@
 				</swiper-item>
 			</swiper>
 		</view>
-
-		<view class="login-btn" v-if="showLoginBtnStatus">
-			<button type="default" @click="miniLogin">Login</button>
+		
+		<view class="logout" v-if="!showLoginBtnStatus">
+			<button type="default" @click="logout()">Logout</button>
 		</view>
 
 		<!-- 语言选择框 -->
@@ -141,6 +152,8 @@
 		</view>
 		<!-- 语言选择end -->
 
+		<discountcard @close="closeDiscount" :showContact="showDiscountStatus"></discountcard>
+		<contactus @close="closeContact" :showContact="showContactStatus"></contactus>
 		<!-- 角色选择弹框 -->
 		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity"
 			@close="rolePopupStatus=false"></selectRolePopup>
@@ -162,7 +175,7 @@
 		data() {
 			return {
 				login: false,
-				avatarUrl: "",
+				avatarUrl: "https://oss.esl-passport.cn/educator.png",
 				nickname: "",
 				location: "",
 				jobTitle: "",
@@ -206,58 +219,78 @@
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			// #ifdef H5
+			isWechat() {
+				return this.$isWechat()
 			}
+			// #endif
+			
 		},
 		onShow() {
+			var _this = this;
+			let token = uni.getStorageSync('token');
+			let identity = uni.getStorageSync('identity');
+
 			// #ifdef H5
 			uni.setTabBarItem({
-				index:1,
-				text:this.i18n.tabbarjobs
+				index: 1,
+				text: this.i18n.tabbarjobs
 			})
 			// #endif
 			// #ifdef MP-WEIXIN
-			let token = uni.getStorageSync('token');
-			let identity = uni.getStorageSync('identity');
-			
-			if(token !='' && identity && identity !=0){
+			if (token != '' && identity && identity != 0) {
 				uni.setTabBarItem({
-					index:1,
-					text:this.i18n.tabbarjobs
+					index: 1,
+					text: this.i18n.tabbarjobs
 				})
 			}
 			// #endif
 
 		},
 		onLoad() {
-			var that = this;
-
+			var _this = this;
 			let token = uni.getStorageSync('token');
-			// #ifdef MP-WEIXIN
-			if (token == '') {
-				this.showLoginBtnStatus = true;
-			} else {
-				this.showLoginBtnStatus = false;
-			}
-			// #endif
 
-			that.identity = uni.getStorageSync('identity');
-			if(token != ''){
-				this.getBasicInfo();
+			this.getAdsList();
+
+			if (!token) {
+				_this.showLoginBtnStatus = true;
+			} else {
+				_this.showLoginBtnStatus = false;
+				let uid = uni.getStorageSync('uid');
+				let token = uni.getStorageSync('token');
+				let identity = uni.getStorageSync('identity');
+				_this.identity = identity;
+				_this.getBasicInfo(uid, token, identity);
 			}
+
 			uni.$on('changeIdentity', function(data) {
-				that.identity = data;
-				that.getBasicInfo();
+				_this.identity = data;
+				let uid = uni.getStorageSync('uid');
+				let token = uni.getStorageSync('token');
+				_this.getBasicInfo(uid, token, data);
 			})
 			uni.$on('userInfoUpdated', function(data) {
 				console.log(data)
-				that.getBasicInfo();
+				let uid = uni.getStorageSync('uid');
+				let token = uni.getStorageSync('token');
+				let identity = _this.identity;
+				_this.getBasicInfo(uid, token, identity);
 			})
-			this.getAdsList();
+
+			uni.$on('tokenUpdated', function(data) {
+				console.log(data)
+				_this.showLoginBtnStatus = false;
+				_this.getBasicInfo(data.uid, data.token, data.identity);
+				_this.identity = data.identity;
+			})
 
 		},
 		onUnload() {
 			uni.$off('changeIdentity');
 			uni.$off('userInfoUpdated');
+			uni.$off('tokenUpdated');
 		},
 		methods: {
 			adsTurn(relativeLink) {
@@ -331,24 +364,24 @@
 					text: this.i18n.tabbarjobs
 				})
 				// #endif
-				
+
 				// #ifdef MP-WEIXIN
 				let token = uni.getStorageSync('token');
 				let identity = uni.getStorageSync('identity');
-				
-				if(token !='' && identity && identity !=0){
+
+				if (token != '' && identity && identity != 0) {
 					uni.setTabBarItem({
-						index:1,
-						text:this.i18n.tabbarjobs
+						index: 1,
+						text: this.i18n.tabbarjobs
 					})
-				}else{
+				} else {
 					uni.setTabBarItem({
 						index: 1,
 						text: this.i18n.tabbarevents
 					})
 				}
 				// #endif
-				
+
 				uni.setTabBarItem({
 					index: 2,
 					text: this.i18n.tabbardeals
@@ -388,17 +421,17 @@
 					text: this.i18n.tabbarjobs
 				})
 				// #endif
-				
+
 				// #ifdef MP-WEIXIN
 				let token = uni.getStorageSync('token');
 				let identity = uni.getStorageSync('identity');
-				
-				if(token !='' && identity && identity !=0){
+
+				if (token != '' && identity && identity != 0) {
 					uni.setTabBarItem({
-						index:1,
-						text:this.i18n.tabbarjobs
+						index: 1,
+						text: this.i18n.tabbarjobs
 					})
-				}else{
+				} else {
 					uni.setTabBarItem({
 						index: 1,
 						text: this.i18n.tabbarevents
@@ -442,11 +475,8 @@
 					})
 				})
 			},
-			getBasicInfo() {
+			getBasicInfo(uid, token, identity) {
 				var that = this;
-				let uid = uni.getStorageSync('uid');
-				let token = uni.getStorageSync('token');
-				let identity = that.identity;
 
 				let data = {
 					id: uid,
@@ -465,59 +495,71 @@
 						let educatorInfo = res.message.educator_info;
 						let businessInfo = res.message.business_info;
 						let vendorInfo = res.message.vendor_info;
-						let headimgurl = res.message.headimgurl;
-						let nickname = res.message.nickname;
-						let location = res.message.city + ', ' + res.message.province;
-
-						that.avatarUrl = headimgurl;
-						that.nickname = nickname;
-						that.location = location;
-						that.jobTitle = '';
-
+						
 						if (that.identity == 1) {
-							if (educatorInfo != undefined) {
+							if (educatorInfo) {
 								let profilePhoto = res.message.educator_info.profile_photo;
-								that.avatarUrl = profilePhoto;
-								if (profilePhoto == '') {
-									that.avatarUrl = headimgurl;
+								let firstName = res.message.educator_info.first_name;
+								let lastName =  res.message.educator_info.last_name;
+								let district = res.message.educator_info.district;
+								let city  = res.message.educator_info.city;
+								let level = res.message.educator_info.level;
+								
+								if(profilePhoto !='' ){
+									that.avatarUrl = profilePhoto;
 								}
-								that.nickname = res.message.educator_info.first_name + ' ' + res.message
-									.educator_info.last_name;
-								that.location = res.message.educator_info.district + ', ' + res.message
-									.educator_info.city;
-								that.jobTitle = res.message.educator_info.nationality;
-								this.educatorLevel = res.message.educator_info.level
+								
+								that.nickname = firstName + ' ' + lastName;
+								that.location = district + ', ' + city;
+								this.educatorLevel = level;
 							}
 						}
 						if (that.identity == 2) {
-							if (businessInfo != undefined) {
-								that.avatarUrl = res.message.business_info.profile_photo;
-								that.nickname = res.message.business_info.first_name + ' ' + res.message
-									.business_info.last_name;
-								that.location = res.message.business_info.district + ', ' + res.message
-									.business_info.city;
-								that.jobTitle = res.message.business_info.business_name;
-								if (that.avatarUrl == '') {
-									that.avatarUrl = headimgurl;
+							if (businessInfo) {
+								let profilePhoto = res.message.business_info.profile_photo;
+								let firstName = res.message.business_info.first_name;
+								let lastName =  res.message.business_info.last_name;
+								let district = res.message.business_info.district;
+								let city  = res.message.business_info.city;
+								let level = res.message.business_info.level;
+								
+								if(profilePhoto !='' ){
+									that.avatarUrl = profilePhoto;
 								}
-								this.businessLevel = res.message.business_info.level
+								
+								that.nickname = firstName + ' ' + lastName;
+								that.location = district + ', ' + city;
+								this.businessLevel = level;
+								
 							}
 						}
 						if (that.identity == 3) {
-							if (vendorInfo != undefined) {
-								that.avatarUrl = res.message.vendor_info.profile_photo;
-								that.nickname = res.message.vendor_info.first_name + ' ' + res.message.vendor_info
-									.last_name;
-								that.location = res.message.vendor_info.district + ', ' + res.message.vendor_info
-									.city;
-								that.jobTitle = res.message.vendor_info.vendor_name;
-								if (that.avatarUrl == '') {
-									that.avatarUrl = headimgurl;
+							if (vendorInfo) {
+								let profilePhoto = res.message.vendor_info.profile_photo;
+								let firstName = res.message.vendor_info.first_name;
+								let lastName =  res.message.vendor_info.last_name;
+								let district = res.message.vendor_info.district;
+								let city  = res.message.vendor_info.city;
+								let level = res.message.vendor_info.level;
+								
+								if(profilePhoto !='' ){
+									that.avatarUrl = profilePhoto;
 								}
-								this.vendorLevel = res.message.vendor_info.level
+								
+								that.nickname = firstName + ' ' + lastName;
+								that.location = district + ', ' + city;
+								this.vendorLevel = level;
+								
 							}
 
 						}
+
+						// #ifdef H5
+						if (that.identity == 0 && !this.isWechat) {
+							that.nickname = "First & Last Name";
+							that.location = 'District, City';
+						}
+						// #endif
 
 					} else {
 						uni.showToast({
@@ -631,12 +673,18 @@
 			miniLogin() {
 				var pages = getCurrentPages(); // 当前页面
 				var currentPagePath = pages[pages.length - 1]; // 前一个页面
-				
-				if(currentPagePath.route == 'pages/login/index'){
+
+				if (currentPagePath.route == 'pages/login/index') {
 					return;
 				}
 				return uni.navigateTo({
-					url: '/pages/login/index?redirect='+encodeURIComponent(currentPagePath.route)
+					url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+				})
+			},
+			logout(){
+				uni.clearStorageSync();
+				uni.reLaunch({
+					url:'/pages/menu/me'
 				})
 			}
 
@@ -656,4 +704,15 @@
 <style>
 	@import url("@/common/me/index.css");
 	@import url("@/common/home/role-popup.css");
+	
+	.logout{
+		width: 80%;
+		margin: 20rpx auto;
+	}
+	.logout button{
+		background-color: #0AA0A8;
+		color: #FFFFFF;
+		font-size: 30rpx;
+		line-height: 80rpx;
+	}
 </style>

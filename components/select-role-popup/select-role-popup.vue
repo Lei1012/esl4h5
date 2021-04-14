@@ -35,11 +35,7 @@
 					<image class="animate__animated animate__flash" v-if="selectRoleIdentity==3"
 						src="@/static/esl/click-w-icon.png" mode="aspectFill"></image>
 				</view>
-				<!-- <view class="role-item" :class="selectRoleIdentity==4 ? 'role-item-actived' : '' " @click="selectRole(4)">
-					{{i18n.otherbutton}}
-					<image class="animate__animated animate__flash" v-if="selectRoleIdentity==4" src="@/static/esl/click-w-icon.png"
-					 mode="aspectFill"></image>
-				</view> -->
+
 			</view>
 		</view>
 		<!-- 角色选择弹框 end -->
@@ -94,7 +90,7 @@
 			},
 			selectRole: function(e) {
 				var that = this;
-				// this.rolePopupStatus = false;
+
 				that.$emit('close')
 
 				let mobile = uni.getStorageSync('phone');
@@ -102,7 +98,7 @@
 				let uid = uni.getStorageSync('uid');
 
 				// #ifdef MP-WEIXIN
-				if (token == '') {
+				if (token == '' || !token) {
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
@@ -114,81 +110,77 @@
 					})
 				}
 				// #endif
-
-				// console.log(mobile)
-				if (mobile == '') {
+				
+				if (!token || token == '') {
 					uni.navigateTo({
-						url: '/pages/role/wxBindMobile?roleValue=' + e + '&language=' + that.languageValue
+						url: '/pages/login/index'
 					})
-
 				} else {
+					let data = {
+						token: token,
+						id: uid
+					}
 
-					if (token != '') {
-						let data = {
-							token: token,
-							id: uid
-						}
-						profile.getBasicInfo(data).then(res => {
-							// console.log(res)
-							if (res.code == 200) {
-								uni.setStorageSync('unionid', res.message.unionid)
-								uni.setStorageSync('phone', res.message.phone)
-								uni.setStorageSync('nickname', res.message.nickname)
-								uni.setStorageSync('uid', res.message.id)
-								// uni.setStorageSync('identity', res.message.identity)
-								that.is_educator = res.message.is_educator;
-								that.is_business = res.message.is_business;
-								that.is_vendor = res.message.is_vendor;
-								that.is_other = res.message.is_other;
-								that.identity = res.message.identity;
-								that.mobile = res.message.phone;
+					profile.getBasicInfo(data).then(res => {
+						// console.log(res)
+						if (res.code == 200) {
+							uni.setStorageSync('unionid', res.message.unionid)
+							uni.setStorageSync('phone', res.message.phone)
+							uni.setStorageSync('nickname', res.message.nickname)
+							uni.setStorageSync('uid', res.message.id)
+							// uni.setStorageSync('identity', res.message.identity)
+							that.is_educator = res.message.is_educator;
+							that.is_business = res.message.is_business;
+							that.is_vendor = res.message.is_vendor;
+							that.is_other = res.message.is_other;
+							that.identity = res.message.identity;
+							that.mobile = res.message.phone;
 
-								if (e == 1) {
-									if (that.is_educator >= 10) {
-										this.changeIdentityApi(1)
-									} else {
-										uni.navigateTo({
-											url: '/pages/role/educator?roleValue=' + e + '&language=' +
-												that.languageValue
-										})
-									}
-
-								}
-								if (e == 2) {
-									if (that.is_business >= 10) {
-										this.changeIdentityApi(2)
-									} else {
-										uni.navigateTo({
-											url: '/pages/role/business?roleValue=' + e + '&language=' +
-												that.languageValue
-										})
-									}
-
-								}
-								if (e == 3) {
-									if (that.is_vendor >= 10) {
-										this.changeIdentityApi(3)
-									} else {
-										uni.navigateTo({
-											url: '/pages/role/vendor?roleValue=' + e + '&language=' +
-												that.languageValue
-										})
-									}
-
+							if (e == 1) {
+								if (that.is_educator >= 10) {
+									this.changeIdentityApi(1)
+								} else {
+									uni.navigateTo({
+										url: '/pages/role/educator?roleValue=' + e + '&language=' +
+											that.languageValue
+									})
 								}
 
+							}
+							if (e == 2) {
+								if (that.is_business >= 10) {
+									this.changeIdentityApi(2)
+								} else {
+									uni.navigateTo({
+										url: '/pages/role/business?roleValue=' + e + '&language=' +
+											that.languageValue
+									})
+								}
 
-							} else {
-								uni.showToast({
-									title: res.msg,
-									icon: 'none'
-								})
+							}
+							if (e == 3) {
+								if (that.is_vendor >= 10) {
+									this.changeIdentityApi(3)
+								} else {
+									uni.navigateTo({
+										url: '/pages/role/vendor?roleValue=' + e + '&language=' +
+											that.languageValue
+									})
+								}
+
 							}
 
-						}).catch(error => {
-							console.log(error)
-						})
-					}
+
+						} else {
+							uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+						}
+
+					}).catch(error => {
+						console.log(error)
+					})
 
 				}
 

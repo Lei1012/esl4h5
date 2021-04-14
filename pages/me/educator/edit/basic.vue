@@ -6,94 +6,71 @@
 				<text v-if="isFirstEdit!=1">{{i18n.profileeditbasicinfo}}</text>
 			</view>
 			<view class="flex-item me-edit-form">
-				<view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.Basicinfofirstname}}</view>
-					<input type="text" v-model="firstname" :placeholder="i18n.Basicinfofirstname" />
-				</view>
-				<view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.basicinfolastname}}</view>
-					<input type="text" v-model="lastname" :placeholder="i18n.basicinfolastname" />
-				</view>
-				<view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.basicinfonickname}}</view>
-					<input type="text" v-model="nickname" :placeholder="i18n.basicinfonickname" />
-				</view>
-				<view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.basiceduemail}}</view>
-					<input type="text" v-model="email" :placeholder="i18n.basiceduemail" />
-				</view> 
-				<view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.educatorwechatid}}</view>
-					<input type="text" v-model="wechatId" :placeholder="i18n.educatorwechatid" />
-				</view>
-				<!-- <view class="me-edit-form-item">
-					<view class="me-edit-form-item-label">{{i18n.basiceduapplicationcontact}}</view>
-					<input type="text"  name="applyContact"  v-model="applicationContact" :placeholder="i18n.basiceduapplicationcontact"/>
-				</view> -->
-				<view class="me-edit-form-gender" @click="showgenderPicker">
-					<view class="me-edit-form-item-label">{{i18n.gender}}</view>
-					<view class="me-edit-form-gender-1" v-if="genderStatus===false">Choose</view>
-					<view class="me-edit-form-gender-2" v-if="genderStatus">{{genderValue.value}}</view>
-				</view>
-				<view class="me-edit-form-nation">
-					<view class="me-edit-form-item-label">{{i18n.nationality}}</view>
-					<view class="me-edit-form-nation-1" v-if="nationalitySelectStatus===false" @click="turnNationalityPage">
-						Choose
-					</view>
-					<view class="me-edit-form-nation-2" v-if="nationalitySelectStatus" @click="turnNationalityPage">
-						{{nationalityValue}}
-					</view>
-				</view>
-				<!-- <view class="me-edit-form-nation">
-					 <country-select v-model="xllCountry" :country="xllCountry" topCountry="US" :usei18n="false" />
-					  <region-select v-model="xllRegion" :country="xllCountry" :region="xllRegion" :usei18n="false"  />
-				</view> -->
-				<view class="me-edit-form-birthday">
-					<view class="me-edit-form-item-label">{{i18n.birthdate}}</view>
-					<view class="me-edit-form-birthday-1" @click="birthdateShow=true" v-if="selectDateStatus">{{birthdateStr}}</view>
-					<view class="me-edit-form-birthday-2" @click="birthdateShow=true" v-if="selectDateStatus===false">Birthdate</view>
-					<u-picker :show-time-tag="false" confirm-text="Confirm" cancel-text="Cancel" v-model="birthdateShow" mode="time"
-					 @confirm="birthdateConfirm"></u-picker>
-				</view>
-				<!-- <view class="me-edit-form-current-city" >
-					<view class="me-edit-form-item-label">{{i18n.location}}</view>
-					<view class="me-edit-form-current-city-1">
-						{{country}} {{province}} {{city}}
-					</view>
-					<view id="mapContainer" style="width: 100%;height: 500rpx;margin-top: 20rpx;"></view>
-					<div id="info">Address:<span id="position"></span></div>
-				</view> -->
-				<view class="me-edit-form-current-city">
-					<view class="me-edit-form-item-label">{{i18n.location}}</view>
-					<view class="me-edit-form-current-city-1" @click="chooseLocation">
-						<text v-if="locationStatus">{{pickerText}}</text>
-						<text v-if="locationStatus===false">{{i18n.basicbusinesstwochooselocation}}</text>
-					</view>
-				</view>
+				<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
+					:label-style="{'font-weight':700}">
+					<u-form-item :label="i18n.profilefirstname" prop="first_name">
+						<u-input border v-model="form.first_name" :placeholder="i18n.profilefirstname" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilelastname" prop="last_name">
+						<u-input border v-model="form.last_name" :placeholder="i18n.profilelastname" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilenickname" prop="nickname">
+						<u-input border v-model="form.nickname" :placeholder="i18n.profilenickname" />
+					</u-form-item>
+					<u-form-item :label="i18n.basiceduemail" prop="email">
+						<u-input border v-model="form.email" :placeholder="i18n.basiceduemail" />
+					</u-form-item>
+					<u-form-item :label="i18n.educatorwechatid" prop="wx_id">
+						<u-input border v-model="form.wx_id" :placeholder="i18n.educatorwechatid" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilegender" prop="sex_name">
+						<u-input border v-model="form.sex_name" :placeholder="i18n.profilechoosegender" type="select"
+							@click="showgenderPicker" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilenationality" prop="nationality">
+						<u-input border v-model="form.nationality" :placeholder="i18n.profilechoosenationality"
+							type="select" @click="turnNationalityPage" />
+					</u-form-item>
+					<u-form-item :label="i18n.birthdate" prop="birthday">
+						<u-input border v-model="form.birthday" :placeholder="i18n.birthdate" type="select"
+							@click="birthdateShow=true" />
+						<u-picker :show-time-tag="false" confirm-text="Confirm" cancel-text="Cancel"
+							v-model="birthdateShow" mode="time" @confirm="birthdateConfirm"></u-picker>
+					</u-form-item>
+					<u-form-item :label="i18n.location" prop="location">
+						<u-input border v-model="form.location" :placeholder="i18n.basicbusinesstwochooselocation"
+							type="select" @click="chooseLocation" />
+					</u-form-item>
+				</u-form>
+
 				<view class="role-form-type-1">
 					<text>{{i18n.basicinfoeducategory}}</text>
 				</view>
 				<view class="categories-tags">
-					<view class="categories-tags-item" :class="selectEducatorTypeList.indexOf(item.id) == -1 ? '' : 'tag-active' "
-					 v-for="(item,k) in range" :key="k" @click="selectEducatorType(item)">
+					<view class="categories-tags-item"
+						:class="selectEducatorTypeList.indexOf(item.id) == -1 ? '' : 'tag-active' "
+						v-for="(item,k) in range" :key="k" @click="selectEducatorType(item)">
 						{{item.identity_name}}
 					</view>
 				</view>
 				<view class="me-edit-form-job-seeking">
 					{{i18n.jobseeking}}
-					<switch style="margin-left: 20rpx;" :checked="jobSeekingValue==1" color="#0AA0A8" @change="jobSeekingChange" />
+					<switch style="margin-left: 20rpx;" :checked="form.is_seeking==1" color="#0AA0A8"
+						@change="jobSeekingChange" />
 				</view>
 				<view class="me-edit-form-public-profile">
 					{{i18n.publicprofile}}
-					<switch style="margin-left: 20rpx;" :checked="publicProfileValue == 1" color="#0AA0A8" @change="publicProfileChange" />
+					<switch style="margin-left: 20rpx;" :checked="form.is_public == 1" color="#0AA0A8"
+						@change="publicProfileChange" />
 				</view>
 			</view>
 			<view class="flex-item me-edit-submit">
 				<button @click="basicSubmit" type="default">{{i18n.homereviewbutton}}</button>
 			</view>
 		</view>
-		<tki-tree ref="tkitree" :range="genderList" :rangeKey="rangeKey" confirmColor="#119fa9" :multiple="false" @confirm="cofirmgenderType"
-		 :confirmText="confirmText" :cancelText="cancelText" @cancel="cancelgenderType" />
+		<tki-tree ref="tkitree" :range="genderList" :rangeKey="rangeKey" confirmColor="#119fa9" :multiple="false"
+			@confirm="cofirmgenderType" :confirmText="confirmText" :cancelText="cancelText"
+			@cancel="cancelgenderType" />
 	</view>
 </template>
 
@@ -104,8 +81,7 @@
 	export default {
 		data() {
 			return {
-				xllCountry:'',
-				xllRegion:'',
+				
 				rangeKey: 'value',
 				idKey: 'id',
 				genderList: [{
@@ -122,41 +98,50 @@
 				confirmText: 'Confirm',
 				cancelText: 'Cancel',
 				genderStatus: false,
-				genderValue: '', //性别
-
-				qqLocpickerUrl: '',
-				formatted_addresses: '',
 
 				birthdateShow: false,
 				selectDateStatus: false, // 是否选择生日
 
-				country: '', //
-				province: '',
-				city: '',
-				area:'',
-				address:'',
-				lon: '',
-				lat: '',
-		
 				locationStatus: false,
-				firstname: '',
-				lastname: '',
-				nickname: '', //昵称
-				email:'',
-				birthdate: '', //生日
-				birthdateStr: '',
-				applicationContact:'',
 
-				jobSeekingValue: 0,
-				publicProfileValue: 0,
-				nationalityValue: '',
-				nationalitySelectStatus: false,
+				isFirstEdit: undefined,
 				
-				isFirstEdit:undefined,
-				pickerText:'',
-				wechatId:'',
 				selectEducatorTypeList: [],
 				range: [],
+
+				errorType: ['message'],
+				form: {
+					first_name: '',
+					last_name: '',
+					nickname: '',
+					email: '',
+					sex: '',
+					sex_name: '',
+					nationality: '',
+					birthday: '',
+					location:'',
+					country: '',
+					province: '',
+					city: '',
+					district: '',
+					address: '',
+					lon: '',
+					lat: '',
+					is_seeking: '',
+					is_public: '',
+					apply_contact: '',
+					wx_id: '',
+					sub_identity: '',
+					token: uni.getStorageSync('token')
+				},
+				rules: {
+					email: [{
+						required: false,
+						type: 'email',
+						message: this.$t('index').basiceduemail,
+						trigger: ['change', 'blur'],
+					}],
+				}
 			}
 		},
 		components: {
@@ -173,36 +158,31 @@
 		onLoad(option) {
 
 			var that = this;
-			
-			this.subCateList()
 			this.isFirstEdit = option.firstEdit;
-			this.getBasicInfo();
 			
+			this.subCateList();
+			this.getBasicInfo();
+
 			uni.$on('nationalityObj', function(data) {
 				console.log(data)
-				that.nationalityValue = data.name;
-				that.nationalitySelectStatus = true;
+				that.form.nationality = data;
 			})
-			this.getApplicationContact()
-			
-			uni.$on('locationEvent',function(data){
+			uni.$on('locationEvent', function(data) {
 				console.log(data)
-				that.province = data.province;
-				that.city = data.city;
-				that.area = data.area;
-				that.locationStatus = true;
-				that.pickerText =  data.area + ', ' + data.city + ', ' + data.province;
+				that.form.province = data.province;
+				that.form.city = data.city;
+				that.form.district = data.area;
+				that.form.location = data.area + ', ' + data.city + ', ' + data.province;
 			})
-			// console.log(that.pickerText)
 		},
 		methods: {
 			subCateList: function() {
 				let data = {
-					pid:1,
+					pid: 1,
 					tree: 1
 				}
 				let rangeData = [];
-			
+
 				profile.getSubCateLists(data).then(res => {
 					// console.log(res)
 					if (res.code == 200) {
@@ -226,22 +206,22 @@
 				}
 				console.log(this.selectEducatorTypeList);
 			},
-			chooseLocation(){
+			chooseLocation() {
 				uni.navigateTo({
-					url:'/pages/location/location'
+					url: '/pages/location/location'
 				})
 			},
-			getApplicationContact(){
+			getApplicationContact() {
 				let data = {
-					token:uni.getStorageSync('token'),
-					user_id:uni.getStorageSync('uid')
+					token: uni.getStorageSync('token'),
+					user_id: uni.getStorageSync('uid')
 				}
-				profile.getApplicationContact(data).then(res=>{
+				profile.getApplicationContact(data).then(res => {
 					console.log(res)
-					if(res.code == 200){
-						this.applicationContact=res.message.apply_contact;
+					if (res.code == 200) {
+						this.applicationContact = res.message.apply_contact;
 					}
-				}).catch(error=>{
+				}).catch(error => {
 					console.log(error)
 				})
 			},
@@ -255,58 +235,45 @@
 					console.log(res)
 					if (res.code == 200) {
 						let basicUserInfo = res.message;
+						let educatorInfo = res.message.educator_info;
+						
 						if (basicUserInfo.sex == 1) {
-							this.genderStatus = true;
-							this.genderValue = {
-								id: 1,
-								value: 'Male'
-							}
+							this.form.sex = 1;
+							this.form.sex_name = 'Male';
 						}
 						if (basicUserInfo.sex == 2) {
-							this.genderStatus = true;
-							this.genderValue = {
-								id: 2,
-								value: 'Female'
-							}
+							this.form.sex = 2;
+							this.form.sex_name = 'Female';
 						}
 						if (basicUserInfo.sex == 3) {
-							this.genderStatus = true;
-							this.genderValue = {
-								id: 3,
-								value: 'Undisclosed'
-							}
+							this.form.sex = 3;
+							this.form.sex_name = 'Undisclosed';
 						}
 						
-						this.firstname = basicUserInfo.educator_info.first_name;
-						this.lastname = basicUserInfo.educator_info.last_name;
-						this.nickname = basicUserInfo.educator_info.nickname;
-						this.nationalityValue = basicUserInfo.educator_info.nationality;
-						this.birthdateStr = basicUserInfo.birthday;
-						this.jobSeekingValue = basicUserInfo.is_seeking;
-						this.publicProfileValue = basicUserInfo.is_public;
-						this.wechatId = basicUserInfo.educator_info.wx_id;
-						this.email = basicUserInfo.educator_info.email;
-						let subIdentityIdStr  = basicUserInfo.educator_info.sub_identity_id;
-					
+						let province = educatorInfo.province;
+						let city = educatorInfo.city;
+						let district =  educatorInfo.district;
+						let address = educatorInfo.address;
+						let subIdentityIdStr = educatorInfo.sub_identity_id;
+
+						this.form.first_name = educatorInfo.first_name;
+						this.form.last_name = educatorInfo.last_name;
+						this.form.nickname = educatorInfo.nickname;
+						this.form.nationality = educatorInfo.nationality;
+						this.form.birthday = basicUserInfo.birthday;
+						this.form.is_seeking = basicUserInfo.is_seeking;
+						this.form.is_public = basicUserInfo.is_public;
+						this.form.wx_id = educatorInfo.wx_id;
+						this.form.email = educatorInfo.email;
+						
+						this.form.province = province;
+						this.form.city = city;
+						this.form.district = district;
+						this.form.address = address;
+						this.form.location =  district + ', ' + city + ', ' + province;
+						
 						this.selectEducatorTypeList = subIdentityIdStr.split(',').map(Number)
-					
-						this.address = basicUserInfo.educator_info.address;
 						
-						if (this.nationalityValue != '') {
-							this.nationalitySelectStatus = true;
-						}
-						if (this.birthdateStr != '' && this.birthdateStr != '0000-00-00') {
-							this.selectDateStatus = true;
-						}
-						if(basicUserInfo.educator_info.province!='' && basicUserInfo.educator_info.city !='' && basicUserInfo.educator_info.district !=''){
-							that.province = basicUserInfo.educator_info.province;
-							that.city = basicUserInfo.educator_info.city;
-							that.district = basicUserInfo.educator_info.district;
-							this.pickerText = basicUserInfo.educator_info.district + ', '+basicUserInfo.educator_info.city + ', '+ basicUserInfo.educator_info.province
-							this.locationStatus=true;
-						}
-					
-			
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -326,114 +293,166 @@
 				this.$refs.tkitree._show()
 			},
 			cofirmgenderType: function(e) {
-				let a = []
-				e.forEach(item => {
-					this.genderValue = item;
-				})
-				this.genderStatus = true;
-				console.log(this.genderValue)
+				this.form.sex = e[0].id;
+				this.form.sex_name = e[0].value;
 			},
 			cancelgenderType: function() {
 				console.log('cancel')
 				// this.$refs.tkitree._hide()
 			},
 			birthdateConfirm(e) {
-				this.selectDateStatus = true;
 				let year = e.year;
 				let month = e.month;
 				let day = e.day;
-				this.birthdateStr = year + '-' + month + '-' + day;
-				this.birthdate = year + '-' + month + '-' + day;
-				console.log(e)
-			},
-			changeGenderValue: function(e) {
-				let key = e.target.value;
-				let genderList = this.genderList;
-				this.genderValue = genderList[key];
-				this.genderStatus = true;
-				this.genderId = genderList[key].id;
-				console.log(this.genderId)
+				this.form.birthday = year + '-' + month + '-' + day;
 			},
 			jobSeekingChange(e) {
 				console.log(e)
 				let value = e.detail.value;
 				if (value) {
-					this.jobSeekingValue = 1;
+					this.form.is_seeking = 1;
 				} else {
-					this.jobSeekingValue = 0;
+					this.form.is_seeking = 0;
 				}
 			},
 			publicProfileChange(e) {
 				console.log(e)
 				let value = e.detail.value;
 				if (value) {
-					this.publicProfileValue = 1;
+					this.form.is_public = 1;
 				} else {
-					this.publicProfileValue = 0;
+					this.form.is_public = 0;
 				}
 			},
 			basicSubmit() {
-				
-				let educatorType = this.selectEducatorTypeList.join(',');
-				console.log(educatorType)
-				let data = {
-					first_name: this.firstname,
-					last_name: this.lastname,
-					nickname: this.nickname,
-					email:this.email,
-					sex: this.genderValue.id,
-					nationality: this.nationalityValue,
-					birthday: this.birthdate,
-					country: this.country,
-					province: this.province,
-					city: this.city,
-					district:this.area,
-					address:this.address,
-					lon: this.lon,
-					lat: this.lat,
-					is_seeking: this.jobSeekingValue,
-					is_public: this.publicProfileValue,
-					apply_contact:this.applicationContact,
-					wx_id:this.wechatId,
-					sub_identity: educatorType,
-					token: uni.getStorageSync('token')
-				}
-				profile.addEduBasic(data).then(res => {
-					console.log(res)
-					uni.$emit('userInfoUpdated',{msg:'page updated'});
-					if (res.code == 200) {
-						if(this.isFirstEdit==1){
+				var that = this;
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log('验证通过');
+						let educatorType = this.selectEducatorTypeList.join(',');
+						that.form.sub_identity = educatorType;
+						let data = Object.assign({},that.form);
+						
+						profile.addEduBasic(data).then(res => {
+							console.log(res)
 							
-							uni.reLaunch({
-								url:'/pages/me/profile/photo?type=13'
-							})
-						}else{
-							uni.reLaunch({
-								url: '../home'
-							})
-						}
+							if (res.code == 200) {
+								uni.$emit('userInfoUpdated', {
+									msg: 'page updated'
+								});
+								uni.showLoading({
+									title:'loading'
+								})
+								if (this.isFirstEdit == 1) {
+									setTimeout(function(){
+										uni.hideLoading();
+										uni.reLaunch({
+											url: '/pages/me/profile/photo?type=13'
+										})
+									},1200)
+									
+								} else {
+									setTimeout(function(){
+										uni.hideLoading();
+										uni.reLaunch({
+											url: '../home'
+										})
+									},1200)
+									
+								}
+						
+							} else {
+								uni.showToast({
+									title: res.msg,
+									icon: 'none'
+								})
+							}
+						}).catch(error => {
+							console.log(error)
+						})
 						
 					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
+						console.log('验证失败');
 					}
-				}).catch(error => {
-					console.log(error)
-				})
+				});
 
 			}
 
 		},
 		onReady() {
-			
+			this.$refs.uForm.setRules(this.rules);
 		}
 	}
 </script>
 
 <style>
-	@import url("@/common/me/basic.css");
+	page {
+		background-color: #F4F5F6;
+	}
+
+	.me-edit-title {
+		text-align: center;
+		font-size: 38rpx;
+		font-weight: 700;
+		background-color: #004956;
+		color: #FFFFFF;
+		height: 200rpx;
+		line-height: 200rpx;
+
+	}
+
+	.me-edit-form {
+		width: 96%;
+		margin: 0 auto;
+		margin-top: 20rpx;
+		padding: 20rpx;
+		background-color: #FFFFFF;
+		border-radius: 20rpx;
+	}
+
+	.me-edit-form-item {
+		width: 100%;
+		margin-top: 20rpx;
+	}
+
+	.me-edit-form-item-label {
+		font-size: 28rpx;
+		font-weight: 700;
+	}
+
+	.me-edit-form-job-seeking {
+		margin-top: 20rpx;
+		font-size: 28rpx;
+		font-weight: 700;
+
+	}
+
+	.me-edit-form-public-profile {
+		margin-top: 20rpx;
+		font-size: 28rpx;
+		font-weight: 700;
+	}
+
+	.me-edit-form-job-title {
+		margin-top: 20rpx;
+	}
+
+	.me-edit-submit {
+		width: 80%;
+		margin: 0 auto;
+		margin-top: 10%;
+		padding-bottom: 100rpx;
+	}
+
+	.me-edit-submit button {
+		background-color: #004956;
+		box-sizing: border-box;
+		color: #FFFFFF;
+		height: 80rpx;
+		border-radius: 80rpx;
+		line-height: 80rpx;
+	}
+
 	.categories-tags {
 		width: 100%;
 		display: flex;
@@ -441,9 +460,8 @@
 		justify-content: first baseline;
 		align-items: center;
 		flex-wrap: wrap;
-	
 	}
-	
+
 	.categories-tags-item {
 		padding-top: 10rpx;
 		padding-bottom: 10rpx;
@@ -453,23 +471,23 @@
 		margin-top: 10rpx;
 		margin-left: 10rpx;
 		border-radius: 20rpx;
-	
+		font-size: 28rpx;
 	}
-	
+
 	.tag-active {
 		background-color: #00b3d2;
 		color: #FFFFFF;
 	}
+
 	.role-form-type-1 {
 		margin-top: 20rpx;
 		height: 80rpx;
 		text-align: left;
-		font-size: 34rpx;
+		font-size: 28rpx;
 		font-weight: 700;
 	}
-	
+
 	.role-form-type-1 text {
-		font-size: 32rpx;
+		font-size: 28rpx;
 	}
-	
 </style>

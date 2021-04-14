@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App'
 import VueI18n from 'vue-i18n'
 import language from './common/language.js'
-import store from './store'
 import vueJsonp from 'vue-jsonp'
 
 import uView from "uview-ui";
@@ -33,7 +32,6 @@ const i18n = new VueI18n({
 })
 
 Vue.prototype._i18n = i18n
-Vue.prototype.$store = store
 
 Vue.prototype.$adpid = "1111111111"
 
@@ -64,7 +62,7 @@ Vue.prototype.$multiImportJobUrl = "https://api.esl-passport.cn/api/job/import"
 // #ifdef H5-DEV
 console.log('h5-dev')
 Vue.prototype.$appid = 'wx5e5b70000c31e992'
-Vue.prototype.$redirect_uri = 'https://test.esl-passport.cn'
+Vue.prototype.$redirect_uri = 'https://test.esl-passport.cn/esl_h5/pages/login/index'
 Vue.prototype.$response_type = 'code'
 Vue.prototype.$scope = 'snsapi_userinfo'
 Vue.prototype.$state = 'esl001'
@@ -88,7 +86,6 @@ App.mpType = 'app'
 
 const app = new Vue({
 	i18n,
-	store,
 	...App
 })
 

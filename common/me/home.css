@@ -390,6 +390,7 @@ page {
 	white-space: pre-wrap;
 	margin-left: 20rpx;
 	width: 100%;
+	flex-wrap: wrap;
 }
 
 .basic-info-item text {
@@ -822,8 +823,8 @@ page {
 
 .gohome{
 	width: 80%;
-	margin: 20rpx auto;
-	
+	margin: 0rpx auto;
+	padding-bottom: 40rpx;
 }
 .gohome button{
 	background-color: #0AA0A8;

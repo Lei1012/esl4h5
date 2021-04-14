@@ -58,6 +58,14 @@
 		onLoad(option) {
 
 		},
+		computed:{
+			// #ifdef H5
+			isWechat(){
+				return this.$isWechat()
+			}
+			// #endif
+			
+		},
 		methods: {
 			/* 保存 */
 			onDown() {
@@ -96,7 +104,16 @@
 					// #endif
 					url: this.uploadApi,
 					name: 'job_file',
-					// header: {'Authorization':'token'},
+					// #ifdef H5
+					header:{
+						platform: this.isWechat ? 2 : 1
+					},
+					// #endif
+					// #ifdef MP-WEIXIN
+					header:{
+						platform:3
+					},
+					// #endif
 					// 其他业务参数直接写key,value,如：
 					token: uni.getStorageSync('token'),
 					// key2: 'value2',

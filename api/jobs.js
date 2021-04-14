@@ -127,6 +127,14 @@ function miniAppPay(data){
 	})
 }
 
+function wapPay(data){
+	return request({
+		method:"POST",
+		url:'wapPay',
+		data:data
+	})
+}
+
 export default {
 	add,
 	addProfile,
@@ -143,5 +151,6 @@ export default {
 	featureList,
 	changeJobs,
 	jobViews,
-	miniAppPay
+	miniAppPay,
+	wapPay
 }

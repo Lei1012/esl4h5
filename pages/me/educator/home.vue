@@ -2,7 +2,7 @@
 	<view class="uni-flex uni-column home-bg">
 		<view class="flex-item home-picture" :style="{backgroundImage:'url('+backgroundPictureSrc+')'}">
 			<canvas canvas-id="canvasArcbar1" id="canvasArcbar1" class="charts3">
-				<image :src="educatorInfo.profile_photo != '' ? educatorInfo.profile_photo :  basicUserInfo.headimgurl" mode="aspectFill"
+				<image :src="educatorInfo.profile_photo != '' ? educatorInfo.profile_photo :  'https://oss.esl-passport.cn/educator.png' " mode="aspectFill"
 				 @click="turnEditProfilePhoto(1,educatorInfo.profile_photo)"></image>
 				<view style="position: absolute;right: 50rpx;color: #FFFFFF;bottom: 80rpx;font-size: 38rpx;font-weight: 700;">
 					<text>{{percent}}</text>
@@ -329,29 +329,48 @@
 						</view>
 					</view>
 
-					<!-- interest -->
-					<view class="interest">
-						<view class="interest-t">
-							<view class="interest-title">{{i18n.profileinterest}}</view>
-							<view class="edit-icon" @click="turnEditProfileBio">
+					<!-- Hobbies -->
+					<view class="subject">
+						<view class="subject-t">
+							<view class="subject-title">{{i18n.profileinterest}}</view>
+							<view class="edit-icon" @click="canEditHobby=true" v-if="canEditHobby===false">
 								<image src="../static/esl/edit.png" mode="aspectFill"></image>
 							</view>
-						</view>
-						<view class="bio" v-if="educatorInfo.bio">
-							<view class="bio-title">{{i18n.profilebio}}</view>
-							<view class="bio-content">
-								{{educatorInfo.bio}}
+							<view class="edit-icon" @click="hobbyConfirm()" v-if="canEditHobby">
+								<image src="../static/esl/confirm-icon.png" mode="aspectFill"></image>
 							</view>
 						</view>
-						<view class="hobbies">
-							<view class="hobbies-title">{{i18n.profilehobbies}}</view>
-							<view class="hobbies-container">
-								<view class="hobbies-item" v-for="(hobby,i) in hobbiesList" :key="i">
-									<text>{{hobby}}</text>
+						<!-- subject tags展示 -->
+						<view class="subject-b" v-if="canEditHobby===false">
+							<view class="subject-item" v-for="(item,i) in hobbiesList" :key="i">
+								{{item}}
+							</view>
+						</view>
+						<!-- subject 编辑 -->
+						<view class="jobs-tags-container" v-if="canEditHobby">
+							<view class="jobs-tags">
+								<view class="jobs-tags-item" :class=" selectHobbyInfoList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
+								 v-for="(item,index) in editHobbyInfoList" :key="item.id" @click="selectHobby(item,1)">
+									{{item}}
+								</view>
+								<view class="jobs-tags-item" :class=" selectHobbyInfoList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
+								 v-for="(item,index) in ownHobbyInfoList" :key="index" @click="selectHobby(item,2)">
+									{{item}}
+								</view>
+							</view>
+							<view class="jobs-tags-item" v-if="addHobbyInfoStatus==false" @click="addHobbyInfoStatus=true">Add+</view>
+							<view class="jobs-tags-add">
+								<view class="jobs-tags-item-add" v-if="addHobbyInfoStatus">
+									<input type="text" v-model="ownHobbyInfoValue" placeholder="Add Hobbies">
+									<view class="jobs-tags-item-add-button">
+										<button type="default" v-if="ownHobbyInfoValue.length>0" @click="addOwnHobby()">Confirm</button>
+										<button type="default" v-if="ownHobbyInfoValue.length==0" @click="addHobbyInfoStatus=false">Cancel</button>
+									</view>
 								</view>
 							</view>
 						</view>
 					</view>
+					
 				</view>
 
 				<view class="profile-media" v-if="current === 1">
@@ -569,47 +588,7 @@
 							</view>
 						</view>
 					</view>
-					<!-- region -->
-					<!-- <view class="region">
-						<view class="region-t">
-							<view class="region-title">{{i18n.profileregion}}</view>
-							<view class="edit-icon" @click="turnIndexList(5)" v-if="canEditRegion===false">
-								<image src="../static/esl/edit.png" mode="aspectFill"></image>
-							</view>
-							<view class="edit-icon" @click="regionConfirm" v-if="canEditRegion">
-								<image src="../static/esl/confirm-icon.png" mode="aspectFill"></image>
-							</view>
-						</view>
-						
-						<view class="region-b" v-if="canEditRegion===false">
-							<view class="region-item" v-for="(item,i) in  regionList" :key="i">
-								{{item.object_en}}
-							</view>
-						</view>
 					
-						<view class="jobs-tags-container" v-if="canEditRegion">
-							<view class="jobs-tags">
-								<view class="jobs-tags-item" :class=" selectRegionList.findIndex((element)=>element.id===item.id) == -1 ? '' : 'tags-active' "
-								 v-for="(item,index) in editRegionList" :key="item.id" @click="selectRegion(item,1)">
-									{{item.object_en}}
-								</view>
-								<view class="jobs-tags-item" :class=" selectRegionList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
-								 v-for="(item,index) in ownRegionList" :key="index" @click="selectRegion(item,2)">
-									{{item.object_name}}
-								</view>
-							</view>
-							<view class="jobs-tags-item" v-if="addRegionStatus==false" @click="addRegionStatus=true">Add+</view>
-							<view class="jobs-tags-add">
-								<view class="jobs-tags-item-add" v-if="addRegionStatus">
-									<input type="text" v-model="ownRegionValue" placeholder="Add region">
-									<view class="jobs-tags-item-add-button">
-										<button type="default" v-if="ownRegionValue.length>0" @click="addOwnRegion">Confirm</button>
-										<button type="default" v-if="ownRegionValue.length==0" @click="addRegionStatus=false">Cancel</button>
-									</view>
-								</view>
-							</view>
-						</view>
-					</view> -->
 					<!-- benefits -->
 					<view class="benefits">
 						<view class="benefits-t">
@@ -738,6 +717,14 @@
 				ownSubjectList: [],
 				selectSubjectList: [],
 				selectSubjectArr: [],
+				
+				canEditHobby:false,
+				editHobbyInfoList: ['Fitness', 'Photography', 'Travel'],
+				addHobbyInfoStatus: false,
+				ownHobbyInfoValue: '',
+				ownHobbyInfoList: [],
+				selectHobbyInfoList: [],
+				selectHobbyInfoArr: [],
 
 				canEditLocation: false,
 				editLocationList: [],
@@ -1782,6 +1769,54 @@
 					console.log(error)
 				})
 
+			},
+			addOwnHobby() {
+				this.addHobbyInfoStatus = false;
+				let obj = this.ownHobbyInfoValue;
+				let index = this.selectHobbyInfoList.findIndex((element) => element === obj);
+				if (index == -1) {
+					this.selectHobbyInfoList.push(obj);
+					this.ownHobbyInfoList.push(obj);
+					this.ownHobbyInfoValue = '';
+				} else {
+					this.selectHobbyInfoList.splice(index, 1);
+				}
+			
+			},
+			selectHobby(value, type) {
+			
+				var index = this.selectHobbyInfoList.findIndex((element) => element === value);
+			
+				if (index == -1) {
+					this.selectHobbyInfoList.push(value);
+			
+				} else {
+					this.selectHobbyInfoList.splice(index, 1);
+				}
+				console.log(this.selectHobbyInfoList)
+			},
+			hobbyConfirm() {
+				var that = this;
+				let hobbiesStr = this.selectHobbyInfoList.join(',');
+				let data = {
+					hobbies: hobbiesStr,
+					token: uni.getStorageSync('token')
+				}
+				profile.addEduBasic(data).then(res => {
+					console.log(res)
+					if (res.code == 200) {
+						this.canEditHobby = false;
+						this.hobbiesList = this.selectHobbyInfoList;
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+				
 			},
 			addOwnLocation() {
 				this.addLocationStatus = false;

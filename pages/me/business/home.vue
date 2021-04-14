@@ -105,7 +105,7 @@
 								<text>{{i18n.profiletechnologyavailable}}:</text>
 								<text>{{businessUserInfo.technology_available}}</text>
 							</view>
-							<view class="basic-info-item uni-flex uni-row">
+							<view class="basic-info-item uni-flex uni-row" >
 								<view class="profile-detail-item-box-item-tg" v-if="businessUserInfo.is_special_needs ==1 ">
 									<text>{{i18n.profilespecialneeds}}:</text>
 									<view class="profile-detail-item-box-item-tg-right"></view>
@@ -451,7 +451,7 @@
 				basicUserInfo: {},
 				businessUserInfo: {},
 				anchorPoint: '',
-				avatarUrl: "",
+				avatarUrl: "https://oss.esl-passport.cn/educator.png",
 				uerInfo: {},
 				cWidth3: '', //圆弧进度图
 				cHeight3: '', //圆弧进度图
@@ -901,7 +901,7 @@
 						})
 						// #endif
 
-						that.avatarUrl = res.message.headimgurl;
+						// that.avatarUrl = res.message.headimgurl;
 						// that.percent = res.message.is_business + '%';
 						// that.correctRate = res.message.is_business / 100;
 

@@ -619,6 +619,11 @@ const Chinese = {
 	applyjobmodalcontent: "您确定要申请这个职位吗？",
 	applyjobmodalconfirmtext: "确定",
 	applyjobmodalcanceltext: "取消",
+	
+	filterjobsalary1: "0-5K",
+	filterjobsalary2: "5K-10K",
+	filterjobsalary3: "10K-15K",
+	filterjobsalary4: "15K+",
 
 	authorizeforlogin: "授权获取用户信息",
 
@@ -642,13 +647,13 @@ const Chinese = {
 	loginauthtxt: "下一步",
 	dealseventslocation:"地点",
 	
-	h5loginuserandphone:"用户名/手机号",
 	h5loginpassword:"密码",
 	h5loginlogin:"登录",
 	h5retrievepassword:"找回密码",
 	h5registeredaccount:"注册账户",
 	h5loginphone:"手机号",
 	h5loginloginpassword:"登录密码",
+	h5loginloginconfirmpassword:"确认密码",
 	h5vercode:"验证码",
 	h5getvercode:"获取验证码",
 	h5register:"注册",
@@ -659,12 +664,23 @@ const Chinese = {
 	h5resetpassword:"重置密码",
 	
 	h5usernameerror:"用户名不能为空",
+	h5loginphoneerror:"请输入正确的手机号",
 	h5passworderror:"密码不正确",
+	h5confirmpassworderror:"密码不一致",
 	h5phoneerror:"手机号不正确",
 	h5vercodeerror:"验证码不正确",
 	h5agreementerror:"请先同意《协议》",
+	h5bindMobileandlogin:"绑定登录",
+	h5swipervertification:"拖动左边滑块完成上方拼图",
+	h5loginbypassword:"密码登录",
+	h5loginbycode:"手机验证码登录",
 	
-
+	vendorcompanyenerror:"Enter the company's English name",
+	vendorcompanycnerror:"Enter the company's Chinese name",
+	vendorcompanywebsiteerror:"Enter the company's website address",
+	vendorcompanylocationerror:"Enter your company's location",
+	vendorproposeddealerror:"Enter your proposed Deal",
+	
 }
 
 const English = {
@@ -1294,10 +1310,10 @@ const English = {
 	applyjobmodalconfirmtext: 'Sure',
 	applyjobmodalcanceltext: "Cancel",
 
-	filterjobsalary1: "0-5000",
-	filterjobsalary2: "5000-10000",
-	filterjobsalary3: "10000-15000",
-	filterjobsalary4: "15000 and above",
+	filterjobsalary1: "<5K",
+	filterjobsalary2: "5-10K",
+	filterjobsalary3: "10-15K",
+	filterjobsalary4: "15K+",
 
 	authorizeforlogin: "Authorize",
 
@@ -1314,23 +1330,23 @@ const English = {
 	vendorcompanywebsite: "Company Website",
 	vendorproposeddeal: "Proposed Deal",
 	vendorproposeddealph: "10% off all set meals",
-	vendorlookinggreatpgtxt1: "Your Application is under Review",
-	vendorlookinggreatpgtxt2: "Your account manager will be in touch soon",
+	vendorlookinggreatpgtxt1: "Your Application is under Review!",
+	vendorlookinggreatpgtxt2: "Your account manager will be in touch soon.",
 	vendorlocation: "Location",
 
 	loginauthtxt: "One more step",
 	dealseventslocation:"Location",
 	
-	h5loginuserandphone:"Username/Phone #",
 	h5loginpassword:"Password",
-	h5loginlogin:"Sign in",
+	h5loginlogin:"Log In",
 	h5retrievepassword:"Retrieve password",
-	h5registeredaccount:"Registered account",
+	h5registeredaccount:"Sign up",
 	h5loginphone:"Phone #",
 	h5loginloginpassword:"Password",
+	h5loginloginconfirmpassword:"Confirm Password",
 	h5vercode:"Verification code",
 	h5getvercode:"Get code",
-	h5register:"Sign up",
+	h5register:"Sign Up",
 	h5forgettoptip:"If you forget the password, you can reset in this new password",
 	h5forgetph1:"Please enter your phone number",
 	h5forgetph2:"Please enter a new password",
@@ -1339,9 +1355,21 @@ const English = {
 	
 	h5usernameerror:"Username cannot be empty",
 	h5passworderror:"Incorrect password",
+	h5confirmpassworderror:"Incorrect confirm password",
 	h5phoneerror:"Incorrect phone number",
 	h5vercodeerror:"Incorrect verification code",
 	h5agreementerror:"Please agree to the Agreement",
+	
+	h5bindMobileandlogin:"Bind and Login",
+	h5swipervertification:"Drag the slider to complete the puzzle",
+	h5loginbypassword:"Log in via password",
+	h5loginbycode:"Log in via SMS verification code",
+	
+	vendorcompanyenerror:"Enter the company's English name",
+	vendorcompanycnerror:"Enter the company's Chinese name",
+	vendorcompanywebsiteerror:"Enter the company's website address",
+	vendorcompanylocationerror:"Enter your company's location",
+	vendorproposeddealerror:"Enter your proposed Deal",
 	
 }
 
