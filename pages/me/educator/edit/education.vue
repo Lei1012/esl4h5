@@ -19,16 +19,21 @@
 						:placeholder="i18n.profilefieldofstudyph" />
 				</u-form-item>
 				<u-form-item :label="i18n.profileeducationtimes" prop="date" required>
-					<u-form-item prop="start_time_str">
-						<u-input border type="select" v-model="form.start_time_str"
-							:placeholder="i18n.profilechoosestartyear" @click="startYearShow = true" /> 
-					</u-form-item>
-					-
-					<u-form-item prop="end_time_str">
-						<u-input border type="select" v-model="form.end_time_str" :placeholder="i18n.profilechooseendyear"
-							@click="endYearShow = true" />
-					</u-form-item>
-					
+					<view class="xll-two-container">
+						<view class="xll-two-left">
+							<u-form-item prop="start_time_str" :border-bottom="false">
+								<u-input border type="select" v-model="form.start_time_str"
+									:placeholder="i18n.profilechoosestartyear" @click="startYearShow = true" /> 
+							</u-form-item>
+						</view>
+						<view class="xll-two-mid">-</view>
+						<view class="xll-two-right">
+							<u-form-item prop="end_time_str" :border-bottom="false">
+								<u-input border type="select" v-model="form.end_time_str" :placeholder="i18n.profilechooseendyear"
+									@click="endYearShow = true" />
+							</u-form-item>
+						</view>
+					</view>
 				</u-form-item>
 			</u-form>
 
@@ -380,4 +385,24 @@
 		border-radius: 80rpx;
 		line-height: 80rpx;
 	}
+	
+	.xll-two-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	
+	.xll-two-left {
+		width: 45%;
+	}
+	
+	.xll-two-mid {
+		display: flex;
+		align-items: center;
+	}
+	
+	.xll-two-right {
+		width: 45%;
+	}
+	
 </style>

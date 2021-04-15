@@ -23,7 +23,6 @@
 		</view>
 
 		<view class="flex-item home-info">
-			<!-- <u-tabs-swiper ref="tabs" :list="itemList" :is-scroll="true"></u-tabs-swiper> -->
 			<uni-segmented-control class="segmented-control-bg" :current="current" :values="items" @clickItem="onClickItem"
 			 style-type="text" active-color="#333333"></uni-segmented-control>
 			<view class="profile-content">

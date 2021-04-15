@@ -55,12 +55,12 @@
 				</view>
 				<view class="me-edit-form-job-seeking">
 					{{i18n.jobseeking}}
-					<switch style="margin-left: 20rpx;" :checked="form.is_seeking==1" color="#0AA0A8"
+					<switch style="margin-left: 20rpx;transform:scale(0.6)" :checked="form.is_seeking==1" color="#0AA0A8"
 						@change="jobSeekingChange" />
 				</view>
 				<view class="me-edit-form-public-profile">
 					{{i18n.publicprofile}}
-					<switch style="margin-left: 20rpx;" :checked="form.is_public == 1" color="#0AA0A8"
+					<switch style="margin-left: 20rpx;transform:scale(0.6)" :checked="form.is_public == 1" color="#0AA0A8"
 						@change="publicProfileChange" />
 				</view>
 			</view>

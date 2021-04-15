@@ -36,12 +36,12 @@
 
 				<view class="basic-form-job-seeking">
 					<view class="basic-form-label">{{i18n.profiledogfriendly}}</view>
-					<switch style="margin-left: 20rpx;" :checked="form.is_dog_friendly==1" color="#0AA0A8"
+					<switch style="margin-left: 20rpx;transform: scale(0.6);" :checked="form.is_dog_friendly==1" color="#0AA0A8"
 						@change="dogFriendlyChange" />
 				</view>
 				<view class="basic-form-public-profile">
 					<view class="basic-form-label">{{i18n.profilevendorevents}}</view>
-					<switch style="margin-left: 20rpx;" :checked="form.is_events == 1" color="#0AA0A8"
+					<switch style="margin-left: 20rpx;transform: scale(0.6);" :checked="form.is_events == 1" color="#0AA0A8"
 						@change="eventsChange" />
 				</view>
 			</view>

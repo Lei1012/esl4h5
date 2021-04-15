@@ -25,15 +25,15 @@
 			
 			<view class="switch-container">
 				<view class="basic-form-label">{{i18n.profilefieldstrips}}</view>
-				<switch style="margin-left: 20rpx;"  :checked="form.felds_trips==1" color="#0AA0A8" @change="tripsChange" />
+				<switch style="margin-left: 20rpx;transform: scale(0.6);"  :checked="form.felds_trips==1" color="#0AA0A8" @change="tripsChange" />
 			</view>
 			<view class="switch-container">
 				<view class="basic-form-label">{{i18n.profileevents}}</view>
-				<switch style="margin-left: 20rpx;" :checked="form.is_events==1" color="#0AA0A8" @change="eventsChange" />
+				<switch style="margin-left: 20rpx;transform: scale(0.6);" :checked="form.is_events==1" color="#0AA0A8" @change="eventsChange" />
 			</view>
 			<view class="switch-container">
 				<view class="basic-form-label">{{i18n.profilespecialneeds}}</view>
-				<switch style="margin-left: 20rpx;" :checked="form.is_special_needs==1" color="#0AA0A8" @change="needsChange" />
+				<switch style="margin-left: 20rpx;transform: scale(0.6);" :checked="form.is_special_needs==1" color="#0AA0A8" @change="needsChange" />
 			</view>
 			
 			<view class="student-age">

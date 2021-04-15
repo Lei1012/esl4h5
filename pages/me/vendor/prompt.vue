@@ -34,7 +34,7 @@
 			<view class="account-qrcode-2">
 				<uni-icons type="pulldown" size="30"></uni-icons>
 			</view>
-			<view class="account-qrcode-3">
+			<view class="account-qrcode-3" v-if="list[0]">
 				<image :src="list[0].url" mode="widthFix" @click="previewQrcode(list[0].url)"></image>
 				<text>Save & Scan</text>
 			</view>

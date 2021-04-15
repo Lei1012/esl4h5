@@ -96,8 +96,23 @@
 				return this.$t('index')
 			}
 		},
-		onLoad() {
-
+		onLoad(option) {
+			
+			let token = uni.getStorageSync('token');
+			if (!token) {
+				var pages = getCurrentPages(); // 当前页面
+				var currentPagePath = pages[pages.length - 1]; // 前一个页面
+				
+				if(currentPagePath.route == 'pages/login/index'){
+					return;
+				}
+				let redirectUrl = currentPagePath.route;
+				console.log(encodeURIComponent(redirectUrl))
+				return uni.navigateTo({
+					url: '/pages/login/index?redirect='+ encodeURIComponent(redirectUrl)
+				})
+			}
+			
 		},
 		methods: {
 			turnNationalityPage() {

@@ -3,11 +3,17 @@
 		<view class="flex-item welcome-logo  animate__animated  animate__rotateIn">
 			<image src="/static/esl-logo.png" lazy-load="true"></image>
 		</view>
-		<view class="flex-item welcome-intro animate__animated  animate__rubberBand ">
-			<text v-if="identity==1">{{i18n.welcomepagetxtone}} {{firstname}}! {{i18n.welcomepagetxttwo}}</text>
-			<text v-if="identity==2">{{i18n.welcomebusinesspagetxtone}} {{firstname}}! {{i18n.welcomebusinesspagetxttwo}}</text>
-			<text v-if="identity==3">{{i18n.welcomevendorpagetxtone}} {{firstname}}! {{i18n.welcomevendorpagetxttwo}}</text>
+
+		<view class="flex-item welcome-intro animate__animated  animate__rubberBand " v-if="identity == 1">
+			{{i18n.welcomepagetxtone}} {{firstname}}. {{i18n.welcomepagetxttwo}}
 		</view>
+		<view class="flex-item welcome-intro animate__animated  animate__rubberBand " v-if="identity==2">
+			{{i18n.welcomebusinesspagetxtone}} {{firstname}}. {{i18n.welcomebusinesspagetxttwo}}
+		</view>
+		<view class="flex-item welcome-intro animate__animated  animate__rubberBand " v-if="identity==3">
+			{{i18n.welcomevendorpagetxtone}} {{firstname}}. {{i18n.welcomevendorpagetxttwo}}
+		</view>
+
 		<view class="flex-item later-button">
 			<button type="default" @click="laterCreateMyProfile">
 				{{i18n.welcomepgbutton2}}
@@ -18,7 +24,7 @@
 				{{i18n.welcomepgbutton1}}
 			</button>
 		</view>
-		
+
 	</view>
 </template>
 
@@ -26,18 +32,20 @@
 	export default {
 		data() {
 			return {
-				firstname: '',
-				identity: 1
+				firstname: ''
 			}
 		},
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			identity(){
+				return uni.getStorageSync('identity')
 			}
 		},
 		onLoad(option) {
-			this.identity = uni.getStorageSync('identity')
-			this.firstname = option.firstname
+			this.firstname = option.firstname;
+			console.log(this.identity)
 		},
 		methods: {
 			createMyProfile: function() {
@@ -45,7 +53,7 @@
 
 				if (identity == 1) {
 					uni.navigateTo({
-						url:'educator/edit/basic?firstEdit=1'
+						url: 'educator/edit/basic?firstEdit=1'
 					})
 				}
 				if (identity == 2) {
@@ -98,7 +106,12 @@
 		font-size: 32rpx;
 		font-weight: 600;
 		margin-top: 10%;
-
+	}
+	
+	.welcome-intro text{
+		padding: 0 20rpx;
+		color: #00B3D2;
+		font-size: 34rpx;
 	}
 
 	.welcome-arrow {

@@ -22,16 +22,6 @@
 						@click="turnNationalityPage"></u-input>
 				</u-form-item>
 			</u-form>
-			
-			<!-- <view class="role-form-item">
-				<input type="text" name="nickname" v-model="nickname" :placeholder="i18n.basicinfonickname">
-			</view> -->
-			<!-- 	<view class="role-form-item">
-				<input type="text"  name="applyContact"  v-model="applicationContact" :placeholder="i18n.basiceduapplicationcontact"/>
-			</view> -->
-			<!-- 	<view class="role-form-item">
-				<input type="text" name='email' v-model="email" :placeholder="i18n.basiceduemail" />
-			</view> -->
 			<view class="categories">
 				<view class="category-title">
 					{{i18n.basicinfoeducategory}}:
@@ -113,6 +103,21 @@
 			uni.$on('nationalityObj', function(data) {
 				that.form.nationality = data;
 			})
+			
+			let token = uni.getStorageSync('token');
+			if (!token) {
+				var pages = getCurrentPages(); // 当前页面
+				var currentPagePath = pages[pages.length - 1]; // 前一个页面
+				
+				if(currentPagePath.route == 'pages/login/index'){
+					return;
+				}
+				let redirectUrl = currentPagePath.route;
+				console.log(encodeURIComponent(redirectUrl))
+				return uni.navigateTo({
+					url: '/pages/login/index?redirect='+ encodeURIComponent(redirectUrl)
+				})
+			}
 		},
 		onUnload() {
 			uni.$off('nationalityObj');

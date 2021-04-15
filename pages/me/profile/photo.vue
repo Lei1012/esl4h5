@@ -3,17 +3,17 @@
 		<view class="flex-item photo-title">
 			<!-- educator -->
 			<text v-if="type==1">Profile Photo</text>
-			<text v-if="type==2">Header photo</text>
+			<text v-if="type==2">Background Banner</text>
 			<text v-if="type==3">Profile pics (6 max) </text>
 			<!-- business -->
 			<text v-if="type == 4">Profile Photo</text>
 			<text v-if="type == 5">Business Logo</text>
-			<text v-if="type == 6">Header Photo</text>
+			<text v-if="type == 6">Background Banner</text>
 			<text v-if="type == 7">Profile pics(6 max)</text>
 			<!-- vendor -->
 			<text v-if="type == 8">Profile Photo</text>
 			<text v-if="type == 9">Vendor Logo</text>
-			<text v-if="type == 10">Header Photo</text>
+			<text v-if="type == 10">Background Banner</text>
 			<text v-if="type == 11">Profile pics(6 max)</text>
 			<text v-if="type == 12">WeChat Official Account QR Code </text>
 			<!-- basic -->
@@ -142,9 +142,18 @@
 										if (res.code == 200) {
 											uni.$emit('userInfoUpdated',{msg:'页面更新'});
 											if(that.vprofile == 1){
-												return uni.reLaunch({
-													url:'/pages/me/profile/photo?type=9&vlogo=1'
+												that.isUploading = false;
+												uni.showLoading({
+													title:'Uploaded!'
 												})
+												setTimeout(function(){
+													uni.hideLoading();
+													uni.reLaunch({
+														url:'/pages/me/profile/photo?type=9&vlogo=1'
+													})
+													
+												},1200);
+												return;
 											}
 											
 											if (that.type == 13) {
@@ -210,9 +219,18 @@
 										uni.$emit('userInfoUpdated',{msg:'page updated'});
 										if (res.code == 200) {
 											if(that.vlogo == 1){
-												return uni.reLaunch({
-													url:'/pages/me/profile/photo?type=12&vqrcode=1'
+												// todo
+												that.isUploading = false;
+												uni.showLoading({
+													title:'Uploaded!'
 												})
+												setTimeout(function(){
+													uni.hideLoading();
+													uni.reLaunch({
+														url:'/pages/me/profile/photo?type=12&vqrcode=1'
+													})
+												},1200);
+												return ;
 											}
 											setTimeout(function(){
 												that.isUploading = false;
@@ -238,9 +256,17 @@
 										uni.$emit('userInfoUpdated',{msg:'page updated'});
 										if (res.code == 200) {
 											if(that.vqrcode == 1){
-												return uni.reLaunch({
-													url: '../vendor/prompt'
+												that.isUploading = false;
+												uni.showLoading({
+													title:'Uploaded!'
 												})
+												setTimeout(function(){
+													uni.hideLoading();
+													uni.reLaunch({
+														url: '../vendor/prompt'
+													})
+												},1200);
+												return;
 											}
 											setTimeout(function(){
 												that.isUploading = false;

@@ -239,7 +239,7 @@
 
 	export default {
 		data() {
-			var _this = this
+			var _this = this;
 			return {
 				jobsList: [],
 				jobsListOne: [],
@@ -286,10 +286,10 @@
 						}]
 					},
 					{
-						"name": 'Salary',
+						"name": _this.$t('index').jobfiltersalary,
 						"type": 'radio',
 						"submenu": [{
-							"name": "Salary",
+							"name":  _this.$t('index').jobfiltersalary,
 							"submenu": [{
 									"name": _this.$t('index').filterjobsalary1,
 									"value": 1
@@ -311,7 +311,7 @@
 						}]
 					},
 					{
-						"name": 'Gender',
+						"name":_this.$t('index').jobfiltergender,
 						"type": 'radio',
 						"submenu": [{
 							"name": "Gender Specification",
@@ -322,18 +322,14 @@
 								{
 									"name": _this.$t('index').jobslistgendertwo,
 									"value": 2
-								},
-								{
-									"name": _this.$t('index').jobslistgenderthree,
-									"value": 3
 								}
 
 							]
 						}]
 					},
 					{
-						"name": 'Filter',
-						"type": 'filter',
+						"name": _this.$t('index').jobfilterfilter,
+						"type": 'radio',
 						"submenu": [{
 								"name": "Student(s) Age",
 								"submenu": []

@@ -130,9 +130,12 @@
 
 		},
 		computed:{
+			// #ifdef H5
 			isWechat(){
 				return this.$isWechat()
 			}
+			// #endif
+			
 		},
 		methods: {
 			async getVipList(level) {

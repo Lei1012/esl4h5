@@ -39,7 +39,7 @@
 			<view class="toggels-title">{{i18n.profilebusinessbasicturnontoggels}}</view>
 			<view class="basic-form-hiring">
 				<view class="basic-form-label">{{i18n.profilecurrentlyhiring}}</view>
-				<switch style="margin-left: 20rpx;" :checked="form.is_currently_hiring==1" color="#0AA0A8"
+				<switch style="margin-left: 20rpx;transform: scale(0.6);" :checked="form.is_currently_hiring==1" color="#0AA0A8"
 					@change="hiringChange" />
 			</view>
 

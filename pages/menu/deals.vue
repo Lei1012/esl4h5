@@ -202,6 +202,7 @@
 
 	export default {
 		data() {
+			var _this = this;
 			return {
 				
 				indicatorDots: true,
@@ -224,19 +225,19 @@
 
 				defaultSelected: [],
 				filterData: [{
-						"name": "Category",
+						"name": _this.$t('index').dealsfiltercategory,
 						"type": 'hierarchy',
 						"submenu": [{
-							"name": "All",
+							"name": _this.$t('index').dealsfilterall,
 							"value": 0,
 							"submenu": []
 						}]
 					},
 					{
-						"name": 'Location',
+						"name": _this.$t('index').dealsfilterlocation,
 						"type": 'hierarchy',
 						"submenu": [{
-							"name": 'All',
+							"name": _this.$t('index').dealsfilterall,
 							"value": 0,
 							"submenu": [
 
@@ -244,7 +245,6 @@
 						}]
 					},
 				],
-				
 				dealsOneList: [],
 				dealsTwoList: [],
 				dealsPage:1,

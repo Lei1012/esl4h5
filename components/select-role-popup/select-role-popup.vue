@@ -48,17 +48,8 @@
 	export default {
 		data() {
 			return {
-				selectRoleValue: 0, //选择的角色值
-				language: '',
+				language: 'en-US',
 				languageValue: 2,
-
-				is_educator: 0,
-				is_business: 0,
-				is_vendor: 0,
-				is_other: 0,
-				identity: 0, //当前身份、
-				mobile: '', // 用户手机号
-
 			};
 		},
 		computed: {
@@ -92,8 +83,7 @@
 				var that = this;
 
 				that.$emit('close')
-
-				let mobile = uni.getStorageSync('phone');
+				
 				let token = uni.getStorageSync('token');
 				let uid = uni.getStorageSync('uid');
 
@@ -124,53 +114,43 @@
 					profile.getBasicInfo(data).then(res => {
 						// console.log(res)
 						if (res.code == 200) {
-							uni.setStorageSync('unionid', res.message.unionid)
-							uni.setStorageSync('phone', res.message.phone)
-							uni.setStorageSync('nickname', res.message.nickname)
-							uni.setStorageSync('uid', res.message.id)
-							// uni.setStorageSync('identity', res.message.identity)
-							that.is_educator = res.message.is_educator;
-							that.is_business = res.message.is_business;
-							that.is_vendor = res.message.is_vendor;
-							that.is_other = res.message.is_other;
-							that.identity = res.message.identity;
-							that.mobile = res.message.phone;
+							
+							let isEducator = res.message.is_educator;
+							let isBusiness = res.message.is_business;
+							let isVendor = res.message.is_vendor;
+							let isOther = res.message.is_other;
+							let identity = res.message.identity;
 
 							if (e == 1) {
-								if (that.is_educator >= 10) {
+								if (isEducator >= 10) {
 									this.changeIdentityApi(1)
 								} else {
 									uni.navigateTo({
-										url: '/pages/role/educator?roleValue=' + e + '&language=' +
-											that.languageValue
+										url: '/pages/role/educator'
 									})
 								}
 
 							}
 							if (e == 2) {
-								if (that.is_business >= 10) {
+								if (isBusiness >= 10) {
 									this.changeIdentityApi(2)
 								} else {
 									uni.navigateTo({
-										url: '/pages/role/business?roleValue=' + e + '&language=' +
-											that.languageValue
+										url: '/pages/role/business'
 									})
 								}
 
 							}
 							if (e == 3) {
-								if (that.is_vendor >= 10) {
+								if (isVendor >= 10) {
 									this.changeIdentityApi(3)
 								} else {
 									uni.navigateTo({
-										url: '/pages/role/vendor?roleValue=' + e + '&language=' +
-											that.languageValue
+										url: '/pages/role/vendor'
 									})
 								}
 
 							}
-
-
 						} else {
 							uni.showToast({
 								title: res.msg,

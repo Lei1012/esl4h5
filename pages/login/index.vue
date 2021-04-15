@@ -149,10 +149,9 @@
 
 		},
 		onLoad(option) {
-			// #ifdef MP-WEIXIN
+			
 			this.redirectPath = decodeURIComponent(option.redirect);
 			console.log(this.redirectPath);
-			// #endif
 
 			// #ifdef H5
 			let wxcode = option.code;
@@ -340,7 +339,7 @@
 								uni.switchTab({
 									url: '/pages/home/index'
 								})
-							}, 3000)
+							}, 1200)
 						} else {
 							console.log('need bind mobile');
 							uni.setStorageSync('unionid', message.unionid);
@@ -528,14 +527,28 @@
 						if (message.language == 2) {
 							uni.setStorageSync('language', 'en-US')
 						}
-
-						setTimeout(function() {
-							uni.hideLoading()
-							_this.isRotate = false
-							uni.switchTab({
-								url: '/pages/home/index'
-							})
-						}, 3000)
+						
+						let redirectPath = _this.redirectPath;
+						
+						if (redirectPath != undefined && redirectPath) {
+							setTimeout(function() {
+								uni.hideLoading();
+								_this.isRotate = false
+								uni.reLaunch({
+									url: '/' + redirectPath
+								})
+							}, 1200)
+						
+						} else {
+							setTimeout(function() {
+								uni.hideLoading();
+								_this.isRotate = false
+								uni.reLaunch({
+									url: '/pages/home/index'
+								})
+							}, 1200)
+						}
+						
 					}
 					if (res.code == 400) {
 

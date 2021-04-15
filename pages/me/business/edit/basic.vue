@@ -14,9 +14,6 @@
 					<u-form-item :label="i18n.profilelastname" prop="last_name">
 						<u-input border v-model="form.last_name" :placeholder="i18n.profilelastname" />
 					</u-form-item>
-					<u-form-item :label="i18n.profilenickname" prop="nickname">
-						<u-input border v-model="form.nickname" :placeholder="i18n.profilenickname" />
-					</u-form-item>
 					<u-form-item :label="i18n.profilecontactphone" prop="contact_phone">
 						<u-input border type="number" :maxlength="11" v-model="form.contact_phone" :placeholder="i18n.profilecontactphone" />
 					</u-form-item>

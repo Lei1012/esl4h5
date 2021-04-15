@@ -2,8 +2,8 @@
 	<view>
 		<view class="flex-item checkout">
 			<!-- 3D轮播 -->
-			<swiper class="imageContainer" previous-margin="20px" :style="'height:'+swiperHeight + 'rpx;' "
-				next-margin="20px" @change="checkoutChange"  :autoplay="false">
+			<swiper class="imageContainer" next-margin="100rpx" previous-margin="20rpx" :style="'height:'+swiperHeight + 'rpx;' "
+				 @change="checkoutChange"  :autoplay="false">
 				<swiper-item class="swiperitem" v-if="businessLevel==1">
 					<view class="swiperitem-container">
 						<view class="checkout-title">{{i18n.jobspriceforfreemembers}}</view>

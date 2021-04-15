@@ -6,7 +6,6 @@
 			</view>
 			<view class="me-header-nologin-info-r" v-if="showLoginBtnStatus">
 				<view class="login-btn">
-					<uni-icons type="xll-yuan"></uni-icons>
 					<button type="default" @click="miniLogin">Login</button>
 				</view>
 			</view>
@@ -18,10 +17,12 @@
 					<!-- #endif -->
 				</view>
 				<view class="me-header-info-r-2 u-skeleton-rect">
-					<image src="../../static/esl/location.png" mode="aspectFit"></image>
+					<u-icon name="map" size="28"></u-icon>
 					<text v-if="location!='' ">{{location}}</text>
 					<!-- #ifdef MP-WEIXIN -->
-					<open-data v-if="location=='' " type="userCity"></open-data>, <open-data v-if="location=='' " type="userProvince"></open-data>
+					<view v-if="location=='' ">
+						<open-data  type="userCity"></open-data>, <open-data type="userProvince"></open-data>
+					</view>
 					<!-- #endif -->
 				</view>
 				<view class="me-header-info-r-3 u-skeleton-rect">
@@ -40,9 +41,9 @@
 					<text v-if="identity==3 && vendorLevel == 1">{{i18n.mebasiclevel}}</text>
 					<text v-if="identity==3 && vendorLevel == 2">{{i18n.meprolevel}}</text>
 					<text v-if="identity==3 && vendorLevel == 3">{{i18n.mepluslevel}}</text>
-					<view class="me-level-upgrade"
-						v-if=" (identity==2 && businessLevel!=3) || (identity==3 && vendorLevel !=3)"
-						@click="upgradeLevel">{{i18n.meupgrade}}</view>
+					<view class="me-level-upgrade" v-if=" (identity==2 && businessLevel!=3) || (identity==3 && vendorLevel !=3)">
+						<button type="default" @click="upgradeLevel">{{i18n.meupgrade}}</button>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -54,59 +55,70 @@
 			<view class="center-list border-top-left-right-radius">
 				<view class="center-list-item border-bottom " v-if="identity && !showLoginBtnStatus"
 					@click="turnAccountInfo">
-					<image src="../../static/me/my-account.png" mode="aspectFill"></image>
+					<u-icon name="content_account" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.accountpgaccountinfo}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
 				<view class="center-list-item border-bottom" v-if="identity && !showLoginBtnStatus"
 					@click="turnMyProfile">
-					<image src="../../static/me/profile.png" mode="aspectFill"></image>
+					<u-icon name="profile" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.accountpgeditprofile}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
-				<view class="center-list-item border-bottom" v-if="!showLoginBtnStatus"
+				<view class="center-list-item border-bottom" v-if="identity && !showLoginBtnStatus"
 					@click="showDiscountStatus=true">
-					<image src="../../static/me/discount.png" mode="aspectFill"></image>
+					<u-icon name="discount1" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.accountpgdiscount}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
 
 				<view class="center-list-item border-bottom" @click="showLanguagePopup">
-					<image src="../../static/me/language-change.png" mode="aspectFill"></image>
+					<u-icon name="languagechange" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.accountpglanguage}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
 				<view class="center-list-item border-bottom" v-if="!showLoginBtnStatus" @click="showRolePopup">
-					<image src="../../static/me/switch-identity.png" mode="aspectFill"></image>
+					<u-icon name="Switchaccount" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.accountinfoadd}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
 				<!-- #ifdef H5 -->
 				<view class="center-list-item border-bottom" @click="showContactStatus=true">
-					<image src="../../static/me/contact-icon.png" mode="aspectFill"></image>
+					<u-icon name="contact" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.accountpgcontact}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
 				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN -->
 				<button class="center-list-item-button border-bottom" type="default" open-type="contact"
 					show-message-card="true">
-					<image src="../../static/me/contact-icon.png" mode="aspectFill"></image>
+					<u-icon name="contact" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.accountpgcontact}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</button>
 				<!-- #endif -->
 				<view class="center-list-item border-bottom" v-if="identity==2 || identity ==1"
 					@click="turnMyJobs(identity)">
-					<image src="../../static/me/jobs.png" mode="aspectFill"></image>
+					<u-icon name="jobs" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text" v-if="identity==1">{{i18n.memyapplications}}</text>
 					<text class="list-text" v-if="identity==2">{{i18n.accountpgmyjobs}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
 				<view class="center-list-item border-bottom" v-if="identity==2" @click="showPostJobStatus=true">
-					<image src="../../static/esl/post-a-job.png" mode="aspectFill"></image>
+					<u-icon name="fabuzhiwei" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.homepostjobs}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
 
 				<view class="center-list-item border-bottom" v-if="identity==3" @click="turnMyDeals">
-					<image src="../../static/me/deals.png" mode="aspectFill"></image>
+					<u-icon name="deals" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.accountpgmydeals}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
 				<view class="center-list-item border-bottom" v-if="identity==3" @click="turnMyEvents">
-					<image src="../../static/me/events.png" mode="aspectFill"></image>
+					<u-icon name="events" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.accountpgmyevents}}</text>
+					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
 			</view>
 		</view>
@@ -231,7 +243,10 @@
 			var _this = this;
 			let token = uni.getStorageSync('token');
 			let identity = uni.getStorageSync('identity');
-
+			
+			if(!identity && token){
+				_this.rolePopupStatus = true;
+			}
 			// #ifdef H5
 			uni.setTabBarItem({
 				index: 1,

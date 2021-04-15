@@ -87,7 +87,7 @@
 						<view class="credentials-b">
 							<view class="languages">
 								<view class="languages-top">
-									<view class="languages-title">{{i18n.profilelanguages}}</view>
+									<view class="languages-title">{{i18n.profilelanguages}}<text class="error-star">*</text></view>
 									<view class="edit-icon" @click="turnRateSkillsList(2)">
 										<image src="../static/esl/edit.png" mode="aspectFill"></image>
 									</view>
@@ -102,7 +102,7 @@
 							</view>
 							<view class="certifications">
 								<view class="certifications-t">
-									<view class="certifications-title">{{i18n.profilecertifications}}</view>
+									<view class="certifications-title">{{i18n.profilecertifications}}<text class="error-star">*</text></view>
 									<view class="edit-icon" @click="turnIndexList(7)" v-if="canEditCertifications === false">
 										<image src="../static/esl/edit.png" mode="aspectFill"></image>
 									</view>
@@ -142,7 +142,7 @@
 							</view>
 							<view class="education">
 								<view class="education-t">
-									<view class="education-title">{{i18n.profileeducation}}</view>
+									<view class="education-title">{{i18n.profileeducation}}<text class="error-star">*</text></view>
 									<view class="add-icon" @click="turnEducation">
 										<image src="../static/esl/add.png" mode="aspectFill"></image>
 									</view>
@@ -298,7 +298,7 @@
 
 						<view class="work-exp">
 							<view class="work-exp-t">
-								<view class="work-exp-title">{{i18n.profileworkexperience}}</view>
+								<view class="work-exp-title">{{i18n.profileworkexperience}}<text class="error-star">*</text></view>
 								<view class="add-icon" @click="turnWorkExperience">
 									<image src="../static/esl/add.png" mode="aspectFill"></image>
 								</view>
@@ -375,7 +375,7 @@
 
 				<view class="profile-media" v-if="current === 1">
 					<view class="profile-detail-relative ">
-						<view class="profile-detail-item-title">{{i18n.profileprofilephoto}}</view>
+						<view class="profile-detail-item-title">{{i18n.profileprofilephoto}}<text class="error-star">*</text></view>
 						<view class="profile-detail-item-box" v-if="educatorInfo.profile_photo">
 							<view class="profile-photo-1">
 								<image @click="previewYourImage(educatorInfo.profile_photo)" :src="educatorInfo.profile_photo" mode="aspectFill"></image>
@@ -410,7 +410,7 @@
 						</view>
 					</view>
 					<view class="profile-detail-relative ">
-						<view class="profile-detail-item-title">{{i18n.profileintrovideo}}</view>
+						<view class="profile-detail-item-title">{{i18n.profileintrovideo}}<text class="error-star">*</text></view>
 						<view class="profile-detail-item-box" v-if="educatorInfo.video_url">
 							<view class="profile-intro-video">
 								<video id="myVideo" :muted="false" preload="metadata" @loadedmetadata="loadedMetaData" 
@@ -468,7 +468,7 @@
 					<!-- location -->
 					<view class="location">
 						<view class="location-t">
-							<view class="location-title">{{i18n.profilelocation}}</view>
+							<view class="location-title">{{i18n.profilelocation}}<text class="error-star">*</text></view>
 							<view class="edit-icon" @click="turnIndexList(71)" v-if="canEditLocation===false">
 								<image src="../static/esl/edit.png" mode="aspectFill"></image>
 							</view>

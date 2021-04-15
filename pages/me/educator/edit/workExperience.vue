@@ -16,16 +16,21 @@
 					<u-input border v-model="form.location" :placeholder="i18n.profileworklocationph" />
 				</u-form-item>
 				<u-form-item :label="i18n.profileworkdate" prop="date" required>
-					<u-form-item  prop="work_time_from_str">
-						<u-input border type="select" v-model="form.work_time_from_str"
-							:placeholder="i18n.profilechooseworkdate" @click="startDateShow = true" />
-					</u-form-item>
-					 -
-					 <u-form-item  prop="work_time_to_str">
-					 <u-input border type="select" v-model="form.work_time_to_str" :placeholder="i18n.profilechooseenddate"
-					 	@click="endDateShow = true" />
-					 </u-form-item>
-					
+					<view class="xll-two-container">
+						<view class="xll-two-left">
+							<u-form-item prop="work_time_from_str" :border-bottom="false">
+								<u-input border type="select" v-model="form.work_time_from_str"
+									:placeholder="i18n.profilechooseworkdate" @click="startDateShow = true" />
+							</u-form-item>
+						</view>
+						<view class="xll-two-mid">-</view>
+						<view class="xll-two-right">
+							<u-form-item prop="work_time_to_str" :border-bottom="false">
+								<u-input border type="select" v-model="form.work_time_to_str"
+									:placeholder="i18n.profilechooseenddate" @click="endDateShow = true" />
+							</u-form-item>
+						</view>
+					</view>
 				</u-form-item>
 				<u-picker :show-time-tag="false" confirm-text="Confirm" :end-year="startDateEndYear"
 					cancel-text="Cancel" v-model="startDateShow" :params="{year:true,month:true}" mode="time"
@@ -33,7 +38,7 @@
 				<u-picker :show-time-tag="false" confirm-text="Confirm" :start-year="endDateStartYear"
 					cancel-text="Cancel" v-model="endDateShow" :params="{year:true,month:true}" mode="time"
 					@confirm="endDateConfirm"></u-picker>
-				<u-form-item :label="i18n.profileresponsibilities" prop="teaching_experience " >
+				<u-form-item :label="i18n.profileresponsibilities" prop="teaching_experience ">
 					<u-input border type="textarea" height="150" :maxlength="200" autoHeight
 						v-model="form.teaching_experience" :placeholder="i18n.profileresponsibilitiesph" />
 				</u-form-item>
@@ -82,15 +87,15 @@
 				errorType: ['message'],
 				form: {
 					token: uni.getStorageSync('token'),
-					company_name:'',
+					company_name: '',
 					title: '',
 					location: '',
 					teaching_times: '',
 					teaching_experience: '',
 					work_time_from: '',
-					work_time_from_str:'',
+					work_time_from_str: '',
 					work_time_to: '',
-					work_time_to_str:'',
+					work_time_to_str: '',
 				},
 				rules: {
 					title: [{
@@ -146,7 +151,7 @@
 				let str = year + '-' + month + '-' + '01'
 				let date = new Date(str)
 				this.form.work_time_from = Math.floor(date.getTime() / 1000);
-				this.form.work_time_from_str = month + '/'+year;
+				this.form.work_time_from_str = month + '/' + year;
 				this.endDateStartYear = year;
 			},
 			endDateConfirm(e) {
@@ -161,9 +166,9 @@
 						title: 'Select correct end date',
 						icon: 'none'
 					})
-				} 
+				}
 				this.form.work_time_to = Math.floor(date.getTime() / 1000);
-				this.form.work_time_to_str = month + '/'+year;
+				this.form.work_time_to_str = month + '/' + year;
 				this.startDateEndYear = year;
 			},
 			workSubmit() {
@@ -171,15 +176,15 @@
 				this.$refs.uForm.validate(valid => {
 					if (valid) {
 						console.log('验证通过');
-						if(that.type == 2){
-							that.form.work_id =  this.workId;
+						if (that.type == 2) {
+							that.form.work_id = this.workId;
 						}
-						let data = Object.assign({},that.form);
-						
+						let data = Object.assign({}, that.form);
+
 						profile.addUserWork(data).then(res => {
 							console.log(res)
 							if (res.code == 200) {
-								
+
 								uni.showLoading({
 									title: 'loading'
 								})
@@ -189,8 +194,8 @@
 										delta: 1
 									})
 								}, 1200)
-								
-						
+
+
 							} else {
 								uni.showToast({
 									title: res.msg,
@@ -200,7 +205,7 @@
 						}).catch(error => {
 							console.log(error)
 						})
-						
+
 					} else {
 						console.log('验证失败');
 					}
@@ -223,7 +228,7 @@
 						that.form.title = workInfo.title;
 						that.form.company_name = workInfo.company_name;
 						that.form.location = workInfo.location;
-					
+
 						that.form.work_time_from = workInfo.work_time_from;
 						that.form.work_time_to = workInfo.work_time_to;
 						that.form.teaching_experience = workInfo.teaching_experience;
@@ -232,12 +237,12 @@
 							that.startDateEndYear = this.$u.timeFormat(workInfo.work_time_from, 'yyyy');
 							that.form.work_time_from_str = this.$u.timeFormat(workInfo.work_time_from, 'mm/yyyy');
 						}
-						
+
 						if (workInfo.work_time_to) {
 							that.endDateStartYear = this.$u.timeFormat(workInfo.work_time_to, 'yyyy');
 							that.form.work_time_to_str = this.$u.timeFormat(workInfo.work_time_to, 'mm/yyyy');
 						}
-						
+
 
 					} else {
 						uni.showToast({
@@ -288,7 +293,7 @@
 		background-color: #FFFFFF;
 		border-radius: 20rpx;
 	}
-	
+
 	.work-submit {
 		width: 80%;
 		margin: 0 auto;
@@ -309,5 +314,24 @@
 		font-weight: 700;
 		color: #FF3333;
 		margin-left: 10rpx;
+	}
+
+	.xll-two-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.xll-two-left {
+		width: 45%;
+	}
+
+	.xll-two-mid {
+		display: flex;
+		align-items: center;
+	}
+
+	.xll-two-right {
+		width: 45%;
 	}
 </style>

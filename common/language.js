@@ -5,7 +5,7 @@ const Chinese = {
 	tabbarhome: "主页",
 	tabbarsearch: "搜索",
 	tabbardeals: "折扣",
-	tabbarjobs: "工作",
+	tabbarjobs: "招聘",
 	tabbarevents:"活动",
 	tabbarme: "我",
 
@@ -112,7 +112,7 @@ const Chinese = {
 	accountpglanguage: "语言",
 	accountpgabout: "关于账户",
 	accountpgcontact: "联系我们",
-	accountpgmyjobs: "我的工作",
+	accountpgmyjobs: "我发布的工作",
 	accountpgmydeals: "我的交易",
 	accountpgmyevents: "我的活动",
 
@@ -385,7 +385,7 @@ const Chinese = {
 	jobsapplicationduedate: "申请截止日期",
 	jobschooseduedate: "选择截止日期",
 	jobsstartdate: "开始日期",
-	jobsagetoteach: "教学学生年龄段",
+	jobsagetoteach: "学生年龄",
 	jobssubject: "科目",
 	jobsemploymenttype: "工作类型",
 	jobsonlinejob: "在线职位?",
@@ -675,11 +675,19 @@ const Chinese = {
 	h5loginbypassword:"密码登录",
 	h5loginbycode:"手机验证码登录",
 	
-	vendorcompanyenerror:"Enter the company's English name",
-	vendorcompanycnerror:"Enter the company's Chinese name",
-	vendorcompanywebsiteerror:"Enter the company's website address",
-	vendorcompanylocationerror:"Enter your company's location",
-	vendorproposeddealerror:"Enter your proposed Deal",
+	vendorcompanyenerror:"请输入您的公司英文名字",
+	vendorcompanycnerror:"请输入您的公司中文名字",
+	vendorcompanywebsiteerror:"请输入您的公司的网址",
+	vendorcompanylocationerror:"请输入您的公司的位置",
+	vendorproposeddealerror:"请输入您想要发布的折扣",
+	
+	jobfiltersalary:"薪资",
+	jobfiltergender:"性别",
+	jobfilterfilter:"筛选条件",
+	
+	dealsfiltercategory:"类别",
+	dealsfilterlocation:"地点",
+	dealsfilterall:"全部",
 	
 }
 
@@ -756,7 +764,7 @@ const English = {
 	authenticationsuccessful: "Authentication is successful",
 	businessinfowindowheader: "Set Up: Business Info",
 	businessname: "Business / Institution Name",
-	businesscategory: "Edu-Business Category (Choose 1)",
+	businesscategory: "Edu-Business Categories (Choose 1)",
 	businessnameerror: "Enter Business Name",
 	businesscategoryerror: "Choose 1 Category",
 	vendorinfowindowheader: "Set Up: Business Info",
@@ -1196,7 +1204,7 @@ const English = {
 
 	accountinfoname: "Name",
 
-	dealsrecentdeals: "Recent Deals",
+	dealsrecentdeals: "Trending Deals",
 	// 20201130
 	locationselectprovince: "Select Province",
 	locationselectcity: "Select City",
@@ -1204,7 +1212,7 @@ const English = {
 
 	// 20201201
 	welcomebusinesspagetxtone: "Welcome to ESL Passport",
-	welcomebusinesspagetxttwo: "Complete at least 50% of your profile to start posting jobs & receiving applications.",
+	welcomebusinesspagetxttwo: "Complete at least 50% of your profile to improve your credibility and post jobs.",
 	welcomevendorpagetxtone: "Welcome to ESL Passport",
 	welcomevendorpagetxttwo: "Complete at least 50% of your profile to start submitting your deal/discount offers & posting events.",
 
@@ -1233,8 +1241,8 @@ const English = {
 	//20201203
 	jobsunderreviewnote: "Note:",
 	jobsunderreviewnotetxt: "Yay, we love new jobs! Wait for your job to be approved (24 hrs max).",
-	dealsnote: "Note:",
-	dealsnotetxt: "Yay, we love new deals! Please note, an Account Manager will review all new deal submissions.",
+	dealsnote: "",
+	dealsnotetxt: "Yay! we love new deals. Quick note, your account manager will need review your proposed deal before approval.",
 	eventsnote: "Note:",
 	eventsnotetxt: "Yay, we love new events! Wait for our team to review.",
 
@@ -1261,7 +1269,7 @@ const English = {
 	profilesharecompanyinfo: "Company Info",
 	profileeducategory: "Educator Category",
 	photomediahelpsone: "Media Helps",
-	photomediahelpstwo: "You STAND OUT!",
+	photomediahelpstwo: "Upload and STAND OUT",
 	photomediahelpsthree: "Upload is automatic",
 
 	//20201221
@@ -1371,6 +1379,13 @@ const English = {
 	vendorcompanylocationerror:"Enter your company's location",
 	vendorproposeddealerror:"Enter your proposed Deal",
 	
+	jobfiltersalary:"Salary",
+	jobfiltergender:"Gender",
+	jobfilterfilter:"Filter",
+	
+	dealsfiltercategory:"Category",
+	dealsfilterlocation:"Location",
+	dealsfilterall:"All",
 }
 
 module.exports = {
