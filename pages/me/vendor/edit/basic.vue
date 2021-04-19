@@ -14,10 +14,10 @@
 					<u-form-item :label="i18n.profilelastname" prop="last_name">
 						<u-input border v-model="form.last_name" :placeholder="i18n.profilelastname" />
 					</u-form-item>
-					<u-form-item :label="i18n.profilenickname" prop="nickname">
+					<!-- <u-form-item :label="i18n.profilenickname" prop="nickname">
 						<u-input border v-model="form.nickname" :placeholder="i18n.profilenickname" />
-					</u-form-item>
-					<u-form-item :label="i18n.vendorwechatid" prop="wx_id">
+					</u-form-item> -->
+					<u-form-item :label="i18n.vendorwechatid" prop="wx_id" required>
 						<u-input border v-model="form.wx_id" :placeholder="i18n.vendorwechatid" />
 					</u-form-item>
 					<u-form-item :label="i18n.profilegender" prop="sex_name">
@@ -31,22 +31,19 @@
 					<u-form-item :label="i18n.profilejobtitle" prop="job_title">
 						<u-input border v-model="form.job_title" :placeholder="i18n.profilejobtitleph" />
 					</u-form-item>
-				</u-form>
-
-				<!-- 首选语言 -->
-				<view style="margin-top: 20rpx;">
-					<view class="me-edit-form-item-label">{{i18n.profilefirstlanguage}}</view>
-					<view class="jobs-tags-container">
-						<view class="jobs-tags">
-							<view class="jobs-tags-item"
-								:class=" selectFirstLanguageList.indexOf(item) == -1 ? '' : 'tags-active' "
-								v-for="(item,index) in firstLanguageList" :key="index"
-								@click="selectFirstLanguage(item)">
-								{{item}}
+					<u-form-item :label="i18n.profilefirstlanguage" required>
+						<view class="jobs-tags-container">
+							<view class="jobs-tags">
+								<view class="jobs-tags-item"
+									:class=" selectFirstLanguageList.indexOf(item) == -1 ? '' : 'tags-active' "
+									v-for="(item,index) in firstLanguageList" :key="index"
+									@click="selectFirstLanguage(item)">
+									{{item}}
+								</view>
 							</view>
 						</view>
-					</view>
-				</view>
+					</u-form-item>
+				</u-form>
 
 			</view>
 			<view class="flex-item me-edit-submit">
@@ -284,6 +281,7 @@
 </script>
 
 <style>
+	@import url("@/common/home/uview-xll.css");
 	page {
 		background-color: #F4F5F6;
 	}

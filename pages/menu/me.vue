@@ -72,7 +72,7 @@
 					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
 				</view>
 
-				<view class="center-list-item border-bottom" @click="showLanguagePopup">
+				<view class="center-list-item border-bottom" @click="showLanguagePopupStatus=true">
 					<u-icon name="languagechange" custom-prefix="custom-icon" size="34" color="#000000"></u-icon>
 					<text class="list-text">{{i18n.accountpglanguage}}</text>
 					<u-icon name="arrow-right" size="28" color="#808080"></u-icon>
@@ -135,33 +135,11 @@
 		</view>
 		
 		<view class="logout" v-if="!showLoginBtnStatus">
-			<button type="default" @click="logout()">Logout</button>
+			<button type="default" @click="logout()">{{i18n.melogout}}</button>
 		</view>
-
+		
 		<!-- 语言选择框 -->
-		<view class="language-popup-bg" v-if="languagePopup" @click="closeLanguagePopup"></view>
-		<view class="language-popup" v-if="languagePopup">
-			<view class="language-text">{{i18n.accountchangelanguage}}</view>
-			<view class="language-options">
-				<view class="language-option" :class="languageOptionValue==1 ? 'language-option-active' : ''"
-					@click="changeLanguageValue(1)">
-					<view class="language-option-logo">
-						<image src="/static/china-flag.png"></image> <br>
-						<text>Chinese/简体中文</text>
-					</view>
-				</view>
-				<view class="language-option" :class="languageOptionValue==2 ? 'language-option-active' : ''"
-					@click="changeLanguageValue(2)">
-					<view class="language-option-logo">
-						<image src="/static/america-flag.png"></image> <br>
-						<text>English</text>
-					</view>
-				</view>
-			</view>
-			<view class="language-confirm">
-				<button @click="changeLanguage">{{i18n.confirm}}</button>
-			</view>
-		</view>
+		<xllLanguage :show="showLanguagePopupStatus" @close="showLanguagePopupStatus=false"></xllLanguage>
 		<!-- 语言选择end -->
 
 		<discountcard @close="closeDiscount" :showContact="showDiscountStatus"></discountcard>
@@ -178,6 +156,7 @@
 <script>
 	import profile from '@/api/profile.js';
 	import login from '@/api/login.js';
+	import xllLanguage from '@/uni_modules/xll-language/components/xll-language/xll-language.vue';
 	import contactus from "@/components/xll-contact-us/xll-contact-us.vue";
 	import discountcard from "@/components/xll-discount-card/xll-discount-card.vue";
 	import selectRolePopup from "@/components/select-role-popup/select-role-popup.vue"
@@ -192,8 +171,7 @@
 				location: "",
 				jobTitle: "",
 				uerInfo: {},
-				languagePopup: false,
-				languageOptionValue: 0,
+				
 				educatorInfo: '',
 				businessInfo: '',
 				vendorInfo: '',
@@ -220,6 +198,7 @@
 				showPostJobStatus: false,
 
 				showLoginBtnStatus: false,
+				showLanguagePopupStatus:false,
 
 			}
 		},
@@ -227,6 +206,8 @@
 			contactus,
 			discountcard,
 			selectRolePopup,
+			xllLanguage
+			
 		},
 		computed: {
 			i18n() {
@@ -345,150 +326,10 @@
 			closeDiscount(e) {
 				this.showDiscountStatus = false;
 			},
-			changeLanguageValue: function(e) {
-				this.languageOptionValue = e;
-			},
-			showLanguagePopup: function() {
-				this.languagePopup = true;
-			},
-			closeLanguagePopup: function() {
-				this.languagePopup = false;
-			},
-			changeLanguage: function() {
-				var languageOptionValue = this.languageOptionValue;
-				if (languageOptionValue == 1) {
-					this.languageChecked = true;
-					uni.setStorageSync("language", 'zh-CN')
-					this._i18n.locale = 'zh-CN';
-					this.changeLanguageApi(1);
-				}
-				if (languageOptionValue == 2) {
-					this.languageChecked = false;
-					uni.setStorageSync("language", 'en-US')
-					this._i18n.locale = 'en-US';
-					this.changeLanguageApi(2);
-				}
-				this.languagePopup = false;
-				uni.setTabBarItem({
-					index: 0,
-					text: this.i18n.tabbarhome
-				})
-				// #ifdef H5
-				uni.setTabBarItem({
-					index: 1,
-					text: this.i18n.tabbarjobs
-				})
-				// #endif
-
-				// #ifdef MP-WEIXIN
-				let token = uni.getStorageSync('token');
-				let identity = uni.getStorageSync('identity');
-
-				if (token != '' && identity && identity != 0) {
-					uni.setTabBarItem({
-						index: 1,
-						text: this.i18n.tabbarjobs
-					})
-				} else {
-					uni.setTabBarItem({
-						index: 1,
-						text: this.i18n.tabbarevents
-					})
-				}
-				// #endif
-
-				uni.setTabBarItem({
-					index: 2,
-					text: this.i18n.tabbardeals
-				})
-				uni.setTabBarItem({
-					index: 3,
-					text: this.i18n.tabbarme
-				})
-			},
+			
 			showRolePopup: function(e) {
 				this.rolePopupStatus = true;
 				this.language = uni.getStorageSync('language');
-			},
-			changeLang: function(e) {
-
-				if (e.target.value) {
-					uni.setStorageSync("language", 'zh-CN')
-					this.language = 'zn-CN';
-					this.languageValue = 1;
-					this._i18n.locale = 'zh-CN';
-					this.changeLanguageApi(1);
-				} else {
-					uni.setStorageSync("language", 'en-US')
-					this.language = 'en-US';
-					this.languageValue = 2;
-					this._i18n.locale = 'en-US';
-					this.changeLanguageApi(2);
-				}
-
-				uni.setTabBarItem({
-					index: 0,
-					text: this.i18n.tabbarhome
-				})
-				// #ifdef H5
-				uni.setTabBarItem({
-					index: 1,
-					text: this.i18n.tabbarjobs
-				})
-				// #endif
-
-				// #ifdef MP-WEIXIN
-				let token = uni.getStorageSync('token');
-				let identity = uni.getStorageSync('identity');
-
-				if (token != '' && identity && identity != 0) {
-					uni.setTabBarItem({
-						index: 1,
-						text: this.i18n.tabbarjobs
-					})
-				} else {
-					uni.setTabBarItem({
-						index: 1,
-						text: this.i18n.tabbarevents
-					})
-				}
-				// #endif
-				uni.setTabBarItem({
-					index: 2,
-					text: this.i18n.tabbardeals
-				})
-				uni.setTabBarItem({
-					index: 3,
-					text: this.i18n.tabbarme
-				})
-
-			},
-			changeLanguageApi: function(language) {
-				var that = this;
-				let data = {
-					language: language,
-					unionid: uni.getStorageSync('unionid'),
-					token: uni.getStorageSync('token')
-				}
-				login.changeLanguageAndIdentity(data).then(res => {
-					if (res.code == 200) {
-						// uni.showToast({
-						// 	title: that.i18n.languageSwitchSuccess,
-						// 	icon: 'success'
-						// })
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-
-				}).catch(err => {
-					uni.showToast({
-						title: err.msg,
-						icon: 'none'
-					})
-				})
 			},
 			getBasicInfo(uid, token, identity) {
 				var that = this;

@@ -79,6 +79,9 @@
 				return this.$t('index')
 			}
 		},
+		onUnload() {
+			uni.$off('nationalityObj');
+		},
 		onLoad() {
 			var that = this;
 			uni.$on('nationalityObj', function(data) {

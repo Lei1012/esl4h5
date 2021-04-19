@@ -38,6 +38,7 @@
 		<view class="u-form-item__message" v-if="validateState === 'error' && showError('message')" :style="{
 			paddingLeft: elLabelPosition == 'left' ? $u.addUnit(elLabelWidth) : '0',
 		}">{{validateMessage}}</view>
+		
 	</view>
 </template>
 
@@ -407,6 +408,7 @@
 
 				&__slot {
 					flex: 1;
+					flex-wrap: wrap;
 					/* #ifndef MP */
 					@include vue-flex;
 					align-items: center;

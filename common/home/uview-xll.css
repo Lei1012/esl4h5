@@ -1,0 +1,27 @@
+.xll-two-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.xll-two-left {
+	width: 45%;
+}
+
+.xll-two-mid {
+	display: flex;
+	align-items: center;
+	
+}
+
+.xll-two-right {
+	width: 45%;
+}
+.xll-view{
+	width: 100%;
+}
+.textarea-number{
+	width: 100%;
+	font-size: 24rpx;
+	text-align: right;
+}

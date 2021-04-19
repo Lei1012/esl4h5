@@ -21,19 +21,16 @@
 					<u-input border v-model="form.nationality" :placeholder="i18n.nationality" type="select"
 						@click="turnNationalityPage"></u-input>
 				</u-form-item>
-			</u-form>
-			<view class="categories">
-				<view class="category-title">
-					{{i18n.basicinfoeducategory}}:
-				</view>
-				<view class="categories-tags">
-					<view class="categories-tags-item" :class="selectEducatorTypeList.indexOf(item.id) == -1 ? '' : 'tag-active' "
-					 v-for="(item,k) in range" :key="k" @click="selectEducatorType(item)">
-						{{item.identity_name}}
+				<u-form-item :label="i18n.basicinfoeducategory">
+					<view class="categories-tags">
+						<view class="categories-tags-item" :class="selectEducatorTypeList.indexOf(item.id) == -1 ? '' : 'tag-active' "
+						 v-for="(item,k) in range" :key="k" @click="selectEducatorType(item)">
+							{{item.identity_name}}
+						</view>
 					</view>
-				</view>
-			</view>
-
+				</u-form-item>
+			</u-form>
+			
 		</view>
 
 		<view class="role-form-done">

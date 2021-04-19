@@ -32,43 +32,44 @@
 						<u-input border v-model="form.job_title" :placeholder="i18n.profilejobtitleph" />
 					</u-form-item>
 					<u-form-item :label="i18n.profilesmallbio" prop="bio">
-						<u-input border type="textarea" :maxlength="200" height="150" autoHeight v-model="form.bio"
-							:placeholder="i18n.profilesmallbioph" />
+						<view class="xll-view">
+							<u-input border type="textarea" :maxlength="200" height="150" autoHeight v-model="form.bio"
+								:placeholder="i18n.profilesmallbioph" />
+						</view>
+						<view class="textarea-number"> {{form.bio.length}}/200</view>
+					</u-form-item>
+					<u-form-item :label="i18n.profilehobbies" >
+						<view class="jobs-tags-container">
+							<view class="jobs-tags">
+								<view class="jobs-tags-item"
+									:class=" selectInfoListList.indexOf(item) == -1 ? '' : 'tags-active' "
+									v-for="(item,index) in infoList" :key="index" @click="selectInfoList(item)">
+									{{item}}
+								</view>
+								<view class="jobs-tags-item"
+									:class=" selectInfoListList.indexOf(item) == -1 ? '' : 'tags-active' "
+									v-for="(item,index) in ownInfoListList" :key="item" @click="selectInfoList(item)">
+									{{item}}
+								</view>
+							</view>
+							<view class="jobs-tags-item" v-if="addInfoListStatus==false" @click="addInfoListStatus=true">
+								add+</view>
+							<view class="jobs-tags-add">
+								<view class="jobs-tags-item-add" v-if="addInfoListStatus">
+									<input type="text" v-model="ownInfoListValue" placeholder="Add your hobbies">
+									<view class="jobs-tags-item-add-button">
+										<button type="default" v-if="ownInfoListValue.length>0"
+											@click="addOwnInfoList">Confirm</button>
+										<button type="default" v-if="ownInfoListValue.length==0"
+											@click="addInfoListStatus=false">Cancel</button>
+									</view>
+								</view>
+							</view>
+						</view>
 					</u-form-item>
 
 				</u-form>
-
-				<view>
-					<view class="me-edit-form-item-label">{{i18n.profilehobbies}}</view>
-					<view class="jobs-tags-container">
-						<view class="jobs-tags">
-							<view class="jobs-tags-item"
-								:class=" selectInfoListList.indexOf(item) == -1 ? '' : 'tags-active' "
-								v-for="(item,index) in infoList" :key="index" @click="selectInfoList(item)">
-								{{item}}
-							</view>
-							<view class="jobs-tags-item"
-								:class=" selectInfoListList.indexOf(item) == -1 ? '' : 'tags-active' "
-								v-for="(item,index) in ownInfoListList" :key="item" @click="selectInfoList(item)">
-								{{item}}
-							</view>
-						</view>
-						<view class="jobs-tags-item" v-if="addInfoListStatus==false" @click="addInfoListStatus=true">
-							add+</view>
-						<view class="jobs-tags-add">
-							<view class="jobs-tags-item-add" v-if="addInfoListStatus">
-								<input type="text" v-model="ownInfoListValue" placeholder="Add your hobbies">
-								<view class="jobs-tags-item-add-button">
-									<button type="default" v-if="ownInfoListValue.length>0"
-										@click="addOwnInfoList">Confirm</button>
-									<button type="default" v-if="ownInfoListValue.length==0"
-										@click="addInfoListStatus=false">Cancel</button>
-								</view>
-							</view>
-
-						</view>
-					</view>
-				</view>
+				
 			</view>
 			<view class="flex-item me-edit-submit">
 				<button @click="basicSubmit" type="default">{{i18n.profileeditsubmit}}</button>
@@ -106,7 +107,8 @@
 				cancelText: 'Cancel',
 				infoList:[],
 				hobbiesStr: '',
-
+				infoList: ['Fitness', 'Photography', 'Travel'],
+				
 				editInfoList: [],
 				addInfoListStatus: false,
 				ownInfoListValue: '',
@@ -114,7 +116,7 @@
 				selectInfoListList: [],
 				selectInfoListArr: [],
 
-				isFirstEdit: undefined,
+				isFirstEdit: 0,
 				
 				errorType: ['message'],
 				form: {
@@ -323,6 +325,7 @@
 </script>
 
 <style>
+	@import url("@/common/home/uview-xll.css");
 	page {
 		background-color: #F4F5F6;
 	}

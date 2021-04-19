@@ -56,25 +56,14 @@ const request = (config) => {
 				if (statusCode === 401) {
 					uni.removeStorageSync('token')
 					// #ifdef H5
-					// uni.showModal({
-					// 	title: 'Login Status Is Invalid',
-					// 	content: 'Please login again',
-					// 	showCancel: false,
-					// 	cancelText: 'Cancel',
-					// 	confirmText: 'Login',
-					// 	confirmColor: '#00B3D2',
-					// 	success: function(res) {
-					// 		if (res.confirm) {
-					// 			uni.reLaunch({
-					// 				url: '/'
-					// 			})
-					// 		} else if (res.cancel) {
-					// 			console.log('用户点击取消');
-					// 		}
-					// 	}
-					// })
+					var pages = getCurrentPages(); // 当前页面
+					var currentPagePath = pages[pages.length - 1]; // 前一个页面
+					
+					if(currentPagePath.route == 'pages/login/index'){
+						return;
+					}
 					return uni.navigateTo({
-						url:'/pages/login/index'
+						url: '/pages/login/index?redirect='+ encodeURIComponent(currentPagePath.route) 
 					})
 					// #endif
 					

@@ -14,9 +14,9 @@
 					<u-form-item :label="i18n.profilelastname" prop="last_name">
 						<u-input border v-model="form.last_name" :placeholder="i18n.profilelastname" />
 					</u-form-item>
-					<u-form-item :label="i18n.profilenickname" prop="nickname">
+					<!-- <u-form-item :label="i18n.profilenickname" prop="nickname">
 						<u-input border v-model="form.nickname" :placeholder="i18n.profilenickname" />
-					</u-form-item>
+					</u-form-item> -->
 					<u-form-item :label="i18n.basiceduemail" prop="email">
 						<u-input border v-model="form.email" :placeholder="i18n.basiceduemail" />
 					</u-form-item>
@@ -41,28 +41,25 @@
 						<u-input border v-model="form.location" :placeholder="i18n.basicbusinesstwochooselocation"
 							type="select" @click="chooseLocation" />
 					</u-form-item>
+					<u-form-item :label="i18n.basicinfoeducategory" >
+						<view class="categories-tags">
+							<view class="categories-tags-item"
+								:class="selectEducatorTypeList.indexOf(item.id) == -1 ? '' : 'tag-active' "
+								v-for="(item,k) in range" :key="k" @click="selectEducatorType(item)">
+								{{item.identity_name}}
+							</view>
+						</view>
+					</u-form-item>
+					<u-form-item :label="i18n.jobseeking" label-position="left" label-width="80%"> 
+						<switch style="transform:scale(0.8)" :checked="form.is_seeking==1" color="#0AA0A8"
+							@change="jobSeekingChange" />
+					</u-form-item>
+					<u-form-item :label="i18n.publicprofile" label-position="left" label-width="80%">
+						<switch style="transform:scale(0.8)" :checked="form.is_public == 1" color="#0AA0A8"
+							@change="publicProfileChange" />
+					</u-form-item>
 				</u-form>
-
-				<view class="role-form-type-1">
-					<text>{{i18n.basicinfoeducategory}}</text>
-				</view>
-				<view class="categories-tags">
-					<view class="categories-tags-item"
-						:class="selectEducatorTypeList.indexOf(item.id) == -1 ? '' : 'tag-active' "
-						v-for="(item,k) in range" :key="k" @click="selectEducatorType(item)">
-						{{item.identity_name}}
-					</view>
-				</view>
-				<view class="me-edit-form-job-seeking">
-					{{i18n.jobseeking}}
-					<switch style="margin-left: 20rpx;transform:scale(0.6)" :checked="form.is_seeking==1" color="#0AA0A8"
-						@change="jobSeekingChange" />
-				</view>
-				<view class="me-edit-form-public-profile">
-					{{i18n.publicprofile}}
-					<switch style="margin-left: 20rpx;transform:scale(0.6)" :checked="form.is_public == 1" color="#0AA0A8"
-						@change="publicProfileChange" />
-				</view>
+				
 			</view>
 			<view class="flex-item me-edit-submit">
 				<button @click="basicSubmit" type="default">{{i18n.homereviewbutton}}</button>
@@ -260,7 +257,9 @@
 						this.form.last_name = educatorInfo.last_name;
 						this.form.nickname = educatorInfo.nickname;
 						this.form.nationality = educatorInfo.nationality;
-						this.form.birthday = basicUserInfo.birthday;
+						if(basicUserInfo.birthday && basicUserInfo.birthday !='0000-00-00'){
+							this.form.birthday = basicUserInfo.birthday;
+						}
 						this.form.is_seeking = basicUserInfo.is_seeking;
 						this.form.is_public = basicUserInfo.is_public;
 						this.form.wx_id = educatorInfo.wx_id;
@@ -270,8 +269,9 @@
 						this.form.city = city;
 						this.form.district = district;
 						this.form.address = address;
-						this.form.location =  district + ', ' + city + ', ' + province;
-						
+						if(district !='' && city !='' && province !=''){
+							this.form.location =  district + ', ' + city + ', ' + province;
+						}
 						this.selectEducatorTypeList = subIdentityIdStr.split(',').map(Number)
 						
 					} else {

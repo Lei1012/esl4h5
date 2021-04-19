@@ -12,7 +12,9 @@
 						:placeholder="i18n.profilebusinessinfobusinessnameph" />
 				</u-form-item>
 				<u-form-item :label="i18n.profilebusinessbio" prop="business_bio">
-					<u-input border :maxlength="200" type="textarea" v-model="form.business_bio" :placeholder="i18n.profilebusinessbioph" />
+					<view class="xll-view">
+						<u-input border :maxlength="200" type="textarea" v-model="form.business_bio" :placeholder="i18n.profilebusinessbioph" />
+					</view>
 					<view class="textarea-number"> {{form.business_bio.length}}/200</view>
 				</u-form-item>
 				<u-form-item :label="i18n.profileyearfounded" prop="year_founded">
@@ -34,15 +36,12 @@
 					<u-input border type="number" :maxlength="11" v-model="form.business_phone"
 						:placeholder="i18n.profilebusinessphone" />
 				</u-form-item>
+				<u-form-item :label="i18n.profilecurrentlyhiring" label-position="left" label-width="80%">
+					<switch style="transform: scale(0.8);" :checked="form.is_currently_hiring==1" color="#0AA0A8"
+						@change="hiringChange" />
+				</u-form-item>
+				
 			</u-form>
-
-			<view class="toggels-title">{{i18n.profilebusinessbasicturnontoggels}}</view>
-			<view class="basic-form-hiring">
-				<view class="basic-form-label">{{i18n.profilecurrentlyhiring}}</view>
-				<switch style="margin-left: 20rpx;transform: scale(0.6);" :checked="form.is_currently_hiring==1" color="#0AA0A8"
-					@change="hiringChange" />
-			</view>
-
 		</view>
 		<view class="flex-item basic-submit">
 			<button @click="basicSubmit" type="default">{{i18n.profileeditsubmit}}</button>
@@ -247,12 +246,9 @@
 </script>
 
 <style>
+	@import url("@/common/home/uview-xll.css");
 	page {
 		background-color: #F4F5F6;
-	}
-	.textarea-number{
-		font-size: 24rpx;
-		text-align: right;
 	}
 	.basic-title {
 		text-align: center;

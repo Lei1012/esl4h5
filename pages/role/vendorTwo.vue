@@ -27,8 +27,7 @@
 						@click="chooseLocation()" />
 				</u-form-item>
 
-				<view class="categories">
-					<view class="category-title">{{i18n.vendorcategory}}:</view>
+				<u-form-item :label="i18n.vendorcategory">
 					<view class="categories-tags">
 						<view class="categories-tags-item" v-for="(item,k) in range" :key="k"
 							:class="selectVendorTypeList.indexOf(item) == -1 ? '' : 'tag-active' "
@@ -36,11 +35,14 @@
 							{{item.identity_name}}
 						</view>
 					</view>
-				</view>
+				</u-form-item>
 
 				<u-form-item :label="i18n.vendorproposeddeal" prop="proposed_deal">
-					<u-input type="textarea" v-model="form.proposed_deal" :height="150" :maxlength="200" autoHeight
-						border :placeholder="i18n.vendorproposeddealph" />
+					<view class="xll-view">
+						<u-input type="textarea" v-model="form.proposed_deal" :height="150" :maxlength="200" autoHeight
+							border :placeholder="i18n.vendorproposeddealph" />
+					</view>
+					<view class="textarea-number">{{form.proposed_deal.length}}/200</view>
 				</u-form-item>
 
 			</u-form>
@@ -70,9 +72,9 @@
 				selectVendorTypeList: [],
 				agreeStatus: false,
 				errorType: ['message'],
-				formStepOneData:{},
+				formStepOneData: {},
 				form: {
-					location:'',
+					location: '',
 					province: '',
 					city: "",
 					district: '',
@@ -119,10 +121,10 @@
 		onLoad(option) {
 			var that = this;
 			// 接收第一步传参
-			if(option.formStr){
+			if (option.formStr) {
 				that.formStepOneData = JSON.parse(option.formStr);
 			}
-			
+
 			this.subCateList()
 			uni.$on('locationEvent', function(data) {
 				console.log(data)
@@ -189,27 +191,32 @@
 				this.$refs.uForm.validate(valid => {
 					if (valid) {
 						console.log('验证通过');
-						if(!that.agreeStatus){
+						if (that.selectVendorTypeList.length <= 0) {
+							return uni.showToast({
+								title: this.i18n.vendorcategoryerror,
+								icon: "none"
+							})
+						}
+						if (!that.agreeStatus) {
 							return uni.showToast({
 								title: 'Please acknowledge need for approval',
 								icon: "none"
 							})
 						}
-						let vendorTypeId;
-						let vendorTypeName;
+
 						that.selectVendorTypeList.forEach(item => {
-							vendorTypeId = item.id;
-							vendorTypeName = item.identity_name;
+							that.form.vendor_type_id = item.id;
+							that.form.vendor_type_name = item.identity_name;
 						})
+
 						let stepOneData = this.formStepOneData;
-						that.form.vendor_type_id = vendorTypeId;
 						that.form.token = uni.getStorageSync('token');
-						that.form.vendor_type_name = vendorTypeName;
-						let data = Object.assign(stepOneData,that.form);
+
+						let data = Object.assign(stepOneData, that.form);
 						uni.showLoading({
 							title: 'loading'
 						})
-						
+
 						profile.addVendorBasic(data).then(res => {
 							if (res.code == 200) {
 								//切换身份
@@ -225,18 +232,18 @@
 										uni.navigateTo({
 											url: '/pages/me/profile/photo?type=8&vprofile=1'
 										})
-						
+
 									} else {
 										uni.showToast({
 											title: res.msg,
 											icon: 'none'
 										})
 									}
-						
+
 								}).catch(err => {
 									console.log(err)
 								})
-						
+
 							} else {
 								uni.showToast({
 									title: res.msg,
@@ -246,13 +253,13 @@
 						}).catch(err => {
 							console.log(err)
 						})
-						
-						
+
+
 					} else {
 						console.log('验证失败');
 					}
 				});
-				
+
 			},
 
 
@@ -266,6 +273,7 @@
 
 <style>
 	@import url("@/common/role/index.css");
+	@import url("@/common/home/uview-xll.css");
 
 	.form-company {
 		width: 100%;

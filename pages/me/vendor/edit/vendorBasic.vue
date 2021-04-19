@@ -10,8 +10,11 @@
 				<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
 					:label-style="{'font-weight':700}">
 					<u-form-item :label="i18n.profilevendorbio" prop="vendor_bio">
-						<u-input type="textarea" :height="150" autoHeight :maxlength="250" border
-							v-model="form.vendor_bio" :placeholder="i18n.profilevendorbioph" />
+						<view class="xll-view">
+							<u-input type="textarea" :height="150" autoHeight :maxlength="250" border
+								v-model="form.vendor_bio" :placeholder="i18n.profilevendorbioph" />
+						</view>
+						<view class="textarea-number"> {{form.vendor_bio.length}}/250</view>
 					</u-form-item>
 					<u-form-item :label="i18n.profilewechatofficialaccountid" prop="wechat_public_name">
 						<u-input border :maxlength="20" v-model="form.wechat_public_name"
@@ -32,18 +35,14 @@
 					<u-form-item :label="i18n.profilevendorbasicaddress" prop="address">
 						<u-input border v-model="form.address" :placeholder="i18n.profilevendorbasicaddressph" />
 					</u-form-item>
+					<u-form-item :label="i18n.profiledogfriendly" label-position="left" label-width="80%">
+						<switch style="transform: scale(0.8);" :checked="form.is_dog_friendly==1" color="#0AA0A8" @change="dogFriendlyChange" />
+					</u-form-item>
+					<u-form-item :label="i18n.profilevendorevents" label-position="left" label-width="80%">
+						<switch style="transform: scale(0.8);" :checked="form.is_events == 1" color="#0AA0A8" @change="eventsChange" />
+					</u-form-item>
 				</u-form>
-
-				<view class="basic-form-job-seeking">
-					<view class="basic-form-label">{{i18n.profiledogfriendly}}</view>
-					<switch style="margin-left: 20rpx;transform: scale(0.6);" :checked="form.is_dog_friendly==1" color="#0AA0A8"
-						@change="dogFriendlyChange" />
-				</view>
-				<view class="basic-form-public-profile">
-					<view class="basic-form-label">{{i18n.profilevendorevents}}</view>
-					<switch style="margin-left: 20rpx;transform: scale(0.6);" :checked="form.is_events == 1" color="#0AA0A8"
-						@change="eventsChange" />
-				</view>
+				
 			</view>
 			<view class="flex-item basic-submit">
 				<button @click="basicSubmit" type="default">{{i18n.profileeditsubmit}}</button>
@@ -221,6 +220,7 @@
 </script>
 
 <style>
+	@import url("@/common/home/uview-xll.css");
 	page {
 		background-color: #F4F5F6;
 	}

@@ -7,57 +7,49 @@
 			
 			<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
 				:label-style="{'font-weight':700}">
-				<u-form-item :label="i18n.profilecurriculum" prop="curriculum" >
-					<u-input border :maxlength="200" type="textarea" v-model="form.curriculum" height="150"	:placeholder="i18n.profilecurriculumph" /> 
+				<u-form-item :label="i18n.profilecurriculum" prop="curriculum" required>
+					<view class="xll-view">
+						<u-input border :maxlength="200" type="textarea" v-model="form.curriculum" height="150"	:placeholder="i18n.profilecurriculumph" /> 
+					</view>
 					 <view class="textarea-number"> {{form.curriculum.length}}/200</view>
 				</u-form-item>
 				
-				<u-form-item :label="i18n.profiletechnologyavailable"  prop="technology_available">
-					<u-input border :maxlength="200" type="textarea" v-model="form.technology_available"
-					 height="150"	:placeholder="i18n.profiletechnologyavailableph" />
+				<u-form-item :label="i18n.profiletechnologyavailable"  prop="technology_available" required>
+					<view class="xll-view">
+						<u-input border :maxlength="200" type="textarea" v-model="form.technology_available"
+						 height="150"	:placeholder="i18n.profiletechnologyavailableph" />
+					</view>
 					 <view class="textarea-number"> {{form.technology_available.length}}/200</view>
 				</u-form-item>
 				<u-form-item :label="i18n.profileaverageclasssize"  prop="staff_student_ratio">
 					<u-input border type="number" :maxlength="11" v-model="form.staff_student_ratio"
 						:placeholder="i18n.profileaverageclasssizeph" />
 				</u-form-item>
-			</u-form>
-			
-			<view class="switch-container">
-				<view class="basic-form-label">{{i18n.profilefieldstrips}}</view>
-				<switch style="margin-left: 20rpx;transform: scale(0.6);"  :checked="form.felds_trips==1" color="#0AA0A8" @change="tripsChange" />
-			</view>
-			<view class="switch-container">
-				<view class="basic-form-label">{{i18n.profileevents}}</view>
-				<switch style="margin-left: 20rpx;transform: scale(0.6);" :checked="form.is_events==1" color="#0AA0A8" @change="eventsChange" />
-			</view>
-			<view class="switch-container">
-				<view class="basic-form-label">{{i18n.profilespecialneeds}}</view>
-				<switch style="margin-left: 20rpx;transform: scale(0.6);" :checked="form.is_special_needs==1" color="#0AA0A8" @change="needsChange" />
-			</view>
-			
-			<view class="student-age">
-				<view class="student-age-t">
-					<view class="student-age-title">{{i18n.profilebusinessourstudentage}}</view>
-				</view>
-				<view class="jobs-tags-container">
-					<view class="jobs-tags">
-						<view class="jobs-tags-item" :class=" selectStudentAgeList.findIndex((element)=>element.id===item.id) == -1 ? '' : 'tags-active' "
-						 v-for="(item,index) in editStudentAgeList" :key="item.id" @click="selectStudentAge(item,1)">
-							{{item.object_en}}
+				<u-form-item :label="i18n.profilefieldstrips" label-position="left" label-width="80%">
+					<switch style="transform: scale(0.8);"  :checked="form.felds_trips==1" color="#0AA0A8" @change="tripsChange" />
+				</u-form-item>
+				<u-form-item :label="i18n.profileevents" label-position="left" label-width="80%">
+					<switch style="transform: scale(0.8);" :checked="form.is_events==1" color="#0AA0A8" @change="eventsChange" />
+				</u-form-item>
+				<u-form-item :label="i18n.profilespecialneeds" label-position="left" label-width="80%">
+					<switch style="transform: scale(0.8);" :checked="form.is_special_needs==1" color="#0AA0A8" @change="needsChange" />
+				</u-form-item>
+				<u-form-item :label="i18n.profilebusinessourstudentage" >
+					<view class="jobs-tags-container">
+						<view class="jobs-tags">
+							<view class="jobs-tags-item" :class=" selectStudentAgeList.findIndex((element)=>element.id===item.id) == -1 ? '' : 'tags-active' "
+							 v-for="(item,index) in editStudentAgeList" :key="item.id" @click="selectStudentAge(item,1)">
+								{{item.object_en}}
+							</view>
+							<view class="jobs-tags-item" :class=" selectStudentAgeList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
+							 v-for="(item,index) in ownStudentAgeList" :key="index" @click="selectStudentAge(item,2)">
+								{{item.object_name}}
+							</view>
 						</view>
-						<view class="jobs-tags-item" :class=" selectStudentAgeList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
-						 v-for="(item,index) in ownStudentAgeList" :key="index" @click="selectStudentAge(item,2)">
-							{{item.object_name}}
-						</view>
+						
 					</view>
-					
-				</view>
-				
-				<view class="subject" style="padding-right: 0;">
-					<view class="subject-t">
-						<view class="subject-title">{{i18n.profilebusinesssubjectsweteach}}</view>
-					</view>
+				</u-form-item>
+				<u-form-item :label="i18n.profilebusinesssubjectsweteach" >
 					<view class="jobs-tags-container">
 						<view class="jobs-tags">
 							<view class="jobs-tags-item" :class=" selectSubjectList.findIndex((element)=>element.id===item.id) == -1 ? '' : 'tags-active' "
@@ -80,8 +72,9 @@
 							</view>
 						</view>
 					</view>
-				</view>
-			</view>
+				</u-form-item>
+				
+			</u-form>
 			
 		</view>
 		<view class="flex-item basic-submit">
@@ -131,12 +124,15 @@
 				},
 				rules:{
 					curriculum: [{
-						required:false,
-						mini:0,
-						max:200,
-						message: '200',
+						required:true,
+						message: this.$t('index').profilecurriculumph,
 						trigger: ['change', 'blur'],
 					}, ],
+					technology_available: [{
+						required:true,
+						message: this.$t('index').profiletechnologyavailableph,
+						trigger: ['change', 'blur'],
+					}, ]
 				}
 			}
 		},
@@ -253,10 +249,10 @@
 						that.form.felds_trips = businessInfo.felds_trips;
 						that.form.is_events = businessInfo.is_events;
 						that.form.is_special_needs = businessInfo.is_special_needs;
-						that.form.is_school = businessInfo.is_school;
+						// that.form.is_school = businessInfo.is_school;
 						
-						if (res.message.business_info.subject != undefined) {
-							that.subjectList = res.message.business_info.subject;
+						if (businessInfo.subject) {
+							that.subjectList = businessInfo.subject;
 							let len = this.subjectList.length;
 							let subjectList = this.subjectList;
 							console.log(len);
@@ -281,8 +277,8 @@
 								}
 							}
 						}
-						if (res.message.business_info.Student_Age != undefined) {
-							that.studentAgeList = res.message.business_info.Student_Age;
+						if (businessInfo.Student_Age) {
+							that.studentAgeList = businessInfo.Student_Age;
 							
 							console.log(this.studentAgeList);
 							let len = this.studentAgeList.length;
@@ -477,6 +473,7 @@
 </script>
 
 <style>
+	@import url("@/common/home/uview-xll.css");
 	page {
 		background-color: #F4F5F6;
 	}

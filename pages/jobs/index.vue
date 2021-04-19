@@ -6,8 +6,15 @@
 		</view>
 		<swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
 			<swiper-item class="swiper-item">
-				<scroll-view scroll-y style="height: 100%;width: 100%;" @scrolltolower="reachBottomApproved()">
-
+				<view class="my-jobs-empty" v-if="!approvedStatus">
+					<view class="empty-text">
+						<u-empty :text="i18n.jobsmyjobsapprovedtips" mode="list"></u-empty>
+					</view>
+					<view class="empty-btn">
+						<button type="default" @click="postJob()">{{i18n.jobsmyjobspostajob}}</button>
+					</view>
+				</view>
+				<scroll-view scroll-y class="scroll-container" v-if="approvedStatus" @scrolltolower="reachBottomApproved()">
 					<view class=" list-item" v-for="(item,index) in jobsListApproved" :key="index">
 						<view class="edit" @click="turnEditJob(item.id)">
 							<image src="./static/jobs/edit-job.png" mode="aspectFill"></image>
@@ -48,7 +55,15 @@
 			</swiper-item>
 
 			<swiper-item class="swiper-item">
-				<scroll-view scroll-y style="height: 100%;width: 100%;" @scrolltolower="reachBottomUnderReview()">
+				<view class="my-jobs-empty" v-if="!underReviewStatus">
+					<view class="empty-text">
+						<u-empty :text="i18n.jobsmyjobsunderreviewemptytext" mode="list"></u-empty>
+					</view>
+					<view class="empty-btn">
+						<button type="default" @click="postJob()">{{i18n.jobsmyjobspostajob}}</button>
+					</view>
+				</view>
+				<scroll-view scroll-y class="scroll-container" v-if="underReviewStatus" @scrolltolower="reachBottomUnderReview()">
 					<view class="under-review-tips">
 						<text>{{i18n.jobsunderreviewnote}} {{i18n.jobsunderreviewnotetxt}}</text>
 					</view>
@@ -80,8 +95,15 @@
 			</swiper-item>
 
 			<swiper-item class="swiper-item">
-				<scroll-view scroll-y style="height: 100%;width: 100%;" @scrolltolower="reachBottomRejected()">
-
+				<view class="my-jobs-empty" v-if="!rejectedStatus">
+					<view class="empty-text">
+						<u-empty :text="i18n.jobsmyjobsrejectemptytext" mode="list"></u-empty>
+					</view>
+					<view class="empty-btn">
+						<button type="default" @click="postJob()">{{i18n.jobsmyjobspostajob}}</button>
+					</view>
+				</view>
+				<scroll-view scroll-y class="scroll-container" v-if="rejectedStatus"  @scrolltolower="reachBottomRejected()">
 					<view class=" list-item" v-for="(item,index) in jobsListRejected" :key="index">
 						<view class="list-item-left">
 							<image @click="turnBusinessProfile(item.user_id)" v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit"></image>
@@ -106,7 +128,8 @@
 				</scroll-view>
 			</swiper-item>
 		</swiper>
-
+		
+		<how-post-job @close="showPostJobStatus=false" :showPostJobStatus="showPostJobStatus"></how-post-job>
 	</view>
 
 </template>
@@ -149,7 +172,12 @@
 					nomore: 'no more'
 				},
 				identity: 0,
-				languageValue:'en-US'
+				languageValue:'en-US',
+				
+				approvedStatus:true,
+				underReviewStatus:true,
+				rejectedStatus:true,
+				showPostJobStatus:false,
 
 			};
 		},
@@ -174,6 +202,9 @@
 			}
 		},
 		methods: {
+			postJob(){
+				this.showPostJobStatus=true;
+			},
 			changeJobOpenStatus(jobId, e) {
 
 				var is_open;
@@ -257,7 +288,11 @@
 				jobs.myJobs(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
-						this.jobsListApproved = this.jobsListApproved.concat(res.message.data);
+						let jobData = res.message.data;
+						if(jobData.length==0){
+							this.approvedStatus=false;
+						}
+						this.jobsListApproved = this.jobsListApproved.concat(jobData);
 						this.lastPageApproved = res.message.last_page;
 					} else {
 						uni.showToast({
@@ -280,7 +315,11 @@
 				jobs.myJobs(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
-						this.jobsListUnderReview = this.jobsListUnderReview.concat(res.message.data);
+						let jobData = res.message.data;
+						if(jobData.length==0){
+							this.underReviewStatus=false;
+						}
+						this.jobsListUnderReview = this.jobsListUnderReview.concat(jobData);
 						this.lastPageUnReview = res.message.last_page;
 					} else {
 						uni.showToast({
@@ -304,7 +343,11 @@
 				jobs.myJobs(data).then(res => {
 					console.log(res)
 					if (res.code == 200) {
-						this.jobsListRejected = this.jobsListRejected.concat(res.message.data);
+						let jobData = res.message.data;
+						if(jobData.length==0){
+							this.rejectedStatus=false;
+						}
+						this.jobsListRejected = this.jobsListRejected.concat(jobData);
 						this.lastPageRejected = res.message.last_page;
 					} else {
 						uni.showToast({
@@ -486,6 +529,11 @@
 		height: 100%;
 		background-color: #F4F5F6
 	}
+	
+	.scroll-container{
+		width: 100%;
+		height: 100%;
+	}
 
 	.list-item {
 		width: 96%;
@@ -525,7 +573,29 @@
 		width: 75%;
 
 	}
-
+	
+	.my-jobs-empty{
+		width: 100%;
+		height: 100%;
+	}
+	.empty-text{
+		height: 80%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 30rpx;
+	}
+	.empty-btn{
+		width: 80%;
+		height: 20%;
+		margin: 0 auto;
+	}
+	.empty-btn button{
+		background-color: #0AA0A8;
+		color: #FFFFFF;
+		line-height: 80rpx;
+		font-size: 30rpx;
+	}
 
 	.job-title {
 		width: 80%;
@@ -661,6 +731,11 @@
 		background-position: center;
 		background-size: 60%;
 		background-repeat: no-repeat;
+	}
+	
+	.under-empty{
+		width: 100%;
+		height: 100%;
 	}
 
 	.under-review-tips {

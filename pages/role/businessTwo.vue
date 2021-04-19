@@ -17,27 +17,24 @@
 					<u-input border v-model="form.location" :placeholder="i18n.basicbusinesstwochooselocation" type="select"
 						@click="chooseLocation()" />
 				</u-form-item>
-
-			</u-form>
-
-			<view class="categories">
-				<view class="category-title">
-					{{i18n.businesscategory}}
-				</view>
-				<view class="categories-content">
-					<view class="categories-tags" v-for="(item,k) in range" :key="k">
-						<view v-if="item['children'].length>0" class="category-parent">{{item.identity_name}}</view>
-						<view v-if="item['children'].length===0" class="categories-tags-item"
-							:class="selectBusinessTypeList.indexOf(item) == -1 ? '' : 'tag-active' "
-							@click="selectBusinessType(item)">{{item.identity_name}}</view>
-						<view class="categories-tags-item" v-for="(child,key) in item['children']" :key="key"
-							:class="selectBusinessTypeList.indexOf(child) == -1 ? '' : 'tag-active' "
-							@click="selectBusinessType(child)">
-							{{child.identity_name}}
+				<u-form-item :label="i18n.businesscategory">
+					<view class="categories-content">
+						<view class="categories-tags" v-for="(item,k) in range" :key="k">
+							<view v-if="item['children'].length>0" class="category-parent">{{item.identity_name}}</view>
+							<view v-if="item['children'].length===0" class="categories-tags-item"
+								:class="selectBusinessTypeList.indexOf(item) == -1 ? '' : 'tag-active' "
+								@click="selectBusinessType(item)">{{item.identity_name}}</view>
+							<view class="categories-tags-item" v-for="(child,key) in item['children']" :key="key"
+								:class="selectBusinessTypeList.indexOf(child) == -1 ? '' : 'tag-active' "
+								@click="selectBusinessType(child)">
+								{{child.identity_name}}
+							</view>
 						</view>
 					</view>
-				</view>
-			</view>
+				</u-form-item>
+
+			</u-form>
+			
 		</view>
 		<view class="role-form-done">
 			<button class="btn-submit" @click="submitBusinessTwo">

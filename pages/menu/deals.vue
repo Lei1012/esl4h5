@@ -224,27 +224,7 @@
 				showContactStatus: false,
 
 				defaultSelected: [],
-				filterData: [{
-						"name": _this.$t('index').dealsfiltercategory,
-						"type": 'hierarchy',
-						"submenu": [{
-							"name": _this.$t('index').dealsfilterall,
-							"value": 0,
-							"submenu": []
-						}]
-					},
-					{
-						"name": _this.$t('index').dealsfilterlocation,
-						"type": 'hierarchy',
-						"submenu": [{
-							"name": _this.$t('index').dealsfilterall,
-							"value": 0,
-							"submenu": [
-
-							]
-						}]
-					},
-				],
+				
 				dealsOneList: [],
 				dealsTwoList: [],
 				dealsPage:1,
@@ -276,7 +256,38 @@
 			contactus,
 			HMfilterDropdown
 		},
+		computed: {
+			i18n() {
+				return this.$t('index')
+			},
+			filterData(){
+				this.getSubCateList(3);
+				this.getDealsAreaList();
+				return  [{
+						"name": this.$t('index').dealsfiltercategory,
+						"type": 'hierarchy',
+						"submenu": [{
+							"name": this.$t('index').dealsfilterall,
+							"value": 0,
+							"submenu": []
+						}]
+					},
+					{
+						"name": this.$t('index').dealsfilterlocation,
+						"type": 'hierarchy',
+						"submenu": [{
+							"name": this.$t('index').dealsfilterall,
+							"value": 0,
+							"submenu": [
+				
+							]
+						}]
+					},
+				]
+			}
+		},
 		onShow() {
+			this.language = uni.getStorageSync('language');
 			// #ifdef H5
 			uni.setTabBarItem({
 				index: 1,
@@ -295,23 +306,12 @@
 			}
 			// #endif
 		},
-		created() {
-			this.getSubCateList(3);
-			this.getDealsAreaList();
-		},
 		onLoad(option) {
 			var that = this;
-			this.language = uni.getStorageSync('language');
-			
 			this.getAdsList();
 			this.getDealsList(this.dealsPage, this.dealsLimit, this.categoryId, this.cityId);
 			this.getEventsList(this.eventsPage,this.eventsLimit,this.cityId)
 			
-		},
-		computed: {
-			i18n() {
-				return this.$t('index')
-			}
 		},
 		methods: {
 			getDealsAreaList() {

@@ -566,6 +566,11 @@
 								})
 							}, 2000)
 
+						}else{
+							uni.showToast({
+								title:res.msg,
+								icon:'none'
+							})
 						}
 					}
 				})

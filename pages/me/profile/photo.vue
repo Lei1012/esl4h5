@@ -4,17 +4,17 @@
 			<!-- educator -->
 			<text v-if="type==1">Profile Photo</text>
 			<text v-if="type==2">Background Banner</text>
-			<text v-if="type==3">Profile pics (6 max) </text>
+			<text v-if="type==3">Account Images (6 max) </text>
 			<!-- business -->
 			<text v-if="type == 4">Profile Photo</text>
 			<text v-if="type == 5">Business Logo</text>
 			<text v-if="type == 6">Background Banner</text>
-			<text v-if="type == 7">Profile pics(6 max)</text>
+			<text v-if="type == 7">Account Images (6 max)</text>
 			<!-- vendor -->
 			<text v-if="type == 8">Profile Photo</text>
 			<text v-if="type == 9">Vendor Logo</text>
 			<text v-if="type == 10">Background Banner</text>
-			<text v-if="type == 11">Profile pics(6 max)</text>
+			<text v-if="type == 11">Account Images (6 max)</text>
 			<text v-if="type == 12">WeChat Official Account QR Code </text>
 			<!-- basic -->
 			<text v-if="type == 13">{{i18n.profilephotopgtxt}}</text>
@@ -29,7 +29,7 @@
 			</view>
 		</view>
 
-		<view class="xll-text">
+		<view class="xll-text" v-if="type!=11 && type != 7 && type != 3">
 			{{i18n.photomediahelpsone}} <br>
 			{{i18n.photomediahelpstwo}} <br>
 			<text> *</text> <text style="font-size: 30rpx;font-weight: 400;"> {{i18n.photomediahelpsthree}}</text>

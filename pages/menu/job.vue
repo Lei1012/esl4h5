@@ -97,10 +97,10 @@
 											{{item.business_name}}
 										</view>
 										<view class="job-location"
-											v-if="item.citys && (languageValue=='en-US' || !languageValue)  ">
+											v-if="item.citys && languageValue=='en-US' ">
 											{{item.citys.Pinyin}}
 										</view>
-										<view class="job-location" v-if="item.citys && (languageValue=='zh-CN')  ">
+										<view class="job-location" v-if="item.citys && languageValue=='zh-CN' ">
 											{{item.citys.ShortName}}
 										</view>
 
@@ -152,10 +152,10 @@
 							{{item.business_name}}
 						</view>
 						<view class="job-location"
-							v-if="item.citys && (languageValue=='en-US' || !languageValue)  ">
+							v-if="item.citys && languageValue=='en-US' ">
 							{{item.citys.Pinyin}}
 						</view>
-						<view class="job-location" v-if="item.citys && (languageValue=='zh-CN')  ">
+						<view class="job-location" v-if="item.citys && languageValue=='zh-CN' ">
 							{{item.citys.ShortName}}
 						</view>
 					</view>
@@ -208,10 +208,10 @@
 							{{item.business_name}}
 						</view>
 						<view class="job-location"
-							v-if="item.citys && (languageValue=='en-US' || !languageValue)  ">
+							v-if="item.citys && languageValue=='en-US'">
 							{{item.citys.Pinyin}}
 						</view>
-						<view class="job-location" v-if="item.citys && (languageValue=='zh-CN')  ">
+						<view class="job-location" v-if="item.citys && languageValue=='zh-CN'">
 							{{item.citys.ShortName}}
 						</view>
 					</view>
@@ -265,88 +265,15 @@
 				titleColor: '#000000',
 				filterResult: '',
 				defaultSelected: [],
-				filterData: [{
-						"name": _this.$t('index').jobslistjobtype,
-						"type": 'radio',
-						"submenu": [{
-							"name": _this.$t('index').jobslistjobtype,
-							"submenu": [{
-									"name": _this.$t('index').jobslistjobtypefulltime,
-									"value": 1
-								},
-								{
-									"name": _this.$t('index').jobslistjobtypeparttime,
-									"value": 2
-								},
-								{
-									"name": _this.$t('index').jobslistjobtypeseasonal,
-									"value": 3
-								}
-							]
-						}]
-					},
-					{
-						"name": _this.$t('index').jobfiltersalary,
-						"type": 'radio',
-						"submenu": [{
-							"name":  _this.$t('index').jobfiltersalary,
-							"submenu": [{
-									"name": _this.$t('index').filterjobsalary1,
-									"value": 1
-								},
-								{
-									"name": _this.$t('index').filterjobsalary2,
-									"value": 2
-								},
-								{
-									"name": _this.$t('index').filterjobsalary3,
-									"value": 3
-								},
-								{
-									"name": _this.$t('index').filterjobsalary4,
-									"value": 4
-								}
-
-							]
-						}]
-					},
-					{
-						"name":_this.$t('index').jobfiltergender,
-						"type": 'radio',
-						"submenu": [{
-							"name": "Gender Specification",
-							"submenu": [{
-									"name": _this.$t('index').jobslistgenderone,
-									"value": 1
-								},
-								{
-									"name": _this.$t('index').jobslistgendertwo,
-									"value": 2
-								}
-
-							]
-						}]
-					},
-					{
-						"name": _this.$t('index').jobfilterfilter,
-						"type": 'radio',
-						"submenu": [{
-								"name": "Student(s) Age",
-								"submenu": []
-							}
-
-
-						]
-					}
-				],
+				
 
 				showEventStatus: false,
 				eventsList: [],
 				eventsPage: 1,
 				eventsLimit: 10,
 				eventsLastPage: 1,
-
-				languageValue: 'en-US',
+				
+				languageValue:'en-US',
 
 			}
 		},
@@ -358,9 +285,92 @@
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			filterData(){
+				let token= uni.getStorageSync('token');
+				if(token){
+					this.getSubCateList()
+				}
+				return [{
+						"name": this.$t('index').jobslistjobtype,
+						"type": 'radio',
+						"submenu": [{
+							"name": this.$t('index').jobslistjobtype,
+							"submenu": [{
+									"name": this.$t('index').jobslistjobtypefulltime,
+									"value": 1
+								},
+								{
+									"name": this.$t('index').jobslistjobtypeparttime,
+									"value": 2
+								},
+								{
+									"name": this.$t('index').jobslistjobtypeseasonal,
+									"value": 3
+								}
+							]
+						}]
+					},
+					{
+						"name": this.$t('index').jobfiltersalary,
+						"type": 'radio',
+						"submenu": [{
+							"name":  this.$t('index').jobfiltersalary,
+							"submenu": [{
+									"name": this.$t('index').filterjobsalary1,
+									"value": 1
+								},
+								{
+									"name": this.$t('index').filterjobsalary2,
+									"value": 2
+								},
+								{
+									"name": this.$t('index').filterjobsalary3,
+									"value": 3
+								},
+								{
+									"name": this.$t('index').filterjobsalary4,
+									"value": 4
+								}
+
+							]
+						}]
+					},
+					{
+						"name":this.$t('index').jobfiltergender,
+						"type": 'radio',
+						"submenu": [{
+							"name": "Gender Specification",
+							"submenu": [{
+									"name": this.$t('index').jobslistgenderone,
+									"value": 1
+								},
+								{
+									"name": this.$t('index').jobslistgendertwo,
+									"value": 2
+								}
+
+							]
+						}]
+					},
+					{
+						"name": this.$t('index').jobfilterfilter,
+						"type": 'radio',
+						"submenu": [{
+								"name": "Student(s) Age",
+								"submenu": []
+							}
+
+
+						]
+					}
+				]
 			}
 		},
 		onShow() {
+			
+			let languageValue = uni.getStorageSync('language');
+			this.languageValue = languageValue ? languageValue : 'en-US';
 			// #ifdef H5
 			uni.setTabBarItem({
 				index: 1,
@@ -387,10 +397,9 @@
 			let identity = uni.getStorageSync('identity');
 
 			this.identity = identity;
-			this.languageValue = uni.getStorageSync('language');
+			
 			// #ifdef H5
 			if(token){
-				this.getSubCateList()
 				this.getRecentJobsList();
 			}
 			this.getJobsAdsList();
@@ -399,7 +408,6 @@
 
 			// #ifdef MP-WEIXIN
 			if (token != '' && identity && identity != 0) {
-				this.getSubCateList()
 				this.getRecentJobsList();
 				this.getJobsAdsList();
 				

@@ -689,6 +689,15 @@ const Chinese = {
 	dealsfilterlocation:"地点",
 	dealsfilterall:"全部",
 	
+	jobsmyjobsapprovedtips:"您还没有发布工作",
+	jobsmyjobspostajob:"发布工作",
+	jobsmyjobsunderreviewemptytext:"暂无数据",
+	jobsmyjobsrejectemptytext:"暂无数据",
+	
+	melogout:"退出登录",
+	jobsminsalaryerror:"最小薪资应该小于最大薪资",
+	jobsmaxsalaryerror:"最大薪资应该大于最小薪资",
+	
 }
 
 const English = {
@@ -750,7 +759,7 @@ const English = {
 	Basicinfofirstname: "First Name",
 	basicinfolastname: "Last Name",
 	basicinfonickname: "Nickname",
-	basicinfoeducategory: "Educator Category (Multi-Select)",
+	basicinfoeducategory: "Educator Category (Multi-Select):",
 	frstnameerror: "Enter your first name",
 	lastnameerror: "Enter your last name",
 	nationalityerror: "Enter your nationality",
@@ -764,12 +773,12 @@ const English = {
 	authenticationsuccessful: "Authentication is successful",
 	businessinfowindowheader: "Set Up: Business Info",
 	businessname: "Business / Institution Name",
-	businesscategory: "Edu-Business Categories (Choose 1)",
+	businesscategory: "Edu-Business Categories (Choose 1):",
 	businessnameerror: "Enter Business Name",
 	businesscategoryerror: "Choose 1 Category",
 	vendorinfowindowheader: "Set Up: Business Info",
 	vendorname: "Business Name",
-	vendorcategory: "Business Category (Choose 1)",
+	vendorcategory: "Business Category (Choose 1):",
 	vendornameerror: "Enter Business Name",
 	vendorcategoryerror: "Choose 1 Category",
 
@@ -998,8 +1007,8 @@ const English = {
 	profilebio: "Bio",
 	profilehobbies: "Hobbies",
 	profileprofilephoto: "Profile Photo",
-	profileheaderphoto: "Header Photo",
-	profilepics6max: "Profile pics (6 max)",
+	profileheaderphoto: "Background Banner",
+	profilepics6max: "Account Images (6 max)",
 	profileintrovideo: "Intro Video",
 	profilesubject: "Preferred Subject to Teach",
 	profilejobtype: "Preferred Job Type",
@@ -1386,6 +1395,17 @@ const English = {
 	dealsfiltercategory:"Category",
 	dealsfilterlocation:"Location",
 	dealsfilterall:"All",
+	
+	jobsmyjobsapprovedtips:"You have not job posts yet",
+	jobsmyjobspostajob:"post a job",
+	jobsmyjobsunderreviewemptytext:"no data",
+	jobsmyjobsrejectemptytext:"no data",
+	
+	melogout:"Logout",
+	
+	jobsminsalaryerror:"The minimum salary should be less than the maximum salary",
+	jobsmaxsalaryerror:"The maximum salary should be greater than the minimum salary",
+	
 }
 
 module.exports = {

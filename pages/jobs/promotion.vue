@@ -156,8 +156,13 @@
 		},
 		computed: {
 			i18n() {
-				return this.$t('index')
+				return this.$t('index');
+			},
+			// #ifdef H5
+			isWechat(){
+				return this.$isWechat();
 			}
+			// #endif
 		},
 		onLoad(option) {
 			if (uni.getStorageSync('language') != '') {
@@ -239,6 +244,15 @@
 								body: this.jobTitleValue
 							}
 							// #ifdef H5
+							if(!this.isWechat){
+								setTimeout(function() {
+									uni.hideLoading();
+									uni.reLaunch({
+										url: '/pages/jobs/index?current=0'
+									})
+								}, 1200)
+								return;
+							}
 							jobs.getPrepayId(pre_data).then(res => {
 								// console.log(res)
 								uni.hideLoading();
