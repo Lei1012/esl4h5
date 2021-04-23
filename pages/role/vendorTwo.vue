@@ -92,12 +92,12 @@
 						trigger: ['change', 'blur'],
 					}],
 					legal_company_name: [{
-						required: true,
+						required: false,
 						message: this.$t('index').vendorcompanycnerror,
 						trigger: ['change', 'blur'],
 					}],
 					website: [{
-						required: true,
+						required: false,
 						message: this.$t('index').vendorcompanywebsiteerror,
 						trigger: ['change', 'blur'],
 					}],
@@ -257,6 +257,10 @@
 
 					} else {
 						console.log('验证失败');
+						uni.showToast({
+							title:that.i18n.yanzhengshibai,
+							icon:'none'
+						})
 					}
 				});
 

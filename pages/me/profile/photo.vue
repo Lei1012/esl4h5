@@ -36,15 +36,15 @@
 		</view>
 
 		<view class="flex-item photo-submit" v-if="type==3 || type == 7 || type == 11">
-			<button @click="uploadFile">Upload</button>
+			<button @click="uploadFile">{{i18n.profileimageupload}}</button>
 		</view>
 		<view class="flex-item skip-photo" v-if="vqrcode==1 || vlogo==1">
-			<button type="default" v-if="vlogo==1" @click="skipLogo">Skip</button>
-			<button type="default" v-if="vqrcode==1" @click="skipQrcode">Skip</button>
+			<button type="default" v-if="vlogo==1" @click="skipLogo">{{i18n.profileimageskip}}</button>
+			<button type="default" v-if="vqrcode==1" @click="skipQrcode">{{i18n.profileimageskip}}</button>
 		</view>
 		
 		<view class="upload-loading" v-if="isUploading">
-			uploading...
+			{{i18n.profileimageuploading}}
 		</view>
 	</view>
 </template>
@@ -303,7 +303,6 @@
 					}
 				});
 				
-				
 			})
 		},
 		onUnload() {
@@ -312,9 +311,39 @@
 		onLoad(option) {
 			var that = this;
 			that.type = option.type;
-			console.log(option.vprofile);
-			console.log(option.vlogo);
-			console.log(option.vqrcode);
+			
+			if(that.type == 1 || that.type == 4 || that.type == 13 || that.type == 14 || that.type ==15){
+				uni.setNavigationBarTitle({
+					title:'Profile Photo'
+				})
+			}
+			if(that.type == 2 || that.type == 6 || that.type == 10){
+				uni.setNavigationBarTitle({
+					title:'Background Banner'
+				})
+			}
+			if(that.type == 3 || that.type == 7 || that.type == 11){
+				uni.setNavigationBarTitle({
+					title:'Account Images (6 max)'
+				})
+			}
+			
+			if(that.type == 5){
+				uni.setNavigationBarTitle({
+					title:'Business Logo'
+				})
+			}
+			if(that.type == 9){
+				uni.setNavigationBarTitle({
+					title:'Vendor Logo'
+				})
+			}
+			if(that.type == 12){
+				uni.setNavigationBarTitle({
+					title:'WeChat Official Account QR Code'
+				})
+			}
+			
 			if(option.vprofile){
 				that.vprofile = option.vprofile;
 			}
@@ -465,15 +494,17 @@
 
 	.photo-title {
 		text-align: center;
-		font-size: 36rpx;
-		font-weight: 600;
 		background-color: #004956;
-		color: #FFFFFF;
 		height: 200rpx;
-
 		line-height: 200rpx;
 	}
-
+	
+	.photo-title text{
+		font-size: 36rpx;
+		font-weight: 600;
+		color: #FFFFFF;
+	}
+	
 	.photo-box {
 		width: 96%;
 		margin: 0 auto;

@@ -16,7 +16,6 @@
 					<image class="contact-jr-img" src="@/static/esl/jiantou-l.png" mode="aspectFill"></image>
 				</view>
 			</view>
-
 		</view>
 	</view>
 </template>

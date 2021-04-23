@@ -30,7 +30,7 @@
 			<view class="upload" @tap="uploadTap">选择图片 Select</view>
 			<!-- #endif -->
 			<!-- #ifndef H5 -->
-			<view class="upload" @tap="uploadTap">重新选择 Reselect</view>
+			<view class="upload" @tap="uploadTap">重新选择 Re-upload</view>
 			<!-- #endif -->
 			<view class="getCropperImage" @tap="getCropperImage(false)">确定 Done</view>
 		</view>

@@ -1,22 +1,22 @@
 <template>
 	<view class="uni-flex uni-column me-bg">
 		<view class="flex-item me-header-info u-skeleton">
-			<view class="me-header-info-l u-skeleton-circle">
-				<image  @click="turnMyProfile" :src="avatarUrl" mode="aspectFill" lazy-load></image>
+			<view class="me-header-info-l ">
+				<image class="u-skeleton-circle"  @click="turnMyProfile" :src="avatarUrl" mode="aspectFill" lazy-load></image>
 			</view>
 			<view class="me-header-nologin-info-r" v-if="showLoginBtnStatus">
-				<view class="login-btn">
+				<view class="login-btn u-skeleton-rect">
 					<button type="default" @click="miniLogin">Login</button>
 				</view>
 			</view>
-			<view class="me-header-info-r " v-if="!showLoginBtnStatus">
-				<view class="me-header-info-r-1 u-skeleton-rect">
+			<view class="me-header-info-r" v-if="!showLoginBtnStatus">
+				<view class="me-header-info-r-1  u-skeleton-fillet">
 					<text v-if="nickname != '' ">{{nickname}}</text>
 					<!-- #ifdef MP-WEIXIN -->
 					<open-data v-if="nickname=='' " type="userNickName"></open-data>
 					<!-- #endif -->
 				</view>
-				<view class="me-header-info-r-2 u-skeleton-rect">
+				<view class="me-header-info-r-2 u-skeleton-fillet">
 					<u-icon name="map" size="28"></u-icon>
 					<text v-if="location!='' ">{{location}}</text>
 					<!-- #ifdef MP-WEIXIN -->
@@ -25,13 +25,13 @@
 					</view>
 					<!-- #endif -->
 				</view>
-				<view class="me-header-info-r-3 u-skeleton-rect">
+				<view class="me-header-info-r-3 u-skeleton-fillet">
 					<text v-if="identity==1">{{i18n.meeducator}}</text>
 					<text v-if="identity==2">{{i18n.mebusiness}}</text>
 					<text v-if="identity==3">{{i18n.mevendor}}</text>
 					<text v-if="identity==0 || identity==4">{{i18n.meguest}}</text>
 				</view>
-				<view class="me-header-info-r-4 u-skeleton-rect">
+				<view class="me-header-info-r-4 u-skeleton-fillet">
 					<text v-if="identity==1 && educatorLevel==1">{{i18n.mebasiclevel}}</text>
 					<text v-if="identity==1 && educatorLevel==2">{{i18n.meprolevel}}</text>
 					<text v-if="identity==1 && educatorLevel==3">{{i18n.mepluslevel}}</text>
@@ -41,7 +41,7 @@
 					<text v-if="identity==3 && vendorLevel == 1">{{i18n.mebasiclevel}}</text>
 					<text v-if="identity==3 && vendorLevel == 2">{{i18n.meprolevel}}</text>
 					<text v-if="identity==3 && vendorLevel == 3">{{i18n.mepluslevel}}</text>
-					<view class="me-level-upgrade" v-if=" (identity==2 && businessLevel!=3) || (identity==3 && vendorLevel !=3)">
+					<view class="me-level-upgrade u-skeleton-rect" v-if=" (identity==2 && businessLevel!=3) || (identity==3 && vendorLevel !=3)">
 						<button type="default" @click="upgradeLevel">{{i18n.meupgrade}}</button>
 					</view>
 				</view>
@@ -150,6 +150,10 @@
 		<!-- 角色选择弹框 end -->
 		<how-post-job @close="showPostJobStatus=false" :showPostJobStatus="showPostJobStatus"></how-post-job>
 		<contactus @close="showContactStatus = false" :showContact="showContactStatus"></contactus>
+		
+			<!--引用组件-->
+		<u-skeleton :loading="skeletonLoading" :animation="true" bgColor="#ffffff"></u-skeleton>
+		<u-no-network></u-no-network>
 	</view>
 </template>
 
@@ -165,6 +169,7 @@
 	export default {
 		data() {
 			return {
+				skeletonLoading: false,
 				login: false,
 				avatarUrl: "https://oss.esl-passport.cn/educator.png",
 				nickname: "",
@@ -253,10 +258,14 @@
 			if (!token) {
 				_this.showLoginBtnStatus = true;
 			} else {
+				
 				_this.showLoginBtnStatus = false;
 				let uid = uni.getStorageSync('uid');
 				let token = uni.getStorageSync('token');
 				let identity = uni.getStorageSync('identity');
+				if(identity){
+					_this.skeletonLoading = true;
+				}
 				_this.identity = identity;
 				_this.getBasicInfo(uid, token, identity);
 			}
@@ -416,6 +425,8 @@
 							that.location = 'District, City';
 						}
 						// #endif
+						
+						this.skeletonLoading = false;
 
 					} else {
 						uni.showToast({
@@ -527,14 +538,8 @@
 
 			},
 			miniLogin() {
-				var pages = getCurrentPages(); // 当前页面
-				var currentPagePath = pages[pages.length - 1]; // 前一个页面
-
-				if (currentPagePath.route == 'pages/login/index') {
-					return;
-				}
-				return uni.navigateTo({
-					url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+				uni.navigateTo({
+					url: '/pages/login/index'
 				})
 			},
 			logout(){

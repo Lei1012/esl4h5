@@ -20,8 +20,8 @@ module.exports = {
 				"num_code": "248",
 				"alpha_2_code": "AX",
 				"alpha_3_code": "ALA",
-				"en_short_name": "\u00c5land Islands",
-				"name": "\u00c5land Island"
+				"en_short_name": "Aland Islands",
+				"name": "Aland Island"
 			},
 			{
 				"num_code": "8",
@@ -457,6 +457,13 @@ module.exports = {
 				"alpha_3_code": "ARE",
 				"en_short_name": "United Arab Emirates",
 				"name": "Emirati"
+			},
+			{
+				"num_code": "44",
+				"alpha_2_code": "EN",
+				"alpha_3_code": "ENG",
+				"en_short_name": "ENG",
+				"name": "England"
 			},
 			{
 				"num_code": "818",

@@ -57,21 +57,21 @@
 					<view class="level-item" v-if="identity==3 && item.level == 3">Pro Plan Features+ </view>
 
 					<view class="level-item" v-if="identity==3 && item.level==3">1 extra Deal</view>
-					<view class="level-item" v-if="identity==3 && item.level == 3">2 extra Events</view>
+					<view class="level-item" v-if="identity==3 && item.level == 3">{{item.events_num}} Events</view>
 
 					<view class="level-item" v-if="identity==3 && item.level == 2">{{item.deals_num}} Deals</view>
 					<view class="level-item" v-if="identity==3 && item.level == 2">{{item.events_num}} Events</view>
 
 					<view class="level-item" v-if="identity==3 && item.level == 2">Startup & Support Discounts</view>
-					<view class="level-item" v-if="identity==3 && item.level == 2">WeChat Moment Monthly Mentions</view>
+					<view class="level-item" v-if="identity==3 && item.level == 2">WeChat Moment Quarterly Mentions</view>
 					<view class="level-item" v-if="identity==3 && item.level == 2">Event Sponsorship Opporturnities
 					</view>
 					<view class="level-item-container" v-if="identity==3 && item.level == 2">
 						<view class="level-item-item-label">Official Account Advertising</view>
-						<view class="level-item-item">New-Vendor Article</view>
+						<view class="level-item-item">New vendor collective article</view>
 						<view class="level-item-item">1-month article banner</view>
 						<view class="level-item-item">Mentions in Articles</view>
-						<view class="level-item-item">1-day top-5 Deal Ranking</view>
+						<view class="level-item-item">3 days top ranking</view>
 					</view>
 
 					<view class="level-item" v-if="identity==3 && item.level == 3">1 month Home pg feature</view>
@@ -79,7 +79,8 @@
 					<view class="level-item-container" v-if="identity==3 && item.level == 3">
 						<view class="level-item-item-label">Official Account Advertising</view>
 						<view class="level-item-item">Dedicated Article</view>
-						<view class="level-item-item">2-month Article banner</view>
+						<view class="level-item-item">3 months Article banner</view>
+						<view class="level-item-item">1 week top ranking</view>
 					</view>
 					<!-- vendor end -->
 

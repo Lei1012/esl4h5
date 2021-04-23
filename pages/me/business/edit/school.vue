@@ -229,6 +229,10 @@
 						
 					} else {
 						console.log('验证失败');
+						uni.showToast({
+							title:that.i18n.yanzhengshibai,
+							icon:'none'
+						})
 					}
 				});
 			},

@@ -49,7 +49,7 @@
 					:formData="formData" :fileKeyName="name" :uImgList.sync="uImgList" @uploadSuccess="uploadSuccess">
 				</uImg>
 			</view>
-			<view class="xll-file-tips">If have more locations , please upload file !</view>
+			<view class="xll-file-tips">{{i18n.dealsaddmorelocationtips}}</view>
 		</view>
 
 		<view class="xll-location">
@@ -80,15 +80,13 @@
 		</view>
 
 		<view class="flex-item submit">
-			<button type="default" @click="submit">Submit</button>
+			<button type="default" @click="submit">{{i18n.dealsaddsubmit}}</button>
 		</view>
 
 		<view class="popup" v-if="popupStatus"></view>
 		<view class="popup-container" v-if="popupStatus">
-			<view class="popup-container-text"> <text>Awesome!</text> <br>
-				Your deals & events are subject to approval and cannot be edited once submitted. Please contact
-				ESL Passport for support. </view>
-			<button type="default" @click="submitPopup">Confirm</button>
+			<view class="popup-container-text"> <text>{{i18n.dealseventspopupawesome}}</text> <br>{{i18n.dealseventspopupcontent}} </view>
+			<button type="default" @click="submitPopup">{{i18n.dealseventspopupconfirm}}</button>
 		</view>
 
 

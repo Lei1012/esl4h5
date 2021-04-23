@@ -1,10 +1,7 @@
 <template>
 	<view class="uni-flex uni-column list">
 		<view class="empty" v-if="showEmptyStatus">
-			<view class="empty-text">Nothing here yet, coming back soon</view>
-			<view class="empty-image">
-				<image src="@/static/esl/empty.png" mode="aspectFit"></image>
-			</view>
+			<u-empty :text="i18n.applicationsemptytips" mode="list"></u-empty>
 		</view>
 		<view class="flex-item list-container" v-if="showEmptyStatus===false">
 			<view class=" list-item" v-for="(item,index) in jobsList" :key="index" @click="turnJobDetail(item.job_id)">

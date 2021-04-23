@@ -75,7 +75,8 @@
 				var _this = this;
 				if (Math.abs(this.oldx - this.left) <= 5) {
 					uni.showToast({
-						title: 'Success'
+						title: 'Success',
+						icon:'success'
 					});
 					this.isSuccess = true;
 					this.$emit("result", true);
@@ -83,7 +84,8 @@
 
 				} else {
 					uni.showToast({
-						title: 'Fail'
+						title: 'Verification Failed',
+						icon:'none'
 					});
 					this.isSuccess = false;
 					this.shuaxinVerify()

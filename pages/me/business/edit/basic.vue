@@ -75,15 +75,13 @@
 				<button @click="basicSubmit" type="default">{{i18n.profileeditsubmit}}</button>
 			</view>
 		</view>
-		<tki-tree ref="tkitree" :range="genderList" :rangeKey="rangeKey" confirmColor="#119fa9" :multiple="false"
-			@confirm="cofirmgenderType" :confirmText="confirmText" :cancelText="cancelText"
-			@cancel="cancelgenderType" />
+		<u-select v-model="genderStatus" :list="genderList" :confirm-text="confirmText" :cancel-text="cancelText" @confirm="genderConfirm"></u-select>
+	
 	</view>
 </template>
 
 <script>
-	import fuckTextarea from '@/components/fuck-textarea/fuck-textarea.vue'
-	import tkiTree from "@/components/tki-tree/tki-tree.vue"
+
 	import profile from '@/api/profile.js'
 
 	export default {
@@ -93,16 +91,16 @@
 				rangeKey: 'value',
 				idKey: 'id',
 				genderList: [{
-					id: 1,
-					value: 'Male',
-					checked: true
+					value: 1,
+					label: 'Male'
 				}, {
-					id: 2,
-					value: 'Female'
+					value: 2,
+					label: 'Female'
 				}, {
-					id: 3,
-					value: 'Undisclosed'
+					value: 3,
+					label: 'Undisclosed'
 				}],
+				genderStatus:false,
 				confirmText: 'Confirm',
 				cancelText: 'Cancel',
 				infoList:[],
@@ -143,8 +141,7 @@
 			}
 		},
 		components: {
-			fuckTextarea,
-			tkiTree
+			
 		},
 		computed: {
 			i18n() {
@@ -172,16 +169,12 @@
 				})
 			},
 			showgenderPicker() {
-				this.$refs.tkitree._show()
+				this.genderStatus = true;
 			},
-			cofirmgenderType: function(e) {
+			genderConfirm(e){
 				console.log(e)
-				this.form.sex = e[0].id;
-				this.form.sex_name = e[0].value;
-			},
-			cancelgenderType: function() {
-				console.log('cancel')
-				// this.$refs.tkitree._hide()
+				this.form.sex = e[0].value;
+				this.form.sex_name = e[0].label;
 			},
 			addOwnInfoList() {
 				this.addInfoListStatus = false;
@@ -258,6 +251,10 @@
 						
 					} else {
 						console.log('—È÷§ ß∞‹');
+						uni.showToast({
+							title:that.i18n.yanzhengshibai,
+							icon:'none'
+						})
 					}
 				});
 				

@@ -302,10 +302,14 @@
 						console.log(res)
 						if (res.code == 200) {
 							this.$refs.runCode.$emit('runCode'); //触发倒计时（一般用于请求成功验证码后调用）
-							let phone_code = res.message.phone_code;
-							this.showvcodepopup = true;
-							this.phoneCode = res.message.phone_code;
-
+							// let phone_code = res.message.phone_code;
+							// this.showvcodepopup = true;
+							// this.phoneCode = res.message.phone_code;
+							return uni.showToast({
+								title:'Success',
+								duration:2000,
+								icon:'success'
+							})
 						} else {
 							uni.showToast({
 								title: res.msg,
@@ -426,11 +430,11 @@
 						}
 
 						// #ifdef H5
-						let subscribeValue = res.message.subscribe;
+						// let subscribeValue = res.message.subscribe;
 
-						if (subscribeValue === 0 && this.isWechat) {
-							this.showOfficialStatus = true
-						}
+						// if (subscribeValue === 0 && this.isWechat) {
+						// 	this.showOfficialStatus = true
+						// }
 						// #endif
 						setTimeout(function() {
 							_this.isRotate = false;

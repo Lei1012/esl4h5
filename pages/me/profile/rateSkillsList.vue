@@ -1,41 +1,51 @@
 <template>
 	<view class="uni-flex uni-column search-tags-bg">
 		<view class="flex-item search-tags-search">
-			<uni-search-bar v-model="searchValue" :radius="100" cancelText="Cancel" placeholder="Enter search content" @input="subjectInput"
-			 @confirm="subjectSearch" @cancel="subjectCancel"></uni-search-bar>
+			<uni-search-bar v-model="searchValue" :radius="100" :cancelText="i18n.rateskillcanceltext"
+				:placeholder="i18n.rateskillentersearchcontent" @input="subjectInput" @confirm="subjectSearch"
+				@cancel="subjectCancel"></uni-search-bar>
 		</view>
 		<!-- 自定义添加语言 -->
 		<view class="flex-item add-language">
-			<input type="text" v-model="ownLanguageValue" placeholder="Add your language" />
-			<button type="default" @click="addOwnLanguage()">add</button>
+			<input type="text" v-model="ownLanguageValue" :placeholder="i18n.rateskilladdlanguage" />
+			<button type="default" @click="addOwnLanguage()">{{i18n.rateskilladd}}</button>
 		</view>
 
 		<view class="flex-item search-tags-box">
-			<view v-if="ownLanguagesStatus" class="search-tags-box-item" v-for="(value,index) in ownLanguagesList" :key="value.object_en">
-				<view class="tags-box-item-name">{{value.object_en}}</view>
+			<view v-if="ownLanguagesStatus" class="search-tags-box-item" v-for="(value,index) in ownLanguagesList"
+				:key="value.object_en">
+				<view class="tags-box-item-name" v-if="languageValue=='en-US'">{{value.object_en}}</view>
+				<view class="tags-box-item-name" v-if="languageValue=='zh-CN'">{{value.object_cn}}</view>
 				<view class="tags-box-item-rate">
-					<u-rate :count="3" v-model="value.score" :current="value.score" custom-prefix="custom-icon" active-icon="xll-yuan" inactive-icon="circleo"
-					 active-color="#b1c452" inactive-color="#b2b2b2" size="40" gutter="20" @change="onOwnChange($event,index,value)"
-					 :disabled="objArr.findIndex(item=>item.object_name == value.object_en) == -1 && objArr.length == 10">
+					<u-rate :count="3" v-model="value.score" :current="value.score" custom-prefix="custom-icon"
+						active-icon="xll-yuan" inactive-icon="circleo" active-color="#b1c452" inactive-color="#b2b2b2"
+						size="40" gutter="20" @change="onOwnChange($event,index,value)"
+						:disabled="objArr.findIndex(item=>item.object_name == value.object_en) == -1 && objArr.length == 10">
 					</u-rate>
 				</view>
 			</view>
-			<view v-if="filterStatus==false" class="search-tags-box-item" v-for="(value,index) in infoList" :key="value.id">
-				<view class="tags-box-item-name">{{value.object_en}}</view>
+			<view v-if="filterStatus==false" class="search-tags-box-item" v-for="(value,index) in infoList"
+				:key="value.id">
+				<view class="tags-box-item-name" v-if="languageValue=='en-US'">{{value.object_en}}</view>
+				<view class="tags-box-item-name" v-if="languageValue=='zh-CN'">{{value.object_cn}}</view>
 				<view class="tags-box-item-rate">
-					<u-rate :count="3" v-model="value.score" :current="value.score" custom-prefix="custom-icon" active-icon="xll-yuan" inactive-icon="circleo"
-					 active-color="#b1c452" inactive-color="#b2b2b2" size="40" gutter="20" @change="onChange($event,index,value)"
-					 :disabled="objArr.findIndex(item=>item.object_id==value.id) == -1 && objArr.length == 10">
+					<u-rate :count="3" v-model="value.score" :current="value.score" custom-prefix="custom-icon"
+						active-icon="xll-yuan" inactive-icon="circleo" active-color="#b1c452" inactive-color="#b2b2b2"
+						size="40" gutter="20" @change="onChange($event,index,value)"
+						:disabled="objArr.findIndex(item=>item.object_id==value.id) == -1 && objArr.length == 10">
 					</u-rate>
 				</view>
 			</view>
 
 			<!-- 搜索获取的列表 -->
 			<view v-if="filterStatus" class="search-tags-box-item" v-for="(value,index) in filterList" :key="index">
-				<view class="tags-box-item-name">{{value.item.object_en}}</view>
+				<view class="tags-box-item-name" v-if="languageValue=='en-US'">{{value.item.object_en}}</view>
+				<view class="tags-box-item-name" v-if="languageValue=='zh-CN'">{{value.item.object_cn}}</view>
 				<view class="tags-box-item-rate">
-					<u-rate :count="3" custom-prefix="custom-icon" active-icon="xll-yuan" inactive-icon="circleo" active-color="#b1c452"
-					 inactive-color="#b2b2b2" size="40" gutter="20" @change="onChangeFilter($event,index,value.item)" :disabled="objArr.findIndex(item=>item.object_id==value.item.id) == -1 && objArr.length == 10">
+					<u-rate :count="3" custom-prefix="custom-icon" active-icon="xll-yuan" inactive-icon="circleo"
+						active-color="#b1c452" inactive-color="#b2b2b2" size="40" gutter="20"
+						@change="onChangeFilter($event,index,value.item)"
+						:disabled="objArr.findIndex(item=>item.object_id==value.item.id) == -1 && objArr.length == 10">
 					</u-rate>
 				</view>
 			</view>
@@ -43,7 +53,7 @@
 		</view>
 		<view class="flex-item countries-bottom">
 			<view class="bottom-confirm" @click="subjectSubmit">
-				Update ( {{objArr.length}} )
+				{{i18n.rateskillupdate}} ( {{objArr.length}} )
 			</view>
 		</view>
 
@@ -78,12 +88,22 @@
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			languageValue() {
+				let language = uni.getStorageSync('language');
+				return language ?  language : 'en-US';
 			}
 		},
 		onLoad(option) {
 			this.type = option.type
-			this.getUserObjectList(this.type)
-			this.getBasicInfo()
+			this.getUserObjectList(this.type);
+			this.getBasicInfo();
+			if(this.languageValue == 'zh-CN'){
+				uni.setNavigationBarTitle({
+					title:'语言列表'
+				})
+			}
+			
 		},
 		methods: {
 			addOwnLanguage() {
@@ -327,7 +347,7 @@
 						languageArr.forEach(item => {
 							if (item.object_id != 0) {
 								let index = this.infoList.findIndex(info => info.id == item.object_id)
-								if(index != -1){
+								if (index != -1) {
 									this.infoList[index]['score'] = item.object_score
 									this.selectRateData.push(item.object_id)
 									let obj = {
@@ -338,7 +358,7 @@
 									}
 									this.objArr.push(obj)
 								}
-								
+
 							} else {
 								let ownObj = {
 									id: 0,
@@ -349,7 +369,8 @@
 									pid: 2,
 									score: item.object_score
 								}
-								let ownIndex = this.ownLanguagesList.findIndex(info => info.object_en == item.object_en)
+								let ownIndex = this.ownLanguagesList.findIndex(info => info.object_en ==
+									item.object_en)
 								console.log(ownIndex)
 								if (ownIndex == -1) {
 									this.ownLanguagesList.push(ownObj)
@@ -483,8 +504,7 @@
 	.add-language {
 		width: 100%;
 		margin: 0 auto;
-		padding-left: 20rpx;
-		padding-bottom: 20rpx;
+		padding: 20rpx;
 		background-color: #FFFFFF;
 		display: flex;
 		flex-direction: row;
@@ -493,7 +513,7 @@
 	}
 
 	.add-language input {
-		width: 80%;
+		width: 70%;
 		height: 80rpx;
 		line-height: 80rpx;
 		border: 1rpx solid #EEEEEE;
@@ -503,13 +523,12 @@
 	}
 
 	.add-language button {
-		width: 15%;
+		width: 25%;
 		height: 80rpx;
 		background-color: #0AA0A8;
 		line-height: 80rpx;
 		text-align: center;
 		font-size: 28rpx;
-		border-radius: 20rpx;
 		color: #FFFFFF;
 
 	}

@@ -254,7 +254,7 @@ const Chinese = {
 	profilefirstnameph: "请输入你的名字",
 	profilelastname: "姓氏",
 	profilelastnameph: "请输入你的姓氏",
-	profilefirstandlastname: "名字 & 姓氏",
+	profilefirstandlastname: "姓名",
 	profilenickname: "昵称",
 	profilenicknameph: "",
 	profilecurrentcity: "当前城市",
@@ -314,7 +314,7 @@ const Chinese = {
 	profileregion: "倾向的区域",
 	profilebenefits: "倾向的福利",
 	profileedit: "编辑",
-	profileyourcontactbasicinfo: "你的基本信息介绍",
+	profileyourcontactbasicinfo: "个人信息",
 	profilesmallbio: "简短介绍",
 	profilesmallbioph: "我已经在教育行业工作5年了而且...",
 	profilebusinessbasicinfo: "企业基本信息",
@@ -354,7 +354,7 @@ const Chinese = {
 	profilebusinessregistrationnumberph: "18位",
 	profilebusinesslicense: "工商许可证书",
 	profileviewfiles: "浏览文件",
-	profilecompanygeneralinfo: "公司大概信息",
+	profilecompanygeneralinfo: "公司概况",
 	profilevendorbio: "商户介绍",
 	profilevendorbioph: "告诉浏览者关于您公司更多的信息吧.",
 	profilewechatofficialaccountid: "微信公众号ID",
@@ -388,7 +388,7 @@ const Chinese = {
 	jobsagetoteach: "学生年龄",
 	jobssubject: "科目",
 	jobsemploymenttype: "工作类型",
-	jobsonlinejob: "在线职位?",
+	jobsonlinejob: "在线职位",
 	jobssalary: "薪资",
 	jobssalaryph: "请输入薪水范围",
 	jobspaymentperiod: "薪资支付方式",
@@ -522,11 +522,11 @@ const Chinese = {
 	welcomevendorpagetxttwo: "提交优惠或折扣信息以及发布活动信息需要完成至少50%的信息填写.",
 
 	dealsaddonelocation: "一个地点",
-	dealsaddmorethanonelocation: "多余一个地点",
+	dealsaddmorethanonelocation: "多于一个地点",
 	dealsadddeal: "优惠折扣",
 	dealsadddiscount: "折扣",
 	dealsaddaddress: "地址",
-	dealsaddaddressph: "请收入优惠地址",
+	dealsaddaddressph: "请输入提供折扣的店铺地址",
 	dealsaddoneyear: "1 年",
 	dealsaddtwoyear: "2 年",
 
@@ -698,6 +698,55 @@ const Chinese = {
 	jobsminsalaryerror:"最小薪资应该小于最大薪资",
 	jobsmaxsalaryerror:"最大薪资应该大于最小薪资",
 	
+	dealsaddmorelocationtips:"如果您多于一个地点,请您上传图片!",
+	dealseventspopupawesome:"提交成功!",
+	dealseventspopupcontent:"您发布的折扣以及活动在成功提交后无法更改，如需帮助，请您联系ESL Passport团队。",
+	dealseventspopupconfirm:"确定",
+	emptytips1:"暂无数据",
+	
+	rateskilladd:"增加",
+	rateskillcanceltext:"取消",
+	rateskillentersearchcontent:"请输入搜索内容",
+	rateskilladdlanguage:"添加您自己的语言",
+	rateskillupdate:"更新",
+	
+	dealsaddsubmit:"提交",
+	
+	applicationsemptytips:"尚无申请",
+	
+	educatorprofileteachexp:"教学经验",
+	profilegohome:"返回主页",
+	
+	educatorprofileitemsone:"详情",
+	educatorprofileitemstwo:"媒体",
+	educatorprofileitemsthree:"首选项",
+	businessprofileitemsone:"商户信息",
+	businessprofileitemstwo:"媒体",
+	businessprofileitemsthree:"关于自己",
+	vendorprofileitemsone:"商户信息",
+	vendorprofileitemstwo:"媒体",
+	vendorprofileitemsthree:"关于自己",
+	
+	yanzhengshibai:"请检查您填写的信息",
+	profileimageuploading:"正在上传...",
+	profileimageupload:"上传",
+	profileimageskip:"跳过",
+	
+	filterrest:"重置",
+	filterconfirm:"确定",
+	
+	uselectconfirmtext:"确定",
+	uselectcanceltext:"取消",
+	
+	postjobsfeaturedcharges:"特选功能费用",
+	postjobsgetfeaturedon:"精选功能:",
+	postjobsincludingtax:"含税",
+	postjobstotal:"总计",
+	postjobscheckout:"支付",
+	postjobssaveandupgrade:"保存 & 升级",
+	singlepostjob:"发布工作",
+	multipostjob:"批量发布",
+	
 }
 
 const English = {
@@ -722,12 +771,12 @@ const English = {
 	homepostgigs:"Post Gigs",
 	homeupgrade: "Go Pro",
 	homefeatured: "Get Featured",
-	homeadvertise: "Advertisment",
+	homeadvertise: "Advertisement",
 	homepostevent: "Post Event",
 	homecreatedeal: "Offer A Deal",
 	homeregister: "Sign Up",
 
-	homefeatjobs: "Recent Jobs:",
+	homefeatjobs: "Featured Jobs:",
 	homefeatdeals: "New Deals:",
 	homefeateducator: "Job Seeking Educators:",
 
@@ -759,7 +808,7 @@ const English = {
 	Basicinfofirstname: "First Name",
 	basicinfolastname: "Last Name",
 	basicinfonickname: "Nickname",
-	basicinfoeducategory: "Educator Category (Multi-Select):",
+	basicinfoeducategory: "Educator Type (Choose at most places 3):",
 	frstnameerror: "Enter your first name",
 	lastnameerror: "Enter your last name",
 	nationalityerror: "Enter your nationality",
@@ -1096,8 +1145,8 @@ const English = {
 	jobspaymentperiod: "Payment Period",
 	jobschoosepaymentperiod: "Choose Payment Period",
 	jobscurrency: "Currency",
-	jobspositiondesc: "Position Description",
-	jobspositiondescph: "Please enter position description",
+	jobspositiondesc: "Additional Job information",
+	jobspositiondescph: "Please enter additional job information",
 	jobsnumberofvacancies: "Number of Vacancies",
 	jobsequalopportunity: "Will you accept applicant of different skin colors? (Equal Opportunity)",
 	jobsapplicantrequirements: "Applicant Requirements",
@@ -1251,13 +1300,13 @@ const English = {
 	jobsunderreviewnote: "Note:",
 	jobsunderreviewnotetxt: "Yay, we love new jobs! Wait for your job to be approved (24 hrs max).",
 	dealsnote: "",
-	dealsnotetxt: "Yay! we love new deals. Quick note, your account manager will need review your proposed deal before approval.",
+	dealsnotetxt: "Yay! we love new deals. Quick note, your account manager will review your proposed deal before approval.",
 	eventsnote: "Note:",
 	eventsnotetxt: "Yay, we love new events! Wait for our team to review.",
 
 	//20201204
 	dealsaddlocationcategoryph: "Please select the location category",
-	vendorwechatidph: "Please enter your WeChat Id",
+	vendorwechatidph: "Please enter your WeChat ID",
 
 	//20201208
 	dealsmyapproved: "Approved",
@@ -1277,9 +1326,9 @@ const English = {
 	//20201217
 	profilesharecompanyinfo: "Company Info",
 	profileeducategory: "Educator Category",
-	photomediahelpsone: "Media Helps",
-	photomediahelpstwo: "Upload and STAND OUT",
-	photomediahelpsthree: "Upload is automatic",
+	photomediahelpsone: "Photos help profiles",
+	photomediahelpstwo: "STAND OUT",
+	photomediahelpsthree: "Automatic Upload",
 
 	//20201221
 	jobslistjobtype: "Job Type",
@@ -1300,8 +1349,8 @@ const English = {
 
 	//20201224
 	firstloginprompt: "Make sure you follow the official WeChat account to use this App",
-	eduwechatid: "WeChat Id",
-	eduwechatidph: "Please enter your WeChat Id",
+	eduwechatid: "WeChat ID",
+	eduwechatidph: "Please enter your WeChat ID",
 	applicationcontactinfo: "Contact Info",
 
 	//20201229
@@ -1405,6 +1454,56 @@ const English = {
 	
 	jobsminsalaryerror:"The minimum salary should be less than the maximum salary",
 	jobsmaxsalaryerror:"The maximum salary should be greater than the minimum salary",
+	
+	dealsaddmorelocationtips:"Upload a photo!",
+	dealseventspopupawesome:"Awesome!",
+	dealseventspopupcontent:"Your deals & events are subject to approval and cannot be edited once submitted. Please contact ESL Passport for support.",
+	dealseventspopupconfirm:"Confirm",
+	
+	emptytips1:"Nothing here yet, coming back soon",
+	
+	rateskilladd:"Add",
+	rateskillcanceltext:"Cancel",
+	rateskillentersearchcontent:"Enter search content",
+	rateskilladdlanguage:"Add your language",
+	rateskillupdate:"Update",
+	
+	dealsaddsubmit:"Submit",
+	
+	applicationsemptytips:"No applications yet",
+	educatorprofileteachexp:"Teaching Experience",
+	
+	profilegohome:"Back to homepage",
+	educatorprofileitemsone:"Details",
+	educatorprofileitemstwo:"Media",
+	educatorprofileitemsthree:"Preferences",
+	businessprofileitemsone:"Business",
+	businessprofileitemstwo:"Media",
+	businessprofileitemsthree:"You",
+	vendorprofileitemsone:"Business",
+	vendorprofileitemstwo:"Media",
+	vendorprofileitemsthree:"You",
+	
+	yanzhengshibai:"Please complete fields correctly",
+	profileimageuploading:"Uploading...",
+	profileimageupload:"Upload",
+	profileimageskip:"Skip",
+	
+	filterrest:"Reset",
+	filterconfirm:"Confirm",
+	
+	uselectconfirmtext:"Confirm",
+	uselectcanceltext:"Cancel",
+	
+	postjobsfeaturedcharges:"Featured Job Charges",
+	postjobsgetfeaturedon:"Get featured on:",
+	postjobsincludingtax:"Including Tax",
+	postjobstotal:"Total",
+	postjobscheckout:"Checkout",
+	postjobssaveandupgrade:"Save & Upgrade",
+	
+	singlepostjob:"Single Post",
+	multipostjob:"Multiple Post",
 	
 }
 

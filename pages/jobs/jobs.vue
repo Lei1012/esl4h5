@@ -411,40 +411,9 @@
 			<!-- section 5 -->
 			<view class="flex-item section-container">
 				<view class="section-title">{{i18n.jobscontactpersoninfo}}</view>
-				<u-form-item :label="i18n.jobswillyouinterview" prop="is_interview">
-					<switch :checked="form.is_interview==1" class="doing-interview-1" color="#0AA0A8"
-						@change="doingInterviewChange" />
-				</u-form-item>
-
-				<view v-if="form.is_interview==0">
-					<u-form-item :label="i18n.jobsname" prop="interview_name">
-						<u-input border v-model="form.interview_name" :placeholder="i18n.jobsnameph" />
-					</u-form-item>
-					<u-form-item :label="i18n.jobsnationality" prop="interview_nationlity">
-						<u-input border v-model="form.interview_nationlity" :placeholder="i18n.jobsnationality" type="select"
-							@click="turnNationalityPage"></u-input>
-					</u-form-item>
-					<u-form-item :label="i18n.jobsphoto" prop="interveiw_imgurl">
-						<view class="contact-l">
-							<view class="upload-icon" v-if="form.interview_imgurl=='' " @click="chooseAvatar">
-								+
-							</view>
-							<view v-if="form.interview_imgurl!=''" @click="chooseAvatar">
-								<image :src="form.interview_imgurl" mode="aspectFill"></image>
-							</view>
-						</view>
-					</u-form-item>
-				</view>
-
-				<!-- 如果是 显示用户信息名片 -->
-				<view class="contact" v-if="form.is_interview==1">
+				<view class="contact">
 					<view class="contact-l">
-						<view class="upload-icon" v-if="form.interview_imgurl=='' " @click="chooseAvatar">
-							+
-						</view>
-						<view v-if="form.interview_imgurl!=''" @click="chooseAvatar">
-							<image :src="form.interview_imgurl" mode="aspectFill"></image>
-						</view>
+						<image :src="businessUserInfo.profile_photo ? businessUserInfo.profile_photo : 'https://oss.esl-passport.cn/educator.png' " mode="aspectFill"></image>
 					</view>
 					<view class="contact-r">
 						<view class="contact-nationality"> <b>{{i18n.jobsposthione}} {{businessUserInfo.first_name}}
@@ -459,16 +428,14 @@
 		</u-form>
 
 		<view class="flex-item checkout">
-			<view class="checkout-t">
-				Featured Job Charges
-			</view>
+			<view class="checkout-t">{{i18n.postjobsfeaturedcharges}}</view>
 			<!-- 3D轮播 -->
 			<swiper class="imageContainer" next-margin="100rpx" previous-margin="20rpx"
 				:style="'height:'+swiperHeight + 'rpx;' " @change="checkoutChange" :autoplay="false">
 				<swiper-item class="swiperitem" v-if="businessLevel==1">
 					<view class="swiperitem-container">
 						<view class="checkout-title">{{i18n.jobspriceforfreemembers}}</view>
-						<view class="checkout-feature">Get featured on: </view>
+						<view class="checkout-feature">{{i18n.postjobsgetfeaturedon}}</view>
 						<view class="checkout-item" v-for="(item,index) in basicServiceList" :key="index">
 							<view class="checkout-item-1">
 								<view class="checkout-item-1-1" v-if="languageValue == 'en-US'">{{item.services_en}}
@@ -491,8 +458,8 @@
 							<view class="checkout-total-1">
 								<image src="./static/total-today.png" mode="aspectFill"></image>
 								<view class="checkout-total-1-c">
-									<view class="checkout-total-1-1">Total</view>
-									<view class="checkout-total-1-2">Including Tax</view>
+									<view class="checkout-total-1-1">{{i18n.postjobstotal}}</view>
+									<view class="checkout-total-1-2">{{i18n.postjobsincludingtax}}</view>
 								</view>
 							</view>
 							<view class="checkout-total-3">
@@ -501,14 +468,14 @@
 							</view>
 						</view>
 						<view class="checkout-btn">
-							<button type="default" @click="submitJob(2)">Checkout</button>
+							<button type="default" @click="submitJob(2)">{{i18n.postjobscheckout}}</button>
 						</view>
 					</view>
 				</swiper-item>
 				<swiper-item class="swiperitem" v-if="businessLevel <= 2">
 					<view class="swiperitem-container">
 						<view class="checkout-title">{{i18n.jobspriceforpromembers}}</view>
-						<view class="checkout-feature">Get featured on: </view>
+						<view class="checkout-feature">{{i18n.postjobsgetfeaturedon}}</view>
 						<view class="checkout-item" v-for="(item,index) in proServiceList" :key="index">
 							<view class="checkout-item-1">
 								<view class="checkout-item-1-1" v-if="languageValue == 'en-US'">{{item.services_en}}
@@ -531,8 +498,8 @@
 							<view class="checkout-total-1">
 								<image src="./static/total-today.png" mode="aspectFill"></image>
 								<view class="checkout-total-1-c">
-									<view class="checkout-total-1-1">Total</view>
-									<view class="checkout-total-1-2">Including Tax</view>
+									<view class="checkout-total-1-1">{{i18n.postjobstotal}}</view>
+									<view class="checkout-total-1-2">{{i18n.postjobsincludingtax}}</view>
 								</view>
 							</view>
 							<view class="checkout-total-3">
@@ -541,21 +508,19 @@
 							</view>
 						</view>
 						<view class="checkout-btn">
-							<button type="default" v-if="businessLevel==2" @click="submitJob(2)">Checkout</button>
-							<button type="default" v-if="businessLevel==1" @click="submitJob(1)">Save & Upgrade</button>
+							<button type="default" v-if="businessLevel==2" @click="submitJob(2)">{{i18n.postjobscheckout}}</button>
+							<button type="default" v-if="businessLevel==1" @click="submitJob(1)">{{i18n.postjobssaveandupgrade}}</button>
 						</view>
 					</view>
 				</swiper-item>
 				<swiper-item class="swiperitem" v-if="businessLevel <= 3">
 					<view class="swiperitem-container">
 						<view class="checkout-title">{{i18n.jobspriceforplusmembers}}</view>
-						<view class="checkout-feature">Get featured on: </view>
+						<view class="checkout-feature">{{i18n.postjobsgetfeaturedon}}</view>
 						<view class="checkout-item" v-for="(item,index) in plusServiceList" :key="index">
 							<view class="checkout-item-1">
-								<view class="checkout-item-1-1" v-if="languageValue == 'en-US'">{{item.services_en}}
-								</view>
-								<view class="checkout-item-1-1" v-if="languageValue == 'zh-CN'">{{item.services_cn}}
-								</view>
+								<view class="checkout-item-1-1" v-if="languageValue == 'en-US'">{{item.services_en}}</view>
+								<view class="checkout-item-1-1" v-if="languageValue == 'zh-CN'">{{item.services_cn}}</view>
 								<view class="checkout-item-1-2">{{item.services_desc}}</view>
 							</view>
 							<view class="checkout-item-2">
@@ -572,8 +537,8 @@
 							<view class="checkout-total-1">
 								<image src="./static/total-today.png" mode="aspectFill"></image>
 								<view class="checkout-total-1-c">
-									<view class="checkout-total-1-1">Total</view>
-									<view class="checkout-total-1-2">Including Tax</view>
+									<view class="checkout-total-1-1">{{i18n.postjobstotal}}</view>
+									<view class="checkout-total-1-2">{{i18n.postjobsincludingtax}}</view>
 								</view>
 							</view>
 							<view class="checkout-total-3">
@@ -582,8 +547,8 @@
 							</view>
 						</view>
 						<view class="checkout-btn">
-							<button type="default" v-if="businessLevel==3" @click="submitJob(2)">Checkout</button>
-							<button type="default" v-if="businessLevel<3" @click="submitJob(1)">Save & Upgrade</button>
+							<button type="default" v-if="businessLevel==3" @click="submitJob(2)">{{i18n.postjobscheckout}}</button>
+							<button type="default" v-if="businessLevel<3" @click="submitJob(1)">{{i18n.postjobssaveandupgrade}}</button>
 						</view>
 					</view>
 				</swiper-item>
@@ -594,17 +559,18 @@
 			<button type="default" @click="submitJob(3)">{{i18n.jobspostjob}}</button>
 		</view>
 
-		<u-select v-model="paymentPeriodShow" mode="single-column" cancelText="cancel" confirmText="confirm"
-			:list="paymentPeriodList" @confirm="paymentPeriodConfirm" value-name="id" label-name="object_en"></u-select>
+		<u-select v-model="paymentPeriodShow" mode="single-column" :cancelText="i18n.uselectcanceltext" :confirmText="i18n.uselectconfirmtext"
+			:list="paymentPeriodList" @confirm="paymentPeriodConfirm" value-name="id" :label-name="languageValue=='en-US' ? 'object_en' : 'object_cn'"></u-select>
 
-		<u-select v-model="genderShow" mode="single-column" cancelText="cancel" confirmText="confirm" :list="genderList"
+		<u-select v-model="genderShow" mode="single-column" :cancelText="i18n.uselectcanceltext" :confirmText="i18n.uselectconfirmtext" :list="genderList"
+		 :label-name="languageValue=='en-US' ? 'object_en' : 'object_cn'"
 			@confirm="genderConfirm"></u-select>
 
-		<u-select v-model="teachingExpShow" mode="single-column" cancelText="cancel" confirmText="confirm"
-			:list="teachingExpList" @confirm="teachingExpConfirm" value-name="id" label-name="object_en"></u-select>
+		<u-select v-model="teachingExpShow" mode="single-column" :cancelText="i18n.uselectcanceltext" :confirmText="i18n.uselectconfirmtext"
+			:list="teachingExpList" @confirm="teachingExpConfirm" value-name="id"  :label-name="languageValue=='en-US' ? 'object_en' : 'object_cn'"></u-select>
 
-		<u-select v-model="educationShow" mode="single-column" cancelText="cancel" confirmText="confirm"
-			:list="educationList" @confirm="educationConfirm" value-name="id" label-name="object_en"></u-select>
+		<u-select v-model="educationShow" mode="single-column" :cancelText="i18n.uselectcanceltext" :confirmText="i18n.uselectconfirmtext"
+			:list="educationList" @confirm="educationConfirm" value-name="id"  :label-name="languageValue=='en-US' ? 'object_en' : 'object_cn'"></u-select>
 	</view>
 </template>
 
@@ -629,7 +595,7 @@
 		data() {
 			var _this = this;
 			return {
-				languageValue: 'en-US',
+				
 				imageList: [], //图片
 				uploadFileUrl: _this.$uploadFileUrl,
 				VideoOfImagesShow: true,
@@ -641,15 +607,18 @@
 				genderShow: false,
 				genderList: [{
 						value: 1,
-						label: 'Male Required'
+						object_en: 'Male Required',
+						object_cn: '男'
 					},
 					{
 						value: 2,
-						label: 'Female Required'
+						object_en: 'Female Required',
+						object_cn:"女"
 					},
 					{
 						value: 3,
-						label: 'No Gender Requirements'
+						object_en: 'No Gender Requirements',
+						object_cn: '无性别要求'
 					}
 				],
 				teachingExpShow: false,
@@ -874,6 +843,10 @@
 			i18n() {
 				return this.$t('index')
 			},
+			languageValue(){
+				let language = uni.getStorageSync('language');
+				return language ? language : 'en-US';
+			},
 			// #ifdef H5
 			isWechat() {
 				return this.$isWechat()
@@ -884,52 +857,17 @@
 		onShow() {
 
 		},
-		created() {
-			var that = this;
-			// 监听从裁剪页发布的事件，获得裁剪结果
-			uni.$on('uAvatarCropper', path => {
-				this.avatar = path;
-				// 可以在此上传到服务端
-				uni.uploadFile({
-					url: this.$uploadFileUrl,
-					filePath: path,
-					// #ifdef H5
-					header: {
-						platform: that.isWechat ? 2 : 1
-					},
-					// #endif
-					// #ifdef MP-WEIXIN
-					header: {
-						platform: 3
-					},
-					// #endif
-					name: 'file[]',
-					formData: {
-						token: uni.getStorageSync('token')
-					},
-					complete: (res) => {
-						// console.log(res);
-						if (res.statusCode == 200) {
-							let result = JSON.parse(res.data)
-							// console.log(result)
-							if (result.code == 200) {
-								that.form.interview_imgurl = result.data[0].file_url;
-							} else {
-								console.log(result.msg)
-							}
-						}
-					}
-				});
-			})
-
-		},
 		onUnload() {
-			uni.$off('uAvatarCropper');
 			uni.$off('locationEvent');
-			uni.$off('nationalityObj');
 		},
 		async onLoad(option) {
 			var that = this;
+			
+			if(that.languageValue == 'zh-CN'){
+				uni.setNavigationBarTitle({
+					title:'发布工作'
+				})
+			}
 
 			this.jobmd5 = option.jobmd5;
 
@@ -942,11 +880,7 @@
 				this.jobId = option.id;
 				await this.getJobDetail(option.id);
 			}
-
-			if (uni.getStorageSync('language') != '') {
-				this.languageValue = uni.getStorageSync('language')
-			}
-
+			
 			uni.$on('locationEvent', function(data) {
 				console.log(data)
 				that.form.province = data.provinceId;
@@ -954,10 +888,6 @@
 				that.form.district = data.areaId;
 				that.form.job_location = data.area + ', ' + data.city + ', ' + data.province;
 			})
-			uni.$on('nationalityObj', function(data) {
-				that.form.interview_nationlity = data;
-			})
-			
 
 		},
 		methods: {
@@ -1053,12 +983,6 @@
 						that.businessUserInfo = businessInfo;
 						that.form.business_id = businessInfo.id;
 						that.form.business_name = businessInfo.business_name;
-
-						if (that.form.is_interview == 1) {
-							that.form.interview_name = businessInfo.first_name + ' ' + businessInfo.last_name;
-							that.form.interview_nationlity = businessInfo.nationality;
-							that.form.interview_imgurl = businessInfo.profile_photo;
-						}
 						that.businessLevel = businessInfo.level;
 					} else {
 						uni.showToast({
@@ -1464,20 +1388,6 @@
 					this.form.is_mom_language = 0;
 				}
 			},
-			doingInterviewChange(e) {
-				// console.log(e);
-				if (e.detail.value) {
-					this.form.is_interview = 1;
-					this.form.interview_name = this.businessUserInfo.first_name + ' ' + this.businessUserInfo.last_name;
-					this.form.interview_imgurl = this.businessUserInfo.profile_photo;
-					this.form.interview_nationlity = this.businessUserInfo.nationality;
-				} else {
-					this.form.is_interview = 0;
-					this.form.interview_name = '';
-					this.form.interview_imgurl = '';
-					this.form.interview_nationlity = '';
-				}
-			},
 			saveTemplateChange(e) {
 				console.log(e);
 			},
@@ -1615,7 +1525,7 @@
 						that.form.business_id = jobMessage.business_id;
 						that.form.business_name = jobMessage.business_name;
 						that.form.employment_type = jobMessage.employment_type;
-						that.form.interview_imgurl = jobMessage.interview_imgurl;
+						// that.form.interview_imgurl = jobMessage.interview_imgurl;
 						that.form.desc = jobMessage.desc;
 						that.form.numbers = jobMessage.numbers;
 						that.form.is_equal = jobMessage.is_equal;
@@ -1849,13 +1759,7 @@
 							that.form.education = jobMessage.education;
 							that.form.education_str = jobMessage.education_en;
 						}
-						if (jobMessage.interview_imgurl) {
-							this.VideoOfImagesShow = false;
-							this.imageList.push({
-								path: res.message.interview_imgurl
-							});
-							that.form.interview_imgurl = res.message.interview_imgurl;
-						}
+						
 						console.log(that.form)
 					} else {
 						uni.showToast({
@@ -2094,6 +1998,10 @@
 
 					} else {
 						console.log('验证失败');
+						uni.showToast({
+							title:that.i18n.yanzhengshibai,
+							icon:'none'
+						})
 					}
 				});
 

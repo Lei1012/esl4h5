@@ -4,11 +4,11 @@
 		<view class="post-container">
 			<button type="default" class="post-item button-1" @click="singlePost()">
 				<image src="../../static/post-job-w.png" mode="aspectFill"></image>
-				<text>Single Post</text>
+				<text>{{i18n.singlepostjob}}</text>
 			</button>
 			<button type="default" class="post-item button-2" @click="multiplePost()">
 				<image src="../../static/excel.png" mode="aspectFill"></image>
-				<text>Multiple Post</text>
+				<text>{{i18n.multipostjob}}</text>
 			</button>
 		</view>
 	</view>
@@ -26,6 +26,11 @@
 		watch: {
 			showPostJobStatus(val) {
 				this.status = val;
+			}
+		},
+		computed:{
+			i18n(){
+				return this.$t('index');
 			}
 		},
 		props: {

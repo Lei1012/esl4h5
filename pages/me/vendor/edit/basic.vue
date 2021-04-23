@@ -50,15 +50,14 @@
 				<button @click="basicSubmit" type="default">{{i18n.profileeditsubmit}}</button>
 			</view>
 		</view>
-		<tki-tree ref="tkitree" :range="genderList" :rangeKey="rangeKey" confirmColor="#119fa9" :multiple="false"
-			@confirm="cofirmgenderType" :confirmText="confirmText" :cancelText="cancelText"
-			@cancel="cancelgenderType" />
+		
+		<u-select v-model="genderStatus" :list="genderList" :confirm-text="confirmText" :cancel-text="cancelText" @confirm="genderConfirm"></u-select>
+		
 	</view>
 </template>
 
 <script>
-	import fuckTextarea from '@/components/fuck-textarea/fuck-textarea.vue'
-	import tkiTree from "@/components/tki-tree/tki-tree.vue"
+	
 	import profile from '@/api/profile.js'
 
 	export default {
@@ -68,15 +67,14 @@
 				rangeKey: 'value',
 				idKey: 'id',
 				genderList: [{
-					id: 1,
-					value: 'Male',
-					checked: true
+					value: 1,
+					label: 'Male'
 				}, {
-					id: 2,
-					value: 'Female'
+					value: 2,
+					label: 'Female'
 				}, {
-					id: 3,
-					value: 'Undisclosed'
+					value: 3,
+					label: 'Undisclosed'
 				}],
 				confirmText: 'Confirm',
 				cancelText: 'Cancel',
@@ -86,7 +84,7 @@
 				firstLanguageList: ['中文/Chinese', '英语/English'],
 				selectFirstLanguageList: [],
 				selectFirstLanguageListIndex: [],
-				isFirstEdit: undefined,
+				isFirstEdit: 0,
 
 				errorType: ['message'],
 				form: {
@@ -113,8 +111,7 @@
 			}
 		},
 		components: {
-			fuckTextarea,
-			tkiTree
+			
 		},
 		computed: {
 			i18n() {
@@ -139,18 +136,12 @@
 				})
 			},
 			showgenderPicker() {
-				this.$refs.tkitree._show()
-			},
-			cofirmgenderType: function(e) {
-				console.log(e)
-				this.form.sex = e[0].id;
-				this.form.sex_name = e[0].value;
 				this.genderStatus = true;
-				this.$forceUpdate()
 			},
-			cancelgenderType: function() {
-				console.log('cancel')
-				// this.$refs.tkitree._hide()
+			genderConfirm(e){
+				console.log(e)
+				this.form.sex = e[0].value;
+				this.form.sex_name = e[0].label;
 			},
 			basicSubmit() {
 				var that = this;
@@ -200,6 +191,10 @@
 						
 					} else {
 						console.log('验证失败');
+						uni.showToast({
+							title:that.i18n.yanzhengshibai,
+							icon:'none'
+						})
 					}
 				});
 			
@@ -217,19 +212,19 @@
 
 						let basicUserInfo = res.message;
 						let vendorInfo = res.message.vendor_info;
-						
+						if(basicUserInfo.sex == 0){
+							this.form.sex = 0;
+							this.form.sex_name = '';
+						}
 						if (basicUserInfo.sex == 1) {
-							this.genderStatus = true;
-							this.form.sex_name = 'Male'
-							this.form.sex = 1
+							this.form.sex_name = 'Male';
+							this.form.sex = 1;
 						}
 						if (basicUserInfo.sex == 2) {
-							this.genderStatus = true;
 							this.form.sex_name = 'Female'
 							this.form.sex = 2
 						}
 						if (basicUserInfo.sex == 3) {
-							this.genderStatus = true;
 							this.form.sex_name = 'Undisclosed';
 							this.form.sex = 3;
 						}

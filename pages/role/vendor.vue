@@ -139,7 +139,13 @@
 						})
 						
 					} else {
+						console.log(that.i18n.yanzhengshibai)
+						return;
 						console.log('验证失败');
+						uni.showToast({
+							title:that.i18n.yanzhengshibai,
+							icon:'none'
+						})
 					}
 				});
 				

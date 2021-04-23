@@ -8,7 +8,6 @@
 		</view>
 
 		<view class="flex-item role-form">
-			
 			<u-form :model="form" :rules="rules" ref="uForm" :error-type="errorType" label-position="top"
 				:label-style="{'font-weight':700}">
 				<u-form-item :label="i18n.Basicinfofirstname" prop="first_name">
@@ -22,12 +21,20 @@
 						@click="turnNationalityPage"></u-input>
 				</u-form-item>
 				<u-form-item :label="i18n.basicinfoeducategory">
-					<view class="categories-tags">
-						<view class="categories-tags-item" :class="selectEducatorTypeList.indexOf(item.id) == -1 ? '' : 'tag-active' "
-						 v-for="(item,k) in range" :key="k" @click="selectEducatorType(item)">
-							{{item.identity_name}}
+					<view class="categories-content">
+						<view class="categories-tags" v-for="(item,k) in range" :key="k">
+							<view v-if="item['children'].length>0" class="category-parent">{{item.identity_name}}</view>
+							<view v-if="item['children'].length===0" class="categories-tags-item"
+								:class="selectEducatorTypeList.findIndex(element=>element.id === item.id) == -1 ? '' : 'tag-active' "
+								@click="selectEducatorType(item)">{{item.identity_name}}</view>
+							<view class="categories-tags-item" v-for="(child,key) in item['children']" :key="key"
+								:class="selectEducatorTypeList.findIndex(element=>element.id === child.id) == -1 ? '' : 'tag-active' "
+								@click="selectEducatorType(child)">
+								{{child.identity_name}}
+							</view>
 						</view>
 					</view>
+					
 				</u-form-item>
 			</u-form>
 			
@@ -121,12 +128,19 @@
 		},
 		methods: {
 			selectEducatorType(item) {
-				if (this.selectEducatorTypeList.indexOf(item.id) == -1) {
-					this.selectEducatorTypeList.push(item.id);
+				
+				if (this.selectEducatorTypeList.findIndex(element=>element.id === item.id) == -1) {
+					if (this.selectEducatorTypeList.length > 2) {
+						let len = this.selectEducatorTypeList.length - 1;
+						this.selectEducatorTypeList.splice(len, 1);
+					}
+					this.selectEducatorTypeList.push(item);
 				} else {
-					this.selectEducatorTypeList.splice(this.selectEducatorTypeList.indexOf(item.id), 1);
+					let len = this.selectEducatorTypeList.length - 1;
+					
+					this.selectEducatorTypeList.splice(this.selectEducatorTypeList.findIndex(element=>element.id === item.id), 1);
 				}
-				// console.log(this.selectEducatorTypeList);
+				
 			},
 			turnNationalityPage() {
 				uni.navigateTo({
@@ -140,7 +154,7 @@
 				}
 				let rangeData = [];
 
-				profile.getSubCateLists(data).then(res => {
+				profile.getSubCateList(data).then(res => {
 					// console.log(res)
 					if (res.code == 200) {
 						this.range = res.message;
@@ -157,11 +171,17 @@
 			eduSubmit: function(e) {
 
 				var that = this;
-
+				
 				this.$refs.uForm.validate(valid => {
 					if (valid) {
 						console.log('验证通过');
-						let educatorType = that.selectEducatorTypeList.join(',');
+						let selectTypeList = that.selectEducatorTypeList;
+						let educatorTypeIdArr=[];
+						selectTypeList.forEach(item=>{
+							educatorTypeIdArr.push(item.id)
+						})
+						
+						let educatorType = educatorTypeIdArr.join(',');
 						
 						if (that.selectEducatorTypeList.length <= 0) {
 							return uni.showToast({
@@ -220,6 +240,10 @@
 						
 					} else {
 						console.log('验证失败');
+						uni.showToast({
+							title:that.i18n.yanzhengshibai,
+							icon:'none'
+						})
 					}
 				});
 				

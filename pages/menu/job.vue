@@ -1,17 +1,12 @@
 <template>
 	<view class="uni-flex uni-column list">
 
-		<HMfilterDropdown v-if="showEventStatus==false" :filterData="filterData" :defaultSelected="defaultSelected"
-			@confirm="confirm">
-		</HMfilterDropdown>
+		<HMfilterDropdown  v-if="!showEventStatus" :filterData="filterData" :defaultSelected="defaultSelected" @confirm="confirm"></HMfilterDropdown>
 
 		<view class="empty" v-if="showEmptyStatus">
-			<view class="empty-text">Nothing here yet, coming back soon</view>
-			<view class="empty-image">
-				<image src="@/static/esl/empty.png" mode="aspectFit"></image>
-			</view>
+			<u-empty :text="i18n.emptytips1"  mode="list"></u-empty>
 		</view>
-
+		
 		<view class="event-list" v-if="showEventStatus">
 			<view class="event-list-item" v-for="(item,index) in eventsList" :key="item.id">
 				<view class="events-tips">Events</view>
@@ -49,20 +44,16 @@
 			<u-loadmore :status="status" :load-text="loadText" bgColor="#f4f5f6" />
 		</view>
 
-		<view class="flex-item  list-container" v-if="showEmptyStatus==false && showEventStatus==false">
+		<view class="flex-item  list-container " v-if="!showEmptyStatus && !showEventStatus">
 			<view class="flex-item flex-item-V latest-jobs" v-if="recentJobList.length>0 ">
-				<view class="latest-jobs-title">
-					{{i18n.homefeatjobs}}
-				</view>
-				<swiper class="latest-jobs-swiper" :indicator-dots="false" :autoplay="true" interval="1500"
+				<view class="latest-jobs-title">{{i18n.homefeatjobs}}</view>
+				<swiper class="latest-jobs-swiper  " :indicator-dots="false" :autoplay="true" interval="1500"
 					:circular="true">
-					<swiper-item v-for="(item,index) in recentJobList" :key="index">
+					<swiper-item  v-for="(item,index) in recentJobList" :key="index">
 						<view class="latest-jobs-item ">
 							<view class="latest-jobs-item-top" @click="turnJobDetail(item.id)">
 								<view class="latest-jobs-item-l">
-									<image v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit"></image>
-									<image v-if="item.third_com_logo == '' && item.logo !='' " :src="item.logo" mode="aspectFit"></image>
-									<image v-if="item.third_com_logo == '' && item.logo == '' " src="https://oss.esl-passport.cn/business.png" mode="aspectFit"></image>
+									<image  :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'" mode="aspectFit"></image>
 								</view>
 								<view class="latest-jobs-item-r">
 									<view class="latest-jobs-item-r-1">
@@ -89,9 +80,7 @@
 										<view class="job-type" v-if="item.employment_type==3">
 											{{i18n.jobslistemploymentseasonal}}
 										</view>
-
 									</view>
-
 									<view class="latest-jobs-item-r-3">
 										<view class="interview-name">
 											{{item.business_name}}
@@ -103,7 +92,6 @@
 										<view class="job-location" v-if="item.citys && languageValue=='zh-CN' ">
 											{{item.citys.ShortName}}
 										</view>
-
 									</view>
 								</view>
 							</view>
@@ -118,14 +106,11 @@
 				</swiper>
 			</view>
 
-			<view class=" list-item" v-for="(item,index) in jobsListOne" :key="item.id" @click="turnJobDetail(item.id)">
+			<view class="list-item " v-for="(item,index) in jobsListOne" :key="item.id" @click="turnJobDetail(item.id)">
 				<view class="list-item-l">
 					<view class="list-item-l-circle">
-						<image v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit"></image>
-						<image v-if="item.third_com_logo == '' && item.logo !='' " :src="item.logo" mode="aspectFit"></image>
-						<image v-if="item.third_com_logo == '' && item.logo == '' " src="https://oss.esl-passport.cn/business.png" mode="aspectFit"></image>
+						<image  :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'" mode="aspectFit"></image>
 					</view>
-
 				</view>
 				<view class="list-item-r">
 					<view class="list-item-r-t">
@@ -146,7 +131,6 @@
 						<view class="job-type" v-if="item.employment_type==2">{{i18n.jobslistemploymentparttime}}</view>
 						<view class="job-type" v-if="item.employment_type==3">{{i18n.jobslistemploymentseasonal}}</view>
 					</view>
-
 					<view class="list-item-4">
 						<view class="interview-name">
 							{{item.business_name}}
@@ -167,7 +151,7 @@
 					:duration="500">
 					<swiper-item v-for="(item,index) in jobsAdsListBottom" :key="index">
 						<view class="swiper-item">
-							<image :src="item.url" @click="turnBanner(item.relative_link)" mode="scaleToFit"
+							<image :src="item.url" @click="turnBanner(item.relative_link)" mode="widthFix"
 								lazy-load="true">
 							</image>
 						</view>
@@ -178,9 +162,7 @@
 			<view class=" list-item" v-for="(item,index) in jobsListTwo" :key="index" @click="turnJobDetail(item.id)">
 				<view class="list-item-l">
 					<view class="list-item-l-circle">
-						<image v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit"></image>
-						<image v-if="item.third_com_logo == '' && item.logo !='' " :src="item.logo" mode="aspectFit"></image>
-						<image v-if="item.third_com_logo == '' && item.logo == '' " src="https://oss.esl-passport.cn/business.png" mode="aspectFit"></image>
+						<image  :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'" mode="aspectFit"></image>
 					</view>
 				</view>
 				<view class="list-item-r">
@@ -218,19 +200,19 @@
 				</view>
 			</view>
 
-			<u-loadmore :status="status" :load-text="loadText" bgColor="#f4f5f6" />
+			<u-loadmore v-if="jobsListOne.length>0" :status="status" :load-text="loadText" bgColor="#f4f5f6" />
 		</view>
-
+		
 		<contactus @close="closeContact" :showContact="showContactStatus"></contactus>
 		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity"
 			@close="rolePopupStatus=false"></selectRolePopup>
+		<u-no-network></u-no-network>
 	</view>
 </template>
 
 <script>
 	import HMfilterDropdown from '@/components/HM-filterDropdown/HM-filterDropdown.vue';
-
-	import selectRolePopup from '@/components/select-role-popup/select-role-popup.vue'
+	import selectRolePopup from '@/components/select-role-popup/select-role-popup.vue';
 	import contactus from "@/components/xll-contact-us/xll-contact-us.vue";
 	import jobs from '@/api/jobs.js';
 	import events from '@/api/events.js';
@@ -272,8 +254,6 @@
 				eventsPage: 1,
 				eventsLimit: 10,
 				eventsLastPage: 1,
-				
-				languageValue:'en-US',
 
 			}
 		},
@@ -285,6 +265,10 @@
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			languageValue(){
+				let language = uni.getStorageSync('language');
+				return language ? language : 'en-US';
 			},
 			filterData(){
 				let token= uni.getStorageSync('token');
@@ -355,13 +339,11 @@
 					},
 					{
 						"name": this.$t('index').jobfilterfilter,
-						"type": 'radio',
+						"type": 'filter',
 						"submenu": [{
-								"name": "Student(s) Age",
+								"name": "Student Age",
 								"submenu": []
 							}
-
-
 						]
 					}
 				]
@@ -369,8 +351,6 @@
 		},
 		onShow() {
 			
-			let languageValue = uni.getStorageSync('language');
-			this.languageValue = languageValue ? languageValue : 'en-US';
 			// #ifdef H5
 			uni.setTabBarItem({
 				index: 1,
@@ -420,6 +400,49 @@
 				this.getEventsList(_this.eventsPage, _this.eventsLimit, 0);
 			}
 			// #endif
+			let language = this.languageValue;
+			
+			if (language) {
+				if (language == 'zh-CN') {
+					this._i18n.locale = 'zh-CN';
+				}
+				if (language == 'en-US') {
+					this._i18n.locale = 'en-US';
+				}
+				uni.setTabBarItem({
+					index: 0,
+					text: this.i18n.tabbarhome
+				})
+				// #ifdef H5
+				uni.setTabBarItem({
+					index: 1,
+					text: this.i18n.tabbarjobs
+				})
+				// #endif
+				// #ifdef MP-WEIXIN
+				if (token != '' && identity && identity != 0) {
+					uni.setTabBarItem({
+						index: 1,
+						text: this.i18n.tabbarjobs
+					})
+				} else {
+					uni.setTabBarItem({
+						index: 1,
+						text: this.i18n.tabbarevents
+					})
+				}
+				// #endif
+			
+				uni.setTabBarItem({
+					index: 2,
+					text: this.i18n.tabbardeals
+				})
+				uni.setTabBarItem({
+					index: 3,
+					text: this.i18n.tabbarme
+				})
+			
+			}
 
 		},
 		methods: {

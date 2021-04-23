@@ -41,8 +41,8 @@
 					<wButton class="wbutton" :text="i18n.h5loginlogin" :rotate="isRotate" @click="startLogin"></wButton>
 					<!-- 底部信息 -->
 					<view class="footer">
-						<!-- <navigator url="forget" open-type="navigate">{{i18n.h5retrievepassword}}</navigator> -->
-						<!-- <text>|</text> -->
+						<navigator url="forget" open-type="navigate">{{i18n.h5retrievepassword}}</navigator>
+						<text>|</text>
 						<navigator url="register" open-type="navigate">{{i18n.h5registeredaccount}}</navigator>
 					</view>
 				</view>
@@ -54,9 +54,9 @@
 						<text>WeChat login</text>
 					</button>
 				</view>
-				<view v-if="isWechat" class="wechat-phone-login" @click="wechatPhoneLoginStatus=true">
+				<!-- <view v-if="isWechat" class="wechat-phone-login" @click="h5loginInWechat()">
 					Mobile phone number login
-				</view>
+				</view> -->
 
 			</view>
 
@@ -114,7 +114,7 @@
 				isFocus: true, // 是否聚焦
 				// #endif
 				showOfficialStatus: false,
-				loginBySmsStatus: false,
+				loginBySmsStatus: true,
 				verCode: "", //验证码
 				phoneCode: '',
 				showvcodepopup: false,
@@ -165,6 +165,9 @@
 
 		},
 		methods: {
+			h5loginInWechat(){
+				this.wechatPhoneLoginStatus=true;
+			},
 			/* 校验结果回调函数 */
 			verifyResult(res) {
 				if (res) {
@@ -215,9 +218,14 @@
 					console.log(res)
 					if (res.code == 200) {
 						this.$refs.runCode.$emit('runCode'); //触发倒计时（一般用于请求成功验证码后调用）
-						let phone_code = res.message.phone_code;
-						this.showvcodepopup = true;
-						this.phoneCode = res.message.phone_code;
+						// let phone_code = res.message.phone_code;
+						// this.showvcodepopup = true;
+						// this.phoneCode = res.message.phone_code;
+						return uni.showToast({
+							title:'Success',
+							duration:2000,
+							icon:'Success'
+						})
 
 					} else {
 						uni.showToast({
@@ -328,11 +336,11 @@
 								uni.setStorageSync('language', 'en-US')
 							}
 							// #ifdef H5
-							let subscribeValue = res.message.subscribe;
+							// let subscribeValue = res.message.subscribe;
 
-							if (subscribeValue === 0 && this.isWechat) {
-								this.showOfficialStatus = true
-							}
+							// if (subscribeValue === 0 && this.isWechat) {
+							// 	this.showOfficialStatus = true
+							// }
 							// #endif
 							setTimeout(function() {
 								uni.hideLoading()
@@ -530,7 +538,7 @@
 						
 						let redirectPath = _this.redirectPath;
 						
-						if (redirectPath != undefined && redirectPath) {
+						if (redirectPath != 'undefined' && redirectPath) {
 							setTimeout(function() {
 								uni.hideLoading();
 								_this.isRotate = false
@@ -680,7 +688,7 @@
 
 							let redirectPath = _this.redirectPath;
 
-							if (redirectPath != undefined && redirectPath) {
+							if (redirectPath != 'undefined' && redirectPath) {
 								setTimeout(function() {
 									uni.hideLoading();
 									uni.reLaunch({
@@ -692,7 +700,7 @@
 								setTimeout(function() {
 									uni.hideLoading();
 									uni.reLaunch({
-										url: '/pages/menu/me'
+										url: '/pages/home/index'
 									})
 								}, 1200)
 							}

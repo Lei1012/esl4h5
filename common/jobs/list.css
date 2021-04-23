@@ -176,7 +176,14 @@ page {
 
 .empty {
 	width: 100%;
-	height: 100%;
+	height: 50%;
+	position: fixed;
+	z-index: 100;
+	top: 200rpx;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .empty-text {

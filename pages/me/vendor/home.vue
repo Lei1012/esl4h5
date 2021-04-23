@@ -235,7 +235,8 @@
 						</view>
 						<view class="languages-container">
 							<view class="languages-item" v-for="(language,i) in languagesList" :key="i">
-								{{language.object_en}}
+								<block v-if="languageValue=='en-US'">{{language.object_en}}</block>
+								<block v-if="languageValue=='zh-CN'">{{language.object_cn}}</block>
 								<u-rate :disabled="true" custom-prefix="custom-icon" active-icon="xll-yuan" inactive-icon="circleo"
 								 active-color="#b1c452" v-model="language.object_score" :count="language.object_score"></u-rate>
 							</view>
@@ -246,7 +247,7 @@
 		</view>
 		
 		<view class="gohome">
-			<button type="default" @click="turnHomepage()">Back to homepage</button>
+			<button type="default" @click="turnHomepage()">{{i18n.profilegohome}}</button>
 		</view>
 		
 	</view>
@@ -279,7 +280,7 @@
 					}]
 				},
 				percent: '',
-				items: ['Business', 'Media', 'You'],
+				items: [this.$t('index').vendorprofileitemsone, this.$t('index').vendorprofileitemstwo, this.$t('index').vendorprofileitemsthree],
 				current: 0,
 				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_26.png',
 				introVideoSrc: '',
@@ -292,6 +293,10 @@
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			languageValue(){
+				let language = uni.getStorageSync('language');
+				return language ?? 'en-US';
 			}
 		},
 		onShow() {

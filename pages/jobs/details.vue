@@ -250,13 +250,13 @@
 			<view class="contact-person-info-title">{{i18n.jobscontactpersoninfo}}</view>
 			<view class="contact" v-if="canSeeContact">
 				<view class="contact-l">
-					<image
-						:src="jobValue.interview_imgurl != '' ? jobValue.interview_imgurl : 'https://oss.esl-passport.cn/educator.png' "
+					<image :src="businessUserInfo.profile_photo ? businessUserInfo.profile_photo : 'https://oss.esl-passport.cn/educator.png' "
 						mode="aspectFill"></image>
 				</view>
 				<view class="contact-r">
-					<view class="contact-name"> <b>{{i18n.jobsposthione}} {{jobValue.interview_name}}!</b></view>
-					<view class="contact-nationality">{{jobValue.interview_nationlity}}</view>
+					<view class="contact-name"> <b>{{i18n.jobsposthione}} {{businessUserInfo.first_name}}
+								{{businessUserInfo.last_name}}!</b></view>
+					<view class="contact-nationality">{{businessUserInfo.nationality}}</view>
 					<view class="contact-phone" v-if="businessUserInfo.contact_phone !='' ">
 						<view class="contact-copy-container-l">
 							{{businessUserInfo.contact_phone}}
@@ -432,16 +432,19 @@
 					if (res.code == 200) {
 						
 						let jobValue = res.message;
+						let businessInfo = res.message.business;
 						this.jobValue = res.message;
+						this.businessUserInfo = res.message.business;
+						
 						uni.setNavigationBarTitle({
 							title: res.message.job_title
 						})
 						
+						this.companyBg = businessInfo.header_photo ? businessInfo.header_photo : 'https://oss.esl-passport.cn/esl_passport_25.png';
+						this.companyLogo = businessInfo.logo ? businessInfo.logo : 'https://oss.esl-passport.cn/business.png';
+						
 						// #ifdef H5
-						var img_url = res.message.interview_imgurl;
-						if (res.message.interview_imgurl == '') {
-							img_url = 'https://oss.esl-passport.cn/business.png';
-						}
+						var img_url = businessInfo.profile_photo ? businessInfo.profile_photo : 'https://oss.esl-passport.cn/business.png';
 						var url = window.location.href;
 						var origin = window.location.origin;
 
@@ -483,43 +486,6 @@
 						})
 						// #endif
 
-						profile.visitorUserInfo({
-							id: jobValue.user_id,
-							identity: 2
-						}).then(res => {
-							console.log(res)
-							if (res.code == 200) {
-								let businessInfo = res.message.business_info;
-								if(jobValue.third_com_bg == '' && businessInfo.header_photo == ''){
-									_this.companyBg = 'https://oss.esl-passport.cn/esl_passport_25.png'
-								}
-								if(jobValue.third_com_bg == '' && businessInfo.header_photo != ''){
-									_this.companyBg = businessInfo.header_photo;
-								}
-								if(jobValue.third_com_bg != ''){
-									_this.companyBg = jobValue.third_com_bg;
-								}
-								if(jobValue.third_com_logo == '' && businessInfo.logo == ''){
-									_this.companyLogo = 'https://oss.esl-passport.cn/business.png'
-								}
-								if(jobValue.third_com_logo == '' && businessInfo.logo != ''){
-									_this.companyLogo = businessInfo.logo;
-								}
-								if(jobValue.third_com_logo != '' ){
-									_this.companyLogo = jobValue.third_com_logo;
-								}
-								
-								this.businessUserInfo = res.message.business_info;
-
-							} else {
-								uni.showToast({
-									title: res.msg,
-									icon: "none"
-								})
-							}
-						}).catch(err => {
-							console.log(err)
-						})
 
 					} else {
 						uni.showToast({

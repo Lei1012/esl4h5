@@ -194,12 +194,7 @@
 					<view class="latest-jobs-item ">
 						<view class="latest-jobs-item-top" @click="turnJobDetail(item.id)">
 							<view class="latest-jobs-item-l">
-								<image v-if="item.third_com_logo != '' " :src="item.third_com_logo" mode="aspectFit">
-								</image>
-								<image v-if="item.third_com_logo == '' && item.logo !='' " :src="item.logo"
-									mode="aspectFit"></image>
-								<image v-if="item.third_com_logo == '' && item.logo == '' "
-									src="https://oss.esl-passport.cn/business.png" mode="aspectFit"></image>
+								<image :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'" mode="aspectFit"></image>
 							</view>
 							<view class="latest-jobs-item-r">
 								<view class="latest-jobs-item-r-1">
@@ -365,6 +360,7 @@
 		<!-- #ifdef H5 -->
 		<view style="height: 160rpx;width: 100%;"></view>
 		<!-- #endif -->
+		<u-no-network></u-no-network>
 	</view>
 
 </template>
@@ -642,13 +638,13 @@
 							}
 						}
 						// #ifdef H5
-						let subscribeValue = res.message.subscribe;
+						// let subscribeValue = res.message.subscribe;
 
-						if (this.isWechat) {
-							if (subscribeValue === 0) {
-								this.showOfficialStatus = true
-							}
-						}
+						// if (this.isWechat) {
+						// 	if (subscribeValue === 0) {
+						// 		this.showOfficialStatus = true
+						// 	}
+						// }
 						// #endif
 
 					} else {

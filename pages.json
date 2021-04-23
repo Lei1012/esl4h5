@@ -5,12 +5,8 @@
 	},
 	"subPackages": [{
 			"root": "pages/me",
-			"pages": [{
-					"path": "member",
-					"style": {
-						"navigationBarTitleText": "Member Selected"
-					}
-				}, {
+			"pages": [
+				{
 					"path": "welcome",
 					"style": {
 						"navigationBarTitleText": "Welcome to ESL Passport!"
@@ -28,7 +24,7 @@
 				}, {
 					"path": "educator/edit/basic",
 					"style": {
-						"navigationBarTitleText": "Basic"
+						"navigationBarTitleText": "Basic Info"
 					}
 				}, {
 					"path": "educator/edit/workExperience",
@@ -75,7 +71,7 @@
 				}, {
 					"path": "profile/countriesList",
 					"style": {
-						"navigationBarTitleText": "Countries List",
+						"navigationBarTitleText": "Nationality",
 						"h5":{
 							"titleNView":"default"
 						}
@@ -295,7 +291,7 @@
 				}, {
 					"path": "base/countriesList",
 					"style": {
-						"navigationBarTitleText": "Countries List",
+						"navigationBarTitleText": "Nationality",
 						"enablePullDownRefresh": false,
 						"h5":{
 							"titleNView":"default"
@@ -318,7 +314,7 @@
 				}, {
 					"path": "apply/index",
 					"style": {
-						"navigationBarTitleText": "Apply List",
+						"navigationBarTitleText": "Applications",
 						"enablePullDownRefresh": true
 					}
 
@@ -428,7 +424,7 @@
 		{
 			"path": "uview-ui/components/u-avatar-cropper/u-avatar-cropper",
 			"style": {
-				"navigationBarTitleText": "Choose Profile Photo",
+				"navigationBarTitleText": "Choose Image",
 				"navigationBarBackgroundColor": "#000000"
 			}
 		},
@@ -563,7 +559,7 @@
 	"leftWindow": {
 		"path": "responsive/left.vue", // 指定 leftWindow 页面文件
 		"style": {
-			"width": "calc((100% - 750px)/2)"
+			"width": "calc((100% - 375px)/2)"
 		},
 		"matchMedia": {
 			"minWidth": 768 //生效条件，当窗口宽度大于768px时显示
@@ -572,7 +568,7 @@
 	"rightWindow": {
 		"path": "responsive/right.vue", // 指定 rightWindow 页面文件
 		"style": {
-			"width": "calc((100% - 750px)/2)" // 页面宽度
+			"width": "calc((100% - 375px)/2)" // 页面宽度
 		},
 		"matchMedia": {
 			"minWidth": 768 //生效条件，当窗口宽度大于768px时显示

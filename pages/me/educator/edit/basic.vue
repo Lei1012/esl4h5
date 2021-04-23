@@ -34,19 +34,24 @@
 					<u-form-item :label="i18n.birthdate" prop="birthday">
 						<u-input border v-model="form.birthday" :placeholder="i18n.birthdate" type="select"
 							@click="birthdateShow=true" />
-						<u-picker :show-time-tag="false" confirm-text="Confirm" cancel-text="Cancel"
-							v-model="birthdateShow" mode="time" @confirm="birthdateConfirm"></u-picker>
+						
 					</u-form-item>
 					<u-form-item :label="i18n.location" prop="location">
 						<u-input border v-model="form.location" :placeholder="i18n.basicbusinesstwochooselocation"
 							type="select" @click="chooseLocation" />
 					</u-form-item>
 					<u-form-item :label="i18n.basicinfoeducategory" >
-						<view class="categories-tags">
-							<view class="categories-tags-item"
-								:class="selectEducatorTypeList.indexOf(item.id) == -1 ? '' : 'tag-active' "
-								v-for="(item,k) in range" :key="k" @click="selectEducatorType(item)">
-								{{item.identity_name}}
+						<view class="categories-content">
+							<view class="categories-tags" v-for="(item,k) in range" :key="k">
+								<view v-if="item['children'].length>0" class="category-parent">{{item.identity_name}}</view>
+								<view v-if="item['children'].length===0" class="categories-tags-item"
+									:class="selectEducatorTypeList.findIndex(element=>element.id === item.id) == -1 ? '' : 'tag-active' "
+									@click="selectEducatorType(item)">{{item.identity_name}}</view>
+								<view class="categories-tags-item" v-for="(child,key) in item['children']" :key="key"
+									:class="selectEducatorTypeList.findIndex(element=>element.id === child.id) == -1 ? '' : 'tag-active' "
+									@click="selectEducatorType(child)">
+									{{child.identity_name}}
+								</view>
 							</view>
 						</view>
 					</u-form-item>
@@ -65,33 +70,41 @@
 				<button @click="basicSubmit" type="default">{{i18n.homereviewbutton}}</button>
 			</view>
 		</view>
-		<tki-tree ref="tkitree" :range="genderList" :rangeKey="rangeKey" confirmColor="#119fa9" :multiple="false"
-			@confirm="cofirmgenderType" :confirmText="confirmText" :cancelText="cancelText"
-			@cancel="cancelgenderType" />
+		<u-select v-model="genderStatus" :list="genderList" :cancelText="i18n.uselectcanceltext" :confirmText="i18n.uselectconfirmtext" 
+		:label-name="languageValue=='en-US' ? 'object_en' : 'object_cn'"
+		@confirm="genderConfirm"></u-select>
+		
+		<u-picker :show-time-tag="false" :cancel-text="i18n.uselectcanceltext" :confirm-text="i18n.uselectconfirmtext" 
+			v-model="birthdateShow" mode="time" @confirm="birthdateConfirm" :default-time="dateDefaultTime"></u-picker>
+		
 	</view>
 </template>
 
 <script>
-	import tkiTree from "@/components/tki-tree/tki-tree.vue"
+	
 	import profile from "@/api/profile.js"
 
 	export default {
 		data() {
 			return {
-				
+				dateDefaultTime:'',
 				rangeKey: 'value',
 				idKey: 'id',
 				genderList: [{
-					id: 1,
-					value: 'Male',
-					checked: true
-				}, {
-					id: 2,
-					value: 'Female'
-				}, {
-					id: 3,
-					value: 'Undisclosed'
-				}],
+						value: 1,
+						object_en: 'Male Required',
+						object_cn: '男'
+					},
+					{
+						value: 2,
+						object_en: 'Female Required',
+						object_cn:"女"
+					},
+					{
+						value: 3,
+						object_en: 'No Gender Requirements',
+						object_cn: '无性别要求'
+					}],
 				confirmText: 'Confirm',
 				cancelText: 'Cancel',
 				genderStatus: false,
@@ -105,6 +118,7 @@
 				
 				selectEducatorTypeList: [],
 				range: [],
+				ranges:[],
 
 				errorType: ['message'],
 				form: {
@@ -142,11 +156,14 @@
 			}
 		},
 		components: {
-			tkiTree
 		},
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			languageValue(){
+				let language = uni.getStorageSync('language');
+				return language ? language : 'en-US';
 			}
 		},
 		onUnload() {
@@ -155,10 +172,16 @@
 		onLoad(option) {
 
 			var that = this;
+			if(that.languageValue == 'zh-CN'){
+				uni.setNavigationBarTitle({
+					title:'基本信息'
+				})
+			}
 			this.isFirstEdit = option.firstEdit;
 			
 			this.subCateList();
 			this.getBasicInfo();
+			this.subCateLists();
 
 			uni.$on('nationalityObj', function(data) {
 				console.log(data)
@@ -173,6 +196,27 @@
 			})
 		},
 		methods: {
+			subCateLists: function() {
+				let data = {
+					pid: 1,
+					tree: 1
+				}
+				let rangeData = [];
+			
+				profile.getSubCateLists(data).then(res => {
+					// console.log(res)
+					if (res.code == 200) {
+						this.ranges = res.message;
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
 			subCateList: function() {
 				let data = {
 					pid: 1,
@@ -180,7 +224,7 @@
 				}
 				let rangeData = [];
 
-				profile.getSubCateLists(data).then(res => {
+				profile.getSubCateList(data).then(res => {
 					// console.log(res)
 					if (res.code == 200) {
 						this.range = res.message;
@@ -196,12 +240,17 @@
 			},
 			selectEducatorType(item) {
 				// console.log(item);
-				if (this.selectEducatorTypeList.indexOf(item.id) == -1) {
-					this.selectEducatorTypeList.push(item.id);
+				if (this.selectEducatorTypeList.findIndex(element=>element.id === item.id) == -1) {
+					if (this.selectEducatorTypeList.length > 2) {
+						let len = this.selectEducatorTypeList.length - 1;
+						this.selectEducatorTypeList.splice(len, 1);
+					}
+					this.selectEducatorTypeList.push(item);
 				} else {
-					this.selectEducatorTypeList.splice(this.selectEducatorTypeList.indexOf(item.id), 1);
+					let len = this.selectEducatorTypeList.length - 1;
+					
+					this.selectEducatorTypeList.splice(this.selectEducatorTypeList.findIndex(element=>element.id === item.id), 1);
 				}
-				console.log(this.selectEducatorTypeList);
 			},
 			chooseLocation() {
 				uni.navigateTo({
@@ -251,7 +300,7 @@
 						let city = educatorInfo.city;
 						let district =  educatorInfo.district;
 						let address = educatorInfo.address;
-						let subIdentityIdStr = educatorInfo.sub_identity_id;
+						
 
 						this.form.first_name = educatorInfo.first_name;
 						this.form.last_name = educatorInfo.last_name;
@@ -272,7 +321,16 @@
 						if(district !='' && city !='' && province !=''){
 							this.form.location =  district + ', ' + city + ', ' + province;
 						}
-						this.selectEducatorTypeList = subIdentityIdStr.split(',').map(Number)
+						
+						let subIdentityIdStr = educatorInfo.sub_identity_id;
+						let subIdentityIdArr = subIdentityIdStr.split(',').map(Number);
+						let ranges = this.ranges;
+						subIdentityIdArr.forEach(id=>{
+							let a = ranges.filter(item=>item.id===id)
+							if(a.length>0){
+								this.selectEducatorTypeList.push(a[0])
+							}
+						})
 						
 					} else {
 						uni.showToast({
@@ -290,15 +348,12 @@
 				})
 			},
 			showgenderPicker() {
-				this.$refs.tkitree._show()
+				this.genderStatus = true;
 			},
-			cofirmgenderType: function(e) {
-				this.form.sex = e[0].id;
-				this.form.sex_name = e[0].value;
-			},
-			cancelgenderType: function() {
-				console.log('cancel')
-				// this.$refs.tkitree._hide()
+			genderConfirm(e){
+				console.log(e)
+				this.form.sex = e[0].value;
+				this.form.sex_name = e[0].label;
 			},
 			birthdateConfirm(e) {
 				let year = e.year;
@@ -329,7 +384,14 @@
 				this.$refs.uForm.validate(valid => {
 					if (valid) {
 						console.log('验证通过');
-						let educatorType = this.selectEducatorTypeList.join(',');
+						let selectTypeList = that.selectEducatorTypeList;
+						let educatorTypeIdArr=[];
+						selectTypeList.forEach(item=>{
+							educatorTypeIdArr.push(item.id)
+						})
+						console.log(educatorTypeIdArr)
+						let educatorType = educatorTypeIdArr.join(',');
+						
 						that.form.sub_identity = educatorType;
 						let data = Object.assign({},that.form);
 						
@@ -373,6 +435,10 @@
 						
 					} else {
 						console.log('验证失败');
+						uni.showToast({
+							title:that.i18n.yanzhengshibai,
+							icon:'none'
+						})
 					}
 				});
 
@@ -380,8 +446,15 @@
 
 		},
 		onReady() {
+			let nowDate = new Date();
+			let year = nowDate.getFullYear() - 18;
+			let month = nowDate.getMonth() + 1;
+			let day = nowDate.getDate();
+			let dateDefault = year + '-' + month  + '-'+ day
+			this.dateDefaultTime = dateDefault;
 			this.$refs.uForm.setRules(this.rules);
 		}
+		
 	}
 </script>
 
@@ -453,6 +526,13 @@
 		line-height: 80rpx;
 	}
 
+	.categories-content {
+		width: 100%;
+		border: 1rpx solid #EEEEEE;
+		border-radius: 20rpx;
+		padding: 10rpx;
+	}
+	
 	.categories-tags {
 		width: 100%;
 		display: flex;
@@ -460,8 +540,21 @@
 		justify-content: first baseline;
 		align-items: center;
 		flex-wrap: wrap;
+		border-bottom: 1rpx dashed #EEEEEE;
+		padding-bottom: 10rpx;
 	}
-
+	.categories-tags:last-child{
+		border-bottom: none;
+	}
+	
+	.category-parent {
+		width: 100%;
+		font-size: 28rpx;
+		color: #808080;
+		font-weight: 700;
+		text-align: left;
+	}
+	
 	.categories-tags-item {
 		padding-top: 10rpx;
 		padding-bottom: 10rpx;
@@ -473,7 +566,7 @@
 		border-radius: 20rpx;
 		font-size: 28rpx;
 	}
-
+	
 	.tag-active {
 		background-color: #00b3d2;
 		color: #FFFFFF;
@@ -490,4 +583,6 @@
 	.role-form-type-1 text {
 		font-size: 28rpx;
 	}
+	
+	
 </style>

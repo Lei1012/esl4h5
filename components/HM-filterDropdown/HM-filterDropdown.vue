@@ -57,8 +57,8 @@
 							</view>
 						</scroll-view>
 						<view class="btn-box">
-							<view class="reset" @tap="resetFilterData(page_index)">Reset</view>
-							<view class="submit" @tap="setFilterData(page_index)">Confirm</view>
+							<view class="reset" @tap="resetFilterData(page_index)">{{i18n.filterrest}}</view>
+							<view class="submit" @tap="setFilterData(page_index)">{{i18n.filterconfirm}}</view>
 						</view>
 					</view>
 				</block>
@@ -74,8 +74,8 @@
 							</view>
 						</scroll-view>
 						<view class="btn-box">
-							<view class="reset" @tap="resetFilterData(page_index)">Reset</view>
-							<view class="submit" @tap="setFilterData(page_index)">Confirm</view>
+							<view class="reset" @tap="resetFilterData(page_index)">{{i18n.filterrest}}</view>
+							<view class="submit" @tap="setFilterData(page_index)">{{i18n.filterconfirm}}</view>
 						</view>
 					</view>
 				</block>
@@ -124,6 +124,11 @@
 			dataFormat:{
 				value: String,
 				default: 'Array'
+			}
+		},
+		computed:{
+			i18n(){
+				return this.$t('index');
 			}
 		},
 		watch: {
@@ -694,16 +699,16 @@
 		align-items: center;
 		.menu-box {
 			// width: 698rpx;
-			max-height: calc(345px - 75px);
+			// max-height: calc(345px - 75px);
 			width: 96%;
 			flex-shrink: 1;
 			.box {
 				width: 100%;
-				margin-top: 16px;
+				margin-top: 20rpx;
 				flex-direction: column;
 				.title {
 					width: 100%;
-					font-size: 13px;
+					font-size: 28rpx;
 					color: #888;
 				}
 				.labels {
@@ -720,10 +725,10 @@
 						// height: 30px;
 						padding: 10rpx 20rpx;
 						border: solid 1rpx #adadad;
-						border-radius: 4px;
-						margin-right: 15px;
-						margin-top: 8px;
-						margin-left: 10rpx;
+						border-radius: 8rpx;
+						// margin-right: 15px;
+						margin-top: 18rpx;
+						margin-left:20rpx;
 						font-size: 12px;
 						flex-direction: row;
 						justify-content: center;
@@ -737,15 +742,16 @@
 		}
 		.btn-box {
 			flex-shrink: 0;
-			width: 698rpx;
-			height: 75px;
+			width: 94%;
+			height: 150rpx;
 			flex-direction: row !important;
 			align-items: center;
 			justify-content: space-between;
 			>view {
 				width: 320rpx;
-				height: 40px;
-				border-radius: 40px;
+				height: 80rpx;
+				line-height: 80rpx;
+				border-radius: 80rpx;
 				border: solid 1rpx #0AA0A8;
 				align-items: center;
 				justify-content: center;

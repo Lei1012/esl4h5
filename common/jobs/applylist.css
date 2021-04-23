@@ -167,29 +167,6 @@ page {
 	white-space: nowrap;
 }
 
-.empty {
-	width: 100%;
-	height: 100%;
-}
-
-.empty-text {
-	width: 100%;
-	margin-top: 30%;
-	text-align: center;
-	font-size: 34rpx;
-}
-
-.empty-image {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.empty-image image {
-	width: 200rpx;
-	height: 200rpx;
-}
-
 
 .latest-jobs {
 	width: 96%;
@@ -303,4 +280,12 @@ page {
 
 .swiper-item {
 	height: 240rpx;
+}
+
+.empty {
+	width: 100%;
+	height: 50%;
+	position: fixed;
+	top: 20%;
+	z-index: 100;
 }

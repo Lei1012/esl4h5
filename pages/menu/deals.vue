@@ -5,7 +5,7 @@
 				<view class="page-section-spacing">
 					<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
 						:duration="duration">
-						<swiper-item v-for="(item,index) in adsListTop" :key="index"
+						<swiper-item v-for="(item,index) in adsListTop" :key="item.id"
 							@click="turnBanner(item.relative_link)">
 							<view class="swiper-item">
 								<image :src="item.url" mode="widthFix" lazy-load="true"></image>
@@ -21,171 +21,189 @@
 		</HMfilterDropdown>
 
 		<view class="xll-deals-list">
-			
-			<view class=" list-item" v-for="(item,index) in dealsOneList" :key="item.id" v-if="showDealsStatus">
-				<view class="deals-tips">Deals</view>
-				<view class="list-item-l">
-					<view class="interview-photo">
-						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFit">
-						</image>
+			<!-- deals one -->
+			<view>
+				<view class=" list-item" v-for="(item,index) in dealsOneList" :key="item.id" v-if="showDealsStatus">
+					<view class="deals-tips">Deals</view>
+					<view class="list-item-l">
+						<view class="interview-photo">
+							<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFit">
+							</image>
+						</view>
 					</view>
-				</view>
-				<view class="list-item-r" @click="turnDealsDetail(item.id)">
-					
-					<view class="list-item-name">{{item.user_info.vendor_name_en}}</view>
-					<view class="list-item-title">{{item.title}}</view>
-					<view class="list-item-2">
-						<view class="tags-item tag-all-locations" v-if="item.is_all==1">
-							All Locations
-						</view>
-						<view class="tags-item tag-limit" v-if="item.is_all==2">
-							Limited
-						</view>
-						<view class="tags-item tag-deal" v-if="item.type==1">
-							Deal
-						</view>
-						<view class="tags-item tag-discount" v-if="item.type==2">
-							Discount
-						</view>
-						<view class="tags-item tag-dog-friendly" v-if="item.allowed_dog==1">
-							<text>Dog Friendly</text>
-						</view>
-
-					</view>
-				</view>
-			</view>
-			
-			<view class="flex-item events-slider" v-if="showDealsStatus && dealsOneList.length>0">
-				<swiper class="swiper" :indicator-dots="false" :autoplay="true" :interval="5000" :duration="600">
-					<swiper-item v-for="(item,index) in adsListMid" :key="index"
-						@click="turnBanner(item.relative_link)">
-						<view class="swiper-item">
-							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
-						</view>
-					</swiper-item>
-				</swiper>
-			</view>
-			
-			<view class=" list-item" v-for="(item,index) in eventsOneList" :key="item.name" v-if="showEventsStatus">
-				<view class="events-tips">Events</view>
-				<view class="list-item-l">
-					<view class="interview-photo">
-						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
-						</image>
-					</view>
-				</view>
-				<view class="list-item-r" @click="turnEventDetail(item.id)">
-
-					<view class="list-item-t">
-						<view class=" list-item-1">
-							<view class="list-item-name" v-if="item.user_info.vendor_name_en">
-								{{item.user_info.vendor_name_en}}
-							</view>
-							<view class="list-item-title">{{item.name}}</view>
-						</view>
+					<view class="list-item-r" @click="turnDealsDetail(item.id)">
+						
+						<view class="list-item-name">{{item.user_info.vendor_name_en}}</view>
+						<view class="list-item-title">{{item.title}}</view>
 						<view class="list-item-2">
-							<view class="tags-item" v-if="item.event_place && item.event_place != 0">
-								<text>{{item.event_place}}</text>
+							<view class="tags-item tag-all-locations" v-if="item.is_all==1">
+								All Locations
 							</view>
-							<view class="tags-item">
-								<text v-if="item.is_all==1">Social</text>
-								<text v-if="item.is_all==2">Professional</text>
+							<view class="tags-item tag-limit" v-if="item.is_all==2">
+								Limited
 							</view>
+							<view class="tags-item tag-deal" v-if="item.type==1">
+								Deal
+							</view>
+							<view class="tags-item tag-discount" v-if="item.type==2">
+								Discount
+							</view>
+							<view class="tags-item tag-dog-friendly" v-if="item.allowed_dog==1">
+								<text>Dog Friendly</text>
+							</view>
+				
 						</view>
-					</view>
-					<view class="list-item-b" v-if="item.citys">
-						<view class="location" v-if="language=='en-US' || !language">{{item.citys.Pinyin}}</view>
-						<view class="location" v-if="language=='zh-CN'">{{item.citys.ShortName}}</view>
-						<view class="date">{{item.date}}</view>
 					</view>
 				</view>
 			</view>
 			
-			<view class="flex-item events-slider" v-if="showEventsStatus && eventsOneList.length>0 && adsListBottom.length>0">
-				<swiper class="swiper" :indicator-dots="false" :autoplay="true" :interval="5000" :duration="600">
-					<swiper-item v-for="(item,index) in adsListBottom" :key="index"
-						@click="turnBanner(item.relative_link)">
-						<view class="swiper-item">
-							<image :src="item.url" mode="widthFix" lazy-load="true"></image>
-						</view>
-					</swiper-item>
-				</swiper>
+			
+			<!-- events slider -->
+			<view>
+				<view class="flex-item events-slider" v-if="showDealsStatus && dealsOneList.length>0">
+					<swiper class="swiper" :indicator-dots="false" :autoplay="true" :interval="5000" :duration="600">
+						<swiper-item v-for="(item,index) in adsListMid" :key="item.id"
+							@click="turnBanner(item.relative_link)">
+							<view class="swiper-item">
+								<image :src="item.url" mode="widthFix" lazy-load="true"></image>
+							</view>
+						</swiper-item>
+					</swiper>
+				</view>
 			</view>
 			
-			<view class=" list-item" v-for="(item,k) in dealsTwoList" :key="item.id" v-if="showDealsStatus">
-				<view class="deals-tips">Deals</view>
-				<view class="list-item-l">
-					<view class="interview-photo">
-						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFit">
-						</image>
+			<!-- events -->
+			<view>
+				<view class=" list-item" v-for="(item,index) in eventsOneList" :key="item.name" v-if="showEventsStatus">
+					<view class="events-tips">Events</view>
+					<view class="list-item-l">
+						<view class="interview-photo">
+							<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
+							</image>
+						</view>
 					</view>
-				</view>
-				<view class="list-item-r" @click="turnDealsDetail(item.id)">
-
-					<view class="list-item-name">{{item.user_info.vendor_name_en}}</view>
-					<view class="list-item-title">{{item.title}}</view>
-					<view class="list-item-2">
-						<view class="tags-item tag-all-locations" v-if="item.is_all==1">
-							All Locations
+					<view class="list-item-r" @click="turnEventDetail(item.id)">
+				
+						<view class="list-item-t">
+							<view class=" list-item-1">
+								<view class="list-item-name" v-if="item.user_info.vendor_name_en">
+									{{item.user_info.vendor_name_en}}
+								</view>
+								<view class="list-item-title">{{item.name}}</view>
+							</view>
+							<view class="list-item-2">
+								<view class="tags-item" v-if="item.event_place && item.event_place != 0">
+									<text>{{item.event_place}}</text>
+								</view>
+								<view class="tags-item">
+									<text v-if="item.is_all==1">Social</text>
+									<text v-if="item.is_all==2">Professional</text>
+								</view>
+							</view>
 						</view>
-						<view class="tags-item tag-limit" v-if="item.is_all==2">
-							Limited
+						<view class="list-item-b" v-if="item.citys">
+							<view class="location" v-if="language=='en-US' || !language">{{item.citys.Pinyin}}</view>
+							<view class="location" v-if="language=='zh-CN'">{{item.citys.ShortName}}</view>
+							<view class="date">{{item.date}}</view>
 						</view>
-						<view class="tags-item tag-deal" v-if="item.type==1">
-							Deal
-						</view>
-						<view class="tags-item tag-discount" v-if="item.type==2">
-							Discount
-						</view>
-						<view class="tags-item tag-dog-friendly" v-if="item.allowed_dog==1">
-							<text>Dog Friendly</text>
-						</view>
-
 					</view>
 				</view>
 			</view>
-
-			<view class=" list-item" v-for="(item,index) in eventsTwoList" :key="item.name" v-if="showEventsStatus">
-				<view class="events-tips">Events</view>
-				<view class="list-item-l">
-					<view class="interview-photo">
-						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
-						</image>
-					</view>
-				</view>
-				<view class="list-item-r" @click="turnEventDetail(item.id)">
-
-					<view class="list-item-t">
-						<view class=" list-item-1">
-							<view class="list-item-name" v-if="item.user_info.vendor_name_en">
-								{{item.user_info.vendor_name_en}}
+			<!-- events slider -->
+			<view>
+				<view class="flex-item events-slider" v-if="showEventsStatus && eventsOneList.length>0 && adsListBottom.length>0">
+					<swiper class="swiper" :indicator-dots="false" :autoplay="true" :interval="5000" :duration="600">
+						<swiper-item v-for="(item,index) in adsListBottom" :key="item.id"
+							@click="turnBanner(item.relative_link)">
+							<view class="swiper-item">
+								<image :src="item.url" mode="widthFix" lazy-load="true"></image>
 							</view>
-							<view class="list-item-title">{{item.name}}</view>
+						</swiper-item>
+					</swiper>
+				</view>
+			</view>
+			
+			<!-- deals two -->
+			<view>
+				<view class=" list-item" v-for="(item,k) in dealsTwoList" :key="item.id" v-if="showDealsStatus">
+					<view class="deals-tips">Deals</view>
+					<view class="list-item-l">
+						<view class="interview-photo">
+							<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFit">
+							</image>
 						</view>
+					</view>
+					<view class="list-item-r" @click="turnDealsDetail(item.id)">
+				
+						<view class="list-item-name">{{item.user_info.vendor_name_en}}</view>
+						<view class="list-item-title">{{item.title}}</view>
 						<view class="list-item-2">
-							<view class="tags-item" v-if="item.event_place && item.event_place != 0">
-								<text>{{item.event_place}}</text>
+							<view class="tags-item tag-all-locations" v-if="item.is_all==1">
+								All Locations
 							</view>
-							<view class="tags-item">
-								<text v-if="item.is_all==1">Social</text>
-								<text v-if="item.is_all==2">Professional</text>
+							<view class="tags-item tag-limit" v-if="item.is_all==2">
+								Limited
 							</view>
+							<view class="tags-item tag-deal" v-if="item.type==1">
+								Deal
+							</view>
+							<view class="tags-item tag-discount" v-if="item.type==2">
+								Discount
+							</view>
+							<view class="tags-item tag-dog-friendly" v-if="item.allowed_dog==1">
+								<text>Dog Friendly</text>
+							</view>
+				
 						</view>
-					</view>
-					<view class="list-item-b" v-if="item.citys">
-						<view class="location" v-if="language=='en-US' || !language">{{item.citys.Pinyin}}</view>
-						<view class="location" v-if="language=='zh-CN'">{{item.citys.ShortName}}</view>
-						<view class="date">{{item.date}}</view>
 					</view>
 				</view>
 			</view>
-
-			<u-loadmore :status="status" :load-text="loadText" bgColor="#f4f5f6" />
+			
+			<!-- events two -->
+			<view>
+				<view class=" list-item" v-for="(item,index) in eventsTwoList" :key="item.name" v-if="showEventsStatus">
+					<view class="events-tips">Events</view>
+					<view class="list-item-l">
+						<view class="interview-photo">
+							<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
+							</image>
+						</view>
+					</view>
+					<view class="list-item-r" @click="turnEventDetail(item.id)">
+				
+						<view class="list-item-t">
+							<view class=" list-item-1">
+								<view class="list-item-name" v-if="item.user_info.vendor_name_en">
+									{{item.user_info.vendor_name_en}}
+								</view>
+								<view class="list-item-title">{{item.name}}</view>
+							</view>
+							<view class="list-item-2">
+								<view class="tags-item" v-if="item.event_place && item.event_place != 0">
+									<text>{{item.event_place}}</text>
+								</view>
+								<view class="tags-item">
+									<text v-if="item.is_all==1">Social</text>
+									<text v-if="item.is_all==2">Professional</text>
+								</view>
+							</view>
+						</view>
+						<view class="list-item-b" v-if="item.citys">
+							<view class="location" v-if="language=='en-US' || !language">{{item.citys.Pinyin}}</view>
+							<view class="location" v-if="language=='zh-CN'">{{item.citys.ShortName}}</view>
+							<view class="date">{{item.date}}</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			
+			<u-loadmore v-if="dealsOneList.length>0" :status="status" :load-text="loadText" bgColor="#f4f5f6" />
 		</view>
 
 		<contactus @close="showContactStatus=false" :showContact="showContactStatus"></contactus>
 		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity"
 			@close="rolePopupStatus=false"></selectRolePopup>
+		<u-no-network></u-no-network>
 	</view>
 
 </template>
@@ -209,7 +227,6 @@
 				autoplay: true,
 				interval: 3000,
 				duration: 1000,
-				language: 'en-US',
 
 				identity: 0, //当前身份、
 				selectLocationValue: 89,
@@ -260,6 +277,10 @@
 			i18n() {
 				return this.$t('index')
 			},
+			language(){
+				let language = uni.getStorageSync('language');
+				return language ? language : 'en-US';
+			},
 			filterData(){
 				this.getSubCateList(3);
 				this.getDealsAreaList();
@@ -287,7 +308,6 @@
 			}
 		},
 		onShow() {
-			this.language = uni.getStorageSync('language');
 			// #ifdef H5
 			uni.setTabBarItem({
 				index: 1,
@@ -308,9 +328,55 @@
 		},
 		onLoad(option) {
 			var that = this;
+			
 			this.getAdsList();
 			this.getDealsList(this.dealsPage, this.dealsLimit, this.categoryId, this.cityId);
-			this.getEventsList(this.eventsPage,this.eventsLimit,this.cityId)
+			this.getEventsList(this.eventsPage,this.eventsLimit,this.cityId);
+			let language = this.language;
+			let token = uni.getStorageSync('token');
+			let identity = uni.getStorageSync('identity');
+			
+			if (language) {
+				if (language == 'zh-CN') {
+					this._i18n.locale = 'zh-CN';
+				}
+				if (language == 'en-US') {
+					this._i18n.locale = 'en-US';
+				}
+				uni.setTabBarItem({
+					index: 0,
+					text: this.i18n.tabbarhome
+				})
+				// #ifdef H5
+				uni.setTabBarItem({
+					index: 1,
+					text: this.i18n.tabbarjobs
+				})
+				// #endif
+				// #ifdef MP-WEIXIN
+				if (token != '' && identity && identity != 0) {
+					uni.setTabBarItem({
+						index: 1,
+						text: this.i18n.tabbarjobs
+					})
+				} else {
+					uni.setTabBarItem({
+						index: 1,
+						text: this.i18n.tabbarevents
+					})
+				}
+				// #endif
+			
+				uni.setTabBarItem({
+					index: 2,
+					text: this.i18n.tabbardeals
+				})
+				uni.setTabBarItem({
+					index: 3,
+					text: this.i18n.tabbarme
+				})
+			
+			}
 			
 		},
 		methods: {
@@ -335,7 +401,7 @@
 									value: item.id
 								}
 							}
-							this.filterData[1].submenu.push(obj)
+							this.filterData[1]['submenu'].push(obj)
 						})
 
 						console.log(this.filterData)

@@ -86,6 +86,14 @@ function miniBindPhone(data){
 	})
 }
 
+function findPassword(data){
+	return request({
+		method:"POST",
+		url:'user/findPassword',
+		data:data
+	})
+}
+
 export default{
 	sendCode,
 	bindIdentity,
@@ -97,5 +105,6 @@ export default{
 	h5Login,
 	miniRegister,
 	miniGetPhoneNumber,
-	miniBindPhone
+	miniBindPhone,
+	findPassword
 }

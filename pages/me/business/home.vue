@@ -134,7 +134,8 @@
 							<!-- student age tags展示 -->
 							<view class="student-age-b" v-if="canEditStudentAge===false">
 								<view class="student-age-item" v-for="(item,i) in studentAgeList" :key="i">
-									{{item.object_en}}
+									<block v-if="languageValue=='en-US'">{{item.object_en}}</block>
+									<block v-if="languageValue=='zh-CN'">{{item.object_cn}}</block>
 								</view>
 							</view>
 							<!-- student age 编辑 -->
@@ -142,7 +143,8 @@
 								<view class="jobs-tags">
 									<view class="jobs-tags-item" :class=" selectStudentAgeList.findIndex((element)=>element.id===item.id) == -1 ? '' : 'tags-active' "
 									 v-for="(item,index) in editStudentAgeList" :key="item.id" @click="selectStudentAge(item,1)">
-										{{item.object_en}}
+										<block v-if="languageValue=='en-US'">{{item.object_en}}</block>
+										<block v-if="languageValue=='zh-CN'">{{item.object_cn}}</block>
 									</view>
 									<view class="jobs-tags-item" :class=" selectStudentAgeList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
 									 v-for="(item,index) in ownStudentAgeList" :key="index" @click="selectStudentAge(item,2)">
@@ -174,7 +176,8 @@
 								<!-- subject tags展示 -->
 								<view class="subject-b" v-if="canEditSubject===false">
 									<view class="subject-item" v-for="(item,i) in subjectList" :key="i">
-										{{item.object_en}}
+										<block v-if="languageValue=='en-US'">{{item.object_en}}</block>
+										<block v-if="languageValue=='zh-CN'">{{item.object_cn}}</block>
 									</view>
 								</view>
 								<!-- subject 编辑 -->
@@ -182,7 +185,8 @@
 									<view class="jobs-tags">
 										<view class="jobs-tags-item" :class=" selectSubjectList.findIndex((element)=>element.id===item.id) == -1 ? '' : 'tags-active' "
 										 v-for="(item,index) in editSubjectList" :key="item.id" @click="selectSubject(item,1)">
-											{{item.object_en}}
+											<block v-if="languageValue=='en-US'">{{item.object_en}}</block>
+											<block v-if="languageValue=='zh-CN'">{{item.object_cn}}</block>
 										</view>
 										<view class="jobs-tags-item" :class=" selectSubjectList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
 										 v-for="(item,index) in ownSubjectList" :key="index" @click="selectSubject(item,2)">
@@ -222,7 +226,8 @@
 							<!-- benefits tags展示 -->
 							<view class="benefits-b" v-if="canEditBenefits===false">
 								<view class="benefits-item" v-for="(item,i) in benefitsList" :key="i">
-									{{item.object_en}}
+									<block v-if="languageValue=='en-US'">{{item.object_en}}</block>
+									<block v-if="languageValue=='zh-CN'">{{item.object_cn}}</block>
 								</view>
 							</view>
 							<!-- benefits 编辑 -->
@@ -230,7 +235,8 @@
 								<view class="jobs-tags">
 									<view class="jobs-tags-item" :class=" selectBenefitsList.findIndex((element)=>element.id===item.id) == -1 ? '' : 'tags-active' "
 									 v-for="(item,index) in editBenefitsList" :key="item.id" @click="selectBenefits(item,1)">
-										{{item.object_en}}
+										<block v-if="languageValue=='en-US'">{{item.object_en}}</block>
+										<block v-if="languageValue=='zh-CN'">{{item.object_cn}}</block>
 									</view>
 									<view class="jobs-tags-item" :class=" selectBenefitsList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
 									 v-for="(item,index) in ownBenefitsList" :key="index" @click="selectBenefits(item,2)">
@@ -265,7 +271,8 @@
 							<!-- job type tags展示 -->
 							<view class="job-type-b" v-if="canEditJobType===false">
 								<view class="job-type-item" v-for="(item,i) in jobTypeList" :key="i">
-									{{item.object_en}}
+									<block v-if="languageValue=='en-US'">{{item.object_en}}</block>
+									<block v-if="languageValue=='zh-CN'">{{item.object_cn}}</block>
 								</view>
 							</view>
 							<!-- job type 编辑 -->
@@ -273,7 +280,8 @@
 								<view class="jobs-tags">
 									<view class="jobs-tags-item" :class=" selectJobTypeList.findIndex((element)=>element.id===item.id) == -1 ? '' : 'tags-active' "
 									 v-for="(item,index) in editJobTypeList" :key="item.id" @click="selectJobType(item,1)">
-										{{item.object_en}}
+										<block v-if="languageValue=='en-US'">{{item.object_en}}</block>
+										<block v-if="languageValue=='zh-CN'">{{item.object_cn}}</block>
 									</view>
 									<view class="jobs-tags-item" :class=" selectJobTypeList.findIndex((element)=>element===item) == -1 ? '' : 'tags-active' "
 									 v-for="(item,index) in ownJobTypeList" :key="index" @click="selectJobType(item,2)">
@@ -420,7 +428,8 @@
 						</view>
 						<view class="languages-container">
 							<view class="languages-item" v-for="(language,i) in languagesList" :key="i">
-								{{language.object_en}}
+								<block v-if="languageValue=='en-US'">{{language.object_en}}</block>
+								<block v-if="languageValue=='zh-CN'">{{language.object_cn}}</block>
 								<u-rate :disabled="true" custom-prefix="custom-icon" active-icon="xll-yuan" inactive-icon="circleo"
 								 active-color="#b1c452" v-model="language.object_score" :count="language.object_score"></u-rate>
 							</view>
@@ -431,7 +440,7 @@
 		</view>
 		
 		<view class="gohome">
-			<button type="default" @click="turnHomepage()">Back to homepage</button>
+			<button type="default" @click="turnHomepage()">{{i18n.profilegohome}}</button>
 		</view>
 	</view>
 </template>
@@ -471,7 +480,7 @@
 				}, {
 					name: 'Media'
 				}],
-				items: ['Business', 'Media', 'You'],
+				items: [this.$t('index').businessprofileitemsone, this.$t('index').businessprofileitemstwo, this.$t('index').businessprofileitemsthree],
 				current: 0,
 				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_26.png',
 				introVideoSrc: '',
@@ -545,6 +554,10 @@
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			languageValue(){
+				let language = uni.getStorageSync('language');
+				return language ?? 'en-US';
 			}
 		},
 		onLoad(option) {
