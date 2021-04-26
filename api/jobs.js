@@ -135,6 +135,14 @@ function wapPay(data){
 	})
 }
 
+function refreshJobs(data){
+	return request({
+		method:"POST",
+		url:'job/refreshJobs',
+		data:data
+	})
+}
+
 export default {
 	add,
 	addProfile,
@@ -152,5 +160,6 @@ export default {
 	changeJobs,
 	jobViews,
 	miniAppPay,
-	wapPay
+	wapPay,
+	refreshJobs
 }

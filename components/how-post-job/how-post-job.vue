@@ -52,11 +52,11 @@
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 					
-					if(currentPagePath.route == 'pages/login/index'){
+					if(currentPagePath.route == 'pagesC/login/index'){
 						return;
 					}
 					return uni.navigateTo({
-						url: '/pages/login/index?redirect='+ encodeURIComponent(currentPagePath.route)
+						url: '/pagesC/login/index?redirect='+ encodeURIComponent(currentPagePath.route)
 					})
 				}
 				// #endif
@@ -72,11 +72,11 @@
 						// this.profilePercentValue = res.message.is_business;
 						if (percentValue < 50) {
 							uni.reLaunch({
-								url: '/pages/me/business/prompt'
+								url: '/pagesB/me/business/prompt'
 							})
 						} else {
 							uni.navigateTo({
-								url: '/pages/jobs/jobs?jobmd5=' + this.$u.guid(32)
+								url: '/pagesA/jobs/jobs?jobmd5=' + this.$u.guid(32)
 							})
 						}
 
@@ -97,11 +97,11 @@
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 					
-					if(currentPagePath.route == 'pages/login/index'){
+					if(currentPagePath.route == 'pagesC/login/index'){
 						return;
 					}
 					return uni.navigateTo({
-						url: '/pages/login/index?redirect='+encodeURIComponent(currentPagePath.route)
+						url: '/pagesC/login/index?redirect='+encodeURIComponent(currentPagePath.route)
 					})
 				}
 				// #endif
@@ -116,11 +116,11 @@
 						// this.profilePercentValue = res.message.is_business;
 						if (percentValue < 50) {
 							uni.reLaunch({
-								url: '/pages/me/business/prompt'
+								url: '/pagesB/me/business/prompt'
 							})
 						} else {
 							uni.navigateTo({
-								url: '/pages/jobs/multi/index'
+								url: '/pagesA/jobs/multi/index'
 							})
 						}
 

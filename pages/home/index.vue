@@ -110,10 +110,6 @@
 					<image src="/static/esl/discount.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homediscountcard}}</text>
 				</view>
-				<!-- <view class="index-box-item" @click="showDiscountStatus=true">
-					<image src="/static/esl/discount.png" class="image" mode="aspectFit" /> 
-					<text class="text">{{i18n.homediscountcard}}</text>
-				</view> -->
 				<view class="index-box-item" @click="turnMyProfile">
 					<image src="/static/esl/profile.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homeeditprofile}}</text>
@@ -141,47 +137,36 @@
 				<!-- #endif -->
 			</view>
 
-			<view class="index-box-box" v-if="identity == 0 || !identity">
-				<!-- #ifdef H5 -->
-				<view class="index-box-item" @click="searchJobs">
-					<image src="/static/esl/search-jobs.png" class="image" mode="aspectFit" />
-					<text class="text">{{i18n.homesearchjobs}}</text>
+			<view class="index-box-box" v-if="!identity">
+				<view class="index-box-item-guset" @click="openIdentity(1)">
+					<image src="/static/home/home-edu.png"  mode="widthFix" />
 				</view>
-				<!-- #endif -->
+				<view class="index-box-item-guset" @click="openIdentity(3)">
+					<image src="/static/home/home-vendor.png"  mode="widthFix" />
+				</view>
+				<view class="index-box-item-guset" @click="openIdentity(2)">
+					<image src="/static/home/home-busi.png"  mode="widthFix" />
+				</view>
+				<view class="index-box-item-guset" @click="showDiscountStatus=true">
+					<image src="/static/home/home-discount.png"  mode="widthFix" />
+				</view>
 				<!-- #ifdef MP-WEIXIN -->
-				<view class="index-box-item" @click="searchEvents()">
-					<image src="/static/esl/search-jobs.png" class="image" mode="aspectFit" />
-					<text class="text">{{i18n.homeevents}}</text>
-				</view>
+				<button class="index-box-item-button-guest" type="default" open-type="contact" show-message-card="true">
+					<image src="/static/home/home-contact.png"  mode="widthFix" />
+				</button>
+				<button class="index-box-item-button-guest" type="default" open-type="contact" show-message-card="true">
+					<image src="/static/home/home-ads.png"  mode="widthFix" />
+				</button>
 				<!-- #endif -->
-				<view class="index-box-item" @click="turnDeals">
-					<image src="/static/esl/deals.png" class="image" mode="aspectFit" />
-					<text class="text">{{i18n.homedeals}}</text>
-				</view>
-				<view class="index-box-item" @click="showContactStatus=true">
-					<image src="/static/esl/help.png" class="image" mode="aspectFit" />
-					<text class="text">{{i18n.homehelp}}</text>
-				</view>
 				<!-- #ifdef H5 -->
-				<view class="index-box-item" @click="openIdentity(2)">
-					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" />
-					<text class="text">{{i18n.homepostjobs}}</text>
+				<view class="index-box-item-guset" @click="showContactStatus=true">
+					<image src="/static/home/home-contact.png"  mode="widthFix" />
+				</view>
+				<view class="index-box-item-guset" @click="showContactStatus=true">
+					<image src="/static/home/home-ads.png"  mode="widthFix" />
 				</view>
 				<!-- #endif -->
-				<!-- #ifdef MP-WEIXIN -->
-				<view class="index-box-item" @click="miniLogin">
-					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" />
-					<text class="text">{{i18n.homeLogin}}</text>
-				</view>
-				<!-- #endif -->
-				<view class="index-box-item" @click="openIdentity(3)">
-					<image src="/static/esl/deals.png" class="image" mode="aspectFit" />
-					<text class="text">{{i18n.homecreatedeal}}</text>
-				</view>
-				<view class="index-box-item" @click="showDiscountStatus=true">
-					<image src="/static/esl/discount.png" class="image" mode="aspectFit" />
-					<text class="text">{{i18n.homediscountcard}}</text>
-				</view>
+				
 			</view>
 		</view>
 
@@ -477,6 +462,14 @@
 			i18n() {
 				return this.$t('index')
 			},
+			hasLoginStatus(){
+				let token = uni.getStorageSync('token');
+				if(token){
+					return true;
+				}else{
+					return false;
+				}
+			},
 			// #ifdef H5
 			isWechat() {
 				return this.$isWechat()
@@ -698,11 +691,11 @@
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
-					if (currentPagePath.route == 'pages/login/index') {
+					if (currentPagePath.route == 'pagesC/login/index') {
 						return;
 					}
 					return uni.navigateTo({
-						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+						url: '/pagesC/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
 					})
 				}
 				// #endif
@@ -715,13 +708,13 @@
 					// #ifdef H5
 					var url = window.location.href;
 					var origin = window.location.origin;
-					let turn_url = origin + '/esl_h5/pages/me/deals/detail?id=' + id;
+					let turn_url = origin + '/esl_h5/pagesB/me/deals/detail?id=' + id;
 					window.location.href = turn_url;
 					// #endif
 
 					// #ifndef H5
 					uni.navigateTo({
-						url: '/pages/me/deals/detail?id=' + id
+						url: '/pagesB/me/deals/detail?id=' + id
 					})
 					// #endif
 				}
@@ -737,11 +730,11 @@
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
-					if (currentPagePath.route == 'pages/login/index') {
+					if (currentPagePath.route == 'pagesC/login/index') {
 						return;
 					}
 					return uni.navigateTo({
-						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+						url: '/pagesC/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
 					})
 				}
 				// #endif
@@ -750,12 +743,12 @@
 					// #ifdef H5
 					var url = window.location.href;
 					var origin = window.location.origin;
-					let turn_url = origin + '/esl_h5/pages/me/educator/home';
+					let turn_url = origin + '/esl_h5/pagesB/me/educator/home';
 					window.location.href = turn_url;
 					// #endif
 					// #ifndef H5
 					uni.navigateTo({
-						url: '/pages/me/educator/home'
+						url: '/pagesB/me/educator/home'
 					})
 					// #endif
 
@@ -764,12 +757,12 @@
 					// #ifdef H5
 					var url = window.location.href;
 					var origin = window.location.origin;
-					let turn_url = origin + '/esl_h5/pages/me/business/home';
+					let turn_url = origin + '/esl_h5/pagesB/me/business/home';
 					window.location.href = turn_url;
 					// #endif
 					// #ifndef H5
 					uni.navigateTo({
-						url: '/pages/me/business/home'
+						url: '/pagesB/me/business/home'
 					})
 					// #endif
 
@@ -778,12 +771,12 @@
 					// #ifdef H5
 					var url = window.location.href;
 					var origin = window.location.origin;
-					let turn_url = origin + '/esl_h5/pages/me/vendor/home';
+					let turn_url = origin + '/esl_h5/pagesB/me/vendor/home';
 					window.location.href = turn_url;
 					// #endif
 					// #ifndef H5
 					uni.navigateTo({
-						url: '/pages/me/vendor/home'
+						url: '/pagesB/me/vendor/home'
 					})
 					// #endif
 
@@ -807,11 +800,11 @@
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
-					if (currentPagePath.route == 'pages/login/index') {
+					if (currentPagePath.route == 'pagesC/login/index') {
 						return;
 					}
 					return uni.navigateTo({
-						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+						url: '/pagesC/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
 					})
 				}
 				// #endif
@@ -827,11 +820,11 @@
 						let vendorInfo = res.message.vendor_info;
 						if (vendorInfo.deals_count < vendorInfo.deals_num) {
 							uni.navigateTo({
-								url: '/pages/me/deals/add'
+								url: '/pagesB/me/deals/add'
 							})
 						} else {
 							uni.navigateTo({
-								url: '/pages/me/deals/index'
+								url: '/pagesB/me/deals/index'
 							})
 						}
 					}
@@ -847,11 +840,11 @@
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
-					if (currentPagePath.route == 'pages/login/index') {
+					if (currentPagePath.route == 'pagesC/login/index') {
 						return;
 					}
 					return uni.navigateTo({
-						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+						url: '/pagesC/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
 					})
 				}
 				// #endif
@@ -866,11 +859,11 @@
 						let vendorInfo = res.message.vendor_info;
 						if (vendorInfo.event_count < vendorInfo.events_num) {
 							uni.navigateTo({
-								url: '/pages/me/events/add'
+								url: '/pagesB/me/events/add'
 							})
 						} else {
 							uni.navigateTo({
-								url: '/pages/me/events/index'
+								url: '/pagesB/me/events/index'
 							})
 						}
 					}
@@ -956,11 +949,11 @@
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
-					if (currentPagePath.route == 'pages/login/index') {
+					if (currentPagePath.route == 'pagesC/login/index') {
 						return;
 					}
 					return uni.navigateTo({
-						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+						url: '/pagesC/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
 					})
 				}
 				// #endif
@@ -972,12 +965,12 @@
 					// #ifdef H5
 					var url = window.location.href;
 					var origin = window.location.origin;
-					let turn_url = origin + '/esl_h5/pages/jobs/details?id=' + id;
+					let turn_url = origin + '/esl_h5/pagesA/jobs/details?id=' + id;
 					window.location.href = turn_url;
 					// #endif
 					// #ifndef H5
 					uni.navigateTo({
-						url: '/pages/jobs/details?id=' + id
+						url: '/pagesA/jobs/details?id=' + id
 					})
 					// #endif
 				}
@@ -989,11 +982,11 @@
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
-					if (currentPagePath.route == 'pages/login/index') {
+					if (currentPagePath.route == 'pagesC/login/index') {
 						return;
 					}
 					return uni.navigateTo({
-						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+						url: '/pagesC/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
 					})
 				}
 				// #endif
@@ -1057,11 +1050,11 @@
 					// 	var pages = getCurrentPages(); // 当前页面
 					// 	var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
-					// 	if (currentPagePath.route == 'pages/login/index') {
+					// 	if (currentPagePath.route == 'pagesC/login/index') {
 					// 		return;
 					// 	}
 					// 	return uni.navigateTo({
-					// 		url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+					// 		url: '/pagesC/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
 					// 	})
 					// }
 					// // #endif
@@ -1082,11 +1075,11 @@
 						var pages = getCurrentPages(); // 当前页面
 						var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
-						if (currentPagePath.route == 'pages/login/index') {
+						if (currentPagePath.route == 'pagesC/login/index') {
 							return;
 						}
 						return uni.navigateTo({
-							url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+							url: '/pagesC/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
 						})
 					}
 					// #endif
@@ -1094,7 +1087,7 @@
 
 					if (identity && identity > 0) {
 						uni.navigateTo({
-							url: '/pages/me/upgrade'
+							url: '/pagesB/me/upgrade'
 						})
 					}
 				}
@@ -1106,11 +1099,11 @@
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 
-					if (currentPagePath.route == 'pages/login/index') {
+					if (currentPagePath.route == 'pagesC/login/index') {
 						return;
 					}
 					return uni.navigateTo({
-						url: '/pages/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
+						url: '/pagesC/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
 					})
 				} else {
 					this.rolePopupStatus = true;
@@ -1122,7 +1115,7 @@
 				if (link != '') {
 					// #ifdef MP-WEIXIN
 					uni.navigateTo({
-						url: '/pages/webview/webview?url=' + link
+						url: '/pagesD/webview/webview?url=' + link
 					})
 					// #endif
 					// #ifdef H5

@@ -474,13 +474,13 @@
 				// #ifdef H5
 				var url = window.location.href;
 				var origin = window.location.origin;
-				let turn_url = origin + '/esl_h5/pages/me/events/detail?id=' + id;
+				let turn_url = origin + '/esl_h5/pagesB/me/events/detail?id=' + id;
 				window.location.href = turn_url;
 				// #endif
 
 				// #ifndef H5
 				uni.navigateTo({
-					url: '/pages/me/events/detail?id=' + id
+					url: '/pagesB/me/events/detail?id=' + id
 				})
 				// #endif
 			},
@@ -488,12 +488,12 @@
 				// #ifdef H5
 				var url = window.location.href;
 				var origin = window.location.origin;
-				let turn_url = origin + '/esl_h5/pages/me/deals/detail?id=' + id;
+				let turn_url = origin + '/esl_h5/pagesB/me/deals/detail?id=' + id;
 				window.location.href = turn_url;
 				// #endif
 				// #ifndef H5
 				uni.navigateTo({
-					url: '/pages/me/deals/detail?id=' + id
+					url: '/pagesB/me/deals/detail?id=' + id
 				})
 				// #endif
 			},

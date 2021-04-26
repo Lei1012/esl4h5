@@ -444,18 +444,18 @@
 						// #ifdef H5
 						var url = window.location.href;
 						var origin = window.location.origin;
-						let turn_url = origin + '/esl_h5/pages/me/educator/home';
+						let turn_url = origin + '/esl_h5/pagesB/me/educator/home';
 						window.location.href = turn_url;
 						// #endif
 						// #ifndef H5
 						uni.navigateTo({
-							url: '/pages/me/educator/home'
+							url: '/pagesB/me/educator/home'
 						})
 						// #endif
 
 					} else {
 						uni.navigateTo({
-							url: '/pages/role/educator'
+							url: '/pagesC/role/educator'
 						})
 					}
 
@@ -465,18 +465,18 @@
 						// #ifdef H5
 						var url = window.location.href;
 						var origin = window.location.origin;
-						let turn_url = origin + '/esl_h5/pages/me/business/home';
+						let turn_url = origin + '/esl_h5/pagesB/me/business/home';
 						window.location.href = turn_url;
 						// #endif
 						// #ifndef H5
 						uni.navigateTo({
-							url: '/pages/me/business/home'
+							url: '/pagesB/me/business/home'
 						})
 						// #endif
 
 					} else {
 						uni.navigateTo({
-							url: '/pages/role/business'
+							url: '/pagesC/role/business'
 						})
 					}
 
@@ -486,18 +486,18 @@
 						// #ifdef H5
 						var url = window.location.href;
 						var origin = window.location.origin;
-						let turn_url = origin + '/esl_h5/pages/me/vendor/home';
+						let turn_url = origin + '/esl_h5/pagesB/me/vendor/home';
 						window.location.href = turn_url;
 						// #endif
 						// #ifndef H5
 						uni.navigateTo({
-							url: '/pages/me/vendor/home'
+							url: '/pagesB/me/vendor/home'
 						})
 						// #endif
 
 					} else {
 						uni.navigateTo({
-							url: '/pages/role/vendor'
+							url: '/pagesC/role/vendor'
 						})
 					}
 
@@ -506,40 +506,40 @@
 			},
 			turnAccountInfo: function() {
 				uni.navigateTo({
-					url: '/pages/me/accountInfo/index'
+					url: '/pagesB/me/accountInfo/index'
 				})
 			},
 			turnMyJobs(identity) {
 				if (identity == 2) {
 					uni.navigateTo({
-						url: '/pages/jobs/index'
+						url: '/pagesA/jobs/index'
 					})
 				}
 				if (identity == 1) {
 					uni.navigateTo({
-						url: '/pages/jobs/apply/index'
+						url: '/pagesA/jobs/apply/index'
 					})
 				}
 			},
 			turnMyDeals() {
 				uni.navigateTo({
-					url: '/pages/me/deals/index'
+					url: '/pagesB/me/deals/index'
 				})
 			},
 			turnMyEvents() {
 				uni.navigateTo({
-					url: '/pages/me/events/index'
+					url: '/pagesB/me/events/index'
 				})
 			},
 			upgradeLevel() {
 				uni.navigateTo({
-					url: '/pages/me/upgrade'
+					url: '/pagesB/me/upgrade'
 				})
 
 			},
 			miniLogin() {
 				uni.navigateTo({
-					url: '/pages/login/index'
+					url: '/pagesC/login/index'
 				})
 			},
 			logout(){

@@ -62,7 +62,7 @@ Vue.prototype.$multiImportJobUrl = "https://api.esl-passport.cn/api/job/import"
 // #ifdef H5-DEV
 console.log('h5-dev')
 Vue.prototype.$appid = 'wx5e5b70000c31e992'
-Vue.prototype.$redirect_uri = 'https://test.esl-passport.cn/esl_h5/pages/login/index'
+Vue.prototype.$redirect_uri = 'https://test.esl-passport.cn/esl_h5/pagesC/login/index'
 Vue.prototype.$response_type = 'code'
 Vue.prototype.$scope = 'snsapi_userinfo'
 Vue.prototype.$state = 'esl001'

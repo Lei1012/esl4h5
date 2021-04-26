@@ -92,11 +92,11 @@
 					var pages = getCurrentPages(); // 当前页面
 					var currentPagePath = pages[pages.length - 1]; // 前一个页面
 					
-					if (currentPagePath.route == 'pages/login/index') {
+					if (currentPagePath.route == 'pagesC/login/index') {
 						return;
 					}
 					return uni.navigateTo({
-						url: '/pages/login/index?redirect='+ encodeURIComponent(currentPagePath.route) 
+						url: '/pagesC/login/index?redirect='+ encodeURIComponent(currentPagePath.route) 
 					})
 				} else {
 					let data = {
@@ -119,7 +119,7 @@
 									this.changeIdentityApi(1)
 								} else {
 									uni.navigateTo({
-										url: '/pages/role/educator'
+										url: '/pagesC/role/educator'
 									})
 								}
 
@@ -129,7 +129,7 @@
 									this.changeIdentityApi(2)
 								} else {
 									uni.navigateTo({
-										url: '/pages/role/business'
+										url: '/pagesC/role/business'
 									})
 								}
 
@@ -139,7 +139,7 @@
 									this.changeIdentityApi(3)
 								} else {
 									uni.navigateTo({
-										url: '/pages/role/vendor'
+										url: '/pagesC/role/vendor'
 									})
 								}
 
