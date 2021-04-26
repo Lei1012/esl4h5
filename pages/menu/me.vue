@@ -6,7 +6,7 @@
 			</view>
 			<view class="me-header-nologin-info-r" v-if="showLoginBtnStatus">
 				<view class="login-btn u-skeleton-rect">
-					<button type="default" @click="miniLogin">Login</button>
+					<button type="default" @click="miniLogin">{{i18n.melogin}}</button>
 				</view>
 			</view>
 			<view class="me-header-info-r" v-if="!showLoginBtnStatus">

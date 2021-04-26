@@ -151,7 +151,7 @@
 				<!-- #ifdef MP-WEIXIN -->
 				<view class="index-box-item" @click="searchEvents()">
 					<image src="/static/esl/search-jobs.png" class="image" mode="aspectFit" />
-					<text class="text">Events</text>
+					<text class="text">{{i18n.homeevents}}</text>
 				</view>
 				<!-- #endif -->
 				<view class="index-box-item" @click="turnDeals">
@@ -171,7 +171,7 @@
 				<!-- #ifdef MP-WEIXIN -->
 				<view class="index-box-item" @click="miniLogin">
 					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" />
-					<text class="text">Login</text>
+					<text class="text">{{i18n.homeLogin}}</text>
 				</view>
 				<!-- #endif -->
 				<view class="index-box-item" @click="openIdentity(3)">

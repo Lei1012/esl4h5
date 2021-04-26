@@ -3,10 +3,10 @@
 		<!-- #ifdef MP-WEIXIN -->
 		<view class="logo">
 			<image src="@/static/esl-logo.png" mode="aspectFill"></image><br>
-			<text>Mini Program </text>
+			<text>{{i18n.loginminiprogram}} </text>
 		</view>
 		<view class="login-btn">
-			<button @click="login()" type="default">Enter</button>
+			<button @click="login()" type="default">{{i18n.loginenter}}</button>
 		</view>
 		<!-- #endif -->
 
@@ -51,7 +51,7 @@
 				<view class="wechat-h5login" v-if="isWechat">
 					<button type="default" @click="loginWeixin()">
 						<uni-icons type="weixin" size="24" color="#ffffff"></uni-icons>
-						<text>WeChat login</text>
+						<text>{{i18n.loginwechatlogin}}</text>
 					</button>
 				</view>
 				<!-- <view v-if="isWechat" class="wechat-phone-login" @click="h5loginInWechat()">

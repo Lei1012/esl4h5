@@ -40,10 +40,10 @@
 			<view class="flex-item jobs-title">
 				{{jobValue.job_title}}
 			</view>
-			<view class="flex-item jobs-location" v-if="jobValue.province && jobValue.city && jobValue.district && language=='en-US' ">
+			<view class="flex-item jobs-location" v-if="jobValue.province && jobValue.city && jobValue.district && languageValue=='en-US' ">
 				{{jobValue.districts.Pinyin}}, {{jobValue.citys.Pinyin}}, {{i18n.China}}
 			</view>
-			<view class="flex-item jobs-location" v-if="jobValue.province && jobValue.city && jobValue.district && language=='zh-CN' ">
+			<view class="flex-item jobs-location" v-if="jobValue.province && jobValue.city && jobValue.district && languageValue=='zh-CN' ">
 				{{jobValue.districts.ShortName}}, {{jobValue.citys.ShortName}}, {{i18n.China}}
 			</view>
 			<view class="flex-item job-xll-tags">
@@ -93,7 +93,8 @@
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
 						<view class="jobs-tags-item" v-for="(ageToTeach,index) in jobValue.age_to_teach" :key="index">
-							{{ageToTeach.object_en}}
+							<block v-if="languageValue=='en-US'">{{ageToTeach.object_en}}</block>
+							<block v-if="languageValue=='zh-CN'">{{ageToTeach.object_cn}}</block>
 						</view>
 					</view>
 				</view>
@@ -104,7 +105,8 @@
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
 						<view class="jobs-tags-item" v-for="(subject,index) in jobValue.subject" :key="index">
-							{{subject.object_en}}
+							<block v-if="languageValue=='en-US'">{{subject.object_en}}</block>
+							<block v-if="languageValue=='zh-CN'">{{subject.object_cn}}</block>
 						</view>
 					</view>
 				</view>
@@ -146,7 +148,8 @@
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
 						<view class="jobs-tags-item" v-for="(benefit,index) in jobValue.benefits" :key="index">
-							{{benefit.object_en}}
+							<block v-if="languageValue=='en-US'">{{benefit.object_en}}</block>
+							<block v-if="languageValue=='zh-CN'">{{benefit.object_cn}}</block>
 						</view>
 					</view>
 				</view>
@@ -155,12 +158,11 @@
 
 		<view class="flex-item applicant-requirements">
 			<view class="applicant-requirements-title">{{i18n.jobsapplicantrequirements}}</view>
-			<view class="gender" v-if="jobValue.sex != 0">
+			<view class="gender" v-if="jobValue.sex != 3 && jobValue.sex">
 				<view class="gender-1">{{i18n.jobsgender}}</view>
 				<view class="gender-2">
 					<text v-if="jobValue.sex==1">Male</text>
 					<text v-if="jobValue.sex==2">Female</text>
-					<text v-if="jobValue.sex==3">Both</text>
 				</view>
 			</view>
 			<view class="teaching-certificate" v-if="jobValue.Teaching_certificate">
@@ -168,7 +170,8 @@
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
 						<view class="jobs-tags-item" v-for="(item,index) in jobValue.Teaching_certificate" :key="index">
-							{{item.object_en}}
+							<block v-if="languageValue=='en-US'">{{item.object_en}}</block>
+							<block v-if="languageValue=='zh-CN'">{{item.object_cn}}</block>
 						</view>
 					</view>
 				</view>
@@ -231,7 +234,8 @@
 				<view class="jobs-tags-container">
 					<view class="jobs-tags">
 						<view class="jobs-tags-item" v-for="(item,index) in jobValue.languages" :key="index">
-							{{item.object_en}}
+							<block v-if="languageValue=='en-US'">{{item.object_en}}</block>
+							<block v-if="languageValue=='zh-CN'">{{item.object_cn}}</block>
 						</view>
 					</view>
 				</view>
@@ -337,6 +341,10 @@
 		computed: {
 			i18n() {
 				return this.$t('index')
+			},
+			languageValue(){
+				let language = uni.getStorageSync('language');
+				return language ? language : 'en-US';
 			}
 		},
 		onShow() {

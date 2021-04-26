@@ -747,6 +747,15 @@ const Chinese = {
 	singlepostjob:"发布工作",
 	multipostjob:"批量发布",
 	
+	homeLogin:"登录",
+	homeevents:"活动",
+	melogin:"登录",
+	loginminiprogram:"微信小程序",
+	loginenter:"进入",
+	loginwechatlogin:"微信授权登录",
+	bindphonetips:"您第一次进入我们的微信小程序，请您先绑定您的手机号，方便您更好的使用",
+	bindphonebindphone:"绑定手机号",
+	
 }
 
 const English = {
@@ -1504,6 +1513,15 @@ const English = {
 	
 	singlepostjob:"Single Post",
 	multipostjob:"Multiple Post",
+	
+	homeLogin:"Login",
+	homeevents:"Events",
+	melogin:"Login",
+	loginminiprogram:"Mini Program",
+	loginenter:"Enter",
+	loginwechatlogin:"WeChat login",
+	bindphonetips:"Before officially entering our mini program, please bind your phone number first",
+	bindphonebindphone:"Bind Phone",
 	
 }
 

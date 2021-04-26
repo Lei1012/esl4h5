@@ -25,10 +25,10 @@
 
 			<!-- #ifdef MP-WEIXIN -->
 			<view class="mini-main">
-				Before officially entering our mini program, please bind your phone number first
+				{{i18n.bindphonetips}}
 			</view>
 			<view class="mini-button">
-				<button type="default" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">Bind Phone</button>
+				<button type="default" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">{{i18n.bindphonebindphone}}</button>
 			</view>
 			<!-- #endif -->
 
@@ -245,7 +245,7 @@
 													setTimeout(function() {
 														uni.hideLoading();
 														uni.reLaunch({
-															url: '/pages/menu/me'
+															url: '/pages/home/index'
 														})
 													}, 1200)
 
