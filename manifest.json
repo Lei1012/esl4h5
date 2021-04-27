@@ -98,7 +98,7 @@
 	},
 	/* 小程序特有相关 */
 	"mp-weixin": {
-		"appid": "wxb6ec34986ee580f4",
+		"appid": "wx551b49b731cfb57f",
 		"setting": {
 			"urlCheck": false,
 			"es6": true,
@@ -113,9 +113,6 @@
 			"scope.userLocation": {
 				"desc": "演示定位能力"
 			}
-		},
-		"optimization": {
-			"subPackages": true
 		}
 	},
 	"mp-alipay": {
@@ -146,8 +143,25 @@
 		},
 		"title": "ESL Passport",
 		"devServer": {
-			"https": false,
-			"disableHostCheck": true
+			"disableHostCheck": true,
+			"proxy": {
+				"/ossimage": {
+					"target": "https://oss.esl-passport.cn",
+					"changeOrigin": true, //是否跨域
+					"secure": true, // 设置支持https协议的代理
+					"pathRewrite": {
+						"^/ossimage": "/"
+					}
+				},
+				"/osstestimage": {
+					"target": "https://osstest.esl-passport.cn",
+					"changeOrigin": true, //是否跨域
+					"secure": true, // 设置支持https协议的代理
+					"pathRewrite": {
+						"^/osstestimage": "/"
+					}
+				}
+			}
 		},
 		"domain": "esl-passport.cn",
 		"optimization": {

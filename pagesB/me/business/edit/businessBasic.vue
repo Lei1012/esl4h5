@@ -52,7 +52,6 @@
 <script>
 	import tkiTree from "@/components/tki-tree/tki-tree.vue";
 	import profile from "@/api/profile.js";
-	import formCheck from '@/common/formChecker.js';
 
 	export default {
 		data() {

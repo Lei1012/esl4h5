@@ -22,15 +22,14 @@
 						</view>
 					</view>
 					<view class="top-b-r">
-						<view class="top-b-r-collect">
-							<!-- <image src="@/static/esl/collect.png" mode="scaleToFill"></image> -->
+						<view class="top-b-r-collect" @click="shareFc()">
+							<u-icon name="share" color="#ffffff" size="48rpx"></u-icon>
 						</view>
 						<!-- #ifdef H5 -->
 						<view class="top-b-r-share" @click="shareYourJob">
 							<image src="/pagesA/static/share-w.png" mode="scaleToFill"></image>
 						</view>
 						<!-- #endif -->
-
 					</view>
 				</view>
 			</view>
@@ -40,10 +39,12 @@
 			<view class="flex-item jobs-title">
 				{{jobValue.job_title}}
 			</view>
-			<view class="flex-item jobs-location" v-if="jobValue.province && jobValue.city && jobValue.district && languageValue=='en-US' ">
+			<view class="flex-item jobs-location"
+				v-if="jobValue.province && jobValue.city && jobValue.district && languageValue=='en-US' ">
 				{{jobValue.districts.Pinyin}}, {{jobValue.citys.Pinyin}}, {{i18n.China}}
 			</view>
-			<view class="flex-item jobs-location" v-if="jobValue.province && jobValue.city && jobValue.district && languageValue=='zh-CN' ">
+			<view class="flex-item jobs-location"
+				v-if="jobValue.province && jobValue.city && jobValue.district && languageValue=='zh-CN' ">
 				{{jobValue.districts.ShortName}}, {{jobValue.citys.ShortName}}, {{i18n.China}}
 			</view>
 			<view class="flex-item job-xll-tags">
@@ -254,12 +255,13 @@
 			<view class="contact-person-info-title">{{i18n.jobscontactpersoninfo}}</view>
 			<view class="contact" v-if="canSeeContact">
 				<view class="contact-l">
-					<image :src="businessUserInfo.profile_photo ? businessUserInfo.profile_photo : 'https://oss.esl-passport.cn/educator.png' "
+					<image
+						:src="businessUserInfo.profile_photo ? businessUserInfo.profile_photo : 'https://oss.esl-passport.cn/educator.png' "
 						mode="aspectFill"></image>
 				</view>
 				<view class="contact-r">
 					<view class="contact-name"> <b>{{i18n.jobsposthione}} {{businessUserInfo.first_name}}
-								{{businessUserInfo.last_name}}!</b></view>
+							{{businessUserInfo.last_name}}!</b></view>
 					<view class="contact-nationality">{{businessUserInfo.nationality}}</view>
 					<view class="contact-phone" v-if="businessUserInfo.contact_phone !='' ">
 						<view class="contact-copy-container-l">
@@ -300,11 +302,39 @@
 		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity"
 			@close="rolePopupStatus=false"></selectRolePopup>
 		<!-- 角色选择弹框 end -->
-
+		<!-- 图片展示由自己实现 -->
+		<QSPopup ref="popup">
+			<view class="flex_column">
+				<view class="backgroundColor-white padding1vh border_radius_10px">
+					<image :src="posterImage || ''" mode="widthFix" class="posterImage"></image>
+				</view>
+				<view class="flex_row marginTop2vh">
+					<!-- #ifdef H5 -->
+					<button type="primary" size="mini">{{i18n.sharefcchanganbaocun}}</button>
+					<!-- #endif -->
+					<!-- #ifndef H5 -->
+					<button type="primary" size="mini"
+						@tap.prevent.stop="saveImage()">{{i18n.sharefcsaveimage}}</button>
+					<!-- #endif -->
+					<!-- <button type="primary" size="mini" @tap.prevent.stop="share()">{{i18n.sharefcshareimage}}</button> -->
+				</view>
+			</view>
+		</QSPopup>
+		<!-- 画布 -->
+		<view class="hideCanvasView">
+			<canvas class="hideCanvas" id="default_PosterCanvasId" canvas-id="default_PosterCanvasId"
+				:style="{width: (poster.width||10) + 'px', height: (poster.height||10) + 'px'}"></canvas>
+		</view>
 	</view>
 </template>
 
 <script>
+	import QSPopup from '@/components/QS-popup/QS-popup.vue';
+	import _app from '@/js_sdk/QuShe-SharerPoster/QS-SharePoster/app.js';
+	import {
+		getSharePoster
+	} from '@/js_sdk/QuShe-SharerPoster/QS-SharePoster/QS-SharePoster.js';
+
 	import selectRolePopup from '@/components/select-role-popup/select-role-popup.vue'
 	import profile from '@/api/profile.js';
 	import jobs from '@/api/jobs.js';
@@ -314,7 +344,8 @@
 	export default {
 		components: {
 			contactus,
-			selectRolePopup
+			selectRolePopup,
+			QSPopup
 		},
 		data() {
 			return {
@@ -325,16 +356,20 @@
 				showContactStatus: false,
 				businessLogo: '',
 				businessUserInfo: '',
-				
+
 				rolePopupStatus: false, // 角色选择弹框
 				selectRoleValue: 0, //选择的角色值
 				selectRoleIdentity: 0,
-				
-				canSeeContact:true,
-				
-				companyBg:'',
-				companyLogo:'',
-				language:'en-US'
+
+				canSeeContact: true,
+
+				companyBg: '',
+				companyLogo: '',
+				language: 'en-US',
+
+				poster: {},
+				posterImage: '',
+				canvasId: 'default_PosterCanvasId'
 
 			}
 		},
@@ -342,7 +377,7 @@
 			i18n() {
 				return this.$t('index')
 			},
-			languageValue(){
+			languageValue() {
 				let language = uni.getStorageSync('language');
 				return language ? language : 'en-US';
 			}
@@ -352,31 +387,332 @@
 		},
 		onLoad(option) {
 			var that = this;
-			
+
 			this.identity = uni.getStorageSync('identity');
 			this.language = uni.getStorageSync('language');
-			if(option.id){
+			if (option.id) {
 				this.jobId = option.id;
 				this.getDetail(option.id);
 			}
-			
+
 			let token = uni.getStorageSync('token')
 			// #ifdef MP-WEIXIN
 			if (token == '') {
 				var pages = getCurrentPages(); // 当前页面
 				var currentPagePath = pages[pages.length - 1]; // 前一个页面
 				that.canSeeContact = false;
-				if(currentPagePath.route == 'pagesC/login/index'){
+				if (currentPagePath.route == 'pagesC/login/index') {
 					return;
 				}
 				return uni.navigateTo({
-					url: '/pagesC/login/index?redirect='+encodeURIComponent(currentPagePath.route)
+					url: '/pagesC/login/index?redirect=' + encodeURIComponent(currentPagePath.route)
 				})
 			}
 			// #endif
 
 		},
 		methods: {
+			async shareFc() {
+				let _this = this;
+				let qrcodeUrl = '';
+				// #ifdef H5
+				var url = window.location.href;
+				var origin = window.location.origin;
+				qrcodeUrl = origin + '/esl_h5/pagesA/jobs/details?id=' + _this.jobValue.id;
+				// #endif
+
+				// #ifdef MP-WEIXIN
+				qrcodeUrl = 'https://esl-passport.cn/esl_h5/pagesA/jobs/details?id=' + _this.jobValue.id;
+				// #endif
+				// #ifdef MP-WEIXIN-DEV
+				qrcodeUrl = 'https://test.esl-passport.cn/esl_h5/pagesA/jobs/details?id=' + _this.jobValue.id;
+				// #endif
+
+				let salary = _this.jobValue.currency + ' ' + _this.jobValue.salary_min + '-' + _this.jobValue
+					.salary_max
+				let employmentType = '';
+				if (_this.jobValue.employment_type == 1) {
+					employmentType = this.i18n.jobslistemploymentfulltime
+				}
+				if (_this.jobValue.employment_type == 2) {
+					employmentType = this.i18n.jobslistemploymentparttime
+				}
+				if (_this.jobValue.employment_type == 3) {
+					employmentType = this.i18n.jobslistemploymentseasonal
+				}
+
+				let shareTitle = _this.jobValue.job_title + '-' + employmentType;
+				let shareName = _this.businessUserInfo.first_name + ' ' + _this.businessUserInfo.last_name;
+				let sharePhone = _this.businessUserInfo.contact_phone;
+				let shareEmail = _this.businessUserInfo.work_email;
+
+				try {
+					this.count++;
+					_app.log('准备生成:' + new Date())
+					const d = await getSharePoster({
+						_this: _this, //若在组件中使用 必传
+						canvasType: '2d',
+						type: 'testShareType',
+						formData: {
+							//访问接口获取背景图携带自定义数据
+
+						},
+						posterCanvasId: _this.canvasId, //canvasId
+						delayTimeScale: 20, //延时系数
+						background: {
+							height: 10,
+							width: 10,
+							color:"#ffffff"
+						},
+						setCanvasWH({
+							bgObj
+						}) {
+							_this.poster = bgObj
+						},
+						drawArray({
+							bgObj,
+							type,
+							bgScale,
+							setBgObj,
+							getBgObj
+						}) {
+							return [{
+									type: 'image',
+									id: 'productImage',
+									url: _this.companyBg,
+									dx: 0,
+									dy: 0,
+									serialNum: 0,
+									infoCallBack(imageInfo) {
+										let width;
+										let height;
+										if (imageInfo.width > imageInfo.height) {
+											width = imageInfo.width > 700 ? 700 : imageInfo.width;
+											height = width / imageInfo.width * imageInfo.height;
+										} else {
+											height = imageInfo.height > 700 ? 700 : imageInfo.height;
+											width = height / imageInfo.height * imageInfo.width;
+										}
+										if (width < 500) {
+											width = 500;
+											height = width / imageInfo.width * imageInfo.height;
+										}
+										let addHeight;
+										// #ifdef H5
+										addHeight = 440;
+										// #endif
+										// #ifdef MP-WEIXIN
+										addHeight = 500;
+										// #endif
+										setBgObj({
+											width,
+											height: height + addHeight
+										});
+										return {
+											dWidth: width,
+											dHeight: height
+										}
+									}
+								},
+								{
+									type: 'text',
+									id: 'jobDesc',
+									text: _this.jobValue.desc,
+									color: '#000000',
+									serialNum: 1,
+									allInfoCallback({
+										drawArray
+									}) {
+										const productImage = drawArray.find(item => item.id ===
+											'productImage')
+										const addHeight = getBgObj().height - productImage.dHeight;
+										return {
+											size: getBgObj().width * 0.05,
+											lineFeed: {
+												maxWidth: getBgObj().width,
+												lineNum: 3
+											},
+											dx: getBgObj().width * .05,
+											dy: productImage.dHeight + addHeight * .15,
+										}
+									}
+								},
+								{
+									type: 'text',
+									text: shareTitle,
+									color: '#000000',
+									serialNum: 2,
+									allInfoCallback({
+										drawArray
+									}) {
+										const productImage = drawArray.find(item => item.id ===
+											'productImage')
+										const addHeight = getBgObj().height - productImage.dHeight;
+										return {
+											size: getBgObj().width * 0.06,
+											lineFeed: {
+												maxWidth: getBgObj().width * 0.9,
+												lineNum: 1
+											},
+											dx: getBgObj().width * .05,
+											dy: productImage.dHeight + addHeight * .4,
+										}
+									}
+								},
+								{
+									type: 'text',
+									text: salary,
+									serialNum: 3,
+									color: "#00b3d2",
+									id: 'salary',
+									allInfoCallback({
+										drawArray
+									}) {
+										const productImage = drawArray.find(item => item.id ===
+											'productImage')
+										const addHeight = getBgObj().height - productImage.dHeight;
+										return {
+											size: getBgObj().width * 0.05,
+											lineFeed: {
+												maxWidth: getBgObj().width * 0.5,
+												lineNum: 1
+											},
+											dx: getBgObj().width * .05,
+											dy: productImage.dHeight + addHeight * .65,
+										}
+									}
+								},
+								{
+									type: 'text',
+									text: shareName,
+									serialNum: 4,
+									allInfoCallback({
+										drawArray
+									}) {
+										const productImage = drawArray.find(item => item.id ===
+											'productImage')
+										const addHeight = getBgObj().height - productImage.dHeight;
+										return {
+											size: getBgObj().width * 0.05,
+											lineFeed: {
+												maxWidth: getBgObj().width * 0.5,
+												lineNum: 1
+											},
+											dx: getBgObj().width * .05,
+											dy: productImage.dHeight + addHeight * .75,
+										}
+									}
+								},
+								{
+									type: 'text',
+									text: shareEmail,
+									id: 'shareEmail',
+									serialNum: 5,
+									allInfoCallback({
+										drawArray
+									}) {
+										const productImage = drawArray.find(item => item.id ===
+											'productImage')
+										const addHeight = getBgObj().height - productImage.dHeight;
+										return {
+											size: getBgObj().width * 0.05,
+											lineFeed: {
+												maxWidth: getBgObj().width * 0.5,
+												lineNum: 1
+											},
+											dx: getBgObj().width * .05,
+											dy: productImage.dHeight + addHeight * .85,
+										}
+									}
+								},
+								{
+									type: 'text',
+									text: sharePhone,
+									serialNum: 6,
+									allInfoCallback({
+										drawArray
+									}) {
+										const productImage = drawArray.find(item => item.id ===
+											'productImage')
+										const text1 = drawArray.find(item => item.id === 'shareEmail')
+										const addHeight = getBgObj().height - productImage.dHeight;
+										return {
+											size: getBgObj().width * 0.05,
+											lineFeed: {
+												maxWidth: getBgObj().width * 0.5,
+												lineNum: 1
+											},
+											dx: getBgObj().width * .05,
+											dy: productImage.dHeight + addHeight * .95,
+										}
+									}
+								},
+								{
+									type: 'qrcode',
+									text: qrcodeUrl,
+									serialNum: 7,
+									allInfoCallback({
+										drawArray
+									}) {
+										const productImage = drawArray.find(item => item.id ===
+											'productImage')
+										const addHeight = getBgObj().height - productImage.dHeight;
+										const widthSize = getBgObj().width * .4;
+										const heightSize = addHeight;
+										const countSize = widthSize > heightSize ? heightSize : widthSize;
+										const size = countSize * .9;
+										return {
+											size: size,
+											dx: getBgObj().width - countSize * .95,
+											dy: getBgObj().height - countSize * .95
+										}
+									}
+								}
+							]
+						}
+					})
+					_app.log('海报生成成功, 时间:' + new Date() + '， 临时路径: ' + d.poster.tempFilePath)
+					this.posterImage = d.poster.tempFilePath;
+					this.$refs.popup.show()
+				} catch (e) {
+					_app.hideLoading();
+					_app.showToast(JSON.stringify(e));
+					console.log(JSON.stringify(e));
+				}
+			},
+			saveImage() {
+				// #ifndef H5
+				uni.saveImageToPhotosAlbum({
+					filePath: this.posterImage,
+					success(res) {
+						_app.showToast('保存成功');
+					}
+				})
+				// #endif
+				// #ifdef H5
+				uni.downloadFile({
+					url: this.posterImage, //仅为示例，并非真实的资源
+					success: (res) => {
+						console.log(res)
+						if (res.statusCode === 200) {
+							_app.showToast('保存成功');
+						}
+					}
+				});
+				// #endif
+			},
+			share() {
+				// #ifdef APP-PLUS
+				_app.getShare(false, false, 2, '', '', '', this.poster.finalPath, false, false);
+				// #endif
+
+				// #ifndef APP-PLUS
+				this.showWxShareStatus = true;
+				// #endif
+			},
+			hideQr() {
+				this.$refs.popup.hide()
+			},
 			copyEmail(email) {
 				uniCopy({
 					content: email,
@@ -438,21 +774,24 @@
 				jobs.detail(data).then(res => {
 					console.log(res);
 					if (res.code == 200) {
-						
+
 						let jobValue = res.message;
 						let businessInfo = res.message.business;
 						this.jobValue = res.message;
 						this.businessUserInfo = res.message.business;
-						
+
 						uni.setNavigationBarTitle({
 							title: res.message.job_title
 						})
-						
-						this.companyBg = businessInfo.header_photo ? businessInfo.header_photo : 'https://oss.esl-passport.cn/esl_passport_25.png';
-						this.companyLogo = businessInfo.logo ? businessInfo.logo : 'https://oss.esl-passport.cn/business.png';
-						
+
+						this.companyBg = businessInfo.header_photo ? businessInfo.header_photo :
+							'https://oss.esl-passport.cn/esl_passport_25.png';
+						this.companyLogo = businessInfo.logo ? businessInfo.logo :
+							'https://oss.esl-passport.cn/business.png';
+
 						// #ifdef H5
-						var img_url = businessInfo.profile_photo ? businessInfo.profile_photo : 'https://oss.esl-passport.cn/business.png';
+						var img_url = businessInfo.profile_photo ? businessInfo.profile_photo :
+							'https://oss.esl-passport.cn/business.png';
 						var url = window.location.href;
 						var origin = window.location.origin;
 
@@ -652,8 +991,76 @@
 		border-radius: 20rpx;
 	}
 
-	.wx-share-main p {
-		font-size: 34rpx;
-		color: #FFFFFF;
+	.hideCanvasView {
+		position: relative;
+	}
+
+	.hideCanvas {
+		position: fixed;
+		top: -99999upx;
+		left: -99999upx;
+		z-index: -99999;
+	}
+
+	.flex_row_c_c {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.modalView {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		opacity: 0;
+		outline: 0;
+		transform: scale(1.2);
+		perspective: 2500upx;
+		background: rgba(0, 0, 0, 0.6);
+		transition: all .3s ease-in-out;
+		pointer-events: none;
+		backface-visibility: hidden;
+		z-index: 999;
+	}
+
+	.modalView.show {
+		opacity: 1;
+		transform: scale(1);
+		pointer-events: auto;
+	}
+
+	.flex_column {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.backgroundColor-white {
+		background-color: white;
+	}
+
+	.border_radius_10px {
+		border-radius: 10px;
+	}
+
+	.padding1vh {
+		padding: 1vh;
+	}
+
+	.posterImage {
+		width: 60vw;
+	}
+
+	.flex_row {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.marginTop2vh {
+		margin-top: 2vh;
 	}
 </style>

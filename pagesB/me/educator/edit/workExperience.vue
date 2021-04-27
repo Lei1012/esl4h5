@@ -54,7 +54,6 @@
 <script>
 	import profile from '@/api/profile.js';
 	import fuckTextarea from '@/components/fuck-textarea/fuck-textarea.vue'
-	import teachingList from '@/common/teachingYear.js';
 
 	export default {
 		data() {
@@ -65,7 +64,6 @@
 				startYearShow: false,
 				endYearShow: false,
 				showTeaching: false,
-				teachingList: teachingList,
 				workStartDateStatus: false,
 				workStartDate: '',
 				workEndDateStatus: false,

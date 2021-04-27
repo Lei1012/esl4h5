@@ -755,7 +755,9 @@ const Chinese = {
 	loginwechatlogin:"微信授权登录",
 	bindphonetips:"您第一次进入我们的微信小程序，请您先绑定您的手机号，方便您更好的使用",
 	bindphonebindphone:"绑定手机号",
-	
+	sharefcsaveimage:"保存图片",
+	sharefcshareimage:"分享图片",
+	sharefcchanganbaocun:"长按保存图片",
 }
 
 const English = {
@@ -1523,6 +1525,9 @@ const English = {
 	bindphonetips:"Before officially entering our mini program, please bind your phone number first",
 	bindphonebindphone:"Bind Phone",
 	
+	sharefcsaveimage:"Save Image",
+	sharefcshareimage:"Share Image",
+	sharefcchanganbaocun:"Long press to save the picture",
 }
 
 module.exports = {
