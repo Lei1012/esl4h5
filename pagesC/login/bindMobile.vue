@@ -38,8 +38,8 @@
 </template>
 
 <script>
-	import wInput from '../../components/watch-login/watch-input.vue' //input
-	import wButton from '../../components/watch-login/watch-button.vue' //button
+	import wInput from '../components/watch-login/watch-input.vue' //input
+	import wButton from '../components/watch-login/watch-button.vue' //button
 	var _this;
 	import login from '@/api/login.js'
 	import profile from '@/api/profile.js'
@@ -467,7 +467,7 @@
 </script>
 
 <style>
-	@import url("../../components/watch-login/css/icon.css");
+	@import url("../components/watch-login/css/icon.css");
 
 	.content {
 		display: flex;

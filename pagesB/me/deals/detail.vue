@@ -17,7 +17,10 @@
 					<view class="xll-header-tag" v-if="detailValue.type == 2">{{i18n.dealsdiscount}}</view>
 					<!-- <view class="xll-header-tag" v-if="detailValue.is_all == 1">{{i18n.dealsalllocations}}</view> -->
 					<view class="xll-header-tag" v-if="isDogFriendly == 1">{{i18n.dealsdogfriendly}}</view>
-					<view class="xll-header-tag" @click="shareFc()"><u-icon name="share" color="#ffffff" size="28rpx"></u-icon></view>
+					<!-- #ifdef MP-WEIXIN -->
+					<view class="xll-header-tag" @click="shareFc()"><u-icon name="share"  size="28rpx"></u-icon></view>
+					<!-- #endif -->
+					
 				</view>
 			</view>
 			<view class="content-container">
@@ -187,14 +190,14 @@
 				// #ifdef H5
 				var url = window.location.href;
 				var origin = window.location.origin;
-				qrcodeUrl = origin + '/esl_h5/pagesB/me/deals/details?id=' + _this.detailValue.id;
+				qrcodeUrl = origin + '/esl_h5/pagesB/me/deals/detail?id=' + _this.detailValue.id;
 				// #endif
 			
 				// #ifdef MP-WEIXIN
-				qrcodeUrl = 'https://esl-passport.cn/esl_h5/pagesB/me/deals/details?id=' + _this.detailValue.id;
+				qrcodeUrl = 'https://esl-passport.cn/esl_h5/pagesB/me/deals/detail?id=' + _this.detailValue.id;
 				// #endif
 				// #ifdef MP-WEIXIN-DEV
-				qrcodeUrl = 'https://test.esl-passport.cn/esl_h5/pagesB/me/deals/details?id=' + _this.detailValue.id;
+				qrcodeUrl = 'https://test.esl-passport.cn/esl_h5/pagesB/me/deals/detail?id=' + _this.detailValue.id;
 				// #endif
 			
 				try {
@@ -213,7 +216,7 @@
 						background: {
 							height: 10,
 							width: 10,
-							color:"#ffffff"
+							backgroundColor:"#ffffff"
 						},
 						setCanvasWH({
 							bgObj
@@ -255,10 +258,29 @@
 										// #ifdef MP-WEIXIN
 										addHeight = 500;
 										// #endif
+										if (height > 400) {
+											height = 400
+										}
 										setBgObj({
 											width,
 											height: height + addHeight
 										});
+										return {
+											dWidth: width,
+											dHeight: height
+										}
+									}
+								},
+								{
+									type: 'image',
+									id: 'eslogo',
+									url: '/static/esl-logo.png',
+									dx: 20,
+									dy: 20,
+									serialNum: 0,
+									infoCallBack(imageInfo) {
+										let width = imageInfo.width * 0.3;
+										let height = imageInfo.height * 0.3;
 										return {
 											dWidth: width,
 											dHeight: height

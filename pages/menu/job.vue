@@ -1,12 +1,13 @@
 <template>
 	<view class="uni-flex uni-column list">
 
-		<HMfilterDropdown  v-if="!showEventStatus" :filterData="filterData" :defaultSelected="defaultSelected" @confirm="confirm"></HMfilterDropdown>
+		<HMfilterDropdown v-if="!showEventStatus" :filterData="filterData" :defaultSelected="defaultSelected"
+			@confirm="confirm"></HMfilterDropdown>
 
 		<view class="empty" v-if="showEmptyStatus">
-			<u-empty :text="i18n.emptytips1"  mode="list"></u-empty>
+			<u-empty :text="i18n.emptytips1" mode="list"></u-empty>
 		</view>
-		
+
 		<view class="event-list" v-if="showEventStatus">
 			<view class="event-list-item" v-for="(item,index) in eventsList" :key="item.id">
 				<view class="events-tips">Events</view>
@@ -49,11 +50,11 @@
 				<view class="latest-jobs-title">{{i18n.homefeatjobs}}</view>
 				<swiper class="latest-jobs-swiper  " :indicator-dots="false" :autoplay="true" interval="1500"
 					:circular="true">
-					<swiper-item  v-for="(item,index) in recentJobList" :key="index">
+					<swiper-item v-for="(item,index) in recentJobList" :key="index">
 						<view class="latest-jobs-item ">
 							<view class="latest-jobs-item-top" @click="turnJobDetail(item.id)">
 								<view class="latest-jobs-item-l">
-									<image  :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'" mode="aspectFit"></image>
+									<image :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'" mode="aspectFit"></image>
 								</view>
 								<view class="latest-jobs-item-r">
 									<view class="latest-jobs-item-r-1">
@@ -71,27 +72,21 @@
 												v-if="item.currency!='CNY' && item.currency !='USD'">{{item.currency}}</text>
 											<text>{{item.salary_min}}-{{item.salary_max}}</text>
 										</view>
-										<view class="job-type" v-if="item.employment_type==1">
-											{{i18n.jobslistemploymentfulltime}}
-										</view>
-										<view class="job-type" v-if="item.employment_type==2">
-											{{i18n.jobslistemploymentparttime}}
-										</view>
-										<view class="job-type" v-if="item.employment_type==3">
-											{{i18n.jobslistemploymentseasonal}}
+										<view class="job-type" >
+											<block v-if="item.employment_type==1">{{i18n.jobslistemploymentfulltime}}</block>	
+											<block v-if="item.employment_type==2">{{i18n.jobslistemploymentparttime}}</block>	
+											<block v-if="item.employment_type==3">{{i18n.jobslistemploymentseasonal}}</block>	
 										</view>
 									</view>
+									<view class="latest-jobs-item-r-4">
+										{{item.business_name}}
+									</view>
 									<view class="latest-jobs-item-r-3">
-										<view class="interview-name">
-											{{item.business_name}}
+										<view class="last-job-location" >
+											<block v-if="item.citys && languageValue=='en-US' ">{{item.citys.Pinyin}}</block>	
+											<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}</block>	
 										</view>
-										<view class="job-location"
-											v-if="item.citys && languageValue=='en-US' ">
-											{{item.citys.Pinyin}}
-										</view>
-										<view class="job-location" v-if="item.citys && languageValue=='zh-CN' ">
-											{{item.citys.ShortName}}
-										</view>
+										<view class="last-refresh-time">{{item.refresh_time,languageValue | dateFormat}}</view>
 									</view>
 								</view>
 							</view>
@@ -109,7 +104,8 @@
 			<view class="list-item " v-for="(item,index) in jobsListOne" :key="item.id" @click="turnJobDetail(item.id)">
 				<view class="list-item-l">
 					<view class="list-item-l-circle">
-						<image  :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'" mode="aspectFit"></image>
+						<image :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'"
+							mode="aspectFit"></image>
 					</view>
 				</view>
 				<view class="list-item-r">
@@ -131,17 +127,15 @@
 						<view class="job-type" v-if="item.employment_type==2">{{i18n.jobslistemploymentparttime}}</view>
 						<view class="job-type" v-if="item.employment_type==3">{{i18n.jobslistemploymentseasonal}}</view>
 					</view>
+					<view class="list-item-3">
+						{{item.business_name}}
+					</view>
 					<view class="list-item-4">
-						<view class="interview-name">
-							{{item.business_name}}
+						<view class="job-location">
+							<block v-if="item.citys && languageValue=='en-US' ">{{item.citys.Pinyin}}</block>
+							<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}</block>
 						</view>
-						<view class="job-location"
-							v-if="item.citys && languageValue=='en-US' ">
-							{{item.citys.Pinyin}}
-						</view>
-						<view class="job-location" v-if="item.citys && languageValue=='zh-CN' ">
-							{{item.citys.ShortName}}
-						</view>
+						<view class="refresh-time">{{item.refresh_time,languageValue | dateFormat}}</view>
 					</view>
 				</view>
 			</view>
@@ -162,7 +156,8 @@
 			<view class=" list-item" v-for="(item,index) in jobsListTwo" :key="index" @click="turnJobDetail(item.id)">
 				<view class="list-item-l">
 					<view class="list-item-l-circle">
-						<image  :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'" mode="aspectFit"></image>
+						<image :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'"
+							mode="aspectFit"></image>
 					</view>
 				</view>
 				<view class="list-item-r">
@@ -183,26 +178,24 @@
 						<view class="job-type" v-if="item.employment_type==1">{{i18n.jobslistemploymentfulltime}}</view>
 						<view class="job-type" v-if="item.employment_type==2">{{i18n.jobslistemploymentparttime}}</view>
 						<view class="job-type" v-if="item.employment_type==3">{{i18n.jobslistemploymentseasonal}}</view>
-
+					</view>
+					<view class="list-item-3">
+						{{item.business_name}}
 					</view>
 					<view class="list-item-4">
-						<view class="interview-name">
-							{{item.business_name}}
+						<view class="job-location" >
+							<block v-if="item.citys && languageValue=='en-US' ">{{item.citys.Pinyin}}</block>
+							<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}</block>
 						</view>
-						<view class="job-location"
-							v-if="item.citys && languageValue=='en-US'">
-							{{item.citys.Pinyin}}
-						</view>
-						<view class="job-location" v-if="item.citys && languageValue=='zh-CN'">
-							{{item.citys.ShortName}}
-						</view>
+						<view class="refresh-time">{{item.refresh_time,languageValue | dateFormat}}</view>
 					</view>
+					
 				</view>
 			</view>
 
 			<u-loadmore v-if="jobsListOne.length>0" :status="status" :load-text="loadText" bgColor="#f4f5f6" />
 		</view>
-		
+
 		<contactus @close="closeContact" :showContact="showContactStatus"></contactus>
 		<selectRolePopup :rolePopupStatus="rolePopupStatus" :selectRoleIdentity="selectRoleIdentity"
 			@close="rolePopupStatus=false"></selectRolePopup>
@@ -211,6 +204,10 @@
 </template>
 
 <script>
+	import {
+		dateUtils,
+		howLong
+	} from '@/common/util.js';
 	import HMfilterDropdown from '@/components/HM-filterDropdown/HM-filterDropdown.vue';
 	import selectRolePopup from '@/components/select-role-popup/select-role-popup.vue';
 	import contactus from "@/components/xll-contact-us/xll-contact-us.vue";
@@ -230,7 +227,7 @@
 				jobsLimit: 8,
 				status: 'loadmore',
 				jobsLastPage: 0,
-				
+
 				loadText: {
 					loadmore: 'load more',
 					loading: 'loading',
@@ -247,7 +244,7 @@
 				titleColor: '#000000',
 				filterResult: '',
 				defaultSelected: [],
-				
+
 
 				showEventStatus: false,
 				eventsList: [],
@@ -262,17 +259,24 @@
 			contactus,
 			HMfilterDropdown
 		},
+		filters: {
+			dateFormat(value,a) {
+				console.log(a)
+				let date = new Date(value);
+				return howLong(date.getTime() / 1000,a);
+			}
+		},
 		computed: {
 			i18n() {
 				return this.$t('index')
 			},
-			languageValue(){
+			languageValue() {
 				let language = uni.getStorageSync('language');
 				return language ? language : 'en-US';
 			},
-			filterData(){
-				let token= uni.getStorageSync('token');
-				if(token){
+			filterData() {
+				let token = uni.getStorageSync('token');
+				if (token) {
 					this.getSubCateList()
 				}
 				return [{
@@ -299,7 +303,7 @@
 						"name": this.$t('index').jobfiltersalary,
 						"type": 'radio',
 						"submenu": [{
-							"name":  this.$t('index').jobfiltersalary,
+							"name": this.$t('index').jobfiltersalary,
 							"submenu": [{
 									"name": this.$t('index').filterjobsalary1,
 									"value": 1
@@ -321,7 +325,7 @@
 						}]
 					},
 					{
-						"name":this.$t('index').jobfiltergender,
+						"name": this.$t('index').jobfiltergender,
 						"type": 'radio',
 						"submenu": [{
 							"name": "Gender Specification",
@@ -341,16 +345,15 @@
 						"name": this.$t('index').jobfilterfilter,
 						"type": 'filter',
 						"submenu": [{
-								"name": "Student Age",
-								"submenu": []
-							}
-						]
+							"name": "Student Age",
+							"submenu": []
+						}]
 					}
 				]
 			}
 		},
 		onShow() {
-			
+
 			// #ifdef H5
 			uni.setTabBarItem({
 				index: 1,
@@ -372,14 +375,14 @@
 		onLoad(option) {
 
 			var _this = this;
-
+			console.log(dateUtils)
 			let token = uni.getStorageSync('token');
 			let identity = uni.getStorageSync('identity');
 
 			this.identity = identity;
-			
+
 			// #ifdef H5
-			if(token){
+			if (token) {
 				this.getRecentJobsList();
 			}
 			this.getJobsAdsList();
@@ -390,7 +393,7 @@
 			if (token != '' && identity && identity != 0) {
 				this.getRecentJobsList();
 				this.getJobsAdsList();
-				
+
 				this.getJobList(this.jobsPage, this.jobsLimit, this.filterResult);
 			} else {
 				this.showEventStatus = true;
@@ -401,7 +404,7 @@
 			}
 			// #endif
 			let language = this.languageValue;
-			
+
 			if (language) {
 				if (language == 'zh-CN') {
 					this._i18n.locale = 'zh-CN';
@@ -432,7 +435,7 @@
 					})
 				}
 				// #endif
-			
+
 				uni.setTabBarItem({
 					index: 2,
 					text: this.i18n.tabbardeals
@@ -441,7 +444,7 @@
 					index: 3,
 					text: this.i18n.tabbarme
 				})
-			
+
 			}
 
 		},
@@ -476,7 +479,7 @@
 				this.jobsListOne = [];
 				this.jobsListTwo = [];
 				this.jobsPage = 1;
-				
+
 				this.getJobList(this.jobsPage, this.jobsLimit, this.filterResult);
 			},
 
@@ -654,18 +657,18 @@
 						} else {
 							this.showEmptyStatus = true;
 						}
-						
-						if(page == 1){
-							let jobsListOne = jobData.slice(0,3);
+
+						if (page == 1) {
+							let jobsListOne = jobData.slice(0, 3);
 							let jobsListTwo = jobData.slice(3);
 							this.jobsListOne = jobsListOne;
 							this.jobsListTwo = jobsListTwo;
-							
-						}else{
+
+						} else {
 							this.jobsListTwo = this.jobsListTwo.concat(jobData);
 						}
 						this.jobsLastPage = res.message.last_page;
-						
+
 					} else {
 						uni.showToast({
 							title: res.msg,
@@ -802,12 +805,12 @@
 		onPullDownRefresh: function() {
 			this.jobsPage = 1;
 			this.jobsListOne = [];
-			this.jobsListTwo =[];
+			this.jobsListTwo = [];
 			this.jobsLimit = 8;
 			this.jobsLastPage = 0;
-			this.getJobList(this.jobsPage,this.jobsLimit ,this.filterResult);
+			this.getJobList(this.jobsPage, this.jobsLimit, this.filterResult);
 			this.getRecentJobsList();
-			
+
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);

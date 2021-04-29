@@ -15,6 +15,11 @@
 				</view>
 			</view>
 		</view>
+
+		<view class="home-changelanguage">
+			<xll-changelanguage></xll-changelanguage>
+		</view>
+
 		<view class="flex-item flex-item-V index-box">
 			<view class="index-box-box" v-if="identity==1">
 				<view class="index-box-item" @click="searchJobs">
@@ -138,36 +143,64 @@
 			</view>
 
 			<view class="index-box-box" v-if="!identity">
-				<view class="index-box-item-guset" @click="openIdentity(1)">
-					<image src="/static/home/home-edu.png"  mode="widthFix" />
+				<view class="index-box-item" @click="turnDeals">
+					<image src="/static/esl/homedeallist.png" class="image" mode="aspectFit" />
+					<text class="text">{{i18n.homedeals}}</text>
 				</view>
-				<view class="index-box-item-guset" @click="openIdentity(3)">
-					<image src="/static/home/home-vendor.png"  mode="widthFix" />
+				<view class="index-box-item" @click="openIdentity(3)">
+					<image src="/static/esl/homeofferadeal.png" class="image" mode="aspectFit" />
+					<text class="text">{{i18n.homecreatedeal}}</text>
 				</view>
-				<view class="index-box-item-guset" @click="openIdentity(2)">
-					<image src="/static/home/home-busi.png"  mode="widthFix" />
+				<view class="index-box-item" @click="showDiscountStatus=true">
+					<image src="/static/esl/discount.png" class="image" mode="aspectFit" />
+					<text class="text">{{i18n.homediscountcard}}</text>
 				</view>
-				<view class="index-box-item-guset" @click="showDiscountStatus=true">
-					<image src="/static/home/home-discount.png"  mode="widthFix" />
+				<!-- #ifdef H5 -->
+				<view class="index-box-item" @click="showContactStatus=true">
+					<image src="/static/esl/ads-icon.png" class="image" mode="aspectFit" />
+					<text class="text">{{i18n.homeadvertise}}</text>
 				</view>
+				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN -->
-				<button class="index-box-item-button-guest" type="default" open-type="contact" show-message-card="true">
-					<image src="/static/home/home-contact.png"  mode="widthFix" />
-				</button>
-				<button class="index-box-item-button-guest" type="default" open-type="contact" show-message-card="true">
-					<image src="/static/home/home-ads.png"  mode="widthFix" />
+				<button class="index-box-item-button" type="default" open-type="contact" show-message-card="true">
+					<image src="/static/esl/ads-icon.png" class="image" mode="aspectFit" /> <text
+						class="text">{{i18n.homeadvertise}}</text>
 				</button>
 				<!-- #endif -->
 				<!-- #ifdef H5 -->
-				<view class="index-box-item-guset" @click="showContactStatus=true">
-					<image src="/static/home/home-contact.png"  mode="widthFix" />
-				</view>
-				<view class="index-box-item-guset" @click="showContactStatus=true">
-					<image src="/static/home/home-ads.png"  mode="widthFix" />
+				<view class="index-box-item" @click="openIdentity(2)">
+					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" />
+					<text class="text">{{i18n.homepostjobs}}</text>
 				</view>
 				<!-- #endif -->
-				
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="index-box-item" @click="openIdentity(2)">
+					<image src="/static/esl/post-a-job.png" class="image" mode="aspectFit" />
+					<text class="text">{{i18n.homeposthere}}</text>
+				</view>
+				<!-- #endif -->
+
+
+				<!-- #ifdef H5 -->
+				<view class="index-box-item" @click="showContactStatus=true">
+					<image src="/static/esl/contact-us.png" class="image" mode="aspectFit" />
+					<text class="text">{{i18n.homecontact}} </text>
+				</view>
+				<!-- #endif -->
+				<!-- #ifdef MP-WEIXIN -->
+				<button class="index-box-item-button" type="default" open-type="contact" show-message-card="true">
+					<image src="/static/esl/contact-us.png" class="image" mode="aspectFit" /> <text
+						class="text">{{i18n.homecontact}}
+					</text>
+				</button>
+				<!-- #endif -->
+
 			</view>
+
+		</view>
+
+		<view class="home-signup" v-if="!hasLoginStatus">
+			<button type="default" @click="miniLogin()">{{i18n.homesignup}}</button>
 		</view>
 
 		<view class="flex-item flex-item-V latest-jobs" v-if="showRecentJobsStatus">
@@ -179,7 +212,8 @@
 					<view class="latest-jobs-item ">
 						<view class="latest-jobs-item-top" @click="turnJobDetail(item.id)">
 							<view class="latest-jobs-item-l">
-								<image :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'" mode="aspectFit"></image>
+								<image :src="item.logo ? item.logo : 'https://oss.esl-passport.cn/business.png'"
+									mode="aspectFit"></image>
 							</view>
 							<view class="latest-jobs-item-r">
 								<view class="latest-jobs-item-r-1">
@@ -209,16 +243,17 @@
 
 								</view>
 
+								<view class="latest-jobs-item-r-4">
+									{{item.business_name}}
+								</view>
 								<view class="latest-jobs-item-r-3">
-									<view class="interview-name">
-										{{item.business_name}}
+									<view class="last-job-location">
+										<block v-if="item.citys && languageValue=='en-US' ">{{item.citys.Pinyin}}
+										</block>
+										<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}
+										</block>
 									</view>
-									<view class="job-location"
-										v-if="item.city != 0 && (language=='en-US' || !language)  ">
-										{{item.citys.Pinyin}}
-									</view>
-									<view class="job-location" v-if="item.city != 0 && (language=='zh-CN')  ">
-										{{item.citys.ShortName}}
+									<view class="last-refresh-time">{{item.refresh_time,languageValue | dateFormat}}
 									</view>
 								</view>
 							</view>
@@ -283,7 +318,7 @@
 			</view>
 		</view>
 
-		<view class="flex-item ">
+		<view class="flex-item" v-if="adsListArticles.length>0">
 			<swiper class="article-swiper" :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000">
 				<swiper-item v-for="(item,index) in adsListArticles" :key="index" @click="turnArticle(item.link)">
 					<view class="flex-item article">
@@ -334,7 +369,7 @@
 		</xllwechatofficialaccount>
 
 		<!-- #ifdef MP-WEIXIN -->
-		<aTip :isCustom="false" text='Add to my mini program' :closeColor="false"></aTip>
+		<aTip :isCustom="false" :text="i18n.addtomyminiprograms" :closeColor="false"></aTip>
 		<!-- #endif -->
 
 		<how-post-job @close="showPostJobStatus=false" :showPostJobStatus="showPostJobStatus"></how-post-job>
@@ -351,6 +386,10 @@
 </template>
 
 <script>
+	import {
+		dateUtils,
+		howLong
+	} from '@/common/util.js';
 	import profile from '@/api/profile.js';
 	import deals from '@/api/deals.js';
 	import login from '@/api/login.js';
@@ -390,7 +429,6 @@
 				interval: 3000,
 				duration: 500,
 				language: 'en-US',
-				languageValue: 2,
 
 				is_educator: 0,
 				is_business: 0,
@@ -438,6 +476,12 @@
 			// #endif
 
 		},
+		filters: {
+			dateFormat(value, a) {
+				let date = new Date(value);
+				return howLong(date.getTime() / 1000, a);
+			}
+		},
 		onShow() {
 			// #ifdef H5
 			uni.setTabBarItem({
@@ -462,20 +506,24 @@
 			i18n() {
 				return this.$t('index')
 			},
-			hasLoginStatus(){
+			hasLoginStatus() {
 				let token = uni.getStorageSync('token');
-				if(token){
+				if (token) {
 					return true;
-				}else{
+				} else {
 					return false;
 				}
+			},
+			languageValue() {
+				let language = uni.getStorageSync('language');
+				return language ? language : 'en-US';
 			},
 			// #ifdef H5
 			isWechat() {
 				return this.$isWechat()
 			}
 			// #endif
-			
+
 		},
 		onUnload() {
 			uni.$off('changeIdentity');
@@ -484,25 +532,25 @@
 		onLoad(option) {
 
 			var that = this;
-			
+
 			uni.$on('changeIdentity', function(data) {
 				console.log('监听到事件来自 changeIdentity ，携带参数 identity 为：' + data);
 				that.identity = data;
 			})
-			
+
 			uni.$on('changeLanguage', function(data) {
 				console.log('监听changelanguage', data);
 			})
-			
+
 			let uid = uni.getStorageSync('uid');
 			let token = uni.getStorageSync('token');
 			let language = uni.getStorageSync('language');
 			let identity = uni.getStorageSync('identity');
-			if(identity){
+			if (identity) {
 				that.identity = identity;
 			}
-			
-			if (token && token !='' ) {
+
+			if (token && token != '') {
 				//获取职位列表
 				this.getJobsList();
 				this.getRecentDealsList(1, 6);
@@ -513,12 +561,10 @@
 				if (language == 'zh-CN') {
 					uni.setStorageSync("language", 'zh-CN')
 					this.language = 'zh-CN';
-					this.languageValue = 1;
 					this._i18n.locale = 'zh-CN';
 				}
 				if (language == 'en-US') {
 					this.language = 'en-US';
-					this.languageValue = 2;
 					uni.setStorageSync("language", 'en-US')
 					this._i18n.locale = 'en-US';
 				}
@@ -1182,5 +1228,17 @@
 		width: 96%;
 		margin: 0 auto;
 		margin-top: 40rpx;
+	}
+
+	.home-signup {
+		width: 50%;
+		margin: 40rpx auto 0;
+
+	}
+
+	.home-signup button {
+		background-color: #0AA0A8;
+		color: #FFFFFF;
+		font-size: 30rpx;
 	}
 </style>

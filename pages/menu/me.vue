@@ -229,10 +229,7 @@
 			var _this = this;
 			let token = uni.getStorageSync('token');
 			let identity = uni.getStorageSync('identity');
-			
-			if(!identity && token){
-				_this.rolePopupStatus = true;
-			}
+		
 			// #ifdef H5
 			uni.setTabBarItem({
 				index: 1,

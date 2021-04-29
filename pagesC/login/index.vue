@@ -72,7 +72,7 @@
 </template>
 
 <script>
-	import xllyanzheng from "@/components/xll-yanzheng/xll-yanzheng.vue"
+	import xllyanzheng from "../components/xll-yanzheng/xll-yanzheng.vue"
 	import xllwechatofficialaccount from "@/components/xll-wechat-official-account/xll-wechat-official-account.vue";
 	import profile from '@/api/profile.js';
 	import login from '@/api/login.js';
@@ -80,8 +80,8 @@
 		getUrlCode
 	} from '@/common/util.js';
 	let _this;
-	import wInput from '../../components/watch-login/watch-input.vue' //input
-	import wButton from '../../components/watch-login/watch-button.vue' //button
+	import wInput from '../components/watch-login/watch-input.vue' //input
+	import wButton from '../components/watch-login/watch-button.vue' //button
 
 	export default {
 		data() {

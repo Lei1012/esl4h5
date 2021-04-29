@@ -1,6 +1,7 @@
 <template>
 	<view class="uni-flex uni-column detail-container">
-		<view class="flex-item photo-top-container" v-if="detailUserInfo" :style="{backgroundImage: detailUserInfo.header_photo != '' ? 'url('+detailUserInfo.header_photo+')' : 'url('+backgroundPictureSrc+')'} ">
+		<view class="flex-item photo-top-container" v-if="detailUserInfo"
+			:style="{backgroundImage: detailUserInfo.header_photo != '' ? 'url('+detailUserInfo.header_photo+')' : 'url('+backgroundPictureSrc+')'} ">
 			<view class="photo-top">
 				<image :src="detailUserInfo.logo" mode="aspectFill"></image>
 			</view>
@@ -15,7 +16,11 @@
 				<view class="xll-header-tag" v-if="detailValue.event_place">{{detailValue.event_place}}</view>
 				<view class="xll-header-tag" v-if="detailValue.is_all == 1">{{i18n.eventssocial}}</view>
 				<view class="xll-header-tag" v-if="detailValue.is_all == 2">{{i18n.eventsprofessional}}</view>
-				<view class="xll-header-tag" @click="shareFc()"><u-icon name="share" color="#ffffff" size="28rpx"></u-icon></view>
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="xll-header-tag" @click="shareFc()">
+					<u-icon name="share" size="28rpx"></u-icon>
+				</view>
+				<!-- #endif -->
 			</view>
 			<view class="xll-header-location" v-if="detailValue.city">{{detailValue.citys.Pinyin}}</view>
 		</view>
@@ -50,14 +55,16 @@
 					{{detailValue.desc}}
 				</view>
 			</view>
-			
-			<view class="flex-item detail-item" v-if="detailValue.provinces && detailValue.citys && detailValue.districts">
+
+			<view class="flex-item detail-item"
+				v-if="detailValue.provinces && detailValue.citys && detailValue.districts">
 				<view class="detail-item-title">{{i18n.dealseventslocation}}</view>
 				<view class="detail-item-result" v-if="languageValue=='en-US'">
 					{{detailValue.districts.Pinyin}}, {{detailValue.citys.Pinyin}}, {{detailValue.provinces.Pinyin}}
 				</view>
 				<view class="detail-item-result" v-if="languageValue=='zh-CN'">
-					{{detailValue.districts.ShortName}}, {{detailValue.citys.ShortName}}, {{detailValue.provinces.ShortName}}
+					{{detailValue.districts.ShortName}}, {{detailValue.citys.ShortName}},
+					{{detailValue.provinces.ShortName}}
 				</view>
 			</view>
 			<view class="flex-item detail-item" v-if="detailValue.location != '' ">
@@ -67,7 +74,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!-- 图片展示由自己实现 -->
 		<QSPopup ref="popup">
 			<view class="flex_column">
@@ -91,7 +98,7 @@
 			<canvas class="hideCanvas" id="default_PosterCanvasId" canvas-id="default_PosterCanvasId"
 				:style="{width: (poster.width||10) + 'px', height: (poster.height||10) + 'px'}"></canvas>
 		</view>
-		
+
 	</view>
 </template>
 
@@ -111,10 +118,10 @@
 			return {
 				id: 0,
 				detailValue: '',
-				detailUserInfo:'',
+				detailUserInfo: '',
 				fileSrc: '',
 				backgroundPictureSrc: 'https://oss.esl-passport.cn/esl_passport_25.png',
-				languageValue:'en-US',
+				languageValue: 'en-US',
 				poster: {},
 				posterImage: '',
 				canvasId: 'default_PosterCanvasId'
@@ -135,19 +142,20 @@
 		methods: {
 			async shareFc() {
 				let _this = this;
-				let bgUrl = _this.detailUserInfo.header_photo ? _this.detailUserInfo.header_photo : _this.backgroundPictureSrc;
+				let bgUrl = _this.detailUserInfo.header_photo ? _this.detailUserInfo.header_photo : _this
+					.backgroundPictureSrc;
 				let qrcodeUrl = '';
 				// #ifdef H5
 				var url = window.location.href;
 				var origin = window.location.origin;
-				qrcodeUrl = origin + '/esl_h5/pagesB/me/events/details?id=' + _this.detailValue.id;
+				qrcodeUrl = origin + '/esl_h5/pagesB/me/events/detail?id=' + _this.detailValue.id;
 				// #endif
-			
+
 				// #ifdef MP-WEIXIN
-				qrcodeUrl = 'https://esl-passport.cn/esl_h5/pagesB/me/events/details?id=' + _this.detailValue.id;
+				qrcodeUrl = 'https://esl-passport.cn/esl_h5/pagesB/me/events/detail?id=' + _this.detailValue.id;
 				// #endif
 				// #ifdef MP-WEIXIN-DEV
-				qrcodeUrl = 'https://test.esl-passport.cn/esl_h5/pagesB/me/events/details?id=' + _this.detailValue.id;
+				qrcodeUrl = 'https://test.esl-passport.cn/esl_h5/pagesB/me/events/detail?id=' + _this.detailValue.id;
 				// #endif
 				console.log(qrcodeUrl)
 				try {
@@ -159,14 +167,14 @@
 						type: 'testShareType',
 						formData: {
 							//访问接口获取背景图携带自定义数据
-			
+
 						},
 						posterCanvasId: _this.canvasId, //canvasId
 						delayTimeScale: 20, //延时系数
 						background: {
 							height: 10,
 							width: 10,
-							color:"#ffffff"
+							backgroundColor: "#ffffff"
 						},
 						setCanvasWH({
 							bgObj
@@ -208,10 +216,29 @@
 										// #ifdef MP-WEIXIN
 										addHeight = 500;
 										// #endif
+										if (height > 400) {
+											height = 400
+										}
 										setBgObj({
 											width,
 											height: height + addHeight
 										});
+										return {
+											dWidth: width,
+											dHeight: height
+										}
+									}
+								},
+								{
+									type: 'image',
+									id: 'eslogo',
+									url: '/static/esl-logo.png',
+									dx: 20,
+									dy: 20,
+									serialNum: 0,
+									infoCallBack(imageInfo) {
+										let width = imageInfo.width * 0.3;
+										let height = imageInfo.height * 0.3;
 										return {
 											dWidth: width,
 											dHeight: height
@@ -353,7 +380,7 @@
 								},
 								{
 									type: 'text',
-									text: "¥ "+ _this.detailValue.pay_money,
+									text: "¥ " + _this.detailValue.pay_money,
 									id: 'payMoney',
 									serialNum: 7,
 									allInfoCallback({
@@ -431,7 +458,7 @@
 				// #ifdef APP-PLUS
 				_app.getShare(false, false, 2, '', '', '', this.poster.finalPath, false, false);
 				// #endif
-			
+
 				// #ifndef APP-PLUS
 				this.showWxShareStatus = true;
 				// #endif
@@ -451,7 +478,7 @@
 						this.detailValue = res.message;
 						let detailUserInfo = res.message.userInfo;
 						this.detailUserInfo = detailUserInfo;
-						
+
 						let navigationBarTitle = '';
 						if (detailUserInfo.vendor_name_en != '') {
 							navigationBarTitle = detailUserInfo.vendor_name_en;
@@ -469,7 +496,7 @@
 						var url = window.location.href;
 						var origin = window.location.origin;
 						let turn_url = origin + '/esl_h5/pagesB/me/events/share?id=' + res.message.id;
-						
+
 						let share_data = {
 							title: res.message.name, // 分享标题
 							desc: res.message.desc, // 分享描述
@@ -506,12 +533,12 @@
 				})
 			}
 		},
-		onShareAppMessage:function(){
+		onShareAppMessage: function() {
 			return {
 				title: 'ESL Passport Events'
 			}
 		},
-		onShareTimeline:function(){
+		onShareTimeline: function() {
 			let detailUserInfo = this.detailUserInfo;
 			let detailValue = this.detailValue;
 			let title = detailUserInfo.vendor_name_en + ' ' + detailValue.name;
@@ -520,32 +547,33 @@
 				imageUrl: detailUserInfo.logo
 			}
 		},
-		onAddToFavorites:function(){
-			
+		onAddToFavorites: function() {
+
 		},
 	}
 </script>
 
 <style>
 	@import url("@/common/me/events/detail.css");
+
 	.hideCanvasView {
 		position: relative;
 	}
-	
+
 	.hideCanvas {
 		position: fixed;
 		top: -99999upx;
 		left: -99999upx;
 		z-index: -99999;
 	}
-	
+
 	.flex_row_c_c {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 	}
-	
+
 	.modalView {
 		width: 100%;
 		height: 100%;
@@ -564,39 +592,39 @@
 		backface-visibility: hidden;
 		z-index: 999;
 	}
-	
+
 	.modalView.show {
 		opacity: 1;
 		transform: scale(1);
 		pointer-events: auto;
 	}
-	
+
 	.flex_column {
 		display: flex;
 		flex-direction: column;
 	}
-	
+
 	.backgroundColor-white {
 		background-color: white;
 	}
-	
+
 	.border_radius_10px {
 		border-radius: 10px;
 	}
-	
+
 	.padding1vh {
 		padding: 1vh;
 	}
-	
+
 	.posterImage {
 		width: 60vw;
 	}
-	
+
 	.flex_row {
 		display: flex;
 		flex-direction: row;
 	}
-	
+
 	.marginTop2vh {
 		margin-top: 2vh;
 	}

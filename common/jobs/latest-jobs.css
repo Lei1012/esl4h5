@@ -10,7 +10,7 @@
 
 .latest-jobs-swiper {
 	width: 100%;
-	height: 340rpx;
+	height: 380rpx;
 	margin-top: 10rpx;
 }
 
@@ -76,6 +76,14 @@
 	align-items: center;
 	justify-content: space-between;
 }
+.latest-jobs-item-r-4 {
+	width: 90%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 28rpx;
+}
+
 
 .latest-jobs-item-bottom {
 	padding-top: 20rpx;
@@ -106,7 +114,7 @@
 	font-weight: 700;
 }
 .job-type{
-	font-size: 34rpx;
+	font-size: 30rpx;
 	color: #1D87AE;
 	font-weight: 700;
 }
@@ -135,18 +143,16 @@
 	color: #00B3D2;
 	font-weight: 600;
 }
-.interview-name {
-	width: 55%;
-	margin-left: 10rpx;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-}
 
-
-.job-location {
+.last-job-location {
+	width: 40%;
 	color: #808080;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+}
+.last-refresh-time{
+	width: 40%;
+	text-align: right;
+	color: #808080;
 }

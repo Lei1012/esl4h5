@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-flex uni-column role-bg">
 		<view class="flex-item role-logo animate__animated  animate__rotateIn">
-			<image src="../../static/esl-logo.png" lazy-load="true"></image>
+			<image src="@/static/esl-logo.png" lazy-load="true"></image>
 		</view>
 		<view class="flex-item role-intro animate__animated  animate__lightSpeedInRight">
 			<view class="role-intro-1">{{i18n.vendorapplication}} </view>

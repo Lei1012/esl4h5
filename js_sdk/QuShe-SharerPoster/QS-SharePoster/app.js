@@ -152,7 +152,7 @@ let _app = {
 				console.log(splitArr)
 				let fileName = splitArr[splitArr.length-1];
 				let ossName = splitArr[2];
-				let aurl = "/ossimage/"+fileName;
+				let aurl = '';
 				if(ossName == 'oss.esl-passport.cn'){
 					aurl = "/ossimage/"+fileName;
 				}
@@ -163,9 +163,6 @@ let _app = {
 				
 				uni.downloadFile({
 					url:aurl,
-					header:{
-						"Access-Control-Allow-Origin":"*"
-					},
 					success(res) {
 						if (res && res.tempFilePath)
 							rs(res.tempFilePath);

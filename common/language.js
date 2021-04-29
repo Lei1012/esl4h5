@@ -758,6 +758,11 @@ const Chinese = {
 	sharefcsaveimage:"保存图片",
 	sharefcshareimage:"分享图片",
 	sharefcchanganbaocun:"长按保存图片",
+	
+	addtomyminiprograms:"添加到我的微信小程序",
+	homeposthere:"发布",
+	homesignup:"登录",
+	
 }
 
 const English = {
@@ -782,7 +787,7 @@ const English = {
 	homepostgigs:"Post Gigs",
 	homeupgrade: "Go Pro",
 	homefeatured: "Get Featured",
-	homeadvertise: "Advertisement",
+	homeadvertise: "Advertise with us",
 	homepostevent: "Post Event",
 	homecreatedeal: "Offer A Deal",
 	homeregister: "Sign Up",
@@ -1528,6 +1533,11 @@ const English = {
 	sharefcsaveimage:"Save Image",
 	sharefcshareimage:"Share Image",
 	sharefcchanganbaocun:"Long press to save the picture",
+	
+	addtomyminiprograms:"add to my mini programs",
+	
+	homeposthere:"Post Here",
+	homesignup:"Sign in",
 }
 
 module.exports = {

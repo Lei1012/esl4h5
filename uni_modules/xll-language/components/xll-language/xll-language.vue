@@ -4,17 +4,19 @@
 		<view class="language-popup" v-if="languagePopup">
 			<view class="language-text">{{i18n.accountchangelanguage}}</view>
 			<view class="language-options">
-				<view class="language-option" :class="languageOptionValue==1 ? 'language-option-active' : ''" @click="changeLanguageValue(1)">
+				<view class="language-option" :class="languageOptionValue==1 ? 'language-option-active' : ''"
+					@click="changeLanguageValue(1)">
 					<view class="language-option-logo">
 						<image src="/static/china-flag.png" mode="widthFix"></image>
 					</view>
 					<view class="language-option-text"><text>Chinese/简体中文</text></view>
 				</view>
-				<view class="language-option" :class="languageOptionValue==2 ? 'language-option-active' : ''" @click="changeLanguageValue(2)">
+				<view class="language-option" :class="languageOptionValue==2 ? 'language-option-active' : ''"
+					@click="changeLanguageValue(2)">
 					<view class="language-option-logo">
 						<image src="/static/america-flag.png" mode="widthFix"></image>
 					</view>
-					<view  class="language-option-text"><text>English</text></view>
+					<view class="language-option-text"><text>English</text></view>
 				</view>
 			</view>
 			<view class="language-confirm">
@@ -32,30 +34,30 @@
 				type: Boolean,
 				default: false
 			},
-			
+
 		},
 		data() {
 			return {
-				languageOptionValue:1
-				
+				languageOptionValue: 1
+
 			};
 		},
 		watch: {
-			
+
 		},
 		computed: {
-			i18n(){
+			i18n() {
 				return this.$t('index')
 			},
-			languagePopup(){
+			languagePopup() {
 				return this.show;
 			}
 		},
-		mounted(){
+		mounted() {
 			console.log(this.show)
 		},
 		methods: {
-			closeLanguagePopup(){
+			closeLanguagePopup() {
 				this.$emit('close')
 			},
 			changeLanguageValue: function(e) {
@@ -63,15 +65,24 @@
 			},
 			changeLanguage: function() {
 				var languageOptionValue = this.languageOptionValue;
+				let token = uni.getStorageSync('token');
+				let identity = uni.getStorageSync('identity');
+
 				if (languageOptionValue == 1) {
 					uni.setStorageSync("language", 'zh-CN')
 					this._i18n.locale = 'zh-CN';
-					this.changeLanguageApi(1);
+					if (token) {
+						this.changeLanguageApi(1);
+					}
+
 				}
 				if (languageOptionValue == 2) {
 					uni.setStorageSync("language", 'en-US')
 					this._i18n.locale = 'en-US';
-					this.changeLanguageApi(2);
+					if (token) {
+						this.changeLanguageApi(2);
+					}
+
 				}
 				this.$emit('close');
 				uni.setTabBarItem({
@@ -84,12 +95,9 @@
 					text: this.i18n.tabbarjobs
 				})
 				// #endif
-			
+
 				// #ifdef MP-WEIXIN
-				let token = uni.getStorageSync('token');
-				let identity = uni.getStorageSync('identity');
-			
-				if (token != '' && identity && identity != 0) {
+				if (token && identity) {
 					uni.setTabBarItem({
 						index: 1,
 						text: this.i18n.tabbarjobs
@@ -101,7 +109,7 @@
 					})
 				}
 				// #endif
-			
+
 				uni.setTabBarItem({
 					index: 2,
 					text: this.i18n.tabbardeals
@@ -130,7 +138,7 @@
 							icon: 'none'
 						})
 					}
-			
+
 				}).catch(err => {
 					uni.showToast({
 						title: err.msg,
@@ -138,9 +146,9 @@
 					})
 				})
 			},
-			
+
 		}
-			
+
 	}
 </script>
 <style>
@@ -152,7 +160,7 @@
 		top: 0;
 		background-color: rgba(0, 0, 0, 0.4)
 	}
-	
+
 	.language-popup {
 		width: 90%;
 		height: 600rpx;
@@ -166,7 +174,7 @@
 		background-color: #FFFFFF;
 		border-radius: 40rpx;
 	}
-	
+
 	.language-text {
 		height: 120rpx;
 		line-height: 120rpx;
@@ -176,7 +184,7 @@
 		justify-content: center;
 		font-weight: 700;
 	}
-	
+
 	.language-options {
 		width: 90%;
 		margin: 0 auto;
@@ -186,7 +194,7 @@
 		justify-content: space-between;
 		flex-wrap: wrap;
 	}
-	
+
 	.language-option {
 		width: 48%;
 		height: 320rpx;
@@ -194,34 +202,34 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		
+
 		border-radius: 40rpx;
 		border: 1px solid #EEEEEE;
-		
+
 	}
-	
+
 	.language-option-logo {
 		width: 160rpx;
 		height: 160rpx;
 	}
-	
+
 	.language-option-logo image {
 		width: 160rpx;
 		height: 160rpx;
 		border-radius: 160rpx;
 	}
-	
+
 	.language-option-text {
 		font-size: 28rpx;
 		font-weight: 700;
 		margin-top: 10rpx;
 	}
-	
+
 	.language-confirm {
 		width: 90%;
 		margin: 50rpx auto 0;
 	}
-	
+
 	.language-confirm button {
 		border-radius: 20rpx;
 		background-color: #0AA0A8;
@@ -230,10 +238,9 @@
 		font-size: 30rpx;
 		line-height: 80rpx;
 	}
-	
+
 	.language-option-active {
 		background-color: #0AA0A8;
 		color: #FFFFFF;
 	}
-	
 </style>

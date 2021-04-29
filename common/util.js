@@ -66,12 +66,61 @@ var dateUtils = {
 	}
 };
 
+function howLong(createtime,languageValue) {
+	var now = Date.parse(new Date()) / 1000;
+	var limit = now - createtime;
+	var content = "";
+	let isEnglish = languageValue == 'en-US' ? true : false;
+	if (limit < 60) {
+		if(isEnglish){
+			content = " a moment ago";
+		}else{
+			content = "刚刚";
+		}
+	} else if (limit >= 60 && limit < 3600) {
+		if(isEnglish){
+			content = Math.floor(limit / 60) + " min ago";
+		}else{
+			content = Math.floor(limit / 60) + " 分钟前";
+		}
+		
+	} else if (limit >= 3600 && limit < 86400) {
+		if(isEnglish){
+			content = Math.floor(limit / 3600) + " hours ago";
+		}else{
+			content = Math.floor(limit / 3600) + " 小时前";
+		}
+	} else if (limit >= 86400 && limit < 2592000) {
+		if(isEnglish){
+			content = Math.floor(limit / 86400) + " days ago";
+		}else{
+			content = Math.floor(limit / 86400) + " 天前";
+		}
+		
+	} else if (limit >= 2592000 && limit < 31104000) {
+		if(isEnglish){
+			content = Math.floor(limit / 2592000) + " months ago";
+		}else{
+			content = Math.floor(limit / 2592000) + " 个月前";
+		}
+		
+	} else {
+		if(isEnglish){
+			content = "";
+		}else{
+			content = "";
+		}
+		
+	}
+	return content;
+}
+
 function getUrlCode(name) {
 	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ''])[1]
 		.replace(/\+/g, '%20')) || null
 };
 
-function isWechat(){
+function isWechat() {
 	return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
 }
 
@@ -79,7 +128,8 @@ module.exports = {
 	formatTime: formatTime,
 	formatLocation: formatLocation,
 	dateUtils: dateUtils,
-	getUrlCode:getUrlCode,
-	isWechat:isWechat,
+	getUrlCode: getUrlCode,
+	isWechat: isWechat,
+	howLong:howLong
 
 }

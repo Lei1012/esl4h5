@@ -22,9 +22,11 @@
 						</view>
 					</view>
 					<view class="top-b-r">
+						<!-- #ifdef MP-WEIXIN -->
 						<view class="top-b-r-collect" @click="shareFc()">
 							<u-icon name="share" color="#ffffff" size="48rpx"></u-icon>
 						</view>
+						<!-- #endif -->
 						<!-- #ifdef H5 -->
 						<view class="top-b-r-share" @click="shareYourJob">
 							<image src="/pagesA/static/share-w.png" mode="scaleToFill"></image>
@@ -462,7 +464,7 @@
 						background: {
 							height: 10,
 							width: 10,
-							color:"#ffffff"
+							backgroundColor:"#ffffff"
 						},
 						setCanvasWH({
 							bgObj
@@ -504,10 +506,29 @@
 										// #ifdef MP-WEIXIN
 										addHeight = 500;
 										// #endif
+										if (height > 400) {
+											height = 400
+										}
 										setBgObj({
 											width,
 											height: height + addHeight
 										});
+										return {
+											dWidth: width,
+											dHeight: height
+										}
+									}
+								},
+								{
+									type: 'image',
+									id: 'eslogo',
+									url: '/static/esl-logo.png',
+									dx: 20,
+									dy: 20,
+									serialNum: 0,
+									infoCallBack(imageInfo) {
+										let width = 150;
+										let height = 150;
 										return {
 											dWidth: width,
 											dHeight: height

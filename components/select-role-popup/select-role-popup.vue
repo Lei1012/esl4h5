@@ -160,18 +160,28 @@
 			},
 			changeLang: function(e) {
 				var _this = this;
+				
+				let token = uni.getStorageSync('token');
+				let identity = uni.getStorageSync('identity');
+				
 				if (e.target.value) {
 					// uni.setStorageSync("language", 'zh-CN')
 					_this.language = 'zh-CN';
 					_this.languageValue = 1;
 					_this._i18n.locale = 'zh-CN';
-					_this.changeLanguageApi(1);
+					if(token){
+						_this.changeLanguageApi(1);
+					}
+					
 				} else {
 					// uni.setStorageSync("language", 'en-US')
 					_this.language = 'en-US';
 					_this.languageValue = 2;
 					_this._i18n.locale = 'en-US';
-					_this.changeLanguageApi(2);
+					if(token){
+						_this.changeLanguageApi(2);
+					}
+					
 				}
 
 				uni.setTabBarItem({
@@ -185,9 +195,7 @@
 				})
 				// #endif
 				// #ifdef MP-WEIXIN
-				let token = uni.getStorageSync('token');
-				let identity = uni.getStorageSync('identity');
-				if (token != '' && identity && identity != 0) {
+				if (token && identity) {
 					uni.setTabBarItem({
 						index: 1,
 						text: _this.i18n.tabbarjobs

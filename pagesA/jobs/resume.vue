@@ -11,17 +11,22 @@
 						<image :src="item.educator.profile_photo != '' ? item.educator.profile_photo : 'https://oss.esl-passport.cn/educator.png' " mode="aspectFit"></image>
 					</view>
 					<view class="list-item-r">
-						<view class="job-title">{{item.educator.first_name}} {{item.educator.last_name}}</view>
-						<view class="salary">{{item.educator.nationality}} </view>
-						<view class="list-item-4">
-							<view class="interview-name">
-								<text v-if="item.sex==1">Male</text>
-								<text v-if="item.sex==2">Female</text>
-								<text v-if="item.sex==3">Undisclosed</text>
+						<view class="list-item-r-t">
+							<view class="job-title">{{item.job_title}}</view>
+						</view>
+						<view class="list-item-2">
+							<view class="salary">
+								<text v-if="item.currency=='CNY'">¥</text>
+								<text v-if="item.currency=='USD'">$</text>
+								<text v-if="item.currency!='CNY' && item.currency !='USD'">{{item.currency}}</text>
+								<text>{{item.salary_min}}-{{item.salary_max}}</text>
 							</view>
-							<view class="job-location">
-								{{item.educator.city}}
-							</view>
+							<view class="job-type" v-if="item.employment_type==1">{{i18n.jobslistemploymentfulltime}}</view>
+							<view class="job-type" v-if="item.employment_type==2">{{i18n.jobslistemploymentparttime}}</view>
+							<view class="job-type" v-if="item.employment_type==3">{{i18n.jobslistemploymentseasonal}}</view>
+						</view>
+						<view class="list-item-3">
+							{{item.business_name}}
 						</view>
 					</view>
 				</view>
