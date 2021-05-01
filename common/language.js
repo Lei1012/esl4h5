@@ -763,6 +763,23 @@ const Chinese = {
 	homeposthere:"发布",
 	homesignup:"登录",
 	
+	loginminiprogram2:"改变者",
+	
+	menudealsdeals:"交易",
+	menudealsevents:"活动",
+	
+	dealslistalllocations:"所有地点",
+	dealslistlocationlimited:"限定",
+	dealslistdeal:"交易",
+	dealslistdiscount:"折扣",
+	dealslistdogfriendly:"对宠物友好",
+	
+	loginminiprogram3:"哎呀",
+	loginminiprogram4:"让我们先建立联系吧！",
+	eventslistsocial:"社交",
+	eventslistprofessional:"专业",
+	saveimagesuccess:"保存成功",
+	jobrefreshat:"刷新于",
 }
 
 const English = {
@@ -787,7 +804,7 @@ const English = {
 	homepostgigs:"Post Gigs",
 	homeupgrade: "Go Pro",
 	homefeatured: "Get Featured",
-	homeadvertise: "Advertise with us",
+	homeadvertise: "Advertise With Us",
 	homepostevent: "Post Event",
 	homecreatedeal: "Offer A Deal",
 	homeregister: "Sign Up",
@@ -1524,20 +1541,41 @@ const English = {
 	homeLogin:"Login",
 	homeevents:"Events",
 	melogin:"Login",
-	loginminiprogram:"Mini Program",
-	loginenter:"Enter",
+	loginminiprogram:"Education Industry",
+	loginenter:"Get Started !",
 	loginwechatlogin:"WeChat login",
-	bindphonetips:"Before officially entering our mini program, please bind your phone number first",
+	bindphonetips:"Before officially entering our mini program, please bind your phone number first.",
 	bindphonebindphone:"Bind Phone",
 	
 	sharefcsaveimage:"Save Image",
 	sharefcshareimage:"Share Image",
 	sharefcchanganbaocun:"Long press to save the picture",
 	
-	addtomyminiprograms:"add to my mini programs",
+	addtomyminiprograms:"Pin to My Mini Programs",
 	
 	homeposthere:"Post Here",
-	homesignup:"Sign in",
+	homesignup:"Sign Up",
+	
+	loginminiprogram2:"Change-Makers",
+	menudealsdeals:"Deals",
+	menudealsevents:"Events",
+	
+	dealslistalllocations:"All Locations",
+	dealslistlocationlimited:"Limited",
+	dealslistdeal:"Deal",
+	dealslistdiscount:"Discount",
+	dealslistdogfriendly:"Dog Friendly",
+	
+	loginminiprogram3:"Opps..",
+	loginminiprogram4:"Let's  get you connected first.",
+	
+	eventslistsocial:"Social",
+	eventslistprofessional:"Professional",
+	
+	saveimagesuccess:"Success",
+	
+	jobrefreshat:"Refresh at",
+	
 }
 
 module.exports = {

@@ -485,8 +485,8 @@
 	}
 
 	.header image {
-		width: 200rpx;
-		height: 200rpx;
+		width: 400rpx;
+		height: 400rpx;
 		border-radius: 50%;
 	}
 
@@ -587,7 +587,7 @@
 
 	.mini-button {
 		width: 80%;
-		margin: 20rpx auto;
+		margin: 40rpx auto;
 
 	}
 

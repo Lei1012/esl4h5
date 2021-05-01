@@ -165,7 +165,7 @@
 				let identity = uni.getStorageSync('identity');
 				
 				if (e.target.value) {
-					// uni.setStorageSync("language", 'zh-CN')
+					uni.setStorageSync("language", 'zh-CN')
 					_this.language = 'zh-CN';
 					_this.languageValue = 1;
 					_this._i18n.locale = 'zh-CN';
@@ -174,7 +174,7 @@
 					}
 					
 				} else {
-					// uni.setStorageSync("language", 'en-US')
+					uni.setStorageSync("language", 'en-US')
 					_this.language = 'en-US';
 					_this.languageValue = 2;
 					_this._i18n.locale = 'en-US';

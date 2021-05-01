@@ -1,5 +1,6 @@
 page {
-	background-image: linear-gradient(135deg, #65FDF0 10%, #1D6FA3 100%);
+	/* background-image: linear-gradient(135deg, #65FDF0 10%, #1D6FA3 100%); */
+	background-color: #F4F5F6;
 }
 
 .top-container {
@@ -17,8 +18,7 @@ page {
 	position: absolute;
 	bottom: 0;
 	background-color: rgba(0, 0, 0, 0.6);
-	padding-left: 20rpx;
-	padding-top: 40rpx;
+	padding: 40rpx 40rpx 0 40rpx;
 }
 
 .top-t {
@@ -107,7 +107,7 @@ page {
 	width: 40%;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: flex-end;
 }
 
 .top-b-r-collect,
@@ -342,7 +342,7 @@ page {
 	border-radius: 20rpx;
 	margin-top: 10rpx;
 	margin-left: 10rpx;
-	font-size: 30rpx;
+	font-size: 24rpx;
 }
 
 .xll-tag image {
@@ -355,6 +355,25 @@ page {
 	margin-left: 10rpx;
 }
 
+.job-xll-item{
+	width: 98%;
+	margin: 10rpx auto 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+.job-xll-refreshtime{
+	font-size: 24rpx;
+	color: #808080;
+}
+.job-xll-views{
+	font-size: 24rpx;
+}
+.job-xll-views text{
+	margin-left: 10rpx;
+	color: #808080;
+}
 .job-apply-button {
 	width: 80%;
 	margin: 0 auto;

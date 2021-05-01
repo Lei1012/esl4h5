@@ -1,12 +1,8 @@
 <template>
 	<view class="language-container">
-		<view class="lan-en">English</view>
-		<view class="lan-switch">
-			<switch color="#0AA0A8" :checked="language=='zh-CN'" style="transform: scale(0.7);"  @change="changeLang" />
-		</view>
-		<view class="lan-cn">
-			中文/CN
-		</view>
+		<text>English</text>
+		<switch color="#0AA0A8" :checked="language=='zh-CN'" style="transform: scale(0.7);"  @change="changeLang" />
+		<text>中文/CN</text>
 	</view>
 </template>
 <script>
@@ -17,7 +13,7 @@
 			return {
 				language: 'en-US',
 				languageValue: 2,
-			};
+			}
 		},
 		computed: {
 			i18n() {
@@ -38,7 +34,7 @@
 		},
 		mounted() {
 			var that = this;
-	
+			that.language = uni.getStorageSync('language');
 		},
 		methods: {
 			closePopup() {
@@ -52,7 +48,7 @@
 				let identity = uni.getStorageSync('identity');
 				
 				if (e.target.value) {
-					// uni.setStorageSync("language", 'zh-CN')
+					uni.setStorageSync("language", 'zh-CN')
 					_this.language = 'zh-CN';
 					_this.languageValue = 1;
 					_this._i18n.locale = 'zh-CN';
@@ -61,7 +57,7 @@
 					}
 					
 				} else {
-					// uni.setStorageSync("language", 'en-US')
+					uni.setStorageSync("language", 'en-US')
 					_this.language = 'en-US';
 					_this.languageValue = 2;
 					_this._i18n.locale = 'en-US';
@@ -177,21 +173,8 @@
 		align-items: center;
 	}
 	
-	.lan-en {
-		width: 30%;
+	.language-container text{
 		font-size: 30rpx;
-		text-align: right;
-	}
-	
-	.lan-switch {
-		width: 30%;
-		text-align: center;
-	}
-	
-	.lan-cn {
-		width: 30%;
-		font-size: 30rpx;
-		text-align: left;
 	}
 	
 </style>

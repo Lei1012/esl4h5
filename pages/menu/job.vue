@@ -10,7 +10,7 @@
 
 		<view class="event-list" v-if="showEventStatus">
 			<view class="event-list-item" v-for="(item,index) in eventsList" :key="item.id">
-				<view class="events-tips">Events</view>
+				<view class="events-tips">{{i18n.menudealsevents}}</view>
 				<view class="event-list-item-l">
 					<view class="event-interview-photo">
 						<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
@@ -18,7 +18,6 @@
 					</view>
 				</view>
 				<view class="event-list-item-r" @click="turnEventDetail(item.id)">
-
 					<view class="event-list-item-t">
 						<view class=" event-list-item-1">
 							<view class="event-list-item-name" v-if="item.user_info.vendor_name_en">
@@ -31,13 +30,14 @@
 								<text>{{item.event_place}}</text>
 							</view>
 							<view class="event-tags-item">
-								<text v-if="item.is_all==1">Social</text>
-								<text v-if="item.is_all==2">Professional</text>
+								<text v-if="item.is_all==1">{{i18n.eventslistsocial}}</text>
+								<text v-if="item.is_all==2">{{i18n.eventslistprofessional}}</text>
 							</view>
 						</view>
 					</view>
 					<view class="event-list-item-b">
-						<view class="event-location" v-if="item.citys">{{item.citys.Pinyin}}</view>
+						<view class="location" v-if="languageValue=='en-US'">{{item.citys.Pinyin}}</view>
+						<view class="location" v-if="languageValue=='zh-CN'">{{item.citys.ShortName}}</view>
 						<view class="event-date">{{item.date}}</view>
 					</view>
 				</view>
@@ -86,7 +86,7 @@
 											<block v-if="item.citys && languageValue=='en-US' ">{{item.citys.Pinyin}}</block>	
 											<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}</block>	
 										</view>
-										<view class="last-refresh-time">{{item.refresh_time,languageValue | dateFormat}}</view>
+										<view class="last-refresh-time">{{item.refresh_time | dateFormat(languageValue)}}</view>
 									</view>
 								</view>
 							</view>
@@ -135,7 +135,7 @@
 							<block v-if="item.citys && languageValue=='en-US' ">{{item.citys.Pinyin}}</block>
 							<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}</block>
 						</view>
-						<view class="refresh-time">{{item.refresh_time,languageValue | dateFormat}}</view>
+						<view class="refresh-time">{{item.refresh_time | dateFormat(languageValue)}}</view>
 					</view>
 				</view>
 			</view>
@@ -187,7 +187,7 @@
 							<block v-if="item.citys && languageValue=='en-US' ">{{item.citys.Pinyin}}</block>
 							<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}</block>
 						</view>
-						<view class="refresh-time">{{item.refresh_time,languageValue | dateFormat}}</view>
+						<view class="refresh-time">{{item.refresh_time | dateFormat(languageValue) }}</view>
 					</view>
 					
 				</view>

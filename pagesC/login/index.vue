@@ -3,7 +3,8 @@
 		<!-- #ifdef MP-WEIXIN -->
 		<view class="logo">
 			<image src="@/static/esl-logo.png" mode="aspectFill"></image><br>
-			<text>{{i18n.loginminiprogram}} </text>
+			<text>{{i18n.loginminiprogram3}} </text> <br>
+			<text>{{i18n.loginminiprogram4}}</text>
 		</view>
 		<view class="login-btn">
 			<button @click="login()" type="default">{{i18n.loginenter}}</button>
@@ -252,7 +253,7 @@
 				login.getUserInfoByWxCode(data).then(res => {
 					console.log(res)
 					uni.showLoading({
-						title: 'logging in'
+						title: 'Logging In'
 					})
 					if (res.code == 200) {
 						let message = res.message;
@@ -457,7 +458,7 @@
 					if (res.code == 200) {
 
 						uni.showLoading({
-							title: 'logging in'
+							title: 'Logging In'
 						})
 						_this.isRotate = true
 
@@ -587,7 +588,7 @@
 				var _this = this;
 				// let code = _this.miniCode;
 				uni.showLoading({
-					title: 'logging in',
+					title: 'Logging In',
 					mask: true
 				})
 				login.miniWxDecode({

@@ -144,11 +144,11 @@
 
 			<view class="index-box-box" v-if="!identity">
 				<view class="index-box-item" @click="turnDeals">
-					<image src="/static/esl/homedeallist.png" class="image" mode="aspectFit" />
+					<image src="/static/esl/home-deals.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homedeals}}</text>
 				</view>
 				<view class="index-box-item" @click="openIdentity(3)">
-					<image src="/static/esl/homeofferadeal.png" class="image" mode="aspectFit" />
+					<image src="/static/esl/home-offer-deals.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homecreatedeal}}</text>
 				</view>
 				<view class="index-box-item" @click="showDiscountStatus=true">
@@ -199,8 +199,9 @@
 
 		</view>
 
-		<view class="home-signup" v-if="!hasLoginStatus">
-			<button type="default" @click="miniLogin()">{{i18n.homesignup}}</button>
+		<view class="home-signup" v-if="!identity">
+			<button type="default" v-if="!hasLoginStatus"  @click="miniLogin()">{{i18n.homesignup}}</button>
+			<button type="default" v-if="hasLoginStatus"  @click="openIdentity()">{{i18n.homesignup}}</button>
 		</view>
 
 		<view class="flex-item flex-item-V latest-jobs" v-if="showRecentJobsStatus">
@@ -253,7 +254,7 @@
 										<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}
 										</block>
 									</view>
-									<view class="last-refresh-time">{{item.refresh_time,languageValue | dateFormat}}
+									<view class="last-refresh-time">{{item.refresh_time | dateFormat(languageValue) }}
 									</view>
 								</view>
 							</view>
@@ -319,7 +320,7 @@
 		</view>
 
 		<view class="flex-item" v-if="adsListArticles.length>0">
-			<swiper class="article-swiper" :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000">
+			<swiper class="article-swiper" :indicator-dots="false" :autoplay="true" :interval="5000" :duration="2000" circular>
 				<swiper-item v-for="(item,index) in adsListArticles" :key="index" @click="turnArticle(item.link)">
 					<view class="flex-item article">
 						<view class="article-image">

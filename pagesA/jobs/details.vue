@@ -55,8 +55,14 @@
 				<view class="xll-tag" v-if="jobValue.employment_type==3">{{i18n.jobslistjobtypeseasonal}}</view>
 				<view class="xll-tag" v-if="jobValue.is_online==1">{{i18n.jobsdetailonline}}</view>
 				<view class="xll-tag" v-if="jobValue.is_equal==1">{{i18n.jobspostequalopportunity}}</view>
-				<view class="xll-tag">
-					<uni-icons type="eye" size="14"></uni-icons>
+				
+			</view>
+			<view class="job-xll-item">
+				<view class="job-xll-refreshtime">
+					{{i18n.jobrefreshat}} {{jobValue.refresh_time | dateFormat(languageValue)}}
+				</view>
+				<view class="job-xll-views">
+					<uni-icons type="eye" size="10"></uni-icons>
 					<text>{{jobValue.views}}</text>
 				</view>
 			</view>
@@ -331,6 +337,10 @@
 </template>
 
 <script>
+	import {
+		dateUtils,
+		howLong
+	} from '@/common/util.js';
 	import QSPopup from '@/components/QS-popup/QS-popup.vue';
 	import _app from '@/js_sdk/QuShe-SharerPoster/QS-SharePoster/app.js';
 	import {
@@ -382,6 +392,13 @@
 			languageValue() {
 				let language = uni.getStorageSync('language');
 				return language ? language : 'en-US';
+			}
+		},
+		filters: {
+			dateFormat(value,a) {
+				console.log(a)
+				let date = new Date(value);
+				return howLong(date.getTime() / 1000,a);
 			}
 		},
 		onShow() {
@@ -702,11 +719,12 @@
 				}
 			},
 			saveImage() {
+				var that = this;
 				// #ifndef H5
 				uni.saveImageToPhotosAlbum({
 					filePath: this.posterImage,
 					success(res) {
-						_app.showToast('保存成功');
+						_app.showToast(that.i18n.saveimagesuccess);
 					}
 				})
 				// #endif
@@ -716,7 +734,7 @@
 					success: (res) => {
 						console.log(res)
 						if (res.statusCode === 200) {
-							_app.showToast('保存成功');
+							_app.showToast(that.i18n.saveimagesuccess);
 						}
 					}
 				});

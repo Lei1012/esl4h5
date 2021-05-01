@@ -73,33 +73,33 @@ function howLong(createtime,languageValue) {
 	let isEnglish = languageValue == 'en-US' ? true : false;
 	if (limit < 60) {
 		if(isEnglish){
-			content = " a moment ago";
+			content = "a moment ago";
 		}else{
 			content = "刚刚";
 		}
 	} else if (limit >= 60 && limit < 3600) {
 		if(isEnglish){
-			content = Math.floor(limit / 60) + " min ago";
+			content =Math.floor(limit / 60) + " min ago";
 		}else{
 			content = Math.floor(limit / 60) + " 分钟前";
 		}
 		
 	} else if (limit >= 3600 && limit < 86400) {
 		if(isEnglish){
-			content = Math.floor(limit / 3600) + " hours ago";
+			content =Math.floor(limit / 3600) + " hours ago";
 		}else{
 			content = Math.floor(limit / 3600) + " 小时前";
 		}
 	} else if (limit >= 86400 && limit < 2592000) {
 		if(isEnglish){
-			content = Math.floor(limit / 86400) + " days ago";
+			content = Math.floor(limit / 86400) + " Day(s) Ago";
 		}else{
 			content = Math.floor(limit / 86400) + " 天前";
 		}
 		
 	} else if (limit >= 2592000 && limit < 31104000) {
 		if(isEnglish){
-			content = Math.floor(limit / 2592000) + " months ago";
+			content =Math.floor(limit / 2592000) + " months ago";
 		}else{
 			content = Math.floor(limit / 2592000) + " 个月前";
 		}

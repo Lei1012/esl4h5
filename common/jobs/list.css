@@ -171,7 +171,7 @@ page {
 }
 
 .job-location {
-	width: 40%;
+	width: 30%;
 	text-align: right;
 	color: #808080;
 	text-overflow: ellipsis;
@@ -181,9 +181,10 @@ page {
 }
 
 .refresh-time{
-	width: 40%;
+	width: 65%;
 	text-align: right;
 	color: #808080;
+	font-size: 24rpx;
 }
 
 .empty {

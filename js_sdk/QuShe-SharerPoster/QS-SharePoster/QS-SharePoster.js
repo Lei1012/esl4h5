@@ -33,7 +33,7 @@ function getSharePoster(obj) {
 	return new Promise(async (rs, rj) => {
 		try {
 			// _app.showLoading('正在准备海报数据');
-			_app.showLoading('loading');
+			_app.showLoading('Loading');
 			if (!Context) {
 				_app.log('没有画布对象,创建画布对象');
 				Context = uni.createCanvasContext(posterCanvasId, (_this || null));
@@ -73,7 +73,7 @@ function getSharePoster(obj) {
 				if (typeof(imagesArray) == 'function')
 					imagesArray = imagesArray(params);
 				// _app.showLoading('正在生成需绘制图片的临时路径');
-				_app.showLoading('loading');
+				_app.showLoading('Loading');
 				_app.log('准备设置图片');
 				imagesArray = await setImage(imagesArray);
 				_app.hideLoading();
@@ -88,7 +88,7 @@ function getSharePoster(obj) {
 				if (typeof(qrCodeArray) == 'function')
 					qrCodeArray = qrCodeArray(params);
 				// _app.showLoading('正在生成需绘制图片的临时路径');
-				_app.showLoading('loading');
+				_app.showLoading('Loading');
 				for (let i = 0; i < qrCodeArray.length; i++) {
 					_app.log(i);
 					if (qrCodeArray[i].image)
@@ -312,7 +312,7 @@ function drawShareImage(obj) { //绘制海报方法
 	return new Promise((rs, rj) => {
 		try {
 			// _app.showLoading('正在绘制海报');
-			_app.showLoading('loading');
+			_app.showLoading('Loading');
 			_app.log('背景对象:' + JSON.stringify(bgObj));
 			console.log('背景对象:' + JSON.stringify(bgObj))
 			
@@ -333,21 +333,21 @@ function drawShareImage(obj) { //绘制海报方法
 			}
 
 			// _app.showLoading('绘制图片');
-			_app.showLoading('loading');
+			_app.showLoading('Loading');
 			if (imagesArray && imagesArray.length > 0)
 				drawImage(Context, imagesArray);
 
 			// _app.showLoading('绘制自定义内容');
-			_app.showLoading('loading');
+			_app.showLoading('Loading');
 			if (setDraw && typeof(setDraw) == 'function') setDraw(params);
 
 			// _app.showLoading('绘制文本');
-			_app.showLoading('loading');
+			_app.showLoading('Loading');
 			if (textArray && textArray.length > 0)
 				drawText(Context, textArray, bgObj);
 
 			// _app.showLoading('绘制二维码');
-			_app.showLoading('loading');
+			_app.showLoading('Loading');
 			if (qrCodeArray && qrCodeArray.length > 0) {
 				for (let i = 0; i < qrCodeArray.length; i++) {
 					drawQrCode(Context, qrCodeArray[i]);
@@ -355,7 +355,7 @@ function drawShareImage(obj) { //绘制海报方法
 			}
 
 			// _app.showLoading('绘制可控层级序列');
-			_app.showLoading('loading');
+			_app.showLoading('Loading');
 			if (drawArray && drawArray.length > 0) {
 				for (let i = 0; i < drawArray.length; i++) {
 					const drawArrayItem = drawArray[i];
@@ -402,7 +402,7 @@ function drawShareImage(obj) { //绘制海报方法
 				}
 			}
 			// _app.showLoading('绘制中')
-			_app.showLoading('loading');
+			_app.showLoading('Loading');
 			setTimeout(() => {
 				_app.log('准备执行draw方法')
 				_app.log('Context:' + Context);
@@ -437,7 +437,7 @@ function drawShareImage(obj) { //绘制海报方法
 						});
 					}
 					// _app.showLoading('正在输出图片');
-					_app.showLoading('loading');
+					_app.showLoading('Loading');
 					_app.log('canvasToTempFilePath的data对象:' + JSON.stringify(data));
 					canvasToTempFilePathFn = function() {
 						const toTempFilePathObj = { //输出为图片
@@ -1416,7 +1416,7 @@ function drawRoundRectImage(Context, obj) { // 绘制矩形
 function drawQrCode(Context, qrCodeObj) { //生成二维码方法， 参考了 诗小柒 的二维码生成器代码
 	_app.log('进入绘制二维码方法')
 	// _app.showLoading('正在生成二维码');
-	_app.showLoading('loading');
+	_app.showLoading('Loading');
 	let qrcodeAlgObjCache = [];
 	let options = {
 		text: String(qrCodeObj.text || '') || '', // 生成内容
@@ -1520,7 +1520,7 @@ function getShreUserPosterBackground(objs) { //检查背景图是否存在于本
 	return new Promise(async (resolve, reject) => {
 		try {
 			// _app.showLoading('正在获取海报背景图');
-			_app.showLoading('loading');
+			_app.showLoading('Loading');
 			const savedFilePath = await getShreUserPosterBackgroundFc(objs)
 			_app.hideLoading();
 			resolve(savedFilePath);
@@ -1562,7 +1562,7 @@ function getShreUserPosterBackgroundFc(objs, upimage) { //下载并保存背景�
 	return new Promise(async (resolve, reject) => {
 		try {
 			// _app.showLoading('正在下载海报背景图');
-			_app.showLoading('loading');
+			_app.showLoading('Loading');
 			_app.log('没有从后端获取的背景图片路径, 尝试从后端获取背景图片路径');
 			let image = backgroundImage ? backgroundImage : (await _app.getPosterUrl(objs));
 			image = (await base64ToPathFn(image));

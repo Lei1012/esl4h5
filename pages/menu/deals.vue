@@ -24,7 +24,7 @@
 			<!-- deals one -->
 			<view>
 				<view class=" list-item" v-for="(item,index) in dealsOneList" :key="item.id" v-if="showDealsStatus">
-					<view class="deals-tips">Deals</view>
+					<view class="deals-tips">{{i18n.menudealsdeals}}</view>
 					<view class="list-item-l">
 						<view class="interview-photo">
 							<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFit">
@@ -37,19 +37,19 @@
 						<view class="list-item-title">{{item.title}}</view>
 						<view class="list-item-2">
 							<view class="tags-item tag-all-locations" v-if="item.is_all==1">
-								All Locations
+								{{i18n.dealslistalllocations}}
 							</view>
 							<view class="tags-item tag-limit" v-if="item.is_all==2">
-								Limited
+								{{i18n.dealslistlocationlimited}}
 							</view>
 							<view class="tags-item tag-deal" v-if="item.type==1">
-								Deal
+								{{i18n.dealslistdeal}}
 							</view>
 							<view class="tags-item tag-discount" v-if="item.type==2">
-								Discount
+								{{i18n.dealslistdiscount}}
 							</view>
 							<view class="tags-item tag-dog-friendly" v-if="item.allowed_dog==1">
-								<text>Dog Friendly</text>
+								<text>{{i18n.dealslistdogfriendly}}</text>
 							</view>
 				
 						</view>
@@ -75,7 +75,7 @@
 			<!-- events -->
 			<view>
 				<view class=" list-item" v-for="(item,index) in eventsOneList" :key="item.name" v-if="showEventsStatus">
-					<view class="events-tips">Events</view>
+					<view class="events-tips">{{i18n.menudealsevents}}</view>
 					<view class="list-item-l">
 						<view class="interview-photo">
 							<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
@@ -96,8 +96,8 @@
 									<text>{{item.event_place}}</text>
 								</view>
 								<view class="tags-item">
-									<text v-if="item.is_all==1">Social</text>
-									<text v-if="item.is_all==2">Professional</text>
+									<text v-if="item.is_all==1">{{i18n.eventslistsocial}}</text>
+									<text v-if="item.is_all==2">{{i18n.eventslistprofessional}}</text>
 								</view>
 							</view>
 						</view>
@@ -126,7 +126,7 @@
 			<!-- deals two -->
 			<view>
 				<view class=" list-item" v-for="(item,k) in dealsTwoList" :key="item.id" v-if="showDealsStatus">
-					<view class="deals-tips">Deals</view>
+					<view class="deals-tips">{{i18n.menudealsdeals}}</view>
 					<view class="list-item-l">
 						<view class="interview-photo">
 							<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFit">
@@ -139,19 +139,19 @@
 						<view class="list-item-title">{{item.title}}</view>
 						<view class="list-item-2">
 							<view class="tags-item tag-all-locations" v-if="item.is_all==1">
-								All Locations
+								{{i18n.dealslistalllocations}}
 							</view>
 							<view class="tags-item tag-limit" v-if="item.is_all==2">
-								Limited
+								{{i18n.dealslistlocationlimited}}
 							</view>
 							<view class="tags-item tag-deal" v-if="item.type==1">
-								Deal
+								{{i18n.dealslistdeal}}
 							</view>
 							<view class="tags-item tag-discount" v-if="item.type==2">
-								Discount
+								{{i18n.dealslistdiscount}}
 							</view>
 							<view class="tags-item tag-dog-friendly" v-if="item.allowed_dog==1">
-								<text>Dog Friendly</text>
+								<text>{{i18n.dealslistdogfriendly}}</text>
 							</view>
 				
 						</view>
@@ -162,7 +162,7 @@
 			<!-- events two -->
 			<view>
 				<view class=" list-item" v-for="(item,index) in eventsTwoList" :key="item.name" v-if="showEventsStatus">
-					<view class="events-tips">Events</view>
+					<view class="events-tips">{{i18n.menudealsevents}}</view>
 					<view class="list-item-l">
 						<view class="interview-photo">
 							<image @click="turnVendorProfile(item.user_id)" :src="item.user_info.logo" mode="aspectFill">
@@ -183,8 +183,8 @@
 									<text>{{item.event_place}}</text>
 								</view>
 								<view class="tags-item">
-									<text v-if="item.is_all==1">Social</text>
-									<text v-if="item.is_all==2">Professional</text>
+									<text v-if="item.is_all==1">{{i18n.eventslistsocial}}</text>
+									<text v-if="item.is_all==2">{{i18n.eventslistprofessional}}</text>
 								</view>
 							</view>
 						</view>

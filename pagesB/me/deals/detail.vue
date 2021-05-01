@@ -432,11 +432,12 @@
 				}
 			},
 			saveImage() {
+				var that = this;
 				// #ifndef H5
 				uni.saveImageToPhotosAlbum({
 					filePath: this.posterImage,
 					success(res) {
-						_app.showToast('保存成功');
+						_app.showToast(that.i18n.saveimagesuccess);
 					}
 				})
 				// #endif
@@ -446,7 +447,7 @@
 					success: (res) => {
 						console.log(res)
 						if (res.statusCode === 200) {
-							_app.showToast('保存成功');
+							_app.showToast(that.i18n.saveimagesuccess);
 						}
 					}
 				});

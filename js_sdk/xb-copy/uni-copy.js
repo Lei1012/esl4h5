@@ -8,11 +8,11 @@ export default function uniCopy({content,success,error}) {
 	uni.setClipboardData({
 		data: content,
 		success: function() {
-			success("Copy successfully~")
+			success("Copied Successfully")
 			console.log('success');
 		},
 		fail:function(){
-			success("Copy failed~")
+			success("Copied Failed")
 		}
 	});
 	//#endif
@@ -33,7 +33,7 @@ export default function uniCopy({content,success,error}) {
 	textarea.setSelectionRange(0, content.length) //核心
 	let result = document.execCommand("copy") // 执行浏览器复制命令
 	if(result){
-		success("Copy successfully~")
+		success("Copied Successfully")
 	}else{
 		error("复制失败，请检查h5中调用该方法的方式，是不是用户点击的方式调用的，如果不是请改为用户点击的方式触发该方法，因为h5中安全性，不能js直接调用！")
 	}	

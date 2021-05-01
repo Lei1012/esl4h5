@@ -54,7 +54,9 @@
 			}
 		},
 		mounted() {
-			console.log(this.show)
+			let language = uni.getStorageSync('language');
+			if(language==='zh-CN'){this.languageOptionValue=1}
+			if(language==='en-US'){this.languageOptionValue=2}
 		},
 		methods: {
 			closeLanguagePopup() {

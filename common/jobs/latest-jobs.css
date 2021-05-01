@@ -145,14 +145,15 @@
 }
 
 .last-job-location {
-	width: 40%;
+	width: 30%;
 	color: #808080;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
 }
 .last-refresh-time{
-	width: 40%;
+	width: 65%;
 	text-align: right;
 	color: #808080;
+	font-size: 24rpx;
 }

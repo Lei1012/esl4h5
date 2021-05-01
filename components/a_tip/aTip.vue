@@ -85,7 +85,7 @@ export default {
     /* 延时出现 */
     delay: {
       type: Number,
-      default: 2000,
+      default: 5000,
     },
     /* 关闭btn黑白两色 或者自行添加 */
     closeColor: {
