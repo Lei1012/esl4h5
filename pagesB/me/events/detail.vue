@@ -7,6 +7,9 @@
 			</view>
 		</view>
 		<view class="xll-header">
+			<!-- #ifdef MP-WEIXIN -->
+			<view class="xll-header-share" @click="shareFc()"><u-icon name="share"  size="34"></u-icon></view>
+			<!-- #endif -->
 			<view class="xll-header-name" v-if="detailUserInfo">
 				{{detailUserInfo.vendor_name_en}}
 			</view>
@@ -16,11 +19,6 @@
 				<view class="xll-header-tag" v-if="detailValue.event_place">{{detailValue.event_place}}</view>
 				<view class="xll-header-tag" v-if="detailValue.is_all == 1">{{i18n.eventssocial}}</view>
 				<view class="xll-header-tag" v-if="detailValue.is_all == 2">{{i18n.eventsprofessional}}</view>
-				<!-- #ifdef MP-WEIXIN -->
-				<view class="xll-header-tag" @click="shareFc()">
-					<u-icon name="share" size="28rpx"></u-icon>
-				</view>
-				<!-- #endif -->
 			</view>
 			<view class="xll-header-location" v-if="detailValue.city">{{detailValue.citys.Pinyin}}</view>
 		</view>

@@ -10,17 +10,15 @@
 				</view>
 			</view>
 			<view class="xll-header">
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="xll-header-share" @click="shareFc()"><u-icon name="share"  size="34"></u-icon></view>
+				<!-- #endif -->
 				<view class="xll-header-name">{{detailUserInfo.vendor_name_en}}</view>
 				<view class="xll-header-title">{{detailValue.title}}</view>
 				<view class="xll-header-tags">
 					<view class="xll-header-tag" v-if="detailValue.type == 1">{{i18n.dealsdeal}}</view>
 					<view class="xll-header-tag" v-if="detailValue.type == 2">{{i18n.dealsdiscount}}</view>
-					<!-- <view class="xll-header-tag" v-if="detailValue.is_all == 1">{{i18n.dealsalllocations}}</view> -->
 					<view class="xll-header-tag" v-if="isDogFriendly == 1">{{i18n.dealsdogfriendly}}</view>
-					<!-- #ifdef MP-WEIXIN -->
-					<view class="xll-header-tag" @click="shareFc()"><u-icon name="share"  size="28rpx"></u-icon></view>
-					<!-- #endif -->
-					
 				</view>
 			</view>
 			<view class="content-container">

@@ -1,5 +1,5 @@
 <template>
-	<view class="uni-flex uni-column">
+	<view class="uni-flex uni-column" v-if="jobValue">
 		<view class="flex-item top-container" :style="{backgroundImage: 'url('+companyBg+')'}">
 			<view class="top-container-mask">
 				<view class="top-t">
@@ -59,7 +59,7 @@
 			</view>
 			<view class="job-xll-item">
 				<view class="job-xll-refreshtime">
-					{{i18n.jobrefreshat}} {{jobValue.refresh_time | dateFormat(languageValue)}}
+					{{i18n.jobrefreshat}} {{jobValue.refresh_time | xllDateFormat(languageValue)}}
 				</view>
 				<view class="job-xll-views">
 					<uni-icons type="eye" size="10"></uni-icons>
@@ -385,6 +385,12 @@
 
 			}
 		},
+		filters: {
+			xllDateFormat(value,a) {
+				let date = dateUtils.parse(value);
+				return howLong(Date.parse(date) / 1000,a);
+			}
+		},
 		computed: {
 			i18n() {
 				return this.$t('index')
@@ -394,27 +400,22 @@
 				return language ? language : 'en-US';
 			}
 		},
-		filters: {
-			dateFormat(value,a) {
-				console.log(a)
-				let date = new Date(value);
-				return howLong(date.getTime() / 1000,a);
-			}
-		},
 		onShow() {
 
 		},
-		onLoad(option) {
+		async onLoad(option) {
 			var that = this;
 
+		
+			
 			this.identity = uni.getStorageSync('identity');
 			this.language = uni.getStorageSync('language');
+			let token = uni.getStorageSync('token');
+			
 			if (option.id) {
 				this.jobId = option.id;
-				this.getDetail(option.id);
+				await this.getDetail(option.id);
 			}
-
-			let token = uni.getStorageSync('token')
 			// #ifdef MP-WEIXIN
 			if (token == '') {
 				var pages = getCurrentPages(); // 当前页面
@@ -804,13 +805,14 @@
 				// console.log(e)
 				this.showContactStatus = false;
 			},
-			getDetail(id) {
+			async getDetail(id) {
 				var _this = this;
+				let token = uni.getStorageSync('token');
 				let data = {
-					token: uni.getStorageSync('token'),
+					token: token,
 					job_id: id
 				}
-				jobs.detail(data).then(res => {
+				await jobs.detail(data).then(res => {
 					console.log(res);
 					if (res.code == 200) {
 

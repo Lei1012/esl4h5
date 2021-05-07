@@ -134,9 +134,12 @@
 			</swiper>
 		</view>
 		
+		<!-- #ifdef H5 -->
 		<view class="logout" v-if="!showLoginBtnStatus">
 			<button type="default" @click="logout()">{{i18n.melogout}}</button>
 		</view>
+		<!-- #endif -->
+	
 		
 		<!-- 语言选择框 -->
 		<xllLanguage :show="showLanguagePopupStatus" @close="showLanguagePopupStatus=false"></xllLanguage>

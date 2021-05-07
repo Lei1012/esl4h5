@@ -795,7 +795,7 @@ const English = {
 
 	homesearchjobs: "Search Jobs",
 	homesearchgigs:"Search Gigs",
-	homediscountcard: "Discount Card",
+	homediscountcard: "My Card",
 	homedeals: "Deals",
 	homeeditprofile: "Edit Profile",
 	homehelp: "Visa & Legal Help",
@@ -804,7 +804,7 @@ const English = {
 	homepostgigs:"Post Gigs",
 	homeupgrade: "Go Pro",
 	homefeatured: "Get Featured",
-	homeadvertise: "Advertise With Us",
+	homeadvertise: "Advertise",
 	homepostevent: "Post Event",
 	homecreatedeal: "Offer A Deal",
 	homeregister: "Sign Up",
@@ -1401,7 +1401,7 @@ const English = {
 	//20200111
 	myjobsopenclose: "Close/Open",
 	myjobsviews: "View",
-	myjobspromotion: "Promotion",
+	myjobspromotion: "Promote",
 
 	//20210305
 	applyjobmodaltips: "Tips",
@@ -1542,7 +1542,7 @@ const English = {
 	homeevents:"Events",
 	melogin:"Login",
 	loginminiprogram:"Education Industry",
-	loginenter:"Get Started !",
+	loginenter:"Ok",
 	loginwechatlogin:"WeChat login",
 	bindphonetips:"Before officially entering our mini program, please bind your phone number first.",
 	bindphonebindphone:"Bind Phone",
@@ -1566,15 +1566,15 @@ const English = {
 	dealslistdiscount:"Discount",
 	dealslistdogfriendly:"Dog Friendly",
 	
-	loginminiprogram3:"Opps..",
-	loginminiprogram4:"Let's  get you connected first.",
+	loginminiprogram3:"Before you sign up,",
+	loginminiprogram4:"let's get you connected.",
 	
 	eventslistsocial:"Social",
 	eventslistprofessional:"Professional",
 	
 	saveimagesuccess:"Success",
 	
-	jobrefreshat:"Refresh at",
+	jobrefreshat:"Refresh:",
 	
 }
 

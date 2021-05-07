@@ -114,8 +114,13 @@ page {
 		border-radius: 10rpx;
 		padding: 20rpx;
 		margin-top: 80rpx;
+		position: relative;
 	}
-
+	.xll-header-share{
+		position: absolute;
+		right: 20rpx;
+		top: 20rpx;
+	}
 	.xll-header-title {
 		font-size: 30rpx;
 		font-weight: 700;

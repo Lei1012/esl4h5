@@ -86,7 +86,7 @@
 											<block v-if="item.citys && languageValue=='en-US' ">{{item.citys.Pinyin}}</block>	
 											<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}</block>	
 										</view>
-										<view class="last-refresh-time">{{item.refresh_time | dateFormat(languageValue)}}</view>
+										<view class="last-refresh-time">{{item.refresh_time | xllDateFormat(languageValue)}}</view>
 									</view>
 								</view>
 							</view>
@@ -135,7 +135,7 @@
 							<block v-if="item.citys && languageValue=='en-US' ">{{item.citys.Pinyin}}</block>
 							<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}</block>
 						</view>
-						<view class="refresh-time">{{item.refresh_time | dateFormat(languageValue)}}</view>
+						<view class="refresh-time">{{item.refresh_time | xllDateFormat(languageValue)}}</view>
 					</view>
 				</view>
 			</view>
@@ -187,7 +187,7 @@
 							<block v-if="item.citys && languageValue=='en-US' ">{{item.citys.Pinyin}}</block>
 							<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}</block>
 						</view>
-						<view class="refresh-time">{{item.refresh_time | dateFormat(languageValue) }}</view>
+						<view class="refresh-time">{{item.refresh_time | xllDateFormat(languageValue) }}</view>
 					</view>
 					
 				</view>
@@ -260,10 +260,9 @@
 			HMfilterDropdown
 		},
 		filters: {
-			dateFormat(value,a) {
-				console.log(a)
-				let date = new Date(value);
-				return howLong(date.getTime() / 1000,a);
+			xllDateFormat(value,a) {
+				let date = dateUtils.parse(value);
+				return howLong(Date.parse(date) / 1000,a);
 			}
 		},
 		computed: {

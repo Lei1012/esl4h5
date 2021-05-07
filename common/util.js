@@ -66,52 +66,60 @@ var dateUtils = {
 	}
 };
 
-function howLong(createtime,languageValue) {
+function howLong(createtime, languageValue) {
 	var now = Date.parse(new Date()) / 1000;
 	var limit = now - createtime;
 	var content = "";
 	let isEnglish = languageValue == 'en-US' ? true : false;
 	if (limit < 60) {
-		if(isEnglish){
+		if (isEnglish) {
 			content = "a moment ago";
-		}else{
+		} else {
 			content = "刚刚";
 		}
 	} else if (limit >= 60 && limit < 3600) {
-		if(isEnglish){
-			content =Math.floor(limit / 60) + " min ago";
-		}else{
+		if (isEnglish) {
+			content = Math.floor(limit / 60) + " min ago";
+		} else {
 			content = Math.floor(limit / 60) + " 分钟前";
 		}
-		
+
 	} else if (limit >= 3600 && limit < 86400) {
-		if(isEnglish){
-			content =Math.floor(limit / 3600) + " hours ago";
-		}else{
+		if (isEnglish) {
+			content = Math.floor(limit / 3600) + " hours ago";
+		} else {
 			content = Math.floor(limit / 3600) + " 小时前";
 		}
 	} else if (limit >= 86400 && limit < 2592000) {
-		if(isEnglish){
-			content = Math.floor(limit / 86400) + " Day(s) Ago";
-		}else{
+		if (isEnglish) {
+			if ( Math.floor(limit / 86400) === 1) {
+				content = "1 Days ago";
+			} else {
+				// content = Math.floor(limit / 86400) + " Day(s) Ago";
+				content = "Days Ago";
+			}
+			
+		} else {
+			// content = Math.floor(limit / 86400) + " 天前";
 			content = Math.floor(limit / 86400) + " 天前";
 		}
-		
+
 	} else if (limit >= 2592000 && limit < 31104000) {
-		if(isEnglish){
-			content =Math.floor(limit / 2592000) + " months ago";
-		}else{
+		if (isEnglish) {
+			content = Math.floor(limit / 2592000) + " months ago";
+		} else {
 			content = Math.floor(limit / 2592000) + " 个月前";
 		}
-		
+
 	} else {
-		if(isEnglish){
+		if (isEnglish) {
 			content = "";
-		}else{
+		} else {
 			content = "";
 		}
-		
+
 	}
+	// console.log(content)
 	return content;
 }
 
@@ -130,6 +138,6 @@ module.exports = {
 	dateUtils: dateUtils,
 	getUrlCode: getUrlCode,
 	isWechat: isWechat,
-	howLong:howLong
+	howLong: howLong
 
 }

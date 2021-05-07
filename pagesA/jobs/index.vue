@@ -39,10 +39,12 @@
 								</view>
 							</view>
 							<view class="xll-promotion-applications">
-								<view class="xll-promotion" @click="turnPromotion(item.id)">{{i18n.myjobspromotion}}
+								<view class="xll-promotion">
+									<button type="default" @click="turnPromotion(item.id)">{{i18n.myjobspromotion}}</button>
 								</view>
-								<view class="xll-applications" @click="turnJobResume(item.id)">Applications:
-									{{item.resume_count}}</view>
+								<view class="xll-applications" >
+									<button type="default" @click="turnJobResume(item.id)">Applications:{{item.resume_count}}</button>
+								</view>
 							</view>
 						</view>
 
@@ -52,7 +54,7 @@
 							</view>
 							<view class="xll-openclose">
 								{{i18n.myjobsopenclose}}:
-								<switch style="transform:scale(0.7)" :checked="item.is_open==1" color="#0AA0A8"
+								<switch style="transform:scale(0.7)" :checked="item.is_open==1" color="#B1C452"
 									@change="changeJobOpenStatus(item.id,$event)" />
 							</view>
 							<view class="xll-refresh">
@@ -720,11 +722,14 @@
 	}
 
 	.xll-applications {
-		background-color: #0AA0A8;
-		color: #FFFFFF;
-		padding: 10rpx 20rpx;
-		border-radius: 10rpx;
+		
+	}
+	.xll-applications button{
 		margin-left: 40rpx;
+		background-color: #004956;
+		color: #FFFFFF;
+		font-size: 28rpx;
+		line-height: 60rpx;
 	}
 
 	.xll-views {
@@ -754,11 +759,13 @@
 	}
 
 	.xll-promotion {
+		
+	}
+	.xll-promotion button{
 		font-size: 28rpx;
-		background-color: #0AA0A8;
+		background-color: #004956;
 		color: #FFFFFF;
-		padding: 10rpx 20rpx;
-		border-radius: 10rpx;
+		line-height: 60rpx;
 	}
 
 	.xll-view-openclose {

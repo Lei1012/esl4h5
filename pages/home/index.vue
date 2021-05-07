@@ -27,7 +27,7 @@
 					<text class="text">{{i18n.homesearchjobs}}</text>
 				</view>
 				<view class="index-box-item" @click="showDiscountStatus=true">
-					<image src="/static/esl/discount.png" class="image" mode="aspectFit" />
+					<image src="/static/home/discount.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homediscountcard}}</text>
 				</view>
 				<view class="index-box-item" @click="turnDeals">
@@ -68,7 +68,7 @@
 					<text class="text">{{i18n.homepostjobs}}</text>
 				</view>
 				<view class="index-box-item" @click="showDiscountStatus=true">
-					<image src="/static/esl/discount.png" class="image" mode="aspectFit" />
+					<image src="/static/home/discount.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homediscountcard}}</text>
 				</view>
 				<view class="index-box-item" @click="turnDeals">
@@ -112,7 +112,7 @@
 					<text class="text">{{i18n.homepostevent}}</text>
 				</view>
 				<view class="index-box-item" @click="showDiscountStatus=true">
-					<image src="/static/esl/discount.png" class="image" mode="aspectFit" />
+					<image src="/static/home/discount.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homediscountcard}}</text>
 				</view>
 				<view class="index-box-item" @click="turnMyProfile">
@@ -152,7 +152,7 @@
 					<text class="text">{{i18n.homecreatedeal}}</text>
 				</view>
 				<view class="index-box-item" @click="showDiscountStatus=true">
-					<image src="/static/esl/discount.png" class="image" mode="aspectFit" />
+					<image src="/static/home/discount.png" class="image" mode="aspectFit" />
 					<text class="text">{{i18n.homediscountcard}}</text>
 				</view>
 				<!-- #ifdef H5 -->
@@ -254,7 +254,7 @@
 										<block v-if="item.citys && languageValue=='zh-CN' ">{{item.citys.ShortName}}
 										</block>
 									</view>
-									<view class="last-refresh-time">{{item.refresh_time | dateFormat(languageValue) }}
+									<view class="last-refresh-time">{{item.refresh_time | xllDateFormat(languageValue) }}
 									</view>
 								</view>
 							</view>
@@ -478,9 +478,9 @@
 
 		},
 		filters: {
-			dateFormat(value, a) {
-				let date = new Date(value);
-				return howLong(date.getTime() / 1000, a);
+			xllDateFormat(value,a) {
+				let date = dateUtils.parse(value);
+				return howLong(Date.parse(date) / 1000,a);
 			}
 		},
 		onShow() {
@@ -1238,7 +1238,7 @@
 	}
 
 	.home-signup button {
-		background-color: #0AA0A8;
+		background-color: #B1C452;
 		color: #FFFFFF;
 		font-size: 30rpx;
 	}
